@@ -2,11 +2,14 @@ package org.kde9.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.kde9.control.ButtonAddListener;
 
 public class Igroup 
 extends JPanel {
@@ -25,5 +28,9 @@ extends JPanel {
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+	}
+	
+	public void addListener(ActionListener al) {
+		buttonAdd.addActionListener(al);
 	}
 }

@@ -15,12 +15,16 @@ import org.kde9.view.Iviewer;
 public class main 
 implements Constants{
 	public static void main(String args[]) {
+		
 		Icontroller controller = new Icontroller(
 				(Imenubar)Factory.createMenuBar(),
 				(Iviewer)Factory.createViewer(),
 				(Igroup)Factory.createGroup(),
 				(Iname)Factory.creatName(),
 				new Ifile() );
+		
+		controller.getGroup().addListener(controller.bal);
+		
 		JFrame frame = new JFrame("what's this?");
 		frame.setJMenuBar(controller.getMenubar());
 		frame.setLayout(new GridLayout(1, 0, 10, 10));

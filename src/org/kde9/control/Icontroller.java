@@ -13,7 +13,7 @@ public class Icontroller {
 	private Iname name;
 	private Ifile file;
 	
-	ButtonAddListener bal;
+	public ButtonAddListener bal;
 	
 	public Icontroller(
 			Imenubar menubar,
