@@ -6,7 +6,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Iname 
+public class Iname
 extends JPanel {
 	private JEditorPane editorPane;
 	private JButton buttonAdd;
