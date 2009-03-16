@@ -1,5 +1,7 @@
 package org.kde9.model;
 
+import java.util.Vector;
+
 /*
  * 2009.03.16
  * 卡片类，表示每个名片
@@ -7,7 +9,7 @@ package org.kde9.model;
 public class Icard {
 	private int id;
 	private String name;
-	private String phone;
+	private Vector<String> phone;
 	private String addr;
 	private String other;
 	
@@ -32,10 +34,10 @@ public class Icard {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPhone() {
+	public Vector<String> getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) {
+	public void setPhone(Vector<String> phone) {
 		this.phone = phone;
 	}
 	public String getAddr() {
