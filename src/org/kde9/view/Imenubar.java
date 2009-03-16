@@ -5,8 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextArea;
 
-import com.sun.java_cup.internal.terminal;
-
 public class Imenubar 
 extends JMenuBar {
 	private JButton button1;
