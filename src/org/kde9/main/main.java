@@ -16,21 +16,21 @@ public class main
 implements Constants{
 	public static void main(String args[]) {
 		
-		Icontroller controller = new Icontroller(
+		Icontroller.init(
 				(Imenubar)Factory.createMenuBar(),
 				(Iviewer)Factory.createViewer(),
 				(Igroup)Factory.createGroup(),
 				(Iname)Factory.creatName(),
 				new Ifile() );
 		
-		controller.getGroup().addListener(controller.bal);
+		Icontroller.getGroup().addListener(Icontroller.getBal());
 		
 		JFrame frame = new JFrame("what's this?");
-		frame.setJMenuBar(controller.getMenubar());
+		frame.setJMenuBar(Icontroller.getMenubar());
 		frame.setLayout(new GridLayout(1, 0, 10, 10));
-		frame.add(controller.getGroup());
-		frame.add(controller.getName());
-		frame.add(controller.getViewer());
+		frame.add(Icontroller.getGroup());
+		frame.add(Icontroller.getName());
+		frame.add(Icontroller.getViewer());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
         frame.setVisible(true);

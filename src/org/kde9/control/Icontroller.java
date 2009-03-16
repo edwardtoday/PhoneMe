@@ -6,66 +6,56 @@ import org.kde9.view.Imenubar;
 import org.kde9.view.Iname;
 import org.kde9.view.Iviewer;
 
+/**
+ * 2009.03.16
+ * 一个主要用于保存各个组件和监听器引用的类
+ * 以便别的类调用这些组件和监听器
+ */
 public class Icontroller {
-	private Imenubar menubar;
-	private Iviewer viewer;
-	private Igroup group;
-	private Iname name;
-	private Ifile file;
+	private static Imenubar menubar;
+	private static Iviewer viewer;
+	private static Igroup group;
+	private static Iname name;
+	private static Ifile file;
 	
-	public ButtonAddListener bal;
+	private static ButtonAddListener bal;
 	
-	public Icontroller(
+	/**
+	 * 初始化各个组件和监听器 
+	 */
+	public static void init(
 			Imenubar menubar,
 			Iviewer viewer,
 			Igroup group,
 			Iname name,
 			Ifile file) {
-		this.menubar = menubar;
-		this.viewer = viewer;
-		this.group = group;
-		this.name = name;
-		this.file = file;
+		Icontroller.menubar = menubar;
+		Icontroller.viewer = viewer;
+		Icontroller.group = group;
+		Icontroller.name = name;
+		Icontroller.file = file;
 		bal = new ButtonAddListener();
 	}
 
-	public Imenubar getMenubar() {
+	/**
+	 * gets
+	 */
+	static public Imenubar getMenubar() {
 		return menubar;
 	}
-
-	public void setMenubar(Imenubar menubar) {
-		this.menubar = menubar;
-	}
-
-	public Iviewer getViewer() {
+	static public Iviewer getViewer() {
 		return viewer;
 	}
-
-	public void setViewer(Iviewer viewer) {
-		this.viewer = viewer;
-	}
-
-	public Igroup getGroup() {
+	static public Igroup getGroup() {
 		return group;
 	}
-
-	public void setGroup(Igroup group) {
-		this.group = group;
-	}
-
-	public Iname getName() {
+	static public Iname getName() {
 		return name;
 	}
-
-	public void setName(Iname name) {
-		this.name = name;
-	}
-
-	public Ifile getFile() {
+	static public Ifile getFile() {
 		return file;
 	}
-
-	public void setFile(Ifile file) {
-		this.file = file;
+	static public ButtonAddListener getBal() {
+		return bal;
 	}
 }
