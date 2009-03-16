@@ -1,4 +1,4 @@
-package org.kde9.main;
+package org.kde9.util;
 
 /**
  * 用于保存常数
