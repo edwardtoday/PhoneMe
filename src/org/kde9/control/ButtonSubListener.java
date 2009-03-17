@@ -24,8 +24,6 @@ implements ActionListener {
 				Icontroller.getGroup().getTable().getSelectedRow());
 		System.out.println("buttonAdd!");/////////////////////////////////////////////////
 		Icard card = getInputCard();
-		if(!Icontroller.getFile().save(card))
-			System.out.println("saveMethod failed!");
 	}
 
 	/**

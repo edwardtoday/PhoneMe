@@ -15,6 +15,7 @@ import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.control.ButtonAddListener;
+import org.kde9.control.Icontroller;
 
 public class Igroup 
 extends JPanel {
@@ -35,6 +36,7 @@ extends JPanel {
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+		Icontroller.initGroup(this);
 	}
 	
 	public DefaultTableModel getModel() {

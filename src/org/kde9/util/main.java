@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 import org.kde9.control.Icontroller;
-import org.kde9.model.Ifile;
 import org.kde9.view.Factory;
 import org.kde9.view.Igroup;
 import org.kde9.view.Imenubar;
@@ -20,8 +19,7 @@ implements Constants{
 				(Imenubar)Factory.createMenuBar(),
 				(Iviewer)Factory.createViewer(),
 				(Igroup)Factory.createGroup(),
-				(Iname)Factory.creatName(),
-				new Ifile() );
+				(Iname)Factory.creatName() );
 		
 		Icontroller.getGroup().addListener(
 				Icontroller.getBal(), Icontroller.getBsl());

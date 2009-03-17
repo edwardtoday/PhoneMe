@@ -2,12 +2,14 @@ package org.kde9.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.model.Icard;
+import org.kde9.model.Mgroup;
 
 /**
  * 2009.03.16
@@ -20,11 +22,16 @@ implements ActionListener {
 		// TODO Auto-generated method stub
 		DefaultTableModel model = 
 			(DefaultTableModel)Icontroller.getGroup().getModel();
+		Mgroup tempGroup = new Mgroup("请输入组名");
+		try {
+			tempGroup.save();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		model.addRow(new String[] {"请输入组名"});
 		System.out.println("buttonAdd!");/////////////////////////////////////////////////
 		Icard card = getInputCard();
-		if(!Icontroller.getFile().save(card))
-			System.out.println("saveMethod failed!");
 	}
 
 	/**

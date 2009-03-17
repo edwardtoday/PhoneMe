@@ -1,6 +1,9 @@
 package org.kde9.control;
 
-import org.kde9.model.Ifile;
+import java.io.IOException;
+
+import org.kde9.model.Kernel;
+import org.kde9.model.Mgroup;
 import org.kde9.view.Igroup;
 import org.kde9.view.Imenubar;
 import org.kde9.view.Iname;
@@ -16,7 +19,6 @@ public class Icontroller {
 	private static Iviewer viewer;
 	private static Igroup group;
 	private static Iname name;
-	private static Ifile file;
 	
 	private static ButtonAddListener bal;
 	private static ButtonSubListener bsl;
@@ -28,13 +30,11 @@ public class Icontroller {
 			Imenubar menubar,
 			Iviewer viewer,
 			Igroup group,
-			Iname name,
-			Ifile file) {
+			Iname name) {
 		Icontroller.menubar = menubar;
 		Icontroller.viewer = viewer;
 		Icontroller.group = group;
 		Icontroller.name = name;
-		Icontroller.file = file;
 		bal = new ButtonAddListener();
 		bsl = new ButtonSubListener();
 	}
@@ -47,6 +47,16 @@ public class Icontroller {
 		Icontroller.bsl = bsl;
 	}
 
+	public static void initGroup(Igroup group) {
+		try {
+			for(Mgroup mg : Kernel.readAllGroups())
+				group.getModel().addRow(new Object[]{mg});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * gets
 	 */
@@ -61,9 +71,6 @@ public class Icontroller {
 	}
 	static public Iname getName() {
 		return name;
-	}
-	static public Ifile getFile() {
-		return file;
 	}
 	static public ButtonAddListener getBal() {
 		return bal;
