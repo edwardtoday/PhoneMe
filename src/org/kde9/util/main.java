@@ -23,7 +23,8 @@ implements Constants{
 				(Iname)Factory.creatName(),
 				new Ifile() );
 		
-		Icontroller.getGroup().addListener(Icontroller.getBal());
+		Icontroller.getGroup().addListener(
+				Icontroller.getBal(), Icontroller.getBsl());
 		
 		JFrame frame = new JFrame("what's this?");
 		frame.setJMenuBar(Icontroller.getMenubar());

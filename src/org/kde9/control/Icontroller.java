@@ -19,6 +19,7 @@ public class Icontroller {
 	private static Ifile file;
 	
 	private static ButtonAddListener bal;
+	private static ButtonSubListener bsl;
 	
 	/**
 	 * 初始化各个组件和监听器 
@@ -35,6 +36,15 @@ public class Icontroller {
 		Icontroller.name = name;
 		Icontroller.file = file;
 		bal = new ButtonAddListener();
+		bsl = new ButtonSubListener();
+	}
+
+	public static ButtonSubListener getBsl() {
+		return bsl;
+	}
+
+	public static void setBsl(ButtonSubListener bsl) {
+		Icontroller.bsl = bsl;
 	}
 
 	/**

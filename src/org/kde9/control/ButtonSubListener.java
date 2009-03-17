@@ -11,16 +11,17 @@ import org.kde9.model.Icard;
 
 /**
  * 2009.03.16
- * 监听器类，实现对添加按钮的响应
+ * 监听器类，实现对删除按钮的响应
  */
-public class ButtonAddListener
+public class ButtonSubListener
 implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		DefaultTableModel model = 
 			(DefaultTableModel)Icontroller.getGroup().getModel();
-		model.addRow(new String[] {"请输入组名"});
+		model.removeRow(
+				Icontroller.getGroup().getTable().getSelectedRow());
 		System.out.println("buttonAdd!");/////////////////////////////////////////////////
 		Icard card = getInputCard();
 		if(!Icontroller.getFile().save(card))
