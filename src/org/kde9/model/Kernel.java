@@ -25,6 +25,33 @@ public class Kernel implements Constants{
 	}
 	
 	/**
+	 * 从数据文件夹中删除当前id的组，包括group文件和相应的AllGroups信息
+	 * @param id 要删除的组的id
+	 * @throws IOException
+	 */
+	public static void delFromAllGroup(int id) throws IOException {
+		ReadFile rf = new ReadFile(GROUP_PATH + ALLGROUPS);
+		String temp = "";
+		while(true) {
+			String tempx = rf.readLine();
+			if(tempx != null) {
+				if(!tempx.equals(String.valueOf(id))) {
+					temp += tempx;
+					temp += System.getProperty("line.separator");
+				}
+			}
+			else
+				break;
+		}
+		rf.close();
+		WriteFile wf = new WriteFile(GROUP_PATH + ALLGROUPS, false);
+		wf.write(temp);
+		wf.close();
+		new DelFile(GROUP_PATH + String.valueOf(id)).delete();
+		System.out.println("deleted!");
+	}
+	
+	/**
 	 * 返回所有的group
 	 * <p>
 	 * 通过读AllGroups文件中所存的group的id查找相应的group文件，
@@ -32,10 +59,10 @@ public class Kernel implements Constants{
 	 * 最终返回包含所有group的vector
 	 */
 	public static Vector<Igroup> readAllGroups() throws IOException {
-		ReadFile wf = new ReadFile(GROUP_PATH + ALLGROUPS);
+		ReadFile rf = new ReadFile(GROUP_PATH + ALLGROUPS);
 		Vector<Igroup> allGroups = new Vector<Igroup>();
 		while(true) {
-			String id = wf.readLine();
+			String id = rf.readLine();
 			if(id != System.getProperty("line.separator") && id != null) {
 				System.out.println(id);
 				ReadFile wfx = new ReadFile(GROUP_PATH + id);

@@ -81,10 +81,10 @@ public class Icontroller {
 		System.out.println(group.getModel());
 		Igroup g = (Igroup) group.getModel().getValueAt(0, 0);
 		System.out.println(g.getPersons());
-		if(g.getPersons() != null) {
-			for(Iperson p : g.getPersons())
-				name.getModel().addRow(new Object[]{p});
-		}
+//		if(g.getPersons() != null) {
+//			for(Iperson p : g.getPersons())
+//				name.getModel().addRow(new Object[]{p});
+//		}
 	}
 	
 	/**

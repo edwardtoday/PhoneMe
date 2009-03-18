@@ -20,8 +20,9 @@ implements ListSelectionListener, KeyListener {
 		if(!e.getValueIsAdjusting()) {
 			while(Icontroller.getName().getModel().getRowCount() != 0)
 				Icontroller.getName().getModel().removeRow(0);
-			g = (Igroup) Icontroller.getGroup().getModel().getValueAt(
-					Icontroller.getGroup().getTable().getSelectedRow(), 0 );
+			if(Icontroller.getGroup().getTable().getSelectedRow() != -1)
+				g = (Igroup) Icontroller.getGroup().getModel().getValueAt(
+						Icontroller.getGroup().getTable().getSelectedRow(), 0 );
 			System.out.println(g);///////////////////////////////////////////////////////////
 			if(g.getPersons() != null) {
 				for(Iperson p : g.getPersons())

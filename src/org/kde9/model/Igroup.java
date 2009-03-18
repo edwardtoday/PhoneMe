@@ -102,4 +102,8 @@ public class Igroup implements Constants{
 			wf.write(myId + System.getProperty("line.separator"));
 		wf.close();
 	}
+
+	public int getMyId() {
+		return myId;
+	}
 }

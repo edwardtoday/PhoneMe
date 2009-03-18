@@ -61,3 +61,17 @@ class WriteFile {
 		fw.close();
 	}
 }
+
+class DelFile {
+	String fileName;
+	File file;
+	
+	public DelFile(String fileName) {
+		this.fileName = fileName;
+		file = new File(fileName);
+	}
+	
+	public void delete() {
+		file.delete();
+	}
+}
