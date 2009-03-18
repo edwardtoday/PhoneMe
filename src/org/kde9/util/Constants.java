@@ -14,13 +14,13 @@ public interface Constants {
 	 */
 	static int MAIN_FRAME_HEIGHT = 400;
 	
-	/*
+	/**
 	 * 数据文件路径
 	 */
 	static String GROUP_PATH = "./datafiles/groupfiles/"; 
 	
-	/*
-	 * 保存所有组名字与ID的文件名。
+	/**
+	 * 保存所有组id的文件的文件名。
 	 */
 	static String ALLGROUPS = "AllGroups";
 }

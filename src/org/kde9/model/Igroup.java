@@ -8,21 +8,45 @@ import org.kde9.util.Constants;
 
 public class Igroup implements Constants{
 	private static int id = 0;
+	private int myId;
 	private String groupName;
-	private Vector<String> persons;
+	private Vector<Iperson> persons;
 	
+	/**
+	 * 新建一个group，
+	 * 并给它赋予一个与已知group的id不同的id
+	 * @param groupName group的名字
+	 */
 	public Igroup(String groupName) {
 		// TODO Auto-generated constructor stub
-		//id = 0;
+		id++;
+		File file = new File(GROUP_PATH + String.valueOf(id));
+		while (file.exists()) {
+			id++;
+			file = new File(GROUP_PATH + String.valueOf(id));
+		}
+		myId = id;
 		this.groupName = groupName;
-		persons = new Vector<String>();
+		persons = new Vector<Iperson>();
 	}
 	
-	public Igroup(int id, String groupName) {
-		this.id = id;
+	/**
+	 * 通过已有的信息建立group
+	 * @param myId group的id
+	 * @param groupName group的名字
+	 */
+	public Igroup(int myId, String groupName) {
+		this.myId = myId;
 		this.groupName = groupName;
 	}
 	
+	/**
+	 * 用于表现层的显示
+	 * <p>
+	 * 表现层的GroupComponent组件中的显示区域是一个JTable，
+	 * JTable中的每一行均是一个group，
+	 * 此方法用于在JTable中显示group的名字
+	 */
 	public String toString() {
 		return groupName;
 	}
@@ -31,27 +55,46 @@ public class Igroup implements Constants{
 		this.groupName = groupName;
 	}
 	
+	/**
+	 * 用id作为文件名，保存group的组名和成员
+	 * <p>
+	 * 文件的第一行为组名，
+	 * 以后的每二行为一个成员id和成员姓名
+	 * @throws IOException
+	 */
 	public void save() throws IOException {
 		String temp = groupName;
-		if(persons.size() != 0)
-			for(String p : persons) {
+		if (persons.size() != 0)
+			for (Iperson p : persons) {
 				temp += System.getProperty("line.separator");
-				temp += p;
+				temp += p.getId();
+				temp += System.getProperty("line.separator");
+				temp += p.getName();
 			}
-		System.out.println("before ID++");
-		File file = new File(GROUP_PATH + String.valueOf(id));
-		while(file.exists()) {
-			id++;
-			file = new File(GROUP_PATH + String.valueOf(id));
-		}
-		System.out.println("after ID++");
-		WriteFile wf = new WriteFile(GROUP_PATH + String.valueOf(id), false);
+		System.out.println("before ID++");// /////////////////////////////////////////////
+//		File file = new File(GROUP_PATH + String.valueOf(myId));
+//		while (file.exists()) {
+//			id++;
+//			file = new File(GROUP_PATH + String.valueOf(id));
+//		}
+		System.out.println("after ID++");// //////////////////////////////////////////////
+		WriteFile wf = new WriteFile(GROUP_PATH + String.valueOf(myId), false);
 		wf.write(temp);
 		wf.close();
 		wf = new WriteFile(GROUP_PATH + ALLGROUPS, true);
-		wf.write(
-				id +
-				System.getProperty("line.separator") );
+		ReadFile rf = new ReadFile(GROUP_PATH + ALLGROUPS);
+		boolean f = false;
+		while(true) {
+			String str = rf.readLine();
+			if(str == null || str.equals(System.getProperty("line.separator")))
+				break;
+			if(String.valueOf(myId).equals(str)) {
+				f = true;
+				break;
+			}
+		}
+		if (!f)
+			wf.write(myId + System.getProperty("line.separator"));
 		wf.close();
 	}
 }

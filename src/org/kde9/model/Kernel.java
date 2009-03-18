@@ -39,12 +39,13 @@ public class Kernel implements Constants{
 			if(id != System.getProperty("line.separator") && id != null) {
 				ReadFile wfx = new ReadFile(GROUP_PATH + id);
 				String groupName = wfx.readLine();
-				Vector<String> persons = new Vector<String>();
+				Vector<Iperson> persons = new Vector<Iperson>();
 				while(true) {
-					String temp = wfx.readLine();
-					if(temp == null)
+					String personId = wfx.readLine();
+					String personName = wfx.readLine();
+					if(personName == null || personId == null)
 						break;
-					persons.add(temp);
+					persons.add(new Iperson(Integer.valueOf(personId), personName));
 				}
 				Igroup g = new Igroup(Integer.valueOf(id), groupName);
 				allGroups.add(g);
