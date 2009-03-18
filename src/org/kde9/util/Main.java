@@ -1,6 +1,8 @@
 package org.kde9.util;
 
 import java.awt.GridLayout;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -14,7 +16,20 @@ import org.kde9.view.ViewerComponent;
 public class Main
 implements Constants{
 	public static void main(String args[]) {
-		
+		File file = new File(DATA_PATH);
+		if(!file.exists())
+			file.mkdir();
+		file = new File(GROUP_PATH);
+		if(!file.exists())
+			file.mkdir();
+		file = new File(GROUP_PATH + ALLGROUPS);
+		if(!file.exists())
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		Icontroller.init(
 				(MenubarComponent)Factory.createMenuBar(),
 				(ViewerComponent)Factory.createViewer(),

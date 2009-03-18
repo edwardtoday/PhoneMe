@@ -17,6 +17,11 @@ public interface Constants {
 	/**
 	 * 数据文件路径
 	 */
+	static String DATA_PATH = "./datafiles/";
+	
+	/**
+	 * 组文件路径
+	 */
 	static String GROUP_PATH = "./datafiles/groupfiles/"; 
 	
 	/**
