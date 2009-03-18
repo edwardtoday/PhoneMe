@@ -44,21 +44,29 @@ extends JPanel {
 		return model;
 	}
 
+	public JButton getButtonAdd() {
+		return buttonAdd;
+	}
+
+	public JButton getButtonSub() {
+		return buttonSub;
+	}
+
 	public void setModel(DefaultTableModel model) {
 		this.model = model;
 	}
 
-	public void addListener(
-			ActionListener bal,
-			ActionListener bsl,
-			ListSelectionListener ls ) {
-		buttonAdd.addActionListener(bal);
-		buttonSub.addActionListener(bsl);
-		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.getSelectionModel().addListSelectionListener(ls);
-//		table.getCellEditor().addCellEditorListener(arg0);
-//		table.getColumnModel().getSelectionModel().addListSelectionListener(ls);
-	}
+//	public void addListener(
+//			ActionListener bal,
+//			ActionListener bsl,
+//			ListSelectionListener ls ) {
+//		buttonAdd.addActionListener(bal);
+//		buttonSub.addActionListener(bsl);
+//		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		table.getSelectionModel().addListSelectionListener(ls);
+////		table.getCellEditor().addCellEditorListener(arg0);
+////		table.getColumnModel().getSelectionModel().addListSelectionListener(ls);
+//	}
 
 	public JTable getTable() {
 		return table;

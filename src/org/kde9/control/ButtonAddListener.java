@@ -29,7 +29,7 @@ implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		model.addRow(new String[] {"ÇëÊäÈë×éÃû"});
+		model.addRow(new Object[] {tempGroup});
 		System.out.println("buttonAdd!");/////////////////////////////////////////////////
 		Icard card = getInputCard();
 	}

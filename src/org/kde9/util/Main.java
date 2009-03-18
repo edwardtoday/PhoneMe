@@ -26,6 +26,7 @@ implements Constants{
 		if(!file.exists())
 			try {
 				file.createNewFile();
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -36,10 +37,10 @@ implements Constants{
 				(GroupComponent)Factory.createGroup(),
 				(NameComponent)Factory.creatName() );
 		
-		Icontroller.getGroup().addListener(
-				Icontroller.getBal(),
-				Icontroller.getBsl(),
-				Icontroller.getLs() );
+//		Icontroller.getGroup().addListener(
+//				Icontroller.getBal(),
+//				Icontroller.getBsl(),
+//				Icontroller.getLs() );
 		
 		JFrame frame = new JFrame("what's this?");
 		frame.setJMenuBar(Icontroller.getMenubar());

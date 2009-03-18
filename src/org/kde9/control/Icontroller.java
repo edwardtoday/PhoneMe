@@ -2,6 +2,9 @@ package org.kde9.control;
 
 import java.io.IOException;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 
 import org.kde9.model.Iperson;
@@ -57,6 +60,13 @@ public class Icontroller {
 	}
 
 	static void initGroup() {
+		group.getButtonAdd().addActionListener(bal);
+		group.getButtonSub().addActionListener(bsl);
+		group.getTable().getSelectionModel().setSelectionMode(
+				ListSelectionModel.SINGLE_SELECTION );
+		group.getTable().getSelectionModel().addListSelectionListener(ls);
+		group.getTable().addKeyListener(ls);
+
 		try {
 			for(Igroup mg : Kernel.readAllGroups())
 				group.getModel().addRow(new Object[]{mg});

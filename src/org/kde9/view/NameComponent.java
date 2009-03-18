@@ -37,4 +37,20 @@ extends JPanel {
 		panel.add(buttonSub);
 		add("South", panel);
 	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public JButton getButtonAdd() {
+		return buttonAdd;
+	}
+
+	public JButton getButtonSub() {
+		return buttonSub;
+	}
+
+	public void setModel(DefaultTableModel model) {
+		this.model = model;
+	}
 }

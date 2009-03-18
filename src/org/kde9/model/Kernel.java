@@ -37,6 +37,7 @@ public class Kernel implements Constants{
 		while(true) {
 			String id = wf.readLine();
 			if(id != System.getProperty("line.separator") && id != null) {
+				System.out.println(id);
 				ReadFile wfx = new ReadFile(GROUP_PATH + id);
 				String groupName = wfx.readLine();
 				Vector<Iperson> persons = new Vector<Iperson>();

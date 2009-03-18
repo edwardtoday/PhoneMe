@@ -76,13 +76,13 @@ public class Igroup implements Constants{
 				temp += System.getProperty("line.separator");
 				temp += p.getName();
 			}
-		System.out.println("before ID++");// /////////////////////////////////////////////
+		System.out.println("group saving");// /////////////////////////////////////////////
 //		File file = new File(GROUP_PATH + String.valueOf(myId));
 //		while (file.exists()) {
 //			id++;
 //			file = new File(GROUP_PATH + String.valueOf(id));
 //		}
-		System.out.println("after ID++");// //////////////////////////////////////////////
+//		System.out.println("after ID++");// //////////////////////////////////////////////
 		WriteFile wf = new WriteFile(GROUP_PATH + String.valueOf(myId), false);
 		wf.write(temp);
 		wf.close();
