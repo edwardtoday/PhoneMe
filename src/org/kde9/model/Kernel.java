@@ -24,6 +24,12 @@ public class Kernel implements Constants{
 		return null;
 	}
 	
+	public static void writeFile(String fileName, String contant, boolean f) throws IOException {
+		WriteFile wf = new WriteFile(fileName, f);
+		wf.write(contant);
+		wf.close();
+	}
+	
 	/**
 	 * 从数据文件夹中删除当前id的组，包括group文件和相应的AllGroups信息
 	 * @param id 要删除的组的id

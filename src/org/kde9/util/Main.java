@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import org.kde9.control.Icontroller;
+import org.kde9.model.Kernel;
 import org.kde9.view.Factory;
 import org.kde9.view.GroupComponent;
 import org.kde9.view.MenubarComponent;
@@ -25,8 +26,9 @@ implements Constants{
 		file = new File(GROUP_PATH + ALLGROUPS);
 		if(!file.exists())
 			try {
-				file.createNewFile();
-				
+				Kernel.writeFile(GROUP_PATH + ALLGROUPS, "0", true);
+				file = new File(GROUP_PATH + ALL);
+				Kernel.writeFile(GROUP_PATH + ALL, "All", false);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

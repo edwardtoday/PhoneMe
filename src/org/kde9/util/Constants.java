@@ -28,4 +28,6 @@ public interface Constants {
 	 * 保存所有组id的文件的文件名。
 	 */
 	static String ALLGROUPS = "AllGroups";
+	
+	static String ALL = "0";
 }
