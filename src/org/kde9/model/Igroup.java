@@ -51,8 +51,6 @@ public class Igroup implements Constants{
 		wf = new WriteFile(GROUP_PATH + ALLGROUPS, true);
 		wf.write(
 				id +
-				System.getProperty("line.separator") +
-				groupName + 
 				System.getProperty("line.separator") );
 		wf.close();
 	}

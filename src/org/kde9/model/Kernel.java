@@ -24,14 +24,31 @@ public class Kernel implements Constants{
 		return null;
 	}
 	
+	/**
+	 * 返回所有的group
+	 * <p>
+	 * 通过读AllGroups文件中所存的group的id查找相应的group文件，
+	 * 从文件中建立该group，并将其加入一个vector中，
+	 * 最终返回包含所有group的vector
+	 */
 	public static Vector<Igroup> readAllGroups() throws IOException {
 		ReadFile wf = new ReadFile(GROUP_PATH + ALLGROUPS);
 		Vector<Igroup> allGroups = new Vector<Igroup>();
 		while(true) {
 			String id = wf.readLine();
-			String name = wf.readLine();
-			if(name != null)
-				allGroups.add(new Igroup(Integer.valueOf(id), name));
+			if(id != System.getProperty("line.separator") && id != null) {
+				ReadFile wfx = new ReadFile(GROUP_PATH + id);
+				String groupName = wfx.readLine();
+				Vector<String> persons = new Vector<String>();
+				while(true) {
+					String temp = wfx.readLine();
+					if(temp == null)
+						break;
+					persons.add(temp);
+				}
+				Igroup g = new Igroup(Integer.valueOf(id), groupName);
+				allGroups.add(g);
+			}
 			else
 				break;
 		}
