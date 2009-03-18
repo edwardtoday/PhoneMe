@@ -47,7 +47,7 @@ public class Kernel implements Constants{
 						break;
 					persons.add(new Iperson(Integer.valueOf(personId), personName));
 				}
-				Igroup g = new Igroup(Integer.valueOf(id), groupName);
+				Igroup g = new Igroup(Integer.valueOf(id), groupName, persons);
 				allGroups.add(g);
 			}
 			else

@@ -37,7 +37,9 @@ implements Constants{
 				(NameComponent)Factory.creatName() );
 		
 		Icontroller.getGroup().addListener(
-				Icontroller.getBal(), Icontroller.getBsl());
+				Icontroller.getBal(),
+				Icontroller.getBsl(),
+				Icontroller.getLs() );
 		
 		JFrame frame = new JFrame("what's this?");
 		frame.setJMenuBar(Icontroller.getMenubar());

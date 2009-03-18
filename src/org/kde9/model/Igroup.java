@@ -12,6 +12,10 @@ public class Igroup implements Constants{
 	private String groupName;
 	private Vector<Iperson> persons;
 	
+	public Vector<Iperson> getPersons() {
+		return persons;
+	}
+
 	/**
 	 * 新建一个group，
 	 * 并给它赋予一个与已知group的id不同的id
@@ -35,9 +39,10 @@ public class Igroup implements Constants{
 	 * @param myId group的id
 	 * @param groupName group的名字
 	 */
-	public Igroup(int myId, String groupName) {
+	public Igroup(int myId, String groupName, Vector<Iperson> persons) {
 		this.myId = myId;
 		this.groupName = groupName;
+		this.persons = persons;
 	}
 	
 	/**

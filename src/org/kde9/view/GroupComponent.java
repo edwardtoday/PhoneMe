@@ -12,6 +12,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.control.ButtonAddListener;
@@ -36,7 +38,6 @@ extends JPanel {
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
-		Icontroller.initGroup(this);
 	}
 	
 	public DefaultTableModel getModel() {
@@ -47,9 +48,16 @@ extends JPanel {
 		this.model = model;
 	}
 
-	public void addListener(ActionListener bal, ActionListener bsl) {
+	public void addListener(
+			ActionListener bal,
+			ActionListener bsl,
+			ListSelectionListener ls ) {
 		buttonAdd.addActionListener(bal);
 		buttonSub.addActionListener(bsl);
+		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getSelectionModel().addListSelectionListener(ls);
+//		table.getCellEditor().addCellEditorListener(arg0);
+//		table.getColumnModel().getSelectionModel().addListSelectionListener(ls);
 	}
 
 	public JTable getTable() {

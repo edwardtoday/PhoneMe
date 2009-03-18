@@ -2,6 +2,9 @@ package org.kde9.control;
 
 import java.io.IOException;
 
+import javax.swing.event.ListSelectionListener;
+
+import org.kde9.model.Iperson;
 import org.kde9.model.Kernel;
 import org.kde9.model.Igroup;
 import org.kde9.view.GroupComponent;
@@ -22,7 +25,10 @@ public class Icontroller {
 	
 	private static ButtonAddListener bal;
 	private static ButtonSubListener bsl;
+	private static TableSelectionListener ls;
 	
+
+
 	/**
 	 * 初始化各个组件和监听器 
 	 */
@@ -37,6 +43,9 @@ public class Icontroller {
 		Icontroller.name = name;
 		bal = new ButtonAddListener();
 		bsl = new ButtonSubListener();
+		ls = new TableSelectionListener();
+		initGroup();
+		initName();
 	}
 
 	public static ButtonSubListener getBsl() {
@@ -47,13 +56,24 @@ public class Icontroller {
 		Icontroller.bsl = bsl;
 	}
 
-	public static void initGroup(GroupComponent group) {
+	static void initGroup() {
 		try {
 			for(Igroup mg : Kernel.readAllGroups())
 				group.getModel().addRow(new Object[]{mg});
+			group.getTable().getSelectionModel().setSelectionInterval(0, 0);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	static void initName() {
+		System.out.println(group.getModel());
+		Igroup g = (Igroup) group.getModel().getValueAt(0, 0);
+		System.out.println(g.getPersons());
+		if(g.getPersons() != null) {
+			for(Iperson p : g.getPersons())
+				name.getModel().addRow(new Object[]{p});
 		}
 	}
 	
@@ -72,7 +92,10 @@ public class Icontroller {
 	static public NameComponent getName() {
 		return name;
 	}
-	static public ButtonAddListener getBal() {
+	public static ButtonAddListener getBal() {
 		return bal;
+	}
+	public static TableSelectionListener getLs() {
+		return ls;
 	}
 }
