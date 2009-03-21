@@ -39,6 +39,9 @@ class ReadFile {
 
 	/**
 	 * 从文件中读取一行
+	 * <br><strong>
+	 * 使用时注意，文件读操作结束后要调用close方法关闭流。
+	 * </strong></br>
 	 * @return 包含要读取行内容的String
 	 * @throws IOException
 	 */
@@ -51,7 +54,8 @@ class ReadFile {
 	 * 关闭流
 	 * @throws IOException
 	 */
-	void close() throws IOException {
+	void close()
+	throws IOException {
 		br.close();
 		fr.close();
 	}
@@ -91,6 +95,9 @@ class WriteFile {
 
 	/**
 	 * 向文件中写入内容
+	 * <br><strong>
+	 * 使用时注意，文件写操作结束后要调用close方法关闭流。
+	 * </strong></br>
 	 * @param str 要写入的内容
 	 * @throws IOException
 	 */
@@ -101,6 +108,9 @@ class WriteFile {
 
 	/**
 	 * 向文件中写入内容，并换行
+	 * <br><strong>
+	 * 使用时注意，文件写操作结束后要调用close方法关闭流。
+	 * </strong></br>
 	 * @param str 要写入的内容
 	 * @throws IOException
 	 */

@@ -97,7 +97,7 @@ implements Constants, Group {
 	 * @param groupName groupµÄÃû×Ö
 	 * @throws IOException 
 	 */
-	public  static Group createGroup(String groupName)
+	public static Group createGroup(String groupName)
 	throws IOException {
 		return new Igroup(groupName);
 	}

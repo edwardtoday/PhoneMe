@@ -25,10 +25,6 @@ public class Ikernel {
 		return temp;
 	}
 	
-	public HashMap<Integer, String> getGroupMembers(int groupId) {
-		return groups.get(groupId).getPersons();
-	}
-	
 	public void addGroup(String groupName)
 	throws IOException {
 		Group g = Factory.createGroup(groupName);
@@ -42,5 +38,20 @@ public class Ikernel {
 		Group g = groups.get(groupId);
 		groups.remove(groupId);
 		g.delete();
+	}
+	
+	public void renameGroup(int groupId, String groupName)
+	throws IOException {
+		Group g = groups.get(groupId);
+		g.rename(groupName);
+		g.save();
+	}
+	
+	public HashMap<Integer, String> getGroupMembers(int groupId) {
+		return groups.get(groupId).getPersons();
+	}
+	
+	public void addGroupMembers() {
+		
 	}
 }

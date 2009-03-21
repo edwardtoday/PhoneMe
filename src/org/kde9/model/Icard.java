@@ -20,4 +20,9 @@ class Icard {
 	private String address;
 	private HashMap<Integer, String> persons;
 	private String other;
+	
+	private Icard(String memberName) {
+		
+	}
+	
 }
