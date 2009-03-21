@@ -1,11 +1,8 @@
 package org.kde9.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Vector;
 
 import org.kde9.util.Constants;
 
@@ -67,7 +64,7 @@ implements Constants, Group {
 	/**
 	 * 通过已有的信息建立group
 	 * @param id group的id
-	 * @throws IOException 该id所代表的文件不存在等
+	 * @throws IOException 该id所代表的文件不存在……
 	 */
 	private Igroup(int id) 
 	throws IOException {
