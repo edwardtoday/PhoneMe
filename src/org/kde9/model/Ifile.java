@@ -28,7 +28,7 @@ class ReadFile {
 	/**
 	 * 通过文件名构造一个文件read流
 	 * @param fileName 文件名
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException 要打开的文件不存在
 	 */
 	ReadFile(String fileName) 
 	throws FileNotFoundException {

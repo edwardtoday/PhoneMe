@@ -67,7 +67,7 @@ implements Constants, Group {
 	/**
 	 * 通过已有的信息建立group
 	 * @param id group的id
-	 * @throws IOException
+	 * @throws IOException 该id所代表的文件不存在等
 	 */
 	private Igroup(int id) 
 	throws IOException {
