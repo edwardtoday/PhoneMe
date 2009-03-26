@@ -28,17 +28,15 @@ implements Constants, AllGroups {
 			wf.close();
 			ids = new HashSet<Integer>();
 		}
-		else {
-			rf = new ReadFile(GROUP_PATH + ALLGROUPS);
-			ids = new HashSet<Integer>();
-			while(true) {
-				String tempId = rf.readLine();
-				if(tempId == null 
-						|| tempId == System.getProperty("line.separator"))
-					break;
-				else
-					ids.add(Integer.valueOf(tempId));
-			}
+		rf = new ReadFile(GROUP_PATH + ALLGROUPS);
+		ids = new HashSet<Integer>();
+		while(true) {
+			String tempId = rf.readLine();
+			if(tempId == null 
+					|| tempId == System.getProperty("line.separator"))
+				break;
+			else
+				ids.add(Integer.valueOf(tempId));
 		}
 	}
 	

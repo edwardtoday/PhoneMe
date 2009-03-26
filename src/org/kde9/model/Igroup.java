@@ -71,10 +71,10 @@ implements Constants, Group {
 		if(!file.exists()) {
 			if(id == ALLID) {
 				file.createNewFile();
+				WriteFile wf = 
+					new WriteFile(GROUP_PATH + String.valueOf(id), false);
+				wf.write(ALLNAME);
 				// TODO
-			}
-			else {
-				file.createNewFile();
 			}
 		}
 		ReadFile rf = new ReadFile(GROUP_PATH + String.valueOf(id));

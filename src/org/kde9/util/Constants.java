@@ -40,4 +40,10 @@ public interface Constants {
 	 * int型
 	 */
 	static int ALLID = 0;
+	
+	/**
+	 * 默认分组All的Name
+	 * String型
+	 */
+	static String ALLNAME = "ALL";
 }
