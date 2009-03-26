@@ -36,7 +36,6 @@ class Factory {
 	 * 通过已有的信息建立group
 	 * @param myId group的id
 	 * @param groupName group的名字
-	 * @throws IOException 
 	 */
 	static Group createGroup(
 			int id,
@@ -50,8 +49,7 @@ class Factory {
 	 * <p>
 	 * 通过已有的信息建立group
 	 * @param id group的id
-	 * @throws IOException 
-	 * @throws IOException
+	 * @throws IOException 该id所代表的文件不存在……
 	 */
 	static Group createGroup(int id) 
 	throws IOException {
