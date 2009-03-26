@@ -7,6 +7,10 @@ interface Group {
 
 	public abstract String getGroupName();
 	
+	/**
+	 * 获得改组的id
+	 * @return 组的id
+	 */
 	public int getGroupId();
 	
 	/**

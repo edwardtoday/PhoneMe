@@ -17,6 +17,10 @@ public class Ikernel {
 				groups.put(id, Factory.createGroup(id));
 	}
 	
+	/**
+	 * 返回所有组的id和组名
+	 * @return 包含组id和组名的HashMap
+	 */
 	public HashMap<Integer, String> getAllGroups() {
 		HashMap<Integer, String> temp = new HashMap<Integer, String>();
 		if(groups.size() != 0)
@@ -25,12 +29,22 @@ public class Ikernel {
 		return temp;
 	}
 	
+	/**
+	 * 用组名新建一个组
+	 * <p>
+	 * 首先通过组名新建一个group，并保存成文件，
+	 * 并给它赋予一个与已知group的id不同的id。
+	 * 然后向AllGroups中添加该组的id，并保存。
+	 * @param groupName 新建组的组名
+	 * @throws IOException 
+	 */
 	public void addGroup(String groupName)
 	throws IOException {
 		Group g = Factory.createGroup(groupName);
 		int groupId = g.getGroupId();
 		groups.put(groupId, g);
 		allGroups.appendToAllGroup(groupId);
+		allGroups.save();
 	}
 	
 	public void deleteGroup(int groupId) {

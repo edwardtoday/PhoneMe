@@ -10,5 +10,7 @@ interface AllGroups {
 	public abstract void deleteFromAllGroup(int id);
 
 	public abstract HashSet<Integer> getIds();
+	
+	public void save() throws IOException;
 
 }
