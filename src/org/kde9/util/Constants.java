@@ -31,6 +31,13 @@ public interface Constants {
 	
 	/**
 	 * 默认分组All的id
+	 * String型
 	 */
 	static String ALL = "0";
+	
+	/**
+	 * 默认分组All的id
+	 * int型
+	 */
+	static int ALLID = 0;
 }

@@ -67,6 +67,16 @@ implements Constants, Group {
 	 */
 	private Igroup(int id) 
 	throws IOException {
+		File file = new File(GROUP_PATH + String.valueOf(id));
+		if(!file.exists()) {
+			if(id == ALLID) {
+				file.createNewFile();
+				// TODO
+			}
+			else {
+				file.createNewFile();
+			}
+		}
 		ReadFile rf = new ReadFile(GROUP_PATH + String.valueOf(id));
 		this.id = id;
 		groupName = rf.readLine();
