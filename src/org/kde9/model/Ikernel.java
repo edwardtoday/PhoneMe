@@ -51,7 +51,7 @@ public class Ikernel {
 		return groups.get(groupId).getPersons();
 	}
 	
-	public void addGroupMembers() {
+	public void addGroupMembers(int groupId, String memberName) {
 		
 	}
 }

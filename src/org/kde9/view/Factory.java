@@ -1,20 +1,17 @@
 package org.kde9.view;
 
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-
 
 public class Factory {
-	public static JPanel createGroup() {
+	public static GroupComponent createGroup() {
 		return new GroupComponent();
 	}
-	public static JPanel creatName() {
+	public static NameComponent creatName() {
 		return new NameComponent();
 	}
-	public static JPanel createViewer() {
+	public static ViewerComponent createViewer() {
 		return new ViewerComponent();
 	}
-	public static JMenuBar createMenuBar() {
+	public static MenubarComponent createMenuBar() {
 		return new MenubarComponent();
 	}
 }

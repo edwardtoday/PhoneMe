@@ -55,7 +55,6 @@ implements Constants, Group {
 			int id, 
 			String groupName, 
 			HashMap<Integer, String> persons ) {
-		if(id > staticId) staticId = id;
 		this.id = id;
 		this.groupName = groupName;
 		this.persons = persons;
@@ -69,7 +68,6 @@ implements Constants, Group {
 	private Igroup(int id) 
 	throws IOException {
 		ReadFile rf = new ReadFile(GROUP_PATH + String.valueOf(id));
-		if(id > staticId) staticId = id;
 		this.id = id;
 		groupName = rf.readLine();
 		persons = new HashMap<Integer, String>();
