@@ -7,8 +7,6 @@ import java.util.Vector;
 
 import org.kde9.util.Constants;
 
-import com.sun.java_cup.internal.internal_error;
-
 class Icard 
 implements Constants {
 	private static int staticId = 0;
