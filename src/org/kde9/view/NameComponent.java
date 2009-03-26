@@ -1,6 +1,7 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +16,8 @@ extends JPanel {
 	private JButton buttonAdd;
 	private JButton buttonSub;
 	private DefaultTableModel model;
+	
+	private HashMap<Integer, String> members;
 
 	NameComponent() {
 		table = new JTable(0, 1);
@@ -30,6 +33,26 @@ extends JPanel {
 		add("South", panel);
 	}
 
+	public void setMember(HashMap<Integer, String> members) {
+		this.members = members;
+		while(model.getRowCount() != 0)
+			model.removeRow(0);
+		if(members.size() != 0) {
+			for(String name : members.values())
+				model.addRow(new Object[]{name});
+		}
+	}
+	
+	public void addMember(int id, String name) {
+		members.put(id, name);
+		model.addRow(new Object[]{name});
+	}
+	
+	public void deleteMember() {
+		members.remove(members.keySet().toArray()[table.getSelectedRow()]);
+		model.removeRow(table.getSelectedRow());
+	}
+	
 	public JTable getTable() {
 		return table;
 	}
