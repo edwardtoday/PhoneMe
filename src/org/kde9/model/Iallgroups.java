@@ -1,8 +1,9 @@
 package org.kde9.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import org.kde9.util.Constants;
 
@@ -15,24 +16,24 @@ import org.kde9.util.Constants;
  */
 class Iallgroups
 implements Constants, AllGroups {
-	private HashSet<Integer> ids;
+	private ArrayList<Integer> ids;
 	WriteFile wf;
 	ReadFile rf;
 	
-	private Iallgroups() 
-	throws IOException {
-		File file = new File(GROUP_PATH + ALLGROUPS);
-		if(!file.exists()) {
-			wf = new WriteFile(GROUP_PATH + ALLGROUPS, false);
-			wf.write(ALL);
-			wf.close();
-			ids = new HashSet<Integer>();
-		}
+	private Iallgroups() {}
+	
+	public static AllGroups createAllGroups() {
+		return new Iallgroups();
+	}
+	
+	public void init() 
+	throws IOException, FileNotFoundException {
 		rf = new ReadFile(GROUP_PATH + ALLGROUPS);
-		ids = new HashSet<Integer>();
+		ids = new ArrayList<Integer>();
 		while(true) {
 			String tempId = rf.readLine();
 			if(tempId == null 
+					|| tempId == ""
 					|| tempId == System.getProperty("line.separator"))
 				break;
 			else
@@ -40,12 +41,14 @@ implements Constants, AllGroups {
 		}
 	}
 	
-	public static AllGroups createAllGroups() 
+	/**
+	 * 保存AllGroups的信息到相应的文件。
+	 * <p>
+	 * 保存的内容为每个组的id，每个id为一行。
+	 * 文件结尾会有换行符。
+	 */
+	public void save() 
 	throws IOException {
-		return new Iallgroups();
-	}
-	
-	public void save() throws IOException {
 		WriteFile wf = new WriteFile(GROUP_PATH + ALLGROUPS, false);
 		String temp = "";
 		if(ids.size() != 0)
@@ -57,24 +60,96 @@ implements Constants, AllGroups {
 		wf.close();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.kde9.model.AllGroups#appendToAllGroup(int)
+	/**
+	 * 恢复AllGroups信息。
+	 * <p>
+	 * 通过读取所有group的信息，从文件系统中恢复AllGroups信息。
 	 */
+	public void restore() 
+	throws IOException {
+		File file = new File(GROUP_PATH + ALLGROUPS);
+		if(!file.exists()) {
+			wf = new WriteFile(GROUP_PATH + ALLGROUPS, true);
+			ids = new ArrayList<Integer>();
+			//添加ALL分组的id
+			wf.writeLine(ALL);
+			ids.add(Integer.valueOf(ALL));
+			File temp = new File(GROUP_PATH);
+			File[] groups = temp.listFiles();
+			//添加其他分组的id
+			if(groups != null && groups.length != 0)
+				for(File f : groups) {
+					if(f.isFile()) {
+						String name = f.getName();
+						if(name == ALL) continue;
+						boolean flag = true;
+						for(char c : name.toCharArray()) {
+							if(!Character.isDigit(c)) {
+								flag = false;
+								break;
+							}
+						}
+						if(flag) {
+							wf.writeLine(name);
+							ids.add(Integer.valueOf(name));
+						}
+					}
+				}
+			wf.close();
+		}
+	}
+	
 	public void appendToAllGroup(int id) {
 		ids.add(id);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.kde9.model.AllGroups#deleteFromGroup(int)
-	 */
 	public void deleteFromAllGroup(int id) {
 		ids.remove(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kde9.model.AllGroups#getIds()
-	 */
-	public HashSet<Integer> getIds() {
+	public ArrayList<Integer> getIds() {
 		return ids;
+	}
+	
+	/*
+	 * test !
+	 */
+	public static void main(String args[]) {
+		AllGroups ag = null;
+		try {
+			ag = Iallgroups.createAllGroups();
+			ag.init();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			try {
+				ag.restore();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int id : ag.getIds()) {
+			System.out.println(id);
+		}
+		try {
+			ag.save();
+			for(int id : ag.getIds()) {
+				System.out.println(id);
+			}
+//			ag.appendToAllGroup(3);
+//			for(int id : ag.getIds()) {
+//				System.out.println(id);
+//			}
+//			ag.save();
+//			ag.deleteFromAllGroup(3);
+//			ag.save();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

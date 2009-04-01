@@ -22,6 +22,7 @@ public class Icontroller {
 		
 		try {
 			kernel = new Ikernel();
+			kernel.init();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

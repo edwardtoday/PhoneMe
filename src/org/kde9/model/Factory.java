@@ -1,12 +1,17 @@
 package org.kde9.model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
 class Factory {
-	
-	static AllGroups createAllGroups()
-	throws IOException {
+	/**
+	 * 使用相应的构造方法构造AllGroups
+	 * <p>
+	 * 从文件系统中的AllGroups文件中读取并创建AllGroups类。
+	 * 该类中保存了所有已有组的id、name、成员信息。
+	 */
+	static AllGroups createAllGroups() {
 		return Iallgroups.createAllGroups();
 	}
 	

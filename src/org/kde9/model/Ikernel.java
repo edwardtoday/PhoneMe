@@ -1,5 +1,6 @@
 package org.kde9.model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -8,9 +9,16 @@ public class Ikernel {
 	private AllGroups allGroups;
 	private HashMap<Integer, Group> groups;
 	
-	public Ikernel()
-	throws IOException {
+	/**
+	 * 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 文件系统中保存AllGroups的文件不存在或被破坏，
+	 * 可以使用restore方法试图恢复（应提示用户文件恢复并不能保证数据不丢失）。
+	 */
+	public void init()
+	throws IOException, FileNotFoundException {
 		allGroups = Factory.createAllGroups();
+		allGroups.init();
 		groups = new HashMap<Integer, Group>();
 		if(allGroups.getIds().size() != 0)
 			for(int id : allGroups.getIds())
