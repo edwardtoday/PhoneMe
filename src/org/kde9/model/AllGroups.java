@@ -30,7 +30,7 @@ interface AllGroups {
 	public void save()
 	throws IOException;
 	
-	public void restore()
+	public void rebuilt()
 	throws IOException;
 
 }

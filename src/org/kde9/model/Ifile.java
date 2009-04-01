@@ -45,7 +45,7 @@ class ReadFile {
 	 * @return 包含要读取行内容的String
 	 * @throws IOException
 	 */
-	String readLine() 
+	synchronized String readLine() 
 	throws IOException {
 		return br.readLine();
 	}
@@ -54,7 +54,7 @@ class ReadFile {
 	 * 关闭流
 	 * @throws IOException
 	 */
-	void close()
+	synchronized void close()
 	throws IOException {
 		br.close();
 		fr.close();
@@ -99,9 +99,10 @@ class WriteFile {
 	 * 使用时注意，文件写操作结束后要调用close方法关闭流。
 	 * </strong></br>
 	 * @param str 要写入的内容
+	 * @return 
 	 * @throws IOException
 	 */
-	void write(String str) 
+	synchronized void write(String str) 
 	throws IOException {
 		bw.write(str);
 	}
@@ -114,7 +115,7 @@ class WriteFile {
 	 * @param str 要写入的内容
 	 * @throws IOException
 	 */
-	void writeLine(String str) 
+	synchronized void writeLine(String str) 
 	throws IOException {
 		bw.write(
 				str + 
@@ -125,7 +126,7 @@ class WriteFile {
 	 * 关闭流
 	 * @throws IOException
 	 */
-	void close() 
+	synchronized void close() 
 	throws IOException {
 		bw.close();
 		fw.close();
@@ -155,7 +156,7 @@ class DeleteFile {
 	/**
 	 * 删除文件
 	 */
-	void delete() {
+	synchronized void delete() {
 		file.delete();
 	}
 }

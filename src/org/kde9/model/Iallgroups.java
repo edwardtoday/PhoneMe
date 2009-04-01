@@ -65,38 +65,32 @@ implements Constants, AllGroups {
 	 * <p>
 	 * 通过读取所有group的信息，从文件系统中恢复AllGroups信息。
 	 */
-	public void restore() 
+	public void rebuilt() 
 	throws IOException {
 		File file = new File(GROUP_PATH + ALLGROUPS);
-		if(!file.exists()) {
-			wf = new WriteFile(GROUP_PATH + ALLGROUPS, true);
-			ids = new ArrayList<Integer>();
-			//添加ALL分组的id
-			wf.writeLine(ALL);
-			ids.add(Integer.valueOf(ALL));
-			File temp = new File(GROUP_PATH);
-			File[] groups = temp.listFiles();
-			//添加其他分组的id
-			if(groups != null && groups.length != 0)
-				for(File f : groups) {
-					if(f.isFile()) {
-						String name = f.getName();
-						if(name == ALL) continue;
-						boolean flag = true;
-						for(char c : name.toCharArray()) {
-							if(!Character.isDigit(c)) {
-								flag = false;
-								break;
-							}
-						}
-						if(flag) {
-							wf.writeLine(name);
-							ids.add(Integer.valueOf(name));
-						}
+		if(file.exists()) {
+			new DeleteFile(GROUP_PATH + ALLGROUPS).delete();
+		}
+		wf = new WriteFile(GROUP_PATH + ALLGROUPS, true);
+		ids = new ArrayList<Integer>();
+		//添加ALL分组的id
+		wf.writeLine(ALL);
+		ids.add(Integer.valueOf(ALL));
+		File temp = new File(GROUP_PATH);
+		File[] groups = temp.listFiles();
+		//添加其他分组的id
+		if(groups != null && groups.length != 0)
+			for(File f : groups) {
+				if(f.isFile()) {
+					String name = f.getName();
+					if(name == ALL) continue;
+					if(isInt(name)) {
+						wf.writeLine(name);
+						ids.add(Integer.valueOf(name));
 					}
 				}
-			wf.close();
-		}
+			}
+		wf.close();
 	}
 	
 	public void appendToAllGroup(int id) {
@@ -111,6 +105,13 @@ implements Constants, AllGroups {
 		return ids;
 	}
 	
+	private boolean isInt(String str) {
+		for(char c : str.toCharArray())
+			if(!Character.isDigit(c))
+				return false;
+		return true;
+	}
+	
 	/*
 	 * test !
 	 */
@@ -122,7 +123,7 @@ implements Constants, AllGroups {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			try {
-				ag.restore();
+				ag.rebuilt();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
