@@ -18,10 +18,9 @@ public class Ikernel {
 	public void init()
 	throws IOException, FileNotFoundException {
 		allGroups = Factory.createAllGroups();
-		allGroups.init();
 		groups = new LinkedHashMap<Integer, Group>();
-		if(allGroups.getIds().size() != 0)
-			for(int id : allGroups.getIds())
+		if(allGroups.getGroupIds().size() != 0)
+			for(int id : allGroups.getGroupIds())
 				groups.put(id, Factory.createGroup(id));
 	}
 	
@@ -51,7 +50,7 @@ public class Ikernel {
 		Group g = Factory.createGroup(groupName);
 		int groupId = g.getGroupId();
 		groups.put(groupId, g);
-		allGroups.appendToAllGroup(groupId);
+		allGroups.appendGroup(groupId);
 		allGroups.save();
 	}
 	
@@ -65,7 +64,7 @@ public class Ikernel {
 	 */
 	public void deleteGroup(int groupId)
 	throws IOException {
-		allGroups.deleteFromAllGroup(groupId);
+		allGroups.deleteGroup(groupId);
 		allGroups.save();
 		Group g = groups.get(groupId);
 		if(g != null) {
@@ -89,7 +88,7 @@ public class Ikernel {
 	throws IOException {
 		Group g = groups.get(groupId);
 		if(g != null) {
-			g.rename(groupName);
+			g.renameGroup(groupName);
 			g.save();
 		}
 		else {
@@ -103,7 +102,7 @@ public class Ikernel {
 	 * @return 返回包含组成员id和名字的LinkedHashMap
 	 */
 	public LinkedHashMap<Integer, String> getGroupMembers(int groupId) {
-		return (LinkedHashMap<Integer, String>) groups.get(groupId).getPersons().clone();
+		return (LinkedHashMap<Integer, String>) groups.get(groupId).getGroupMember().clone();
 	}
 	
 	/**
@@ -113,11 +112,11 @@ public class Ikernel {
 	 * @param memberName 要添加的成员的名字
 	 * @throws IOException
 	 */
-	public void addGroupMember(int groupId, int memberId, String memberName) 
+	public void addGroupMember(int groupId, int memberId) 
 	throws IOException {
 		Group g = groups.get(groupId);
 		if(g != null) {
-			g.appendPerson(memberId, memberName);
+			g.appendGroupMember(memberId);
 			g.save();
 		}
 		else {
@@ -129,24 +128,12 @@ public class Ikernel {
 	throws IOException {
 		Group g = groups.get(groupId);
 		if(g != null) {
-			g.deletePerson(memberId);
+			g.deleteGroupMember(memberId);
 			g.save();
 		}
 		else {
 			System.err.println("deleteGroupMember : 未找到相应id的组！");
 		}
-	}
-	
-	public void renameGroupMember(int groupId, int memberId, String memberName) 
-	throws IOException {
-		Group g = groups.get(groupId);
-		if(g != null) {
-			g.renamePerson(memberId, memberName);
-			g.save();
-		}
-		else {
-			System.err.println("renameGroupMember : 未找到相应id的组！");
-		}	
 	}
 	
 	
