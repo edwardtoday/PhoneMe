@@ -1,28 +1,17 @@
 package org.kde9.model;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 interface Group {
 
 	public abstract String getGroupName();
 	
 	/**
-	 * 获得改组的id
+	 * 获得该组的id
 	 * @return 组的id
 	 */
 	public int getGroupId();
-	
-	/**
-	 * 改变组成员的姓名
-	 * <p>
-	 * <br><strong>
-	 * 注意：没有保存到文件
-	 * </br></strong> 
-	 * @param personId
-	 * @param name
-	 */
-	public abstract void renamePerson(int personId, String name);
 
 	/**
 	 * 增加组成员
@@ -33,7 +22,7 @@ interface Group {
 	 * @param personId
 	 * @param name
 	 */
-	public abstract void appendPerson(int personId, String name);
+	public abstract void appendGroupMember(int personId);
 
 	/**
 	 * 删除组成员
@@ -43,7 +32,7 @@ interface Group {
 	 * </br></strong> 
 	 * @param personId
 	 */
-	public abstract void deletePerson(int personId);
+	public abstract void deleteGroupMember(int personId);
 
 	/**
 	 * 改变组名
@@ -52,7 +41,7 @@ interface Group {
 	 * 注意：没有保存到文件
 	 * </br></strong> 
 	 */
-	public abstract void rename(String groupName);
+	public abstract void renameGroup(String groupName);
 
 	/**
 	 * 保存group信息到文件
@@ -68,6 +57,6 @@ interface Group {
 	 */
 	public abstract void delete();
 	
-	public abstract HashMap<Integer, String> getPersons();
+	public abstract LinkedHashSet<Integer> getGroupMember();
 
 }

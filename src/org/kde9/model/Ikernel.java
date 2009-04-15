@@ -2,12 +2,12 @@ package org.kde9.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class Ikernel {
 	private AllGroups allGroups;
-	private HashMap<Integer, Group> groups;
+	private LinkedHashMap<Integer, Group> groups;
 	
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class Ikernel {
 	throws IOException, FileNotFoundException {
 		allGroups = Factory.createAllGroups();
 		allGroups.init();
-		groups = new HashMap<Integer, Group>();
+		groups = new LinkedHashMap<Integer, Group>();
 		if(allGroups.getIds().size() != 0)
 			for(int id : allGroups.getIds())
 				groups.put(id, Factory.createGroup(id));
@@ -27,10 +27,10 @@ public class Ikernel {
 	
 	/**
 	 * 返回所有组的id和组名
-	 * @return 包含组id和组名的HashMap
+	 * @return 包含组id和组名的LinkedHashMap
 	 */
-	public HashMap<Integer, String> getAllGroups() {
-		HashMap<Integer, String> temp = new HashMap<Integer, String>();
+	public LinkedHashMap<Integer, String> getAllGroups() {
+		LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
 		if(groups.size() != 0)
 			for(int id : groups.keySet())
 				temp.put(id, groups.get(id).getGroupName());
@@ -100,10 +100,10 @@ public class Ikernel {
 	/**
 	 * 返回给定id的组的成员的id和名字
 	 * @param groupId 组的id
-	 * @return 返回包含组成员id和名字的HashMap
+	 * @return 返回包含组成员id和名字的LinkedHashMap
 	 */
-	public HashMap<Integer, String> getGroupMembers(int groupId) {
-		return groups.get(groupId).getPersons();
+	public LinkedHashMap<Integer, String> getGroupMembers(int groupId) {
+		return (LinkedHashMap<Integer, String>) groups.get(groupId).getPersons().clone();
 	}
 	
 	/**
@@ -148,4 +148,6 @@ public class Ikernel {
 			System.err.println("renameGroupMember : 未找到相应id的组！");
 		}	
 	}
+	
+	
 }
