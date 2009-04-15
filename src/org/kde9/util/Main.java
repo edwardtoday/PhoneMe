@@ -1,5 +1,8 @@
 package org.kde9.util;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import org.kde9.control.Icontroller;
 
 
@@ -7,6 +10,23 @@ public class Main
 implements Constants{
 	public static void main(String args[]) {
 
+		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
+		try {
+			UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		new Icontroller();
 		
         System.out.println(getPYString("abchaha///[p-Éè¼Æ·ûºÏ°¡"));

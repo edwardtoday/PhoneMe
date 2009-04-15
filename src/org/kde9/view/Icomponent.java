@@ -3,6 +3,7 @@ package org.kde9.view;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.kde9.control.GroupAddListener;
 import org.kde9.control.GroupSubListener;
