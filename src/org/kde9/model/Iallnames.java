@@ -53,6 +53,11 @@ implements Constants, AllNames {
 		return true;
 	}
 	
+	public static AllNames createAllNames() 
+	throws FileNotFoundException, IOException {
+		return new Iallnames();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.kde9.model.AllNames#appendPerson(int, java.lang.String)
 	 */

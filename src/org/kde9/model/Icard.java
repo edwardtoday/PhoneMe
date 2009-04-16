@@ -17,7 +17,7 @@ implements Constants, Card {
 	private HashMap<Integer, String> relationship;
 	
 	private Icard(String name) 
-	throws FileNotFoundException, IOException {
+	throws IOException {
 		File file = new File(CARD_PATH + String.valueOf(staticId));
 		while (file.exists()) {
 			staticId++;
@@ -98,7 +98,7 @@ implements Constants, Card {
 	}
 	
 	public static Card createCard(String name) 
-	throws FileNotFoundException, IOException {
+	throws IOException {
 		return new Icard(name);
 	}
 	

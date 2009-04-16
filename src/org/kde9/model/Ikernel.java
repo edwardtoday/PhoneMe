@@ -31,6 +31,7 @@ implements Constants{
 		restoreAndBackup = Factory.createRestoreAndBackup();
 		restoreAndBackup.checkout();
 		allGroups = Factory.createAllGroups();
+		allNames = Factory.createAllNames();
 		cards = new HashMap<Integer, Card>();
 		groups = new LinkedHashMap<Integer, Group>();
 		if(allGroups.getGroupIds().size() != 0)
@@ -225,6 +226,105 @@ implements Constants{
 		}
 	}
 	
+	public int addCard(int range, String name, LinkedHashMap<String, String> items) 
+	throws IOException {
+		Card card = Factory.createCard(name);
+		int id = card.getCardId();
+		cards.put(id, card);
+		allNames.appendPerson(id, name);
+		if(items != null)
+			for(String str : items.keySet())
+				card.appendItem(str, items.get(str));
+		allNames.save();
+		card.save();
+		Group group = groups.get(ALLIDINT);
+		group.appendGroupMember(id);
+		group.save();
+		if(range != ALLIDINT) {
+			group = groups.get(range);
+			group.appendGroupMember(id);
+			group.save();
+		}
+		return id;
+	}
+	
+	public void deleteCard(int id) 
+	throws FileNotFoundException, IOException {
+		Card card = cards.get(id);
+		if(card == null)
+			card = Factory.createCard(id);
+		else
+			cards.remove(id);
+		card.delete();
+		allNames.deletePerson(id);
+		allNames.save();
+		for(Group group : groups.values()) {
+			if(group.getGroupMember().contains(id)) {
+				group.deleteGroupMember(id);
+				group.save();
+			}
+		}
+	}
+	
+	public void renameCard(int id, String name) 
+	throws FileNotFoundException, IOException {
+		Card card = cards.get(id);
+		if(card == null) {
+			card = Factory.createCard(id);
+			cards.put(id, card);
+		}
+		card.rename(name);
+		allNames.appendPerson(id, name);
+		card.save();
+		allNames.save();
+	}
+	
+	public void addCardItem(int id, String name, String content) 
+	throws FileNotFoundException, IOException {
+		Card card = cards.get(id);
+		if(card == null) {
+			card = Factory.createCard(id);
+			cards.put(id, card);
+		}
+		card.appendItem(name, content);
+		card.save();
+	}
+	
+	public void deleteCardItem(int id, String name) 
+	throws FileNotFoundException, IOException {
+		Card card = cards.get(id);
+		if(card == null) {
+			card = Factory.createCard(id);
+			cards.put(id, card);
+		}
+		card.deleteItem(name);
+		card.save();
+	}
+	
+	public void renameCardItem(int id, String oldName, String newName) 
+	throws FileNotFoundException, IOException {
+		Card card = cards.get(id);
+		if(card == null) {
+			card = Factory.createCard(id);
+			cards.put(id, card);
+		}
+		card.renameItem(oldName, newName);
+		card.save();
+	}
+	
+	public LinkedHashMap<String, String> getCardItem(int id) 
+	throws FileNotFoundException, IOException {
+		LinkedHashMap<String, String> l = new LinkedHashMap<String, String>();
+		Card card = cards.get(id);
+		if(card == null) {
+			card = Factory.createCard(id);
+			cards.put(id, card);
+		}
+		for(String str : card.getItems().keySet())
+			l.put(str, card.getItems().get(str));
+		return l;
+	}
+	
 	public LinkedHashSet<Integer> search(int groupId, 
 			String item, String keywords, boolean isWholeWord) 
 	throws IOException {
@@ -291,8 +391,7 @@ implements Constants{
 			LinkedHashSet<Integer> l = ikernel.search(0, "tel2", "23 34567", false);
 			for(int id : l)
 				System.out.println(id);
-			System.out.println(l.size());
-			ikernel.addSmartGroup("¼Æ62°à", 0, "tel2", "aa bb", false);
+			System.out.println(ikernel.getAllGroups().size());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

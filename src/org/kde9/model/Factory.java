@@ -58,13 +58,18 @@ class Factory {
 	}
 	
 	static Card createCard(String name) 
-	throws FileNotFoundException, IOException {
+	throws IOException {
 		return Icard.createCard(name);
 	}
 	
 	static Card createCard(int id) 
 	throws FileNotFoundException, IOException {
 		return Icard.createCard(id);
+	}
+	
+	static AllNames createAllNames() 
+	throws FileNotFoundException, IOException {
+		return Iallnames.createAllNames();
 	}
 	
 	static RestoreAndBackup createRestoreAndBackup() {
