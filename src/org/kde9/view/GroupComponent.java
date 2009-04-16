@@ -1,22 +1,26 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 
 public class GroupComponent 
 extends JPanel {
+	private JLabel label;
 	private JTable table;
 	private JButton buttonAdd;
 	private JButton buttonSub;
@@ -27,15 +31,19 @@ extends JPanel {
 	GroupComponent() {
 		table = new JTable(0, 1);
 		model = (DefaultTableModel)table.getModel();
+		label = new JLabel("group");
 		buttonAdd = new JButton("+");
 		buttonSub = new JButton("-");
 		setLayout(new BorderLayout());
-		add("North", new JLabel("group"));
+		add("North", label);
+		label.setBorder(BorderFactory.createRaisedBevelBorder());
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		add("Center", table);
 		JPanel panel = new JPanel();
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+		table.setBorder(BorderFactory.createEtchedBorder());
 	}
 	
 	public void buttonAddListener(ActionListener al) {

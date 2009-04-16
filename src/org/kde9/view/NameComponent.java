@@ -3,15 +3,18 @@ package org.kde9.view;
 import java.awt.BorderLayout;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 
 public class NameComponent
 extends JPanel {
+	private JLabel label;
 	private JTable table;
 	private JButton buttonAdd;
 	private JButton buttonSub;
@@ -22,15 +25,19 @@ extends JPanel {
 	NameComponent() {
 		table = new JTable(0, 1);
 		model = (DefaultTableModel)table.getModel();
+		label = new JLabel("name");
 		buttonAdd = new JButton("+");
 		buttonSub = new JButton("-");
 		setLayout(new BorderLayout());
-		add("North", new JLabel("name"));
+		add("North", label);
+		label.setBorder(BorderFactory.createRaisedBevelBorder());
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		add("Center", table);
 		JPanel panel = new JPanel();
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+		table.setBorder(BorderFactory.createEtchedBorder());
 	}
 
 	public void setMember(HashMap<Integer, String> members) {

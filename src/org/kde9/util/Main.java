@@ -9,7 +9,7 @@ import org.kde9.control.Icontroller;
 public class Main
 implements Constants{
 	public static void main(String args[]) {
-
+		
 		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
 		try {
 			UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
