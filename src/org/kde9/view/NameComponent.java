@@ -30,7 +30,7 @@ extends JPanel {
 		buttonSub = new JButton("-");
 		setLayout(new BorderLayout());
 		add("North", label);
-		label.setBorder(BorderFactory.createRaisedBevelBorder());
+		label.setBorder(BorderFactory.createEtchedBorder());
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		add("Center", table);
 		JPanel panel = new JPanel();

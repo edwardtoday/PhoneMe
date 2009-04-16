@@ -28,15 +28,18 @@ implements Constants{
 	NameComponent nameComponent;
 	ViewerComponent viewerComponent;
 	
-	public IFrameComponent() {
+	IFrameComponent() {
 		super("what's this?");
 		groupComponent = Factory.createGroup();
 		menubarComponent = Factory.createMenuBar();
 		nameComponent = Factory.creatName();
 		viewerComponent = Factory.createViewer();
+		
 		buildMenus();
+		
 		contacts = new JPanel();
 		renlifang = new JPanel();
+		
 		BorderLayout bl1 = new BorderLayout();
 		GridLayout gl2 = new GridLayout();
 		GridLayout gl3 = new GridLayout();
@@ -50,17 +53,16 @@ implements Constants{
 		innerPanel.setLayout(gl2);		
 		inner_innerPanel.setLayout(gl3);
 		
-		inner_innerPanel.add(groupComponent,BorderLayout.WEST);
-		inner_innerPanel.add(nameComponent,BorderLayout.CENTER);
+		inner_innerPanel.add(groupComponent);
+		inner_innerPanel.add(nameComponent);
 		
-		innerPanel.add(inner_innerPanel,BorderLayout.WEST);
-		//innerPanel.add(nameComponent,BorderLayout.CENTER);
-		innerPanel.add(viewerComponent,BorderLayout.CENTER);
+		innerPanel.add(inner_innerPanel);
+		innerPanel.add(viewerComponent);
 		
 		contacts.add(menubarComponent,BorderLayout.NORTH);
 		contacts.add(innerPanel,BorderLayout.CENTER);
 		add(contacts);
-		setUndecorated(true);
+		//setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

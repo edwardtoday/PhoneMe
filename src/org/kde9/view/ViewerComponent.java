@@ -2,6 +2,7 @@ package org.kde9.view;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
@@ -23,5 +24,6 @@ extends JPanel {
 		JPanel panel = new JPanel();
 		panel.add(button);
 		add("South", panel);
+		table.setBorder(BorderFactory.createEtchedBorder());
 	}
 }
