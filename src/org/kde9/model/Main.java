@@ -127,7 +127,7 @@ implements KeyListener, TreeModel {
 				if(state == 0) {
 					currentGroup = Integer.valueOf(v.get(1));
 					state++;
-					label.setText("Group" + v.get(1) + ">>");
+					label.setText(">>Group" + v.get(1) + ">>");
 					textField.setSelectionStart(0);
 					textField.setSelectionEnd(textField.getText().length());
 				} else if(state == 1) {
