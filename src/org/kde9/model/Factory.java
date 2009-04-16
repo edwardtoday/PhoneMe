@@ -27,9 +27,6 @@ class Factory {
 	 * 使用相应的构造方法构造group
 	 * <p>
 	 * 通过组名新建一个group，
-	 * <strong>
-	 * 并保存成文件。
-	 * </strong>
 	 * 并给它赋予一个与已知group的id不同的id。 <br>
 	 * <strong>
 	 * 该方法只用于新建组，
@@ -55,8 +52,19 @@ class Factory {
 	 * @throws IOException
 	 *             尚未确认影响
 	 */
-	static Group createGroup(int id) throws FileNotFoundException, IOException {
+	static Group createGroup(int id) 
+	throws FileNotFoundException, IOException {
 		return Igroup.createGroup(id);
+	}
+	
+	static Card createCard(String name) 
+	throws FileNotFoundException, IOException {
+		return Icard.createCard(name);
+	}
+	
+	static Card createCard(int id) 
+	throws FileNotFoundException, IOException {
+		return Icard.createCard(id);
 	}
 	
 	static RestoreAndBackup createRestoreAndBackup() {

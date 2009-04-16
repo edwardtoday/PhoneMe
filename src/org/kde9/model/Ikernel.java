@@ -2,13 +2,23 @@ package org.kde9.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Vector;
+
+import org.kde9.util.Constants;
 
 
-public class Ikernel {
+public class Ikernel 
+implements Constants{
 	private AllGroups allGroups;
+	private AllNames allNames;
 	private LinkedHashMap<Integer, Group> groups;
 	private RestoreAndBackup restoreAndBackup;
+	private HashMap<Integer, Card> cards;
 	
 	/**
 	 * 
@@ -21,6 +31,7 @@ public class Ikernel {
 		restoreAndBackup = Factory.createRestoreAndBackup();
 		restoreAndBackup.checkout();
 		allGroups = Factory.createAllGroups();
+		cards = new HashMap<Integer, Card>();
 		groups = new LinkedHashMap<Integer, Group>();
 		if(allGroups.getGroupIds().size() != 0)
 			for(int id : allGroups.getGroupIds())
@@ -40,21 +51,54 @@ public class Ikernel {
 	}
 	
 	/**
-	 * 通过组名新建一个组
+	 * 通过组名和组成员新建一个普通组
 	 * <p>
-	 * 首先通过组名新建一个group，并保存成文件，
+	 * 首先通过组名和组成员新建一个group，并保存成文件，
 	 * 并给它赋予一个与已知group的id不同的id。
 	 * 然后向AllGroups中添加该组的id，并保存。
 	 * @param groupName 新建组的组名
-	 * @throws IOException 
+	 * @throws IOException
+	 * @return 新建组的id 
 	 */
-	public void addGroup(String groupName)
+	public int addGroup(String groupName, LinkedHashSet<Integer> memberIds)
 	throws IOException {
 		Group g = Factory.createGroup(groupName);
 		int groupId = g.getGroupId();
+		if(memberIds != null && memberIds.size() != 0)
+			for(int i : memberIds)
+				g.appendGroupMember(i);
+		g.save();
 		groups.put(groupId, g);
 		allGroups.appendGroup(groupId);
 		allGroups.save();
+		return groupId;
+	}
+	
+	/**
+	 * 通过组名和组成员新建一个智能组
+	 * <p>
+	 * 首先通过组名和组成员新建一个group，并保存成文件，
+	 * 并给它赋予一个与已知group的id不同的id。
+	 * 然后向AllGroups中添加该组的id，并保存。
+	 * @param groupName 新建组的组名
+	 * @throws IOException
+	 * @return 新建组的id 
+	 */
+	public int addSmartGroup(String groupName, 
+			int range, String item, String keywords, boolean isWholeWord)
+	throws IOException {
+		Group g = Factory.createGroup(groupName);
+		int groupId = g.getGroupId();
+		LinkedHashSet<Integer> memberIds = 
+			search(range, item, keywords, isWholeWord);
+		if(memberIds != null && memberIds.size() != 0)
+			for(int i : memberIds)
+				g.appendGroupMember(i);
+		g.save();
+		groups.put(groupId, g);
+		allGroups.appendGroup(groupId);
+		allGroups.save();
+		return groupId;
 	}
 	
 	/**
@@ -105,14 +149,22 @@ public class Ikernel {
 	 * @return 返回包含组成员id和名字的LinkedHashMap
 	 */
 	public LinkedHashMap<Integer, String> getGroupMembers(int groupId) {
-		return (LinkedHashMap<Integer, String>) groups.get(groupId).getGroupMember().clone();
+		LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
+		if(groups != null) {
+			Group g = groups.get(groupId);
+			if(g != null && g.getGroupMember().size() != 0) {
+				for(int id : g.getGroupMember()) {
+					temp.put(id, allNames.getNames().get(id));
+				}
+			}
+		}
+		return temp;
 	}
 	
 	/**
-	 * 向给定组中添加组成员
+	 * 向给定组中添加一个组成员
 	 * @param groupId 要添加成员的组的id
 	 * @param memberId 要添加的成员的id
-	 * @param memberName 要添加的成员的名字
 	 * @throws IOException
 	 */
 	public void addGroupMember(int groupId, int memberId) 
@@ -120,6 +172,26 @@ public class Ikernel {
 		Group g = groups.get(groupId);
 		if(g != null) {
 			g.appendGroupMember(memberId);
+			g.save();
+		}
+		else {
+			System.err.println("addGroupMembers : 未找到相应id的组！");
+		}
+	}
+	
+	/**
+	 * 向给定组中添加一堆组成员
+	 * @param groupId 要添加成员的组的id
+	 * @param memberIds 要添加的成员的id
+	 * @throws IOException
+	 */
+	public void addGroupMembers(int groupId, LinkedHashSet<Integer> memberIds) 
+	throws IOException {
+		Group g = groups.get(groupId);
+		if(g != null) {
+			if(memberIds != null)
+				for(int memberId : memberIds)
+					g.appendGroupMember(memberId);
 			g.save();
 		}
 		else {
@@ -139,5 +211,94 @@ public class Ikernel {
 		}
 	}
 	
+	public void deleteGroupMember(int groupId, HashSet<Integer> memberIds) 
+	throws IOException {
+		Group g = groups.get(groupId);
+		if(g != null) {
+			if(memberIds != null)
+				for(int memberId : memberIds)
+					g.deleteGroupMember(memberId);
+			g.save();
+		}
+		else {
+			System.err.println("deleteGroupMember : 未找到相应id的组！");
+		}
+	}
 	
+	public LinkedHashSet<Integer> search(int groupId, 
+			String item, String keywords, boolean isWholeWord) 
+	throws IOException {
+		LinkedHashSet<Integer> temp = new LinkedHashSet<Integer>();
+		
+		StringReader sr = new StringReader(keywords);
+		Vector<String> v = new Vector<String>();
+		int c = sr.read();
+		while(c != -1) {
+			String str = new String();
+			while(c != -1 && (char)c != ' ') {
+				str += (char)c;
+				c = sr.read();
+			}
+			v.add(str);
+			c = sr.read();
+		}
+		
+//		for(int i = 0; i < v.size(); i++)
+//			System.out.println(v.get(i));//////////////////////////////////////////
+		
+		Group g = groups.get(groupId);
+		if(g != null) {
+			LinkedHashSet<Integer> memberIds = g.getGroupMember();
+			if(memberIds != null)
+				outer:
+				for(int id : memberIds) {
+					Card card = cards.get(id);
+					if(card == null) {
+						try {
+							card = Factory.createCard(id);
+							cards.put(id, card);
+						} catch (FileNotFoundException e) {
+							System.err.println("search：card文件" + id + "未找到！");
+							continue outer;
+						}
+					}
+					System.out.println("name:" + card.getName());/////////////////////////////
+					for(int i = 0; i < v.size(); i++)
+						if(!card.find(item, v.get(i), isWholeWord))
+							continue outer;
+					temp.add(id);
+				}
+		}
+		return temp;
+	}
+	
+	
+	/*
+	 * test!
+	 */
+	public static void main(String args[]) {
+		Ikernel ikernel = new Ikernel();
+		try {
+			ikernel.init();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			LinkedHashSet<Integer> l = ikernel.search(0, "tel2", "23 34567", false);
+			for(int id : l)
+				System.out.println(id);
+			System.out.println(l.size());
+			ikernel.addSmartGroup("计62班", 0, "tel2", "aa bb", false);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

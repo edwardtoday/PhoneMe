@@ -33,7 +33,7 @@ implements Constants, Group {
 	private LinkedHashSet<Integer> groupMembers;
 	
 	/**
-	 * 通过组名新建一个group，并保存成文件
+	 * 通过组名新建一个group，
 	 * 并给它赋予一个与已知group的id不同的id。
 	 * <br><strong>
 	 * 该方法只用于新建组，
@@ -55,7 +55,6 @@ implements Constants, Group {
 		groupId = staticId++;
 		this.groupName = groupName;
 		groupMembers = new LinkedHashSet<Integer>();
-		this.save();
 	}
 	
 	/**
@@ -73,7 +72,7 @@ implements Constants, Group {
 		ReadFile rf = new ReadFile(GROUP_PATH + String.valueOf(groupId));
 		this.groupId = groupId;
 		groupName = rf.readLine();
-		if(groupName == null || groupName == "")
+		if(groupName == null || groupName.length() == 0)
 			groupName = NULLGROUPNAME;
 		groupMembers = new LinkedHashSet<Integer>();
 		while(true) {
@@ -97,7 +96,7 @@ implements Constants, Group {
 	 */
 	private boolean isInt(String str) {
 		// 为空串返回false
-		if (str == "")
+		if (str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
 			// 非数字返回false

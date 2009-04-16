@@ -7,7 +7,7 @@ import java.util.HashMap;
 import org.kde9.util.Constants;
 
 class Iallnames 
-implements Constants {
+implements Constants, AllNames {
 	private HashMap<Integer, String> names;
 	WriteFile wf;
 	ReadFile rf;
@@ -44,7 +44,7 @@ implements Constants {
 	 */
 	private boolean isInt(String str) {
 		// 为空串返回false
-		if (str == "")
+		if (str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
 			// 非数字返回false
@@ -53,18 +53,30 @@ implements Constants {
 		return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.kde9.model.AllNames#appendPerson(int, java.lang.String)
+	 */
 	public void appendPerson(int id, String name) {
 		names.put(id, name);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.kde9.model.AllNames#deletePerson(int)
+	 */
 	public void deletePerson(int id) {
 		names.remove(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.kde9.model.AllNames#getNames()
+	 */
 	public HashMap<Integer, String> getNames() {
 		return names;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.kde9.model.AllNames#save()
+	 */
 	public void save() throws IOException {
 		wf = new WriteFile(CARD_PATH + ALLNAMES, false);
 		String temp = "";

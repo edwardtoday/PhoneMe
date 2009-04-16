@@ -31,7 +31,7 @@ public interface Constants {
 	static String GROUP_PATH = "./datafiles/groupfiles/"; 
 	
 	/**
-	 * 名字文件路径
+	 * 名片文件路径
 	 */
 	static String CARD_PATH = "./datafiles/cardfiles/";
 	
@@ -64,7 +64,7 @@ public interface Constants {
 	 * 默认分组All的Name
 	 * String型
 	 */
-	static String ALLNAME = "ALL";
+	static String ALLGROUPNAME = "ALL";
 	
 	/**
 	 * 未命名的组的默认名字

@@ -64,7 +64,7 @@ implements Constants, AllGroups {
 	 */
 	private boolean isInt(String str) {
 		// 为空串返回false
-		if (str == "")
+		if (str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
 			// 非数字返回false

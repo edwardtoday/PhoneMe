@@ -1,6 +1,8 @@
 package org.kde9.model;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 interface Card {
 
@@ -16,6 +18,27 @@ interface Card {
 
 	public abstract void deletePerson(int id);
 
+	/**
+	 * 查找函数
+	 * @param item
+	 * 		要查找的项，如果为空表示查找所有项
+	 * @param content
+	 * 		要查找的项的内容
+	 * @param wholeWord
+	 * 		是否全字符匹配，true表示全字符匹配
+	 * @return
+	 * 		若找到符合条件的项返回true，否则返回false
+	 */
+	public boolean find(String item, String content, boolean wholeWord);
+	
+	public int getCardId();
+
+	public String getName();
+
+	public LinkedHashMap<String, String> getItems();
+
+	public HashMap<Integer, String> getRelationship();
+	
 	/**
 	 * 保存名片
 	 * <p>
