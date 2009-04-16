@@ -8,15 +8,18 @@ import java.util.LinkedHashMap;
 public class Ikernel {
 	private AllGroups allGroups;
 	private LinkedHashMap<Integer, Group> groups;
+	private RestoreAndBackup restoreAndBackup;
 	
 	/**
 	 * 
 	 * @throws IOException 
-	 * @throws FileNotFoundException 文件系统中保存AllGroups的文件不存在或被破坏，
-	 * 可以使用restore方法试图恢复（应提示用户文件恢复并不能保证数据不丢失）。
+	 * @throws FileNotFoundException 
+	 * 			已经处理
 	 */
 	public void init()
 	throws IOException, FileNotFoundException {
+		restoreAndBackup = Factory.createRestoreAndBackup();
+		restoreAndBackup.checkout();
 		allGroups = Factory.createAllGroups();
 		groups = new LinkedHashMap<Integer, Group>();
 		if(allGroups.getGroupIds().size() != 0)

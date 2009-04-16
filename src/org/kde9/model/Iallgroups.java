@@ -115,7 +115,7 @@ implements Constants, AllGroups {
 	 * 保存的内容为每个组的id，每个id为一行。 文件结尾会有换行符。
 	 */
 	public void save() throws IOException {
-		WriteFile wf = new WriteFile(GROUP_PATH + ALLGROUPS, false);
+		wf = new WriteFile(GROUP_PATH + ALLGROUPS, false);
 		String temp = "";
 		if (groupIds.size() != 0)
 			for (int i : groupIds) {

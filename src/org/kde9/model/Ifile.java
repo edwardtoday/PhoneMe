@@ -37,6 +37,13 @@ class ReadFile {
 		br = new BufferedReader(fr);
 	}
 
+	ReadFile(File file) 
+	throws FileNotFoundException {
+		this.fileName = file.getPath();
+		fr = new FileReader(file);
+		br = new BufferedReader(fr);
+	}
+	
 	/**
 	 * 从文件中读取一行
 	 * <br><strong>
@@ -93,6 +100,19 @@ class WriteFile {
 		bw = new BufferedWriter(fw);
 	}
 
+	/**
+	 * 通过文件名和标识符创建文件write流
+	 * @param fileName 文件名
+	 * @param flag 为true时表示追加，为false时表示覆盖。
+	 * @throws IOException
+	 */
+	WriteFile(File file, boolean flag)
+	throws IOException {
+		this.fileName = file.getPath();
+		fw = new FileWriter(file, flag);
+		bw = new BufferedWriter(fw);
+	}
+	
 	/**
 	 * 向文件中写入内容
 	 * <br><strong>
@@ -151,6 +171,11 @@ class DeleteFile {
 	DeleteFile(String fileName) {
 		this.fileName = fileName;
 		file = new File(fileName);
+	}
+	
+	DeleteFile(File file) {
+		this.fileName = file.getPath();
+		this.file = file;
 	}
 
 	/**

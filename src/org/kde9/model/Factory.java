@@ -58,4 +58,8 @@ class Factory {
 	static Group createGroup(int id) throws FileNotFoundException, IOException {
 		return Igroup.createGroup(id);
 	}
+	
+	static RestoreAndBackup createRestoreAndBackup() {
+		return Irestoreandbackup.createIrestoreandbackup();
+	}
 }

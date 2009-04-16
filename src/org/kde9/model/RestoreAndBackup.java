@@ -1,12 +1,14 @@
 package org.kde9.model;
 
-public class RestoreAndBackup {
-	
-	public synchronized void restore() {
-		
-	}
-	
-	public synchronized void backup() {
+import java.io.IOException;
 
-	}
+interface RestoreAndBackup {
+
+	public abstract void checkout() 
+	throws IOException;
+
+	public abstract void restore();
+
+	public abstract void backup();
+
 }
