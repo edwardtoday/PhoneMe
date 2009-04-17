@@ -1,6 +1,6 @@
 package org.kde9.view;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,10 +24,11 @@ extends JPanel {
     	groupSplitPane.setRightComponent(name);
     	groupSplitPane.setDividerLocation(0.5d);
     	groupSplitPane.setResizeWeight(0.5);
+    	groupSplitPane.setDividerSize(2);
     	//nameSplitPane = new JSplitPane();
     	this.treeModel = treeModel;
     	
-    	setLayout(new GridLayout());
+    	setLayout(new BorderLayout());
     	add(groupSplitPane);
     	//groupSplitPane.setDividerLocation(0.5d);
     	//add(nameSplitPane);
