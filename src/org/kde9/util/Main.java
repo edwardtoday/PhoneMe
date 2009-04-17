@@ -17,7 +17,7 @@ implements Constants{
 			System.setProperty("JButton.style", "bevel");
 		}
 		try {
-			System.setProperty("Quaqua.TabbedPane.design", "jaguar");
+			System.setProperty("Quaqua.TabbedPane.design", "leopard");
 			String lafClassName = QuaquaManager.getLookAndFeelClassName();
 			System.out.println(lafClassName);
 			UIManager.setLookAndFeel(lafClassName);
