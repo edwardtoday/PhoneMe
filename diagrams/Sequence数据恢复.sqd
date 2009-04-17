@@ -27,7 +27,7 @@
               <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                 <order>4</order>
                 <oldOrder>4</oldOrder>
-                <name>选择恢复数据()</name>
+                <name>选择恢复数据</name>
                 <direction>true</direction>
                 <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel" reference="../../.."/>
                 <target class="net.java.amateras.uml.sequencediagram.model.ActivationModel">

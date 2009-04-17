@@ -27,7 +27,7 @@
               <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                 <order>1</order>
                 <oldOrder>1</oldOrder>
-                <name>选择&quot;导出单个联系人&quot;()</name>
+                <name>选择&quot;导出单个联系人&quot;</name>
                 <direction>true</direction>
                 <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel" reference="../../.."/>
                 <target class="net.java.amateras.uml.sequencediagram.model.ActivationModel">
@@ -508,7 +508,7 @@
                           <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                             <order>3</order>
                             <oldOrder>3</oldOrder>
-                            <name>输入导出文件格式及路径()</name>
+                            <name>输入导出文件格式及路径</name>
                             <direction>true</direction>
                             <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel">
                               <ownerLine reference="../../../../../../../../../../../.."/>
