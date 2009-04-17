@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
@@ -63,7 +64,15 @@ implements Constants{
 		contacts.add(innerPanel,BorderLayout.CENTER);
 		add(contacts);
 		//setUndecorated(true);
-		getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+		
+		//getRootPane().putClientProperty("Window.style", "small");
+		//getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.TRUE);
+		//getRootPane().putClientProperty("windowModified", Boolean.TRUE);
+		getRootPane().setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
+		getRootPane().putClientProperty("Window.shadow", Boolean.TRUE);
+		
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);

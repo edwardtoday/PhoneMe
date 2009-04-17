@@ -20,9 +20,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
+import ch.randelshofer.quaqua.QuaquaManager;
 
 public class Main 
 extends JFrame
@@ -88,6 +91,9 @@ implements KeyListener, TreeModel {
 		add("North", panel);
 		add("Center", tree);
 		
+		textField.putClientProperty("JComponent.sizeVariant","small");
+		//textField.putClientProperty("Quaqua.TextComponent.autoSelect",Boolean.TRUE);
+		
 		textField.addKeyListener(this);
 		
 		setSize(400, 700);
@@ -95,6 +101,20 @@ implements KeyListener, TreeModel {
 	}
 	
 	public static void main(String args[]) {
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
+			System.setProperty("Quaqua.Debug.crossPlatform", "true");
+			System.setProperty("swing.aatext", "true");
+			System.setProperty("JButton.style", "bevel");
+		}
+		try {
+			System.setProperty("Quaqua.TabbedPane.design", "jaguar");
+			String lafClassName = QuaquaManager.getLookAndFeelClassName();
+			System.out.println(lafClassName);
+			UIManager.setLookAndFeel(lafClassName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Main main = new Main();
 		main.setVisible(true);
 	}

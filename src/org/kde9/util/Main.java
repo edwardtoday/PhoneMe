@@ -1,31 +1,46 @@
 package org.kde9.util;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.kde9.control.Icontroller;
+
+import ch.randelshofer.quaqua.QuaquaManager;
 
 
 public class Main
 implements Constants{
 	public static void main(String args[]) {
 		
-		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
+			System.setProperty("Quaqua.Debug.crossPlatform", "true");
+			System.setProperty("swing.aatext", "true");
+			System.setProperty("JButton.style", "bevel");
+		}
 		try {
-			UIManager.setLookAndFeel("ch.randelshofer.quaqua.leopard.Quaqua15LeopardLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
+			System.setProperty("Quaqua.TabbedPane.design", "jaguar");
+			String lafClassName = QuaquaManager.getLookAndFeelClassName();
+			System.out.println(lafClassName);
+			UIManager.setLookAndFeel(lafClassName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			 
+//		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
+//		try {
+//			UIManager.setLookAndFeel("ch.randelshofer.quaqua.leopard.Quaqua15LeopardLookAndFeel");
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InstantiationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnsupportedLookAndFeelException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		new Icontroller();
 		

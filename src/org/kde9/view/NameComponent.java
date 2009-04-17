@@ -1,6 +1,7 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -28,6 +29,7 @@ extends JPanel {
 		label = new JLabel("name");
 		buttonAdd = new JButton("+");
 		buttonSub = new JButton("-");
+		//buttonAdd.putClientProperty("Quaqua.Button.style", "toolBarTab");
 		setLayout(new BorderLayout());
 		add("North", label);
 		label.setBorder(BorderFactory.createEtchedBorder());
