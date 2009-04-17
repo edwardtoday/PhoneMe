@@ -12,7 +12,7 @@ implements Constants{
 		
 		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
 		try {
-			UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+			UIManager.setLookAndFeel("ch.randelshofer.quaqua.leopard.Quaqua15LeopardLookAndFeel");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
