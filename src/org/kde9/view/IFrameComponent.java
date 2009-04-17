@@ -177,8 +177,10 @@ implements Constants{
 	protected JMenu buildHelpMenu() {
 		JMenu help = new JMenu("Help");
 		JMenuItem about = new JMenuItem("About");
+		JMenuItem birthdayReminder = new JMenuItem("Birthday Reminder");
 		
 		help.add(about);
+		help.add(birthdayReminder);
 		return help;
 	}
 }
