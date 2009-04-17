@@ -28,6 +28,7 @@ implements Constants{
 	MenubarComponent menubarComponent;
 	NameComponent nameComponent;
 	ViewerComponent viewerComponent;
+	BrowerComponent browerComponent;
 	
 	IFrameComponent() {
 		super("what's this?");
@@ -35,6 +36,7 @@ implements Constants{
 		menubarComponent = Factory.createMenuBar();
 		nameComponent = Factory.creatName();
 		viewerComponent = Factory.createViewer();
+		//browerComponent = new BrowerComponent(); 
 		
 		buildMenus();
 		
@@ -44,9 +46,9 @@ implements Constants{
 		BorderLayout bl1 = new BorderLayout();
 		GridLayout gl2 = new GridLayout();
 		GridLayout gl3 = new GridLayout();
-		bl1.setHgap(1);
-		gl2.setHgap(2);
-		gl3.setHgap(2);
+//		bl1.setHgap(1);
+//		gl2.setHgap(2);
+//		gl3.setHgap(2);
 		
 		contacts.setLayout(bl1);
 		JPanel innerPanel = new JPanel();
@@ -56,6 +58,7 @@ implements Constants{
 		
 		inner_innerPanel.add(groupComponent);
 		inner_innerPanel.add(nameComponent);
+		//inner_innerPanel.add(browerComponent.scrollPane);
 		
 		innerPanel.add(inner_innerPanel);
 		innerPanel.add(viewerComponent);

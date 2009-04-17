@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 
 public class MenubarComponent 
