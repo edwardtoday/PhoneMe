@@ -1,6 +1,7 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -36,23 +37,28 @@ extends JPanel {
 	private LinkedHashMap<Integer, String> groups;
 	
 	NameComponent() {
+		groups = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 1);
+		table.setTableHeader(null);
 		model = (DefaultTableModel)table.getModel();
 		buttonAdd = new JButton("+");
 		buttonSub = new JButton("-");
-		pane = new JScrollPane();
 
 		border = new TitledBorder("name");
 		border.setTitleJustification(TitledBorder.CENTER);
 		
 		setLayout(new BorderLayout());
-		pane.add(table);
-		add("Center", pane);
+		pane = new JScrollPane(table);
+		pane.setBorder(BorderFactory.createEmptyBorder()); 
+		//add("Center", pane);
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout());
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+		
+		Color color = getBackground();
+		//table.setBackground(color);
 		
 		setBorder(border);
 	}

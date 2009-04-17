@@ -1,15 +1,20 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
@@ -30,22 +35,27 @@ extends JPanel {
 	GroupComponent() {
 		groups = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 1);
+		table.setTableHeader(null);
+		//table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel)table.getModel();
 		buttonAdd = new JButton("+");
 		buttonSub = new JButton("-");
-		pane = new JScrollPane();
 
 		border = new TitledBorder("group");
 		border.setTitleJustification(TitledBorder.CENTER);
 		
 		setLayout(new BorderLayout());
-		pane.add(table);
+		pane = new JScrollPane(table);
+		pane.setBorder(BorderFactory.createEmptyBorder()); 
 		add("Center", pane);
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout());
 		panel.add(buttonAdd);
 		panel.add(buttonSub);
 		add("South", panel);
+		
+		Color color = getBackground();
+		//table.setBackground(color);
 		
 		setBorder(border);
 	}

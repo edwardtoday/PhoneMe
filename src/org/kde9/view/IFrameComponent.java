@@ -71,6 +71,7 @@ implements Constants{
 		//setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 	
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
 
