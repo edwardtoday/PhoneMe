@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 
+import org.kde9.model.Main;
 import org.kde9.util.Constants;
 
 public class IFrameComponent extends JFrame 
@@ -36,7 +37,7 @@ implements Constants{
 		menubarComponent = Factory.createMenuBar();
 		nameComponent = Factory.creatName();
 		viewerComponent = Factory.createViewer();
-		//browerComponent = new BrowerComponent(); 
+		browerComponent = new BrowerComponent(new Main()); 
 		
 		buildMenus();
 		
@@ -56,9 +57,9 @@ implements Constants{
 		innerPanel.setLayout(gl2);		
 		inner_innerPanel.setLayout(gl3);
 		
-		inner_innerPanel.add(groupComponent);
-		inner_innerPanel.add(nameComponent);
-		//inner_innerPanel.add(browerComponent.scrollPane);
+		//inner_innerPanel.add(groupComponent);
+		//inner_innerPanel.add(nameComponent);
+		inner_innerPanel.add(browerComponent);
 		
 		innerPanel.add(inner_innerPanel);
 		innerPanel.add(viewerComponent);

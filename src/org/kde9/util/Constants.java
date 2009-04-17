@@ -10,12 +10,12 @@ public interface Constants {
 	/**
 	 * 主窗口宽
 	 */
-	static int MAIN_FRAME_WIDTH = 600;
+	static int MAIN_FRAME_WIDTH = 800;
 	
 	/**
 	 * 主窗口高
 	 */
-	static int MAIN_FRAME_HEIGHT = 400;
+	static int MAIN_FRAME_HEIGHT = 500;
 	
 	
 //文件路径与文件名
