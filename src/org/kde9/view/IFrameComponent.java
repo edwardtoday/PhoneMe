@@ -63,19 +63,25 @@ implements Constants{
 		contacts.add(menubarComponent,BorderLayout.NORTH);
 		contacts.add(innerPanel,BorderLayout.CENTER);
 		add(contacts);
+		
 		//setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		
-		//getRootPane().putClientProperty("Window.style", "small");
-		//getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.TRUE);
-		//getRootPane().putClientProperty("windowModified", Boolean.TRUE);
-		getRootPane().setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
-		getRootPane().putClientProperty("Window.shadow", Boolean.TRUE);
-		
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
+
+		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		// 得到Shell窗口的宽度和高度
+		int shellHeight = getBounds().height;
+		int shellWidth = getBounds().width;
+		// 如果窗口大小超过屏幕大小，让窗口与屏幕等大
+		if (shellHeight > screenHeight)
+			shellHeight = screenHeight;
+		if (shellWidth > screenWidth)
+			shellWidth = screenWidth;
+		// 让窗口在屏幕中间显示
+		setLocation(((screenWidth - shellWidth) / 2),((screenHeight - shellHeight) / 2) );
 	}
 	
 	protected void buildMenus() {
