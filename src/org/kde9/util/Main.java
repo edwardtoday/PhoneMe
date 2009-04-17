@@ -1,15 +1,22 @@
 package org.kde9.util;
 
+import java.security.AccessControlException;
+import java.util.Arrays;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import org.kde9.control.Icontroller;
 
 import ch.randelshofer.quaqua.QuaquaManager;
+import ch.randelshofer.quaqua.util.Methods;
 
 
 public class Main
 implements Constants{
 	public static void main(String args[]) {
+		final java.util.List argList = Arrays.asList(args);
 		
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
 			System.setProperty("Quaqua.Debug.crossPlatform", "true");
@@ -17,35 +24,52 @@ implements Constants{
 			System.setProperty("JButton.style", "bevel");
 		}
 		try {
-			System.setProperty("Quaqua.TabbedPane.design", "leopard");
+			//System.setProperty("Quaqua.TabbedPane.design", "jaguar");
 			String lafClassName = QuaquaManager.getLookAndFeelClassName();
 			System.out.println(lafClassName);
 			UIManager.setLookAndFeel(lafClassName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			 
-//		System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
-//		try {
-//			UIManager.setLookAndFeel("ch.randelshofer.quaqua.leopard.Quaqua15LeopardLookAndFeel");
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InstantiationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnsupportedLookAndFeelException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		
+		try {
+            if (System.getProperty("apple.laf.useScreenMenuBar") == null &&
+                    System.getProperty("com.apple.macos.useScreenMenuBar") == null) {
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+				System.setProperty("com.apple.macos.useScreenMenuBar", "true");
+			}
+		} catch (AccessControlException e) {
+			// can't do anything about this
+		}
+
+		boolean useDefaultLookAndFeelDecoration = !System
+				.getProperty("os.name").toLowerCase().startsWith("mac")
+				&& !System.getProperty("os.name").toLowerCase().startsWith(
+						"darwin");
+		int index = argList.indexOf("-decoration");
+		if (index != -1 && index < argList.size() - 1) {
+			useDefaultLookAndFeelDecoration = argList.get(index + 1).equals(
+					"true");
+		}
+
+		if (useDefaultLookAndFeelDecoration) {
+			try {
+				Methods.invokeStatic(JFrame.class,
+						"setDefaultLookAndFeelDecorated", Boolean.TYPE,
+						Boolean.TRUE);
+				Methods.invokeStatic(JDialog.class,
+						"setDefaultLookAndFeelDecorated", Boolean.TYPE,
+						Boolean.TRUE);
+			} catch (NoSuchMethodException e) {
+				// can't do anything about this
+				e.printStackTrace();
+			}
+		}
 		
 		new Icontroller();
 		
-        System.out.println(getPYString("abchaha///[p-设计符合啊"));
-        System.out.println(getPinyin("abchaha///[p-设计符合啊"));
+        //System.out.println(getPYString("abchaha///[p-设计符合啊"));
+        //System.out.println(getPinyin("abchaha///[p-设计符合啊"));
 	}
 	
 	
