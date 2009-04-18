@@ -2,16 +2,12 @@ package org.kde9.model;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -25,6 +21,8 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
+import org.kde9.util.TreeNode;
+
 import ch.randelshofer.quaqua.QuaquaManager;
 
 public class Main 
@@ -34,25 +32,12 @@ implements KeyListener, TreeModel {
 	private JTextField textField;
 	private JPanel panel;
 	private JTree tree;
-	private Node root;
+	private TreeNode root;
 	private int state = 0;
 	private int currentGroup;
 	private int currentCard;
 	
 	Ikernel ikernel;
-	
-	class Node {
-		String type;
-		int id = -1;
-		String name = "";
-		String content = "";
-		
-		public String toString() {
-			if(id == -1)
-				return type + " : " + name + " - " + content;
-			return type + " " + id + " : " + name + " " + content;
-		}
-	}
 	
 	/**
 	 * 
@@ -71,8 +56,8 @@ implements KeyListener, TreeModel {
 		
 		setLayout(new BorderLayout());
 		
-		root = new Node();
-		root.type = "AllGroups";
+		root = new TreeNode();
+		root.setType("AllGroups");
 		
 		label = new JLabel();
 		label.setText(">>");
@@ -354,28 +339,28 @@ implements KeyListener, TreeModel {
 
 	public Object getChild(Object arg0, int arg1) {
 		// TODO Auto-generated method stub
-		Node node = (Node)arg0;
+		TreeNode TreeNode = (TreeNode)arg0;
 		LinkedHashMap<Integer, String> l;
 		LinkedHashMap<String, String> s = new LinkedHashMap<String, String>();
-		if(node.type.equals("Group")) {
-			l = ikernel.getGroupMembers(node.id);
-			Node child = new Node();
-			child.type = "Member";
-			child.id = (Integer) l.keySet().toArray()[arg1];
-			child.name = l.get(l.keySet().toArray()[arg1]);
+		if(TreeNode.getType().equals("Group")) {
+			l = ikernel.getGroupMembers(TreeNode.getId());
+			TreeNode child = new TreeNode();
+			child.setType("Member");
+			child.setId((Integer) l.keySet().toArray()[arg1]);
+			child.setName(l.get(l.keySet().toArray()[arg1]));
 			return child;
 		}
-		else if(node.type.equals("AllGroups")) {
+		else if(TreeNode.getType().equals("AllGroups")) {
 			l = ikernel.getAllGroups();
-			Node child = new Node();
-			child.type = "Group";
-			child.id = (Integer) l.keySet().toArray()[arg1];
-			child.name = l.get(l.keySet().toArray()[arg1]);
+			TreeNode child = new TreeNode();
+			child.setType("Group");
+			child.setId((Integer) l.keySet().toArray()[arg1]);
+			child.setName(l.get(l.keySet().toArray()[arg1]));
 			return child;
 		}
 		else {
 			try {
-				s = ikernel.getCardItem(node.id);
+				s = ikernel.getCardItem(TreeNode.getId());
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -383,29 +368,29 @@ implements KeyListener, TreeModel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Node child = new Node();
-			child.type = "Item";
-			child.name = (String) s.keySet().toArray()[arg1];
-			child.content = s.get(s.keySet().toArray()[arg1]);
+			TreeNode child = new TreeNode();
+			child.setType("Item");
+			child.setName((String) s.keySet().toArray()[arg1]);
+			child.setContent(s.get(s.keySet().toArray()[arg1]));
 			return child;
 		}
 	}
 
 	public int getChildCount(Object arg0) {
-		Node node = (Node)arg0;
+		TreeNode TreeNode = (TreeNode)arg0;
 		System.out.println("child");
-		System.out.println(node.id);
-		System.out.println(ikernel.getGroupMembers(node.id));
-		if(node.type.equals("Group")) {	
-			return ikernel.getGroupMembers(node.id).size();
+		System.out.println(TreeNode.getId());
+		System.out.println(ikernel.getGroupMembers(TreeNode.getId()));
+		if(TreeNode.getType().equals("Group")) {	
+			return ikernel.getGroupMembers(TreeNode.getId()).size();
 		}
-		else if(node.type.equals("AllGroups")) {
+		else if(TreeNode.getType().equals("AllGroups")) {
 			System.out.println(ikernel.getAllGroups());
 			return ikernel.getAllGroups().size();
 		}
 		else {
 			try {
-				return ikernel.getCardItem(node.id).size();
+				return ikernel.getCardItem(TreeNode.getId()).size();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -428,7 +413,7 @@ implements KeyListener, TreeModel {
 	}
 
 	public boolean isLeaf(Object arg0) {
-		if(((Node)arg0).type.equals("Item"))
+		if(((TreeNode)arg0).getType().equals("Item"))
 			return true;
 		return false;
 	}

@@ -30,19 +30,24 @@ extends JPanel {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;
-	private JButton buttonSub;
+//	private JButton buttonSub;
 	private DefaultTableModel model;
 	private TitledBorder border;
 	
-	private LinkedHashMap<Integer, String> groups;
+	private LinkedHashMap<Integer, String> members;
 	
 	NameComponent() {
-		groups = new LinkedHashMap<Integer, String>();
+		members = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 1);
+//		JTableHeader header = new JTableHeader();
+//		header.setName("group");
 		table.setTableHeader(null);
+		//table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel)table.getModel();
-		buttonAdd = new JButton("+");
-		buttonSub = new JButton("-");
+		buttonAdd = new JButton("гл");
+		buttonAdd.putClientProperty("Quaqua.Button.style", "toolBarRollover");
+//		buttonSub = new JButton("-");
+//		buttonSub.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 
 		border = new TitledBorder("name");
 		border.setTitleJustification(TitledBorder.CENTER);
@@ -50,11 +55,13 @@ extends JPanel {
 		setLayout(new BorderLayout());
 		pane = new JScrollPane(table);
 		pane.setBorder(BorderFactory.createEmptyBorder()); 
-		//add("Center", pane);
+		add("Center", pane);
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout());
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel.setLayout(flowLayout);
 		panel.add(buttonAdd);
-		panel.add(buttonSub);
+//		panel.add(buttonSub);
 		add("South", panel);
 		
 		Color color = getBackground();
@@ -67,9 +74,9 @@ extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 	
-	public void buttonSubListener(ActionListener al) {
-		buttonSub.addActionListener(al);
-	}
+//	public void buttonSubListener(ActionListener al) {
+//		buttonSub.addActionListener(al);
+//	}
 	
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
 		table.getSelectionModel().setSelectionMode(
@@ -78,23 +85,34 @@ extends JPanel {
 		table.addKeyListener(kl);
 	}
 	
-	public void setGroups(LinkedHashMap<Integer, String> groups) {
-		this.groups = groups;
+	public void setMembers(LinkedHashMap<Integer, String> members) {
+		this.members = members;
 		while(model.getRowCount() != 0)
 			model.removeRow(0);
-		if(groups.size() != 0) {
-			for(String name : groups.values())
+		if(members.size() != 0) {
+			for(String name : members.values())
 				model.addRow(new Object[]{name});
 		}
 	}
 	
-	public void addGroup(int id, String name) {
-		groups.put(id, name);
+	public void setSelected(int indexs, int indexe) {
+		if(indexs == -1)
+			table.getSelectionModel().clearSelection();
+		else
+			table.getSelectionModel().setSelectionInterval(indexs, indexe);
+	}
+	
+	public int getSelected() {
+		return table.getSelectedRow();
+	}
+	
+	public void addMember(int id, String name) {
+		members.put(id, name);
 		model.addRow(new Object[]{name});
 	}
 	
-	public void deleteGroup() {
-		groups.remove(groups.keySet().toArray()[table.getSelectedRow()]);
+	public void deleteMember() {
+		members.remove(members.keySet().toArray()[table.getSelectedRow()]);
 		model.removeRow(table.getSelectedRow());
 	}
 	
@@ -105,10 +123,14 @@ extends JPanel {
 	public JButton getButtonAdd() {
 		return buttonAdd;
 	}
-
-	public JButton getButtonSub() {
-		return buttonSub;
+	
+	public ListSelectionModel getSelectionModel() {
+		return table.getSelectionModel();
 	}
+
+//	public JButton getButtonSub() {
+//		return buttonSub;
+//	}
 
 	public JTable getTable() {
 		return table;

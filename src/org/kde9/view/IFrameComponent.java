@@ -10,12 +10,14 @@ import java.awt.Toolkit;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
+import javax.swing.JSpinner;
 
 import org.kde9.model.Main;
 import org.kde9.util.Constants;
@@ -37,7 +39,7 @@ implements Constants{
 		menubarComponent = Factory.createMenuBar();
 		nameComponent = Factory.creatName();
 		viewerComponent = Factory.createViewer();
-		browerComponent = new BrowerComponent(new Main()); 
+		browerComponent = new BrowerComponent(new Main());
 		
 		buildMenus();
 		
@@ -53,24 +55,27 @@ implements Constants{
 		
 		contacts.setLayout(bl1);
 		JPanel innerPanel = new JPanel();
-		JPanel inner_innerPanel = new JPanel();		
-		innerPanel.setLayout(gl2);		
-		inner_innerPanel.setLayout(gl3);
+		//JPanel inner_innerPanel = new JPanel();		
+		//innerPanel.setLayout(gl2);		
+		//inner_innerPanel.setLayout(gl3);
 		
 		//inner_innerPanel.add(groupComponent);
 		//inner_innerPanel.add(nameComponent);
-		inner_innerPanel.add(browerComponent);
+		//innerPanel.add(browerComponent);
 		
-		innerPanel.add(inner_innerPanel);
-		innerPanel.add(viewerComponent);
+		//innerPanel.add(inner_innerPanel);
+		//innerPanel.add(viewerComponent);
 		
+		contacts.add(browerComponent,BorderLayout.CENTER);
 		contacts.add(menubarComponent,BorderLayout.NORTH);
-		contacts.add(innerPanel,BorderLayout.CENTER);
+		//contacts.add(new JLabel(), BorderLayout.EAST);
 		add(contacts);
 		
-		//setUndecorated(true);
+		System.out.println("pppppppppppp"+getFocusOwner());
+		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 	
+		setResizable(true);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
