@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -75,6 +76,14 @@ implements Constants{
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 	
+		//dispatchEvent(new FocusEvent(this,FocusEvent.FOCUS_GAINED, true));
+		//System.out.println(isFocusOwner() + "[[[[[[[[[[[[");
+		//contacts.requestFocusInWindow();
+		dispatchEvent(new FocusEvent(browerComponent,FocusEvent.FOCUS_GAINED, true));
+		//System.out.println(contacts.isFocusOwner() + "[[[[[[[[[[[[");
+		//browerComponent.requestFocusInWindow();
+		System.out.println(browerComponent.isFocusOwner() + "[[[[[[[[[[[[");
+		
 		setResizable(true);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -93,8 +93,10 @@ implements ListSelectionListener, KeyListener {
     }
     
     public void showItem(int index) {
-    	Object person = treeModel.getChild(node, index);
-    	viewer.setName(((TreeNode)person).getName());
+    	if(index < treeModel.getChildCount(node)) {
+    		Object person = treeModel.getChild(node, index);
+    		viewer.setName(((TreeNode)person).getName());
+    	}
     }
 
 	public void valueChanged(ListSelectionEvent e) {

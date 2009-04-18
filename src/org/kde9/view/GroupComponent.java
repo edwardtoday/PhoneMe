@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
 
@@ -39,6 +40,7 @@ extends JPanel {
 		};
 		table.setDragEnabled(true);
 		table.getColumnModel().getColumn(1).setMaxWidth(3);
+		//dispatchEvent(new FocusEvent(table.getComponent(0),FocusEvent.FOCUS_GAINED, true));
 //		JTableHeader header = new JTableHeader();
 //		header.setName("group");
 		table.setTableHeader(null);
@@ -68,6 +70,8 @@ extends JPanel {
 		//table.setBackground(color);
 		
 		setBorder(border);
+		
+		//dispatchEvent(new FocusEvent(table,FocusEvent.FOCUS_GAINED, true));
 	}
 	
 	public void buttonAddListener(ActionListener al) {
