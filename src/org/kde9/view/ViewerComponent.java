@@ -32,11 +32,13 @@ extends JPanel {
 	private JLabel name;
 	private JButton photo;
 	
-	private LinkedHashMap<Integer, String> items;
+	private LinkedHashMap<String, String> items;
 	
 	ViewerComponent() {
-		items = new LinkedHashMap<Integer, String>();
-		table = new JTable(0, 1);
+		items = new LinkedHashMap<String, String>();
+		table = new JTable(0, 3);
+		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		table.getColumnModel().getColumn(1).setMaxWidth(80);
 //		JTableHeader header = new JTableHeader();
 //		header.setName("group");
 		table.setTableHeader(null);
@@ -100,5 +102,20 @@ extends JPanel {
 	
 	public void setName(String name) {
 		this.name.setText(name);
+	}
+	
+	public void setItems(LinkedHashMap<String, String> items) {
+		this.items = items;
+		while(model.getRowCount() != 0)
+			model.removeRow(0);
+		if(items.size() != 0) {
+			for(String name : items.keySet())
+				model.addRow(new Object[]{"", name, items.get(name)});
+		}
+	}
+	
+	public void addItem(String name, String content) {
+		items.put(name, content);
+		model.addRow(new Object[]{"", name, content});
 	}
 }

@@ -93,10 +93,19 @@ implements ListSelectionListener, KeyListener {
     }
     
     public void showItem(int index) {
+    	LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
     	if(index < treeModel.getChildCount(node)) {
     		Object person = treeModel.getChild(node, index);
     		viewer.setName(((TreeNode)person).getName());
+    		int sum = treeModel.getChildCount(person);
+			for (int i = 0; i < sum; i++) {
+				System.out.println(i);
+				TreeNode item = (TreeNode) treeModel.getChild(person, i);
+				System.out.println(item);
+				map.put(item.getName(), item.getContent());
+			}
     	}
+    	viewer.setItems(map);
     }
 
 	public void valueChanged(ListSelectionEvent e) {
