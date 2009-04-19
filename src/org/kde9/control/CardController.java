@@ -178,11 +178,4 @@ implements Constants{
 		return false;
 	}
 	
-	public void delete(int cardId) {
-		InterfaceCard card = cards.get(cardId);
-		if(card != null) {
-			card.delete();
-			cards.remove(cardId);
-		}
-	}
 }

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 import org.kde9.model.Factory;
 import org.kde9.model.InterfaceAllNames;
@@ -26,10 +27,18 @@ public class AllNamesController {
 		allNames.save();
 	}
 
-	public void deletePerson(int[] id) 
+	public void deletePersons(LinkedHashSet<Integer> ids) 
 	throws IOException {
-		for(int i = 0; i < id.length; i++)
-			allNames.deletePerson(id[i]);
+		if(ids != null) {
+			for(int id : ids)
+				allNames.deletePerson(id);
+			allNames.save();
+		}
+	}
+	
+	public void deletePerson(int id) 
+	throws IOException {
+		allNames.deletePerson(id);
 		allNames.save();
 	}
 

@@ -31,12 +31,19 @@ public class GroupController {
 		return temp;
 	}
 	
-	public void appendGroupMember(int groupId, int[] personId) 
+	public void appendGroupMember(int groupId, int personId) 
 	throws IOException {
 		InterfaceGroup group = groups.get(groupId);
-		if(group != null) {
-			for(int i = 0; i < personId.length; i++)
-				group.appendGroupMember(personId[i]);
+		group.appendGroupMember(personId);
+		group.save();
+	}
+	
+	public void appendGroupMembers(int groupId, LinkedHashSet<Integer> personId) 
+	throws IOException {
+		InterfaceGroup group = groups.get(groupId);
+		if(group != null && personId != null) {
+			for(int id : personId)
+				group.appendGroupMember(id);
 			group.save();
 		}
 	}
@@ -61,6 +68,18 @@ public class GroupController {
 					temp.add(id);
 		}
 		return temp;
+	}
+	
+	public void deleteCard(int cardId) 
+	throws IOException {
+		if(groups != null)
+			for(InterfaceGroup group : groups.values()) {
+				LinkedHashSet<Integer> members = group.getGroupMember();
+				if(members.contains(cardId)) {
+					group.deleteGroupMember(cardId);
+					group.save();
+				}
+			}
 	}
 	
 	public int addGroup(String groupName) 

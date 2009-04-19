@@ -22,6 +22,7 @@ implements Constants, TreeModel{
 	private AllNamesController allNamesController;
 	private CardController cardController;
 	private GroupController groupController;
+	private TreeNode root;
 
 	public Controller() {
 		try {
@@ -30,6 +31,8 @@ implements Constants, TreeModel{
 			cardController = new CardController();
 			groupController = new GroupController(
 					allGroupsController.getGroupIds());
+			root = new TreeNode();
+			root.setType("AllGroups");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 		}
@@ -53,10 +56,10 @@ implements Constants, TreeModel{
 	 * @throws IOException
 	 * @return 新建组的id 
 	 */
-	public int addGroup(String groupName, int[] memberIds)
+	public int addGroup(String groupName, LinkedHashSet<Integer> memberIds)
 	throws IOException {
 		int id = groupController.addGroup(groupName);
-		groupController.appendGroupMember(id, memberIds);
+		groupController.appendGroupMembers(id, memberIds);
 		return id;
 	}
 	
@@ -71,11 +74,12 @@ implements Constants, TreeModel{
 	 * @return 新建组的id 
 	 */
 	public int addSmartGroup(String groupName, 
-			int range, HashMap<String, String> keywords, boolean isWholeWord)
+			int range, Vector<String> items, Vector<String> keywords, 
+			boolean isWholeWord)
 	throws IOException {
 		int groupId = groupController.addGroup(groupName);
-		int[] memberIds = search(range, keywords, isWholeWord);
-		groupController.appendGroupMember(groupId, memberIds);
+		LinkedHashSet<Integer> memberIds = search(range, items, keywords, isWholeWord);
+		groupController.appendGroupMembers(groupId, memberIds);
 		allGroupsController.appendGroup(groupId);
 		return groupId;
 	}
@@ -133,7 +137,7 @@ implements Constants, TreeModel{
 	 */
 	public void addGroupMember(int groupId, int memberId) 
 	throws IOException {
-		groupController.appendGroupMember(groupId, new int[]{memberId});
+		groupController.appendGroupMember(groupId, memberId);
 	}
 	
 	/**
@@ -142,9 +146,9 @@ implements Constants, TreeModel{
 	 * @param memberIds 要添加的成员的id
 	 * @throws IOException
 	 */
-	public void addGroupMembers(int groupId, int[] memberIds) 
+	public void addGroupMembers(int groupId, LinkedHashSet<Integer> memberIds) 
 	throws IOException {
-		groupController.appendGroupMember(groupId, memberIds);
+		groupController.appendGroupMembers(groupId, memberIds);
 	}
 	
 	public void deleteGroupMember(int groupId, int memberId) 
@@ -157,180 +161,98 @@ implements Constants, TreeModel{
 		groupController.deleteGroupMember(groupId, memberIds);
 	}
 	
-	public int addCard(int range, String name, LinkedHashMap<String, String> items) 
+	public int addCard(int groupId, String name, LinkedHashMap<String, String> items) 
 	throws IOException {
-		InterfaceCard card = Factory.createCard(name);
-		int id = card.getCardId();
-		cards.put(id, card);
-		allNames.appendPerson(id, name);
-		if(items != null)
-			for(String str : items.keySet())
-				card.appendItem(str, items.get(str));
-		allNames.save();
-		card.save();
-		InterfaceGroup group = groups.get(ALLIDINT);
-		group.appendGroupMember(id);
-		group.save();
-		if(range != ALLIDINT) {
-			group = groups.get(range);
-			group.appendGroupMember(id);
-			group.save();
-		}
+		int id = cardController.addCard(name, items);
+		allNamesController.appendPerson(id, name);
 		return id;
 	}
 	
 	public void deleteCard(int id) 
-	throws FileNotFoundException, IOException {
-		InterfaceCard card = cards.get(id);
-		if(card == null)
-			card = Factory.createCard(id);
-		else
-			cards.remove(id);
-		card.delete();
-		allNames.deletePerson(id);
-		allNames.save();
-		for(InterfaceGroup group : groups.values()) {
-			if(group.getGroupMember().contains(id)) {
-				group.deleteGroupMember(id);
-				group.save();
-			}
+	throws IOException {
+		try {
+			cardController.deleteCard(id);
+			allNamesController.deletePerson(id);
+			groupController.deleteCard(id);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 		}
 	}
 	
 	public void renameCard(int id, String name) 
-	throws FileNotFoundException, IOException {
-		InterfaceCard card = cards.get(id);
-		if(card == null) {
-			card = Factory.createCard(id);
-			cards.put(id, card);
-		}
-		card.rename(name);
-		allNames.appendPerson(id, name);
-		card.save();
-		allNames.save();
+	throws IOException {
+		cardController.renameCard(id, name);
 	}
 	
 	public void addCardItem(int id, String name, String content) 
-	throws FileNotFoundException, IOException {
-		InterfaceCard card = cards.get(id);
-		if(card == null) {
-			card = Factory.createCard(id);
-			cards.put(id, card);
-		}
-		card.appendItem(name, content);
-		card.save();
+	throws IOException {
+		cardController.addCardItem(id, name, content);
 	}
 	
 	public void deleteCardItem(int id, String name) 
-	throws FileNotFoundException, IOException {
-		InterfaceCard card = cards.get(id);
-		if(card == null) {
-			card = Factory.createCard(id);
-			cards.put(id, card);
-		}
-		card.deleteItem(name);
-		card.save();
+	throws IOException {
+		cardController.deleteCardItem(id, name);
 	}
 	
 	public void renameCardItem(int id, String oldName, String newName) 
-	throws FileNotFoundException, IOException {
-		InterfaceCard card = cards.get(id);
-		if(card == null) {
-			card = Factory.createCard(id);
-			cards.put(id, card);
-		}
-		card.renameItem(oldName, newName);
-		card.save();
+	throws IOException {
+		cardController.renameCardItem(id, oldName, newName);
 	}
 	
 	public LinkedHashMap<String, String> getCardItem(int id) 
-	throws FileNotFoundException, IOException {
-		LinkedHashMap<String, String> l = new LinkedHashMap<String, String>();
-		InterfaceCard card = cards.get(id);
-		if(card == null) {
-			card = Factory.createCard(id);
-			cards.put(id, card);
-		}
-		for(String str : card.getItems().keySet())
-			l.put(str, card.getItems().get(str));
-		return l;
+	throws IOException {
+		return cardController.getCardItem(id);
 	}
 	
 	public LinkedHashSet<Integer> search(int groupId, 
-			String item, String keywords, boolean isWholeWord) 
+			Vector<String> items, Vector<String> keywords, boolean isWholeWord) 
 	throws IOException {
 		LinkedHashSet<Integer> temp = new LinkedHashSet<Integer>();
-		
-		StringReader sr = new StringReader(keywords);
-		Vector<String> v = new Vector<String>();
-		int c = sr.read();
-		while(c != -1) {
-			String str = new String();
-			while(c != -1 && (char)c != ' ') {
-				str += (char)c;
-				c = sr.read();
-			}
-			v.add(str);
-			c = sr.read();
-		}
-		
-//		for(int i = 0; i < v.size(); i++)
-//			System.out.println(v.get(i));//////////////////////////////////////////
-		
-		InterfaceGroup g = groups.get(groupId);
-		if(g != null) {
-			LinkedHashSet<Integer> memberIds = g.getGroupMember();
-			if(memberIds != null)
-				outer:
-				for(int id : memberIds) {
-					InterfaceCard card = cards.get(id);
-					if(card == null) {
-						try {
-							card = Factory.createCard(id);
-							cards.put(id, card);
-						} catch (FileNotFoundException e) {
-							System.err.println("search：card文件" + id + "未找到！");
-							continue outer;
-						}
-					}
-					System.out.println("name:" + card.getName());/////////////////////////////
-					for(int i = 0; i < v.size(); i++)
-						if(!card.find(item, v.get(i), isWholeWord))
-							continue outer;
-					temp.add(id);
-				}
-		}
+//		
+//		StringReader sr = new StringReader(keywords);
+//		Vector<String> v = new Vector<String>();
+//		int c = sr.read();
+//		while(c != -1) {
+//			String str = new String();
+//			while(c != -1 && (char)c != ' ') {
+//				str += (char)c;
+//				c = sr.read();
+//			}
+//			v.add(str);
+//			c = sr.read();
+//		}
+//		
+////		for(int i = 0; i < v.size(); i++)
+////			System.out.println(v.get(i));//////////////////////////////////////////
+//		
+//		InterfaceGroup g = groups.get(groupId);
+//		if(g != null) {
+//			LinkedHashSet<Integer> memberIds = g.getGroupMember();
+//			if(memberIds != null)
+//				outer:
+//				for(int id : memberIds) {
+//					InterfaceCard card = cards.get(id);
+//					if(card == null) {
+//						try {
+//							card = Factory.createCard(id);
+//							cards.put(id, card);
+//						} catch (FileNotFoundException e) {
+//							System.err.println("search：card文件" + id + "未找到！");
+//							continue outer;
+//						}
+//					}
+//					System.out.println("name:" + card.getName());/////////////////////////////
+//					for(int i = 0; i < v.size(); i++)
+//						if(!card.find(item, v.get(i), isWholeWord))
+//							continue outer;
+//					temp.add(id);
+//				}
+//		}
 		return temp;
 	}
 	
+
 	
-	/*
-	 * test!
-	 */
-	public static void main(String args[]) {
-		Ikernel ikernel = new Ikernel();
-		try {
-			ikernel.init();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			LinkedHashSet<Integer> l = ikernel.search(0, "tel2", "23 34567", false);
-			for(int id : l)
-				System.out.println(id);
-			System.out.println(ikernel.getAllGroups().size());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	public void addTreeModelListener(TreeModelListener arg0) {
 		// TODO Auto-generated method stub
@@ -339,11 +261,56 @@ implements Constants, TreeModel{
 
 	public Object getChild(Object arg0, int arg1) {
 		// TODO Auto-generated method stub
-		return null;
+		TreeNode TreeNode = (TreeNode)arg0;
+		LinkedHashMap<Integer, String> l;
+		LinkedHashMap<String, String> s = new LinkedHashMap<String, String>();
+		if(TreeNode.getType().equals("Group")) {
+			l = getGroupMembers(TreeNode.getId());
+			TreeNode child = new TreeNode();
+			child.setType("Member");
+			child.setId((Integer) l.keySet().toArray()[arg1]);
+			child.setName(l.get(l.keySet().toArray()[arg1]));
+			return child;
+		}
+		else if(TreeNode.getType().equals("AllGroups")) {
+			l = getAllGroups();
+			TreeNode child = new TreeNode();
+			child.setType("Group");
+			child.setId((Integer) l.keySet().toArray()[arg1]);
+			child.setName(l.get(l.keySet().toArray()[arg1]));
+			return child;
+		}
+		else {
+			try {
+				s = getCardItem(TreeNode.getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			TreeNode child = new TreeNode();
+			child.setType("Item");
+			child.setName((String) s.keySet().toArray()[arg1]);
+			child.setContent(s.get(s.keySet().toArray()[arg1]));
+			return child;
+		}
 	}
 
 	public int getChildCount(Object arg0) {
-		// TODO Auto-generated method stub
+		TreeNode TreeNode = (TreeNode)arg0;
+		if(TreeNode.getType().equals("Group")) {	
+			return getGroupMembers(TreeNode.getId()).size();
+		}
+		else if(TreeNode.getType().equals("AllGroups")) {
+			return getAllGroups().size();
+		}
+		else {
+			try {
+				return getCardItem(TreeNode.getId()).size();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return 0;
 	}
 
@@ -354,11 +321,13 @@ implements Constants, TreeModel{
 
 	public Object getRoot() {
 		// TODO Auto-generated method stub
-		return null;
+		return root;
 	}
 
 	public boolean isLeaf(Object arg0) {
 		// TODO Auto-generated method stub
+		if(((TreeNode)arg0).getType().equals("Item"))
+			return true;
 		return false;
 	}
 
