@@ -51,12 +51,6 @@ public class GroupController {
 		}
 	}
 	
-	public void renameGroup(int groupId, String groupName) {
-		InterfaceGroup group = groups.get(groupId);
-		if(group != null)
-			group.renameGroup(groupName);
-	}
-	
 	public LinkedHashSet<Integer> getGroupMember(int groupId) {
 		LinkedHashSet<Integer> temp = new LinkedHashSet<Integer>();
 		InterfaceGroup group = groups.get(groupId);
@@ -69,7 +63,22 @@ public class GroupController {
 		return temp;
 	}
 	
-	public void delete(int groupId) {
+	public int addGroup(String groupName) 
+	throws IOException {
+		InterfaceGroup group = Factory.createGroup(groupName);
+		int id = group.getGroupId();
+		group.save();
+		groups.put(id, group);
+		return id;
+	}
+	
+	public void renameGroup(int groupId, String groupName) {
+		InterfaceGroup group = groups.get(groupId);
+		if(group != null)
+			group.renameGroup(groupName);
+	}
+	
+	public void deleteGroup(int groupId) {
 		InterfaceGroup group = groups.get(groupId);
 		if(group != null) {
 			group.delete();

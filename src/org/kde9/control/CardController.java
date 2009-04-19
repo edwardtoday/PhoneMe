@@ -35,6 +35,28 @@ implements Constants{
 		cards = new HashMap<Integer, InterfaceCard>();
 	}
 	
+	public int addCard(String name, LinkedHashMap<String, String> items) 
+	throws IOException {
+		InterfaceCard card = Factory.createCard(name);
+		int id = card.getCardId();
+		cards.put(id, card);
+		if(items != null)
+			for(String str : items.keySet())
+				card.appendItem(str, items.get(str));
+		card.save();
+		return id;
+	}
+	
+	public void deleteCard(int id) 
+	throws FileNotFoundException, IOException {
+		InterfaceCard card = cards.get(id);
+		if(card == null)
+			card = Factory.createCard(id);
+		else
+			cards.remove(id);
+		card.delete();
+	}
+	
 	public void renameCard(int id, String name) 
 	throws IOException {
 		InterfaceCard card = getCard(id);

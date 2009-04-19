@@ -18,7 +18,7 @@ public class Main {
 	
 	public Main() {
 		control = new Controller();
-		component = new Component(control.getTreeShow());
+		component = new Component(control);
 	}
 	
 	public static void main(String args[]) {

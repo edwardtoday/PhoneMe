@@ -33,6 +33,10 @@ public class AllNamesController {
 		allNames.save();
 	}
 
+	public String getNames(int id) {
+		return allNames.getName(id);
+	}
+	
 	public HashMap<Integer, String> getNames(int[] ids) {
 		HashMap<Integer, String> temp = new HashMap<Integer, String>();
 		for(int i = 0; i < ids.length; i++) {
