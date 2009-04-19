@@ -16,32 +16,30 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
-public class MenubarComponent 
-extends JMenuBar {
+public class MenubarComponent extends JMenuBar {
 	private JButton button1;
 	private JButton button2;
 	private JTextField textField;
-	
+
 	MenubarComponent() {
 		button1 = new JButton("<<");
 		button1.putClientProperty("Quaqua.Button.style", "toggleWest");
 		button2 = new JButton(">>");
 		button2.putClientProperty("Quaqua.Button.style", "toggleEast");
 		textField = new JTextField();
-		
-		//textField.putClientProperty("JComponent.sizeVariant","small");
-		textField.putClientProperty("Quaqua.TextField.style","search");
-		//textField.setOpaque(true);
-		
+
+		// textField.putClientProperty("JComponent.sizeVariant","small");
+		textField.putClientProperty("Quaqua.TextField.style", "search");
+		// textField.setOpaque(true);
+
 		GridBagLayout upLayout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(upLayout);
-		
+
 		c.fill = GridBagConstraints.BOTH;
-        c.weightx = 0.0;
-        c.gridwidth = 1;  
-        upLayout.setConstraints(button1, c); 
+		c.weightx = 0.0;
+		c.gridwidth = 1;
+		upLayout.setConstraints(button1, c);
 		add(button1);
 		upLayout.setConstraints(button2, c);
 		add(button2);
@@ -53,17 +51,17 @@ extends JMenuBar {
 		c.weightx = 0.0;
 		upLayout.setConstraints(search, c);
 		add(search);
-//		JButton button = new JButton("dd");
-//		button.putClientProperty("Quaqua.Button.style", "toggleWest");
-//		button.add(textField);
-//		textField.setBorder(BorderFactory.createEmptyBorder());
-//		JPanel panel = new JPanel();
-//		panel.setLayout(new BorderLayout());
-//		panel.setBorder(BorderFactory.createCompoundBorder(
-//				BorderFactory.createEmptyBorder(3, 3, 3, 3), 
-//				BorderFactory.createLineBorder(Color.BLACK)));
-//		panel.add("West",button);
-//		panel.add("Center",textField);
+		// JButton button = new JButton("dd");
+		// button.putClientProperty("Quaqua.Button.style", "toggleWest");
+		// button.add(textField);
+		// textField.setBorder(BorderFactory.createEmptyBorder());
+		// JPanel panel = new JPanel();
+		// panel.setLayout(new BorderLayout());
+		// panel.setBorder(BorderFactory.createCompoundBorder(
+		// BorderFactory.createEmptyBorder(3, 3, 3, 3),
+		// BorderFactory.createLineBorder(Color.BLACK)));
+		// panel.add("West",button);
+		// panel.add("Center",textField);
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.weightx = 0.35;
 		upLayout.setConstraints(textField, c);

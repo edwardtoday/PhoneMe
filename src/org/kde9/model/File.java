@@ -11,11 +11,8 @@ import java.io.IOException;
 /**
  * 数据操作底层，此类仅供包内使用。
  * <p>
- * 封装了文件读的基本操作，
- * 向上提供了readLine方法。
- * <br><strong>
- * 使用时注意，文件读操作结束后要调用close方法关闭流。
- * </strong></br>
+ * 封装了文件读的基本操作， 向上提供了readLine方法。 <br>
+ * <strong> 使用时注意，文件读操作结束后要调用close方法关闭流。 </strong></br>
  */
 class ReadFile {
 	/**
@@ -27,56 +24,51 @@ class ReadFile {
 
 	/**
 	 * 通过文件名构造一个文件read流
-	 * @param fileName 文件名
-	 * @throws FileNotFoundException 要打开的文件不存在
+	 * 
+	 * @param fileName
+	 *            文件名
+	 * @throws FileNotFoundException
+	 *             要打开的文件不存在
 	 */
-	ReadFile(String fileName) 
-	throws FileNotFoundException {
+	ReadFile(String fileName) throws FileNotFoundException {
 		this.fileName = fileName;
 		fr = new FileReader(fileName);
 		br = new BufferedReader(fr);
 	}
 
-	ReadFile(File file) 
-	throws FileNotFoundException {
+	ReadFile(File file) throws FileNotFoundException {
 		this.fileName = file.getPath();
 		fr = new FileReader(file);
 		br = new BufferedReader(fr);
 	}
-	
+
 	/**
-	 * 从文件中读取一行
-	 * <br><strong>
-	 * 使用时注意，文件读操作结束后要调用close方法关闭流。
-	 * </strong></br>
+	 * 从文件中读取一行 <br>
+	 * <strong> 使用时注意，文件读操作结束后要调用close方法关闭流。 </strong></br>
+	 * 
 	 * @return 包含要读取行内容的String
 	 * @throws IOException
 	 */
-	synchronized String readLine() 
-	throws IOException {
+	synchronized String readLine() throws IOException {
 		return br.readLine();
 	}
 
 	/**
 	 * 关闭流
+	 * 
 	 * @throws IOException
 	 */
-	synchronized void close()
-	throws IOException {
+	synchronized void close() throws IOException {
 		br.close();
 		fr.close();
 	}
 }
 
-
 /**
  * 数据操作底层，此类仅供包内使用。
  * <p>
- * 封装了文件写的基本操作，
- * 向上提供了writeLine和write方法。
- * <br><strong>
- * 使用时注意，文件写操作结束后要调用close方法关闭流。
- * </strong></br>
+ * 封装了文件写的基本操作， 向上提供了writeLine和write方法。 <br>
+ * <strong> 使用时注意，文件写操作结束后要调用close方法关闭流。 </strong></br>
  */
 class WriteFile {
 	/**
@@ -89,12 +81,14 @@ class WriteFile {
 
 	/**
 	 * 通过文件名和标识符创建文件write流
-	 * @param fileName 文件名
-	 * @param flag 为true时表示追加，为false时表示覆盖。
+	 * 
+	 * @param fileName
+	 *            文件名
+	 * @param flag
+	 *            为true时表示追加，为false时表示覆盖。
 	 * @throws IOException
 	 */
-	WriteFile(String fileName, boolean flag)
-	throws IOException {
+	WriteFile(String fileName, boolean flag) throws IOException {
 		this.fileName = fileName;
 		fw = new FileWriter(fileName, flag);
 		bw = new BufferedWriter(fw);
@@ -102,63 +96,59 @@ class WriteFile {
 
 	/**
 	 * 通过文件名和标识符创建文件write流
-	 * @param fileName 文件名
-	 * @param flag 为true时表示追加，为false时表示覆盖。
+	 * 
+	 * @param fileName
+	 *            文件名
+	 * @param flag
+	 *            为true时表示追加，为false时表示覆盖。
 	 * @throws IOException
 	 */
-	WriteFile(File file, boolean flag)
-	throws IOException {
+	WriteFile(File file, boolean flag) throws IOException {
 		this.fileName = file.getPath();
 		fw = new FileWriter(file, flag);
 		bw = new BufferedWriter(fw);
 	}
-	
+
 	/**
-	 * 向文件中写入内容
-	 * <br><strong>
-	 * 使用时注意，文件写操作结束后要调用close方法关闭流。
-	 * </strong></br>
-	 * @param str 要写入的内容
-	 * @return 
+	 * 向文件中写入内容 <br>
+	 * <strong> 使用时注意，文件写操作结束后要调用close方法关闭流。 </strong></br>
+	 * 
+	 * @param str
+	 *            要写入的内容
+	 * @return
 	 * @throws IOException
 	 */
-	synchronized void write(String str) 
-	throws IOException {
+	synchronized void write(String str) throws IOException {
 		bw.write(str);
 	}
 
 	/**
-	 * 向文件中写入内容，并换行
-	 * <br><strong>
-	 * 使用时注意，文件写操作结束后要调用close方法关闭流。
-	 * </strong></br>
-	 * @param str 要写入的内容
+	 * 向文件中写入内容，并换行 <br>
+	 * <strong> 使用时注意，文件写操作结束后要调用close方法关闭流。 </strong></br>
+	 * 
+	 * @param str
+	 *            要写入的内容
 	 * @throws IOException
 	 */
-	synchronized void writeLine(String str) 
-	throws IOException {
-		bw.write(
-				str + 
-				System.getProperty("line.separator") );
+	synchronized void writeLine(String str) throws IOException {
+		bw.write(str + System.getProperty("line.separator"));
 	}
-	
+
 	/**
 	 * 关闭流
+	 * 
 	 * @throws IOException
 	 */
-	synchronized void close() 
-	throws IOException {
+	synchronized void close() throws IOException {
 		bw.close();
 		fw.close();
 	}
 }
 
-
 /**
  * 数据操作底层，此类仅供包内使用。
  * <p>
- * 封装了文件删除的基本操作，
- * 向上提供了delete方法。
+ * 封装了文件删除的基本操作， 向上提供了delete方法。
  */
 class DeleteFile {
 	String fileName;
@@ -166,13 +156,15 @@ class DeleteFile {
 
 	/**
 	 * 创建文件删除
-	 * @param fileName 要删除的文件名
+	 * 
+	 * @param fileName
+	 *            要删除的文件名
 	 */
 	DeleteFile(String fileName) {
 		this.fileName = fileName;
 		file = new File(fileName);
 	}
-	
+
 	DeleteFile(File file) {
 		this.fileName = file.getPath();
 		this.file = file;

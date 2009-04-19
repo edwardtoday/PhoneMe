@@ -7,34 +7,32 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import org.kde9.control.Icontroller;
+import org.kde9.control.Controller;
 
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.util.Methods;
 
-
-public class Main
-implements Constants{
+public class Main implements I_Constants {
 	public static void main(String args[]) {
 		final java.util.List argList = Arrays.asList(args);
-		
+
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
 			System.setProperty("Quaqua.Debug.crossPlatform", "true");
 			System.setProperty("swing.aatext", "true");
 			System.setProperty("JButton.style", "bevel");
 		}
 		try {
-			//System.setProperty("Quaqua.TabbedPane.design", "jaguar");
+			// System.setProperty("Quaqua.TabbedPane.design", "jaguar");
 			String lafClassName = QuaquaManager.getLookAndFeelClassName();
 			System.out.println(lafClassName);
 			UIManager.setLookAndFeel(lafClassName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
-            if (System.getProperty("apple.laf.useScreenMenuBar") == null &&
-                    System.getProperty("com.apple.macos.useScreenMenuBar") == null) {
+			if (System.getProperty("apple.laf.useScreenMenuBar") == null
+					&& System.getProperty("com.apple.macos.useScreenMenuBar") == null) {
 				System.setProperty("apple.laf.useScreenMenuBar", "true");
 				System.setProperty("com.apple.macos.useScreenMenuBar", "true");
 			}
@@ -65,156 +63,181 @@ implements Constants{
 				e.printStackTrace();
 			}
 		}
-		
-		new Icontroller();
-		
-        //System.out.println(getPYString("abchaha///[p-设计符合啊"));
-        //System.out.println(getPinyin("abchaha///[p-设计符合啊"));
+
+		new Controller();
+
+		// System.out.println(getPYString("abchaha///[p-设计符合啊"));
+		// System.out.println(getPinyin("abchaha///[p-设计符合啊"));
 	}
-	
-	
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-	
+
+	// ////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////
+
 	/**
-     * 汉字转拼音缩写
-     * @param str  //要转换的汉字字符串
-     * @return String  //拼音缩写
-     */
-    public static String getPYString(String str)
-    {
-            String tempStr = "";
-            for(int i=0; i<str.length(); i++) {
-                    char c = str.charAt(i);
-                    if((int)c >= 33 && (int)c <=126) {//字母和符号原样保留
-                            tempStr += String.valueOf(c);
-                    }
-                    else {//累加拼音声母
-                            tempStr += getPYChar( String.valueOf(c) );
-                    }
-            }
-            return tempStr;
-    }
+	 * 汉字转拼音缩写
+	 * 
+	 * @param str
+	 *            //要转换的汉字字符串
+	 * @return String //拼音缩写
+	 */
+	public static String getPYString(String str) {
+		String tempStr = "";
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if ((int) c >= 33 && (int) c <= 126) {// 字母和符号原样保留
+				tempStr += String.valueOf(c);
+			} else {// 累加拼音声母
+				tempStr += getPYChar(String.valueOf(c));
+			}
+		}
+		return tempStr;
+	}
 
-    /**
-     * 取单个字符的拼音声母
-     * @param c  //要转换的单个汉字
-     * @return String 拼音声母
-     */
-    public static String getPYChar(String c)
-    {
-            byte[] array = new byte[2];
-            array = String.valueOf(c).getBytes();
-            int i = (short)(array[0] - '\0' + 256) * 256 + ((short)(array[1] - '\0' + 256));
-            if ( i < 0xB0A1) return "*";
-            if ( i < 0xB0C5) return "a";
-            if ( i < 0xB2C1) return "b";
-            if ( i < 0xB4EE) return "c";
-            if ( i < 0xB6EA) return "d";
-            if ( i < 0xB7A2) return "e";
-            if ( i < 0xB8C1) return "f";
-            if ( i < 0xB9FE) return "g";
-            if ( i < 0xBBF7) return "h";
-            if ( i < 0xBFA6) return "j";
-            if ( i < 0xC0AC) return "k";
-            if ( i < 0xC2E8) return "l";
-            if ( i < 0xC4C3) return "m";
-            if ( i < 0xC5B6) return "n";
-            if ( i < 0xC5BE) return "o";
-            if ( i < 0xC6DA) return "p";
-            if ( i < 0xC8BB) return "q";
-            if ( i < 0xC8F6) return "r";
-            if ( i < 0xCBFA) return "s";
-            if ( i < 0xCDDA) return "t";
-            if ( i < 0xCEF4) return "w";
-            if ( i < 0xD1B9) return "x";
-            if ( i < 0xD4D1) return "y";
-            if ( i < 0xD7FA) return "z";
-            return "*";
-    }
-    
-    ////////////////////////////////////////////////////////////
-    
-    /*
-     * Pinyin.java
-     *
-     * Created on 2008年2月21日, 下午4:20
-     *
-     * To change this template, choose Tools | Template Manager
-     * and open the template in the editor.
-     */
+	/**
+	 * 取单个字符的拼音声母
+	 * 
+	 * @param c
+	 *            //要转换的单个汉字
+	 * @return String 拼音声母
+	 */
+	public static String getPYChar(String c) {
+		byte[] array = new byte[2];
+		array = String.valueOf(c).getBytes();
+		int i = (short) (array[0] - '\0' + 256) * 256
+				+ ((short) (array[1] - '\0' + 256));
+		if (i < 0xB0A1)
+			return "*";
+		if (i < 0xB0C5)
+			return "a";
+		if (i < 0xB2C1)
+			return "b";
+		if (i < 0xB4EE)
+			return "c";
+		if (i < 0xB6EA)
+			return "d";
+		if (i < 0xB7A2)
+			return "e";
+		if (i < 0xB8C1)
+			return "f";
+		if (i < 0xB9FE)
+			return "g";
+		if (i < 0xBBF7)
+			return "h";
+		if (i < 0xBFA6)
+			return "j";
+		if (i < 0xC0AC)
+			return "k";
+		if (i < 0xC2E8)
+			return "l";
+		if (i < 0xC4C3)
+			return "m";
+		if (i < 0xC5B6)
+			return "n";
+		if (i < 0xC5BE)
+			return "o";
+		if (i < 0xC6DA)
+			return "p";
+		if (i < 0xC8BB)
+			return "q";
+		if (i < 0xC8F6)
+			return "r";
+		if (i < 0xCBFA)
+			return "s";
+		if (i < 0xCDDA)
+			return "t";
+		if (i < 0xCEF4)
+			return "w";
+		if (i < 0xD1B9)
+			return "x";
+		if (i < 0xD4D1)
+			return "y";
+		if (i < 0xD7FA)
+			return "z";
+		return "*";
+	}
 
+	// //////////////////////////////////////////////////////////
 
-    /**
-     *
-     * @author xp
-     */  
-    private static String[] name = { "zuo", "zun", "zui", "zuan", "zu", "zou", "zong",
-			"zi", "zhuo", "zhun", "zhui", "zhuang", "zhuan", "zhuai", "zhua",
-			"zhu", "zhou", "zhong", "zhi", "zheng", "zhen", "zhe", "zhao",
-			"zhang", "zhan", "zhai", "zha", "zeng", "zen", "zei", "ze", "zao",
-			"zang", "zan", "zai", "za", "yun", "yue", "yuan", "yu", "you",
-			"yong", "yo", "ying", "yin", "yi", "ye", "yao", "yang", "yan",
-			"ya", "xun", "xue", "xuan", "xu", "xiu", "xiong", "xing", "xin",
-			"xie", "xiao", "xiang", "xian", "xia", "xi", "wu", "wo", "weng",
-			"wen", "wei", "wang", "wan", "wai", "wa", "tuo", "tun", "tui",
-			"tuan", "tu", "tou", "tong", "ting", "tie", "tiao", "tian", "ti",
-			"teng", "te", "tao", "tang", "tan", "tai", "ta", "suo", "sun",
-			"sui", "suan", "su", "sou", "song", "si", "shuo", "shun", "shui",
-			"shuang", "shuan", "shuai", "shua", "shu", "shou", "shi", "sheng",
-			"shen", "she", "shao", "shang", "shan", "shai", "sha", "seng",
-			"sen", "se", "sao", "sang", "san", "sai", "sa", "ruo", "run",
-			"rui", "ruan", "ru", "rou", "rong", "ri", "reng", "ren", "re",
-			"rao", "rang", "ran", "qun", "que", "quan", "qu", "qiu", "qiong",
-			"qing", "qin", "qie", "qiao", "qiang", "qian", "qia", "qi", "pu",
-			"po", "ping", "pin", "pie", "piao", "pian", "pi", "peng", "pen",
-			"pei", "pao", "pang", "pan", "pai", "pa", "ou", "o", "nuo", "nue",
-			"nuan", "nv", "nu", "nong", "niu", "ning", "nin", "nie", "niao",
-			"niang", "nian", "ni", "neng", "nen", "nei", "ne", "nao", "nang",
-			"nan", "nai", "na", "mu", "mou", "mo", "miu", "ming", "min", "mie",
-			"miao", "mian", "mi", "meng", "men", "mei", "me", "mao", "mang",
-			"man", "mai", "ma", "luo", "lun", "lue", "luan", "lv", "lu", "lou",
-			"long", "liu", "ling", "lin", "lie", "liao", "liang", "lian",
-			"lia", "li", "leng", "lei", "le", "lao", "lang", "lan", "lai",
-			"la", "kuo", "kun", "kui", "kuang", "kuan", "kuai", "kua", "ku",
-			"kou", "kong", "keng", "ken", "ke", "kao", "kang", "kan", "kai",
-			"ka", "jun", "jue", "juan", "ju", "jiu", "jiong", "jing", "jin",
-			"jie", "jiao", "jiang", "jian", "jia", "ji", "huo", "hun", "hui",
-			"huang", "huan", "huai", "hua", "hu", "hou", "hong", "heng", "hen",
-			"hei", "he", "hao", "hang", "han", "hai", "ha", "guo", "gun",
-			"gui", "guang", "guan", "guai", "gua", "gu", "gou", "gong", "geng",
-			"gen", "gei", "ge", "gao", "gang", "gan", "gai", "ga", "fu", "fou",
-			"fo", "feng", "fen", "fei", "fang", "fan", "fa", "er", "en", "e",
-			"duo", "dun", "dui", "duan", "du", "dou", "****", "diu", "ding",
-			"die", "diao", "dian", "di", "deng", "de", "dao", "dang", "dan",
-			"dai", "da", "cuo", "cun", "cui", "cuan", "cu", "cou", "cong",
-			"ci", "chuo", "chun", "chui", "chuang", "chuan", "chuai", "chu",
-			"chou", "chong", "chi", "cheng", "chen", "che", "chao", "chang",
-			"chan", "chai", "cha", "ceng", "ce", "cao", "cang", "can", "cai",
-			"ca", "bu", "bo", "bing", "bin", "bie", "biao", "bian", "bi",
-			"beng", "ben", "bei", "bao", "bang", "ban", "bai", "ba", "ao",
-			"ang", "an", "ai", "a" };
-	private static int[] code = { -10254, -10256, -10260, -10262, -10270, -10274,
-			-10281, -10296, -10307, -10309, -10315, -10322, -10328, -10329,
-			-10331, -10519, -10533, -10544, -10587, -10764, -10780, -10790,
-			-10800, -10815, -10832, -10838, -11014, -11018, -11019, -11020,
-			-11024, -11038, -11041, -11045, -11052, -11055, -11067, -11077,
-			-11097, -11303, -11324, -11339, -11340, -11358, -11536, -11589,
-			-11604, -11781, -11798, -11831, -11847, -11861, -11867, -12039,
-			-12058, -12067, -12074, -12089, -12099, -12120, -12300, -12320,
-			-12346, -12359, -12556, -12585, -12594, -12597, -12607, -12802,
-			-12812, -12829, -12831, -12838, -12849, -12852, -12858, -12860,
-			-12871, -12875, -12888, -13060, -13063, -13068, -13076, -13091,
-			-13095, -13096, -13107, -13120, -13138, -13147, -13318, -13326,
-			-13329, -13340, -13343, -13356, -13359, -13367, -13383, -13387,
-			-13391, -13395, -13398, -13400, -13404, -13406, -13601, -13611,
-			-13658, -13831, -13847, -13859, -13870, -13878, -13894, -13896,
-			-13905, -13906, -13907, -13910, -13914, -13917, -14083, -14087,
-			-14090, -14092, -14094, -14097, -14099, -14109, -14112, -14122,
-			-14123, -14125, -14135, -14137, -14140, -14145, -14149, -14151,
-			-14159, -14170, -14345, -14353, -14355, -14368, -14379, -14384,
-			-14399, -14407, -14429, -14594, -14630, -14645, -14654, -14663,
-			-14668, -14670, -14674, -14678, -14857, -14871, -14873, -14882,
+	/*
+	 * Pinyin.java
+	 * 
+	 * Created on 2008年2月21日, 下午4:20
+	 * 
+	 * To change this template, choose Tools | Template Manager and open the
+	 * template in the editor.
+	 */
+
+	/**
+	 * 
+	 * @author xp
+	 */
+	private static String[] name = { "zuo", "zun", "zui", "zuan", "zu", "zou",
+			"zong", "zi", "zhuo", "zhun", "zhui", "zhuang", "zhuan", "zhuai",
+			"zhua", "zhu", "zhou", "zhong", "zhi", "zheng", "zhen", "zhe",
+			"zhao", "zhang", "zhan", "zhai", "zha", "zeng", "zen", "zei", "ze",
+			"zao", "zang", "zan", "zai", "za", "yun", "yue", "yuan", "yu",
+			"you", "yong", "yo", "ying", "yin", "yi", "ye", "yao", "yang",
+			"yan", "ya", "xun", "xue", "xuan", "xu", "xiu", "xiong", "xing",
+			"xin", "xie", "xiao", "xiang", "xian", "xia", "xi", "wu", "wo",
+			"weng", "wen", "wei", "wang", "wan", "wai", "wa", "tuo", "tun",
+			"tui", "tuan", "tu", "tou", "tong", "ting", "tie", "tiao", "tian",
+			"ti", "teng", "te", "tao", "tang", "tan", "tai", "ta", "suo",
+			"sun", "sui", "suan", "su", "sou", "song", "si", "shuo", "shun",
+			"shui", "shuang", "shuan", "shuai", "shua", "shu", "shou", "shi",
+			"sheng", "shen", "she", "shao", "shang", "shan", "shai", "sha",
+			"seng", "sen", "se", "sao", "sang", "san", "sai", "sa", "ruo",
+			"run", "rui", "ruan", "ru", "rou", "rong", "ri", "reng", "ren",
+			"re", "rao", "rang", "ran", "qun", "que", "quan", "qu", "qiu",
+			"qiong", "qing", "qin", "qie", "qiao", "qiang", "qian", "qia",
+			"qi", "pu", "po", "ping", "pin", "pie", "piao", "pian", "pi",
+			"peng", "pen", "pei", "pao", "pang", "pan", "pai", "pa", "ou", "o",
+			"nuo", "nue", "nuan", "nv", "nu", "nong", "niu", "ning", "nin",
+			"nie", "niao", "niang", "nian", "ni", "neng", "nen", "nei", "ne",
+			"nao", "nang", "nan", "nai", "na", "mu", "mou", "mo", "miu",
+			"ming", "min", "mie", "miao", "mian", "mi", "meng", "men", "mei",
+			"me", "mao", "mang", "man", "mai", "ma", "luo", "lun", "lue",
+			"luan", "lv", "lu", "lou", "long", "liu", "ling", "lin", "lie",
+			"liao", "liang", "lian", "lia", "li", "leng", "lei", "le", "lao",
+			"lang", "lan", "lai", "la", "kuo", "kun", "kui", "kuang", "kuan",
+			"kuai", "kua", "ku", "kou", "kong", "keng", "ken", "ke", "kao",
+			"kang", "kan", "kai", "ka", "jun", "jue", "juan", "ju", "jiu",
+			"jiong", "jing", "jin", "jie", "jiao", "jiang", "jian", "jia",
+			"ji", "huo", "hun", "hui", "huang", "huan", "huai", "hua", "hu",
+			"hou", "hong", "heng", "hen", "hei", "he", "hao", "hang", "han",
+			"hai", "ha", "guo", "gun", "gui", "guang", "guan", "guai", "gua",
+			"gu", "gou", "gong", "geng", "gen", "gei", "ge", "gao", "gang",
+			"gan", "gai", "ga", "fu", "fou", "fo", "feng", "fen", "fei",
+			"fang", "fan", "fa", "er", "en", "e", "duo", "dun", "dui", "duan",
+			"du", "dou", "****", "diu", "ding", "die", "diao", "dian", "di",
+			"deng", "de", "dao", "dang", "dan", "dai", "da", "cuo", "cun",
+			"cui", "cuan", "cu", "cou", "cong", "ci", "chuo", "chun", "chui",
+			"chuang", "chuan", "chuai", "chu", "chou", "chong", "chi", "cheng",
+			"chen", "che", "chao", "chang", "chan", "chai", "cha", "ceng",
+			"ce", "cao", "cang", "can", "cai", "ca", "bu", "bo", "bing", "bin",
+			"bie", "biao", "bian", "bi", "beng", "ben", "bei", "bao", "bang",
+			"ban", "bai", "ba", "ao", "ang", "an", "ai", "a" };
+	private static int[] code = { -10254, -10256, -10260, -10262, -10270,
+			-10274, -10281, -10296, -10307, -10309, -10315, -10322, -10328,
+			-10329, -10331, -10519, -10533, -10544, -10587, -10764, -10780,
+			-10790, -10800, -10815, -10832, -10838, -11014, -11018, -11019,
+			-11020, -11024, -11038, -11041, -11045, -11052, -11055, -11067,
+			-11077, -11097, -11303, -11324, -11339, -11340, -11358, -11536,
+			-11589, -11604, -11781, -11798, -11831, -11847, -11861, -11867,
+			-12039, -12058, -12067, -12074, -12089, -12099, -12120, -12300,
+			-12320, -12346, -12359, -12556, -12585, -12594, -12597, -12607,
+			-12802, -12812, -12829, -12831, -12838, -12849, -12852, -12858,
+			-12860, -12871, -12875, -12888, -13060, -13063, -13068, -13076,
+			-13091, -13095, -13096, -13107, -13120, -13138, -13147, -13318,
+			-13326, -13329, -13340, -13343, -13356, -13359, -13367, -13383,
+			-13387, -13391, -13395, -13398, -13400, -13404, -13406, -13601,
+			-13611, -13658, -13831, -13847, -13859, -13870, -13878, -13894,
+			-13896, -13905, -13906, -13907, -13910, -13914, -13917, -14083,
+			-14087, -14090, -14092, -14094, -14097, -14099, -14109, -14112,
+			-14122, -14123, -14125, -14135, -14137, -14140, -14145, -14149,
+			-14151, -14159, -14170, -14345, -14353, -14355, -14368, -14379,
+			-14384, -14399, -14407, -14429, -14594, -14630, -14645, -14654,
+			-14663, -14668, -14670, -14674, -14678, -14857, -14871, -14873,
+			-14882,
 
 			-14889, -14894, -14902, -14908, -14914, -14921, -14922, -14926,
 			-14928, -14929, -14930, -14933, -14937, -14941, -15109, -15110,
@@ -310,7 +333,6 @@ implements Constants{
 			}
 		}
 		return name[ind];
-	}    
-       
-}
+	}
 
+}

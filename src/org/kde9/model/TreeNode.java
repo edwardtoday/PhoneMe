@@ -1,17 +1,17 @@
-package org.kde9.util;
+package org.kde9.model;
 
 public class TreeNode {
 	String type;
 	int id = -1;
 	String name = "";
 	String content = "";
-	
+
 	public String toString() {
-		if(id == -1)
+		if (id == -1)
 			return type + " : " + name + " - " + content;
 		return type + " " + id + " : " + name + " " + content;
 	}
-	
+
 	public String getType() {
 		return type;
 	}

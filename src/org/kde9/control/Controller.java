@@ -2,36 +2,32 @@ package org.kde9.control;
 
 import java.io.IOException;
 
-import org.kde9.model.Ikernel;
-import org.kde9.view.Icomponent;
+import org.kde9.model.Kernel;
+import org.kde9.view.Component;
 
+public class Controller {
+	public static Kernel kernel;
+	public static Component component;
 
-public class Icontroller {
-	public static Ikernel kernel;
-	public static Icomponent component;
-	
 	private GroupAddListener gal;
 	private GroupSubListener gsl;
 	private GroupTableListener gtl;
-	
-	public Icontroller() {
+
+	public Controller() {
 		// TODO Auto-generated constructor stub
 		gal = new GroupAddListener();
 		gsl = new GroupSubListener();
 		gtl = new GroupTableListener();
-		
+
 		try {
-			kernel = new Ikernel();
+			kernel = new Kernel();
 			kernel.init();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		component = new Icomponent();
-		component.init(
-				gal,
-				gsl,
-				gtl );
+
+		component = new Component();
+		component.init(gal, gsl, gtl);
 	}
 }
