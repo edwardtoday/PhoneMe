@@ -96,7 +96,7 @@ implements KeyListener, TreeModel {
 		try {
 			System.setProperty("Quaqua.TabbedPane.design", "jaguar");
 			String lafClassName = QuaquaManager.getLookAndFeelClassName();
-			System.out.println(lafClassName);
+			//System.out.println(lafClassName);
 			UIManager.setLookAndFeel(lafClassName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -198,7 +198,7 @@ implements KeyListener, TreeModel {
 				} else if(state == 2) {
 					if(v.get(1).equals("item"))
 						try {
-							System.out.println("++++++++++++++++++++++++++" + currentCard);
+							//System.out.println("++++++++++++++++++++++++++" + currentCard);
 							ikernel.addCardItem(currentCard, v.get(2), v.get(3));
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -381,14 +381,14 @@ implements KeyListener, TreeModel {
 
 	public int getChildCount(Object arg0) {
 		TreeNode TreeNode = (TreeNode)arg0;
-		System.out.println("child");
-		System.out.println(TreeNode.getId());
-		System.out.println(ikernel.getGroupMembers(TreeNode.getId()));
+		//System.out.println("child");
+		//System.out.println(TreeNode.getId());
+		//System.out.println(ikernel.getGroupMembers(TreeNode.getId()));
 		if(TreeNode.getType().equals("Group")) {	
 			return ikernel.getGroupMembers(TreeNode.getId()).size();
 		}
 		else if(TreeNode.getType().equals("AllGroups")) {
-			System.out.println(ikernel.getAllGroups());
+			//System.out.println(ikernel.getAllGroups());
 			return ikernel.getAllGroups().size();
 		}
 		else {
@@ -411,7 +411,7 @@ implements KeyListener, TreeModel {
 	}
 
 	public Object getRoot() {
-		System.out.println("root");
+		//System.out.println("root");
 		return root;
 	}
 

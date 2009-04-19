@@ -28,6 +28,7 @@ implements Constants{
 	 */
 	public void init()
 	throws IOException, FileNotFoundException {
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");//////////////////////////////////////////////////////////
 		restoreAndBackup = Factory.createRestoreAndBackup();
 		restoreAndBackup.checkout();
 		allGroups = Factory.createAllGroups();

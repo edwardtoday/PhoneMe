@@ -72,7 +72,6 @@ implements Constants{
 		//contacts.add(new JLabel(), BorderLayout.EAST);
 		add(contacts);
 		
-		System.out.println("pppppppppppp"+getFocusOwner());
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 	
@@ -82,7 +81,7 @@ implements Constants{
 		dispatchEvent(new FocusEvent(browerComponent,FocusEvent.FOCUS_GAINED, true));
 		//System.out.println(contacts.isFocusOwner() + "[[[[[[[[[[[[");
 		//browerComponent.requestFocusInWindow();
-		System.out.println(browerComponent.isFocusOwner() + "[[[[[[[[[[[[");
+		//System.out.println(browerComponent.isFocusOwner() + "[[[[[[[[[[[[");
 		
 		setResizable(true);
 		setVisible(true);

@@ -67,9 +67,9 @@ implements ListSelectionListener, KeyListener {
     	int sum = treeModel.getChildCount(root);
     	LinkedHashMap<Integer, String> map = new LinkedHashMap<Integer, String>();
     	for(int i = 0; i < sum; i++) {
-    		System.out.println(i);
+    		//System.out.println(i);
     		TreeNode item = (TreeNode) treeModel.getChild(root, i);
-    		System.out.println(item);
+    		//System.out.println(item);
     		map.put(item.getId(), item.getName());
     	}
     	group.setGroups(map);
@@ -82,9 +82,9 @@ implements ListSelectionListener, KeyListener {
     		node = (TreeNode) treeModel.getChild(treeModel.getRoot(), index);
 			int sum = treeModel.getChildCount(node);
 			for (int i = 0; i < sum; i++) {
-				System.out.println(i);
+				//System.out.println(i);
 				TreeNode item = (TreeNode) treeModel.getChild(node, i);
-				System.out.println(item);
+				//System.out.println(item);
 				map.put(item.getId(), item.getName());
 			}
     	}
@@ -99,9 +99,9 @@ implements ListSelectionListener, KeyListener {
     		viewer.setName(((TreeNode)person).getName());
     		int sum = treeModel.getChildCount(person);
 			for (int i = 0; i < sum; i++) {
-				System.out.println(i);
+				//System.out.println(i);
 				TreeNode item = (TreeNode) treeModel.getChild(person, i);
-				System.out.println(item);
+				//System.out.println(item);
 				map.put(item.getName(), item.getContent());
 			}
     	}
