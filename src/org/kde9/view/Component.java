@@ -1,21 +1,18 @@
 package org.kde9.view;
 
-import java.awt.GridLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JWindow;
-import javax.swing.UIManager;
+import javax.swing.tree.TreeModel;
 
 import org.kde9.control.GroupAddListener;
 import org.kde9.control.GroupSubListener;
 import org.kde9.control.GroupTableListener;
-import org.kde9.util.I_Constants;
+import org.kde9.util.Constants;
 
-public class Component implements I_Constants {
-	public Component() {
+public class Component implements Constants {
+	public Component(TreeModel model) {
 
 		// JFrame frame = new JFrame("what's this?");
-		JFrame frame = new FrameComponent();
+		JFrame frame = new FrameComponent(model);
 		frame.setVisible(true);
 	}
 

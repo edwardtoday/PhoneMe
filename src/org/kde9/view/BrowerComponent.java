@@ -13,7 +13,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.TreeModel;
 
-import org.kde9.model.TreeNode;
+import org.kde9.control.TreeNode;
+
 
 public class BrowerComponent extends JPanel implements ListSelectionListener,
 		KeyListener {

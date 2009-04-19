@@ -12,7 +12,7 @@ import org.kde9.control.Controller;
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.util.Methods;
 
-public class Main implements I_Constants {
+public class Main implements Constants {
 	public static void main(String args[]) {
 		final java.util.List argList = Arrays.asList(args);
 

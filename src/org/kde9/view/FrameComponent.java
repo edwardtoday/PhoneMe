@@ -19,11 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 import javax.swing.JSpinner;
+import javax.swing.tree.TreeModel;
 
-import org.kde9.model.Main;
-import org.kde9.util.I_Constants;
+import org.kde9.util.Constants;
 
-public class FrameComponent extends JFrame implements I_Constants {
+public class FrameComponent extends JFrame implements Constants {
 	JPanel contacts;
 	JPanel renlifang;
 	JMenuBar menuBar;
@@ -33,13 +33,13 @@ public class FrameComponent extends JFrame implements I_Constants {
 	ViewerComponent viewerComponent;
 	BrowerComponent browerComponent;
 
-	FrameComponent() {
+	FrameComponent(TreeModel model) {
 		super("what's this?");
 		groupComponent = Factory.createGroup();
 		menubarComponent = Factory.createMenuBar();
 		nameComponent = Factory.creatName();
 		viewerComponent = Factory.createViewer();
-		browerComponent = new BrowerComponent(new Main());
+		browerComponent = new BrowerComponent(model);
 
 		buildMenus();
 

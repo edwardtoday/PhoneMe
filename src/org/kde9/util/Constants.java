@@ -3,7 +3,7 @@ package org.kde9.util;
 /**
  * 用于保存常数
  */
-public interface I_Constants {
+public interface Constants {
 
 	// 主窗口设置
 	// *************************************************************************

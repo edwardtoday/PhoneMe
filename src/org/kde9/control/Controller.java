@@ -2,32 +2,38 @@ package org.kde9.control;
 
 import java.io.IOException;
 
-import org.kde9.model.Kernel;
 import org.kde9.view.Component;
 
 public class Controller {
-	public static Kernel kernel;
-	public static Component component;
-
+	private AllGroupsController allGroupsController;
+	private AllNamesController allNamesController;
+	private CardController cardController;
+	private GroupController groupController;
+	private TreeShow treeShow;
+	
 	private GroupAddListener gal;
 	private GroupSubListener gsl;
 	private GroupTableListener gtl;
 
 	public Controller() {
-		// TODO Auto-generated constructor stub
+		try {
+			allGroupsController = new AllGroupsController();
+			allNamesController = new AllNamesController();
+			cardController = new CardController();
+			groupController = new GroupController(
+					allGroupsController.getGroupIds());
+			treeShow = new TreeShow();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		// TODO
 		gal = new GroupAddListener();
 		gsl = new GroupSubListener();
 		gtl = new GroupTableListener();
 
-		try {
-			kernel = new Kernel();
-			kernel.init();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	}
 
-		component = new Component();
-		component.init(gal, gsl, gtl);
+	public TreeShow getTreeShow() {
+		return treeShow;
 	}
 }

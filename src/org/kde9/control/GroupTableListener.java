@@ -14,7 +14,7 @@ public class GroupTableListener implements ListSelectionListener, KeyListener {
 		// TODO Auto-generated method stub
 		System.out.println(e.getValueIsAdjusting());// ///////////////////////////////////
 		if (!e.getValueIsAdjusting()) {
-			HashMap<Integer, String> groups = Controller.kernel.getAllGroups();
+			//HashMap<Integer, String> groups = Controller.kernel.getAllGroups();
 
 		}
 	}
