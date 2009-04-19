@@ -33,6 +33,7 @@ implements Constants, Card {
 	private Icard(int cardId) 
 	throws FileNotFoundException, IOException {
 		ReadFile rf = new ReadFile(CARD_PATH + String.valueOf(cardId));
+		this.cardId = cardId;
 		name = rf.readLine();
 		if (name == null || name.length() == 0)
 			name = NULLCARDNAME;

@@ -134,14 +134,14 @@ implements KeyListener, TreeModel {
 				if(state == 0) {
 					currentGroup = Integer.valueOf(v.get(1));
 					state++;
-					label.setText(">>Group" + v.get(1) + ">>");
+					label.setText(">>Group" + currentGroup + ">>");
 					textField.setSelectionStart(0);
 					textField.setSelectionEnd(textField.getText().length());
 				} else if(state == 1) {
 					currentCard = Integer.valueOf(v.get(1));
 					state++;
 					String temp = label.getText();
-					label.setText(temp + "Member" + v.get(1) + ">>");
+					label.setText(temp + "Member" + currentCard + ">>");
 					textField.setSelectionStart(0);
 					textField.setSelectionEnd(textField.getText().length());
 				} else {
@@ -198,6 +198,7 @@ implements KeyListener, TreeModel {
 				} else if(state == 2) {
 					if(v.get(1).equals("item"))
 						try {
+							System.out.println("++++++++++++++++++++++++++" + currentCard);
 							ikernel.addCardItem(currentCard, v.get(2), v.get(3));
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
