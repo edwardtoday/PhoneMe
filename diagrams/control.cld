@@ -8,8 +8,8 @@
       <stereoType></stereoType>
       <isAbstract>false</isAbstract>
       <constraint>
-        <x>16</x>
-        <y>16</y>
+        <x>734</x>
+        <y>32</y>
         <width>-1</width>
         <height>-1</height>
       </constraint>
@@ -24,8 +24,8 @@
             <stereoType></stereoType>
             <isAbstract>false</isAbstract>
             <constraint>
-              <x>356</x>
-              <y>326</y>
+              <x>46</x>
+              <y>132</y>
               <width>-1</width>
               <height>-1</height>
             </constraint>
@@ -41,8 +41,8 @@
                   <stereoType></stereoType>
                   <isAbstract>false</isAbstract>
                   <constraint>
-                    <x>307</x>
-                    <y>16</y>
+                    <x>734</x>
+                    <y>188</y>
                     <width>-1</width>
                     <height>-1</height>
                   </constraint>
@@ -219,8 +219,8 @@
                   <stereoType></stereoType>
                   <isAbstract>false</isAbstract>
                   <constraint>
-                    <x>638</x>
-                    <y>16</y>
+                    <x>734</x>
+                    <y>604</y>
                     <width>-1</width>
                     <height>-1</height>
                   </constraint>
@@ -629,8 +629,8 @@
                   <stereoType></stereoType>
                   <isAbstract>false</isAbstract>
                   <constraint>
-                    <x>1132</x>
-                    <y>16</y>
+                    <x>734</x>
+                    <y>386</y>
                     <width>-1</width>
                     <height>-1</height>
                   </constraint>
