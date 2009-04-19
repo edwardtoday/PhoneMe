@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -74,7 +75,8 @@ implements KeyListener, TreeModel {
 		panel.add("Center", textField);
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		add("North", panel);
-		add("Center", tree);
+		JScrollPane scrollPane = new JScrollPane(tree);
+		add("Center", scrollPane);
 		
 		textField.putClientProperty("JComponent.sizeVariant","small");
 		//textField.putClientProperty("Quaqua.TextComponent.autoSelect",Boolean.TRUE);
