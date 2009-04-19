@@ -124,7 +124,7 @@ implements Constants{
 		}
 	}
 	
-	public boolean find(int cardId, 
+	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord) 
 	throws IOException {
 		InterfaceCard card = getCard(cardId);
