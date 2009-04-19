@@ -108,6 +108,7 @@ extends JPanel {
 		this.items = items;
 		while(model.getRowCount() != 0)
 			model.removeRow(0);
+		model.addRow(new Object[]{""});
 		if(items.size() != 0) {
 			for(String name : items.keySet())
 				model.addRow(new Object[]{"", name, items.get(name)});
