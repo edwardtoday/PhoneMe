@@ -99,14 +99,21 @@ implements ListSelectionListener, KeyListener, Constants {
 			ConstCard card = kernel.getCard(id);
 			if(card == null)
 				return;
-			String name;
-			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0)
+			String name, pinyin;
+			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
 				name = 
 					card.getFirstName() + ' ' + card.getLastName();
-			else
+				pinyin = 
+					card.getPinYinFirstName() + ' ' + card.getPinYinLastName();
+			}
+			else {
 				name = 
 					card.getLastName() + ' ' + card.getFirstName();
+				pinyin = 
+					card.getPinYinLastName() + ' ' + card.getPinYinFirstName();
+			}
 			viewer.setName(name);
+			viewer.setPinYin(pinyin);
 			viewer.setItems(card.getAllItems());
 		}
 	}

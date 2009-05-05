@@ -27,7 +27,9 @@ public class ViewerComponent extends JPanel {
 	private DefaultTableModel model;
 	private TitledBorder border;
 	private JPanel photoPanel;
+	private JPanel namePanel;
 	private JLabel name;
+	private JLabel pinyin;
 	private JButton photo;
 
 	private LinkedHashMap<String, Vector<String>> items;
@@ -65,11 +67,17 @@ public class ViewerComponent extends JPanel {
 		photo = new JButton("X");
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
 		name = new JLabel();
-		name.setFont(new Font("Serif", 1, 20));
+		name.setFont(new Font("HeiTi", 1, 30));
 		name.setHorizontalAlignment(JLabel.CENTER);
-		name.setBackground(Color.red);
+		pinyin = new JLabel();
+		pinyin.setFont(new Font("Serif", 1, 15));
+		pinyin.setHorizontalAlignment(JLabel.CENTER);
+		namePanel = new JPanel();
+		namePanel.setLayout(new BorderLayout());
+		namePanel.add("North", pinyin);
+		namePanel.add("Center", name);
 		photoPanel.add(photo);
-		photoPanel.add(name);
+		photoPanel.add(namePanel);
 
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1.0;
@@ -101,6 +109,10 @@ public class ViewerComponent extends JPanel {
 
 	public void setName(String name) {
 		this.name.setText(name);
+	}
+	
+	public void setPinYin(String pinyin) {
+		this.pinyin.setText(pinyin);
 	}
 
 	public void setItems(LinkedHashMap<String, Vector<String>> items) {
