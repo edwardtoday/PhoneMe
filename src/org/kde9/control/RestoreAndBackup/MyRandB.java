@@ -48,13 +48,18 @@ implements RestoreAndBackup, Constants {
 			File[] items = dir.listFiles();
 			if(items.length != 0)
 				for(File item : items) {
-					if(!item.isDirectory() && isInt(item.getName())) {
+					if(item.isFile() && isInt(item.getName())) {
 						wf.writeLine(item.getName());
 						if(readContent) {
 							ReadFile rf = new ReadFile(item);
-							String temp = rf.readLine();
-							if(temp != null)
-								wf.writeLine(temp);
+							String tempFirst = rf.readLine();
+							String tempLast = rf.readLine();
+							if(tempFirst != null)
+								wf.writeLine(tempFirst);
+							else
+								wf.writeLine(NULLCARDNAME);
+							if(tempLast != null)
+								wf.writeLine(tempLast);
 							else
 								wf.writeLine(NULLCARDNAME);
 							rf.close();

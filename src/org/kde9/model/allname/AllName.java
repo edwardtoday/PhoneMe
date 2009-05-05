@@ -1,5 +1,8 @@
 package org.kde9.model.allname;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 保存所有联系人的id与名字
  * <p>
@@ -69,4 +72,6 @@ public interface AllName {
 	 * 		删除是否成功，成功返回true
 	 */
 	public boolean deletePerson(int id);
+	
+	public Set<Integer> getIds();
 }

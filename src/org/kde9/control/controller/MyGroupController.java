@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.kde9.control.FileOperation.ReadFile;
+import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.model.group.Group;
@@ -114,4 +115,22 @@ implements GroupController, Constants {
 		return false;
 	}
 
+	public boolean save(int personId) {
+		try {
+			WriteFile wf = new WriteFile(GROUPPATH + personId, false);
+			Group group = groups.get(personId);
+			if(group != null) {
+				String temp = group.getGroupName() + NEWLINE;
+				for(int id : group.getGroupMembers()) {
+					temp += id;
+					temp += NEWLINE;
+				}
+				wf.write(temp);
+			}
+			wf.close();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
 }

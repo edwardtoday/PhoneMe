@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.kde9.control.FileOperation.ReadFile;
+import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.allname.AllName;
 import org.kde9.util.Constants;
@@ -88,8 +89,23 @@ implements AllNameController, Constants {
 	}
 
 	public boolean save() {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			WriteFile wf = new WriteFile(CARDPATH + ALLNAMES, false);
+			String temp = "";
+			for(int id : names.getIds()) {
+				temp += id;
+				temp += NEWLINE;
+				temp += names.getFirstName(id);
+				temp += NEWLINE;
+				temp += names.getLastName(id);
+				temp += NEWLINE;
+			}
+			wf.write(temp);
+			wf.close();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	public boolean setFirstName(int id, String firstName) {

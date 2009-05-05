@@ -42,5 +42,5 @@ public interface CardController {
 	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord);
 	
-	public boolean save();
+	public boolean save(int cardId);
 }

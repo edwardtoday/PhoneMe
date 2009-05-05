@@ -18,4 +18,6 @@ public interface GroupController {
 	public boolean addGroupMember(int personId);
 	
 	public boolean deleteGroupMember(int personId);
+	
+	public boolean save(int personId);
 }

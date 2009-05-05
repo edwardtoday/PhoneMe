@@ -55,17 +55,14 @@ public interface Constants {
 	/**
 	 * 文件中区分不同字段的分隔符 如分割Item和persons
 	 */
-	static String SEPERATOR = "!$$%)&^(~()(%]$!";
-
-	/**
-	 * 人与人关系中用于表示隐含关系的标识符
-	 */
-	static String HIDEPERSON = "@#$%^!{{%)>|$(*";
+	static String SEPERATOR = "!$$%)&(~()(!$#$%#";
 
 	/**
 	 * 名片中不同item的分隔符 如分割电话和Email
 	 */
-	static String ITEMSEPERATOR = "@@$-=\\*&{*)<?':#";
+	static String ITEMSEPERATOR = "@@$-=&{*)<?':#}{)($";
+	
+	static String VALUESEPERSTOR = "*((***&^&%^^%%^??+)";
 	
 	/**
 	 * 未赋值的Item的默认值

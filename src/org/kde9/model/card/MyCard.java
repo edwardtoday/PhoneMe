@@ -113,6 +113,10 @@ implements Card {
 	public String getShowRelationship(int cardId) {
 		return relationship.getShowRelationship(cardId);
 	}
+
+	public boolean addItem(String key, Vector<String> values) {
+		return items.addItem(key, values);
+	}
 	
 //	public static void main(String args[]) {
 //		MyCard card = new MyCard(21);

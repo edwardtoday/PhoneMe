@@ -59,6 +59,8 @@ extends ConstCard {
 	 */
 	boolean addItem(String key, String value);
 	
+	boolean addItem(String key, Vector<String> values);
+	
 	/**
 	 * 设置表项的值
 	 * <p>

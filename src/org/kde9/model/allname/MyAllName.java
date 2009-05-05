@@ -1,6 +1,8 @@
 package org.kde9.model.allname;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MyAllName 
 implements AllName {
@@ -53,5 +55,9 @@ implements AllName {
 			return true;
 		}
 		return false;
+	}
+	
+	public Set<Integer> getIds() {
+		return people.keySet();
 	}
 }

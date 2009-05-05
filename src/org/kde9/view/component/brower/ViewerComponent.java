@@ -109,8 +109,16 @@ public class ViewerComponent extends JPanel {
 			model.removeRow(0);
 		model.addRow(new Object[] { "" });
 		if (items.size() != 0) {
-			for (String name : items.keySet())
-				model.addRow(new Object[] { "", name, items.get(name) });
+			for (String name : items.keySet()) {
+				//model.addRow(new Object[] { "", name});
+				boolean flag = true;
+				for(String value : items.get(name))
+					if(flag) {
+						model.addRow(new Object[] { "", name, value });
+						flag = false;
+					} else
+						model.addRow(new Object[] { "", "", value });
+			}
 		}
 	}
 

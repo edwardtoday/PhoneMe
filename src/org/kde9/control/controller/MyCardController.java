@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Vector;
 
 import org.kde9.control.FileOperation.ReadFile;
+import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.card.Card;
 import org.kde9.model.card.ConstCard;
@@ -36,6 +37,46 @@ implements CardController, Constants {
 		return true;
 	}
 	
+	private String getKey(ReadFile rf) 
+	throws IOException {
+		String key = rf.readLine();
+		if(key == null)
+			return key;
+		if(key.equals(VALUESEPERSTOR))
+			key = NULLITEMCONTENT;
+		return key;
+	}
+	
+	private Vector<String> getValue(ReadFile rf) 
+	throws IOException {
+		Vector<String> values = new Vector<String>();
+		while(true) {
+			String temp = getOneValue(rf);
+			if(temp == null || temp.equals(ITEMSEPERATOR))
+				break;
+			if(temp.equals(VALUESEPERSTOR))
+				continue;
+			values.add(temp);
+		}
+		return values;
+	}
+	
+	private String getOneValue(ReadFile rf) 
+	throws IOException {
+		String temp = rf.readLine();
+		if(temp == null || temp.equals(ITEMSEPERATOR) || 
+				temp.equals(VALUESEPERSTOR))
+			return temp;
+		String tempx = rf.readLine();
+		while(tempx != null && !tempx.equals(ITEMSEPERATOR) &&
+				!tempx.equals(VALUESEPERSTOR)) {
+			temp += tempx;
+			temp += NEWLINE;
+			tempx = rf.readLine();
+		}
+		return temp;
+	}
+	
 	private Card get(int cardId) {
 		Card card = cards.get(cardId);
 		if(card == null) {
@@ -53,8 +94,19 @@ implements CardController, Constants {
 					if(item == null || item == "")
 						item = NULLGROUPNAME;
 					card.setLastName(item);
-					// TODO
+					while(true) {
+						String key = getKey(rf);
+						if(key == null || key.equals(SEPERATOR))
+							break;
+						if(key.equals(ITEMSEPERATOR))
+							continue;
+						Vector<String> value = getValue(rf);
+						if(value == null)
+							break;
+						card.addItem(key, value);
+					}
 					rf.close();
+					cards.put(cardId, card);
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
 				} catch (IOException e) {
@@ -124,9 +176,45 @@ implements CardController, Constants {
 		return false;
 	}
 
-	public boolean save() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean save(int id) {
+		try {
+			WriteFile wf = new WriteFile(CARDPATH + id, false);
+			Card card = get(id);
+			String temp = card.getFirstName();
+			temp += NEWLINE;
+			temp += card.getLastName();
+			for(String key : card.getAllItems().keySet()) {
+				temp += key;
+				temp += NEWLINE;
+				for(String value : card.getItem(key)) {
+					temp += value;
+					temp += NEWLINE;
+					temp += VALUESEPERSTOR;
+					temp += NEWLINE;
+				}
+				temp += ITEMSEPERATOR;
+				temp += NEWLINE;
+			}
+			temp += SEPERATOR;
+			temp += NEWLINE;
+			for(int relation : card.getAllShowRelationship().keySet()) {
+				temp += relation;
+				temp += NEWLINE;
+				temp += card.getShowRelationship(relation);
+				temp += NEWLINE;
+			}
+			temp += SEPERATOR;
+			temp += NEWLINE;
+			for(int relation : card.getAllHideRelationship()) {
+				temp += relation;
+				temp += NEWLINE;
+			}
+			wf.write(temp);
+			wf.close();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	public boolean setCardItems(int id, HashMap<String, Vector<String>> items) {

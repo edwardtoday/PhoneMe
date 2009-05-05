@@ -28,6 +28,16 @@ class MyItems {
 		return true;
 	}
 	
+	public boolean addItem(String key, Vector<String> values) {
+		if(key == null)
+			return false;
+		if(items.containsKey(key))
+			return false;
+		else
+			items.put(key, values);
+		return true;
+	}
+	
 	public boolean deleteItem(String key, String value) {
 		if(key == null)
 			return false;
@@ -42,7 +52,7 @@ class MyItems {
 	public boolean setItem(String key, Vector<String> values) {
 		if(key == null)
 			return false;
-		if(items.containsKey(key))
+		if(!items.containsKey(key))
 			return false;
 		else
 			items.put(key, values);
