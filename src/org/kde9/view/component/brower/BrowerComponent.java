@@ -97,6 +97,8 @@ implements ListSelectionListener, KeyListener, Constants {
 		int id = name.getSelectedMemberId();
 		if(id != -1) {
 			ConstCard card = kernel.getCard(id);
+			if(card == null)
+				return;
 			String name;
 			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0)
 				name = 

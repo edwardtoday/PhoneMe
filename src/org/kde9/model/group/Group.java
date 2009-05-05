@@ -4,6 +4,8 @@ import java.util.LinkedHashSet;
 
 public interface Group
 extends ConstGroup {
+	public void setGroupName(String groupName);
+	
 	/**
 	 * 增加组成员
 	 * @param id

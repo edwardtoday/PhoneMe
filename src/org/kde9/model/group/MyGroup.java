@@ -5,7 +5,16 @@ import java.util.LinkedHashSet;
 public class MyGroup 
 implements Group {
 	int id;
+	String groupName;
 	private LinkedHashSet<Integer> members;
+	
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 	public MyGroup(int id) {
 		this.id = id;

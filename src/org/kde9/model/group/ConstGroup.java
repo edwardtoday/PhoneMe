@@ -15,4 +15,6 @@ public interface ConstGroup {
 	 * 	所有组成员的id
 	 */
 	public LinkedHashSet<Integer> getGroupMembers();
+	
+	public String getGroupName();
 }
