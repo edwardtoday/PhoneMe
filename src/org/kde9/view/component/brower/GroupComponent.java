@@ -71,6 +71,7 @@ public class GroupComponent extends JPanel {
 		// table.setBackground(color);
 
 		setBorder(border);
+		dispatchEvent(new FocusEvent(table, FocusEvent.FOCUS_GAINED, true));
 
 		// dispatchEvent(new FocusEvent(table,FocusEvent.FOCUS_GAINED, true));
 	}

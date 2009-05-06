@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -20,8 +22,13 @@ import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.control.Kernel;
+import org.kde9.model.card.ConstCard;
+import org.kde9.view.listener.EditListener;
+
 public class ViewerComponent extends JPanel {
 	private JTable table;
+	private JPanel upPanel;
 	private JScrollPane pane;
 	private JToggleButton buttonEdit;
 	private DefaultTableModel model;
@@ -31,12 +38,19 @@ public class ViewerComponent extends JPanel {
 	private JLabel name;
 	private JLabel pinyin;
 	private JButton photo;
+	private Kernel kernel;
+	private ContentEditPanelComponent edit;
+	private ConstCard card;
 
 	private LinkedHashMap<String, Vector<String>> items;
 
-	ViewerComponent() {
+	ViewerComponent(Kernel kernel) {
+		this.kernel = kernel;
+		edit = new ContentEditPanelComponent(kernel);
 		items = new LinkedHashMap<String, Vector<String>>();
 		table = new JTable(0, 3);
+		table.setFocusable(false);
+		table.setCellEditor(null);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		table.getColumnModel().getColumn(1).setMaxWidth(80);
 		// JTableHeader header = new JTableHeader();
@@ -55,7 +69,7 @@ public class ViewerComponent extends JPanel {
 
 		setLayout(new BorderLayout());
 
-		JPanel upPanel = new JPanel();
+		upPanel = new JPanel();
 		GridBagLayout upLayout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -66,6 +80,7 @@ public class ViewerComponent extends JPanel {
 		photoPanel.setLayout(new GridLayout(0, 3));
 		photo = new JButton("X");
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
+		//photo.setSize(200, 200);
 		name = new JLabel();
 		name.setFont(new Font("HeiTi", 1, 30));
 		name.setHorizontalAlignment(JLabel.CENTER);
@@ -81,7 +96,7 @@ public class ViewerComponent extends JPanel {
 
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1.0;
-		c.weighty = 0.4;
+		c.weighty = 0.30;
 		c.gridwidth = GridBagConstraints.REMAINDER; // end row
 		upLayout.setConstraints(photoPanel, c);
 		upPanel.add(photoPanel);
@@ -107,6 +122,27 @@ public class ViewerComponent extends JPanel {
 		setBorder(border);
 	}
 
+	public void addEditListener(EditListener editListener) {
+		editListener.setComponent(this);
+		buttonEdit.addActionListener(editListener);
+	}
+	
+	public void startEditModel() {
+		//pane.removeAll();
+		edit.startEdit(card);
+		pane.setViewportView(edit);
+		//pane.updateUI();
+		updateUI();
+	}
+	
+	public void stopEditModel() {
+		
+	}
+	
+	public void setCard(ConstCard card) {
+		this.card = card;
+	}
+	
 	public void setName(String name) {
 		this.name.setText(name);
 	}

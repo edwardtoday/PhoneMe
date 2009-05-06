@@ -1,6 +1,9 @@
 package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
@@ -16,6 +19,7 @@ import org.kde9.model.card.ConstCard;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
+import org.kde9.view.listener.EditListener;
 
 
 public class BrowerComponent 
@@ -31,6 +35,9 @@ implements ListSelectionListener, KeyListener, Constants {
 	
 
 	public BrowerComponent(Kernel kernel) {
+		dispatchEvent(new FocusEvent(this, FocusEvent.FOCUS_GAINED,
+				true));
+		
 		config = ConfigFactory.creatConfig();
 		group = new GroupComponent();
 		group.getTable().getSelectionModel().addListSelectionListener(this);
@@ -38,7 +45,7 @@ implements ListSelectionListener, KeyListener, Constants {
 		name = new NameComponent();
 		name.getTable().getSelectionModel().addListSelectionListener(this);
 		name.getTable().addKeyListener(this);
-		viewer = new ViewerComponent();
+		viewer = new ViewerComponent(kernel);
 		groupSplitPane = new JSplitPane();
 		groupSplitPane.setLeftComponent(group);
 		groupSplitPane.setRightComponent(name);
@@ -48,7 +55,7 @@ implements ListSelectionListener, KeyListener, Constants {
 		groupSplitPane.setDividerSize(2);
 		nameSplitPane = new JSplitPane();
 		nameSplitPane.setLeftComponent(groupSplitPane);
-		nameSplitPane.setRightComponent(viewer);
+		nameSplitPane.setRightComponent(viewer);//////////////////////////////////
 		nameSplitPane.setDividerLocation((Integer)(
 				config.getConfig(Constants.MAIN_FRAME_WIDTH, CONFIGINT))/2);
 		nameSplitPane.setResizeWeight(0.5);
@@ -63,6 +70,10 @@ implements ListSelectionListener, KeyListener, Constants {
 		init();
 	}
 
+	public void addEditListener(EditListener editListener) {
+		viewer.addEditListener(editListener);
+	}
+	
 	private void init() {
 		showAllGroups(0, 0);
 		// showGroupMembers(0, 0, 0);
@@ -112,6 +123,7 @@ implements ListSelectionListener, KeyListener, Constants {
 				pinyin = 
 					card.getPinYinLastName() + ' ' + card.getPinYinFirstName();
 			}
+			viewer.setCard(card);
 			viewer.setName(name);
 			viewer.setPinYin(pinyin);
 			viewer.setItems(card.getAllItems());

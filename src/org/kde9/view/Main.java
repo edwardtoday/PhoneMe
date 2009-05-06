@@ -28,7 +28,7 @@ public class Main {
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
 			System.setProperty("Quaqua.Debug.crossPlatform", "true");
 			System.setProperty("swing.aatext", "true");
-			System.setProperty("JButton.style", "bevel");
+			//System.setProperty("JButton.style", "bevel");
 		}
 		try {
 			// System.setProperty("Quaqua.TabbedPane.design", "jaguar");
