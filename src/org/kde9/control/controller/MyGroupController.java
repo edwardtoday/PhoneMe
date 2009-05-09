@@ -17,6 +17,7 @@ public class MyGroupController
 implements GroupController, Constants {
 	private HashMap<Integer, Group> groups;
 	private LinkedHashMap<Integer, String> groupNames;
+	private Save save;
 
 	/**
 	 * 判断一个字符串是否为数字
@@ -70,6 +71,7 @@ implements GroupController, Constants {
 	public MyGroupController() {
 		groups = new HashMap<Integer, Group>();
 		groupNames = new LinkedHashMap<Integer, String>();
+		save = new Save();
 		File groupPath = new File(GROUPPATH);
 		if(!groupPath.isDirectory())
 			return;
@@ -116,21 +118,16 @@ implements GroupController, Constants {
 	}
 
 	public boolean save(int personId) {
-		try {
-			WriteFile wf = new WriteFile(GROUPPATH + personId, false);
-			Group group = groups.get(personId);
-			if(group != null) {
-				String temp = group.getGroupName() + NEWLINE;
-				for(int id : group.getGroupMembers()) {
-					temp += id;
-					temp += NEWLINE;
-				}
-				wf.write(temp);
+		Group group = groups.get(personId);
+		String temp = "";
+		if(group != null) {
+			temp = group.getGroupName() + NEWLINE;
+			for(int id : group.getGroupMembers()) {
+				temp += id;
+				temp += NEWLINE;
 			}
-			wf.close();
-			return true;
-		} catch (IOException e) {
-			return false;
 		}
+		save.init(GROUPPATH + personId, temp);
+		return save.save();
 	}
 }

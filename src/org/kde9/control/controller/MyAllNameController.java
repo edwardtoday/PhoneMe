@@ -12,6 +12,7 @@ import org.kde9.util.Constants;
 public class MyAllNameController 
 implements AllNameController, Constants {
 	private AllName names;
+	private Save save;
 	
 	/**
 	 * 判断一个字符串是否为数字
@@ -34,6 +35,7 @@ implements AllNameController, Constants {
 
 	public MyAllNameController() {
 		names = ModelFactory.createAllName();
+		save = new Save();
 		ReadFile rf;
 		try {
 			rf = new ReadFile(CARDPATH + ALLNAMES);
@@ -89,23 +91,17 @@ implements AllNameController, Constants {
 	}
 
 	public boolean save() {
-		try {
-			WriteFile wf = new WriteFile(CARDPATH + ALLNAMES, false);
-			String temp = "";
-			for(int id : names.getIds()) {
-				temp += id;
-				temp += NEWLINE;
-				temp += names.getFirstName(id);
-				temp += NEWLINE;
-				temp += names.getLastName(id);
-				temp += NEWLINE;
-			}
-			wf.write(temp);
-			wf.close();
-			return true;
-		} catch (IOException e) {
-			return false;
+		String temp = "";
+		for (int id : names.getIds()) {
+			temp += id;
+			temp += NEWLINE;
+			temp += names.getFirstName(id);
+			temp += NEWLINE;
+			temp += names.getLastName(id);
+			temp += NEWLINE;
 		}
+		save.init(CARDPATH + ALLNAMES, temp);
+		return save.save();
 	}
 
 	public boolean setFirstName(int id, String firstName) {

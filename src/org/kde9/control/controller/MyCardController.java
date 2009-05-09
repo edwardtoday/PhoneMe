@@ -17,6 +17,7 @@ import org.kde9.util.Constants;
 public class MyCardController 
 implements CardController, Constants {
 	private HashMap<Integer, Card> cards;
+	private Save save;
 	
 	/**
 	 * 判断一个字符串是否为数字
@@ -119,6 +120,7 @@ implements CardController, Constants {
 	
 	public MyCardController() {
 		cards = new HashMap<Integer, Card>();
+		save = new Save();
 	}
 	
 	public Card addCard(String name) {
@@ -177,44 +179,38 @@ implements CardController, Constants {
 	}
 
 	public boolean save(int id) {
-		try {
-			WriteFile wf = new WriteFile(CARDPATH + id, false);
-			Card card = get(id);
-			String temp = card.getFirstName();
+		Card card = get(id);
+		String temp = card.getFirstName();
+		temp += NEWLINE;
+		temp += card.getLastName();
+		for (String key : card.getAllItems().keySet()) {
+			temp += key;
 			temp += NEWLINE;
-			temp += card.getLastName();
-			for(String key : card.getAllItems().keySet()) {
-				temp += key;
+			for (String value : card.getItem(key)) {
+				temp += value;
 				temp += NEWLINE;
-				for(String value : card.getItem(key)) {
-					temp += value;
-					temp += NEWLINE;
-					temp += VALUESEPERSTOR;
-					temp += NEWLINE;
-				}
-				temp += ITEMSEPERATOR;
+				temp += VALUESEPERSTOR;
 				temp += NEWLINE;
 			}
-			temp += SEPERATOR;
+			temp += ITEMSEPERATOR;
 			temp += NEWLINE;
-			for(int relation : card.getAllShowRelationship().keySet()) {
-				temp += relation;
-				temp += NEWLINE;
-				temp += card.getShowRelationship(relation);
-				temp += NEWLINE;
-			}
-			temp += SEPERATOR;
-			temp += NEWLINE;
-			for(int relation : card.getAllHideRelationship()) {
-				temp += relation;
-				temp += NEWLINE;
-			}
-			wf.write(temp);
-			wf.close();
-			return true;
-		} catch (IOException e) {
-			return false;
 		}
+		temp += SEPERATOR;
+		temp += NEWLINE;
+		for (int relation : card.getAllShowRelationship().keySet()) {
+			temp += relation;
+			temp += NEWLINE;
+			temp += card.getShowRelationship(relation);
+			temp += NEWLINE;
+		}
+		temp += SEPERATOR;
+		temp += NEWLINE;
+		for (int relation : card.getAllHideRelationship()) {
+			temp += relation;
+			temp += NEWLINE;
+		}
+		save.init(CARDPATH + id, temp);
+		return save.save();
 	}
 
 	public boolean setCardItems(int id, HashMap<String, Vector<String>> items) {
