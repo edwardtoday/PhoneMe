@@ -33,13 +33,13 @@
                 <target class="net.java.amateras.uml.sequencediagram.model.ActivationModel">
                   <ownerLine>
                     <owner>
-                      <name>View</name>
+                      <name>:NameComponent</name>
                       <lifeLine reference="../.."/>
                       <root reference="../../../../../../../../../../.."/>
                       <constraint>
                         <x>227</x>
                         <y>20</y>
-                        <width>100</width>
+                        <width>130</width>
                         <height>-1</height>
                       </constraint>
                       <sourceConnections/>
@@ -71,7 +71,7 @@
                       </listeners>
                     </owner>
                     <constraint>
-                      <x>277</x>
+                      <x>292</x>
                       <y>20</y>
                       <width>5</width>
                       <height>393</height>
@@ -84,7 +84,7 @@
                         <ownerLine reference="../../.."/>
                         <movable>true</movable>
                         <constraint>
-                          <x>272</x>
+                          <x>287</x>
                           <y>235</y>
                           <width>10</width>
                           <height>138</height>
@@ -93,19 +93,19 @@
                           <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                             <order>4</order>
                             <oldOrder>4</oldOrder>
-                            <name>getCardItems()</name>
+                            <name>deleteMember()</name>
                             <direction>true</direction>
                             <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel" reference="../../.."/>
                             <target class="net.java.amateras.uml.sequencediagram.model.ActivationModel">
                               <ownerLine>
                                 <owner>
-                                  <name>Control</name>
+                                  <name>members:LinkedHashMap</name>
                                   <lifeLine reference="../.."/>
                                   <root reference="../../../../../../../../../../../../../../../../.."/>
                                   <constraint>
                                     <x>448</x>
                                     <y>20</y>
-                                    <width>100</width>
+                                    <width>163</width>
                                     <height>-1</height>
                                   </constraint>
                                   <sourceConnections/>
@@ -129,7 +129,7 @@
                                   </listeners>
                                 </owner>
                                 <constraint>
-                                  <x>498</x>
+                                  <x>529</x>
                                   <y>20</y>
                                   <width>5</width>
                                   <height>393</height>
@@ -142,7 +142,7 @@
                                     <ownerLine reference="../../.."/>
                                     <movable>true</movable>
                                     <constraint>
-                                      <x>493</x>
+                                      <x>524</x>
                                       <y>272</y>
                                       <width>10</width>
                                       <height>91</height>
@@ -151,19 +151,19 @@
                                       <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                                         <order>6</order>
                                         <oldOrder>6</oldOrder>
-                                        <name>deleteCardFromGroup()</name>
+                                        <name>removeRow()</name>
                                         <direction>true</direction>
                                         <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel" reference="../../.."/>
                                         <target class="net.java.amateras.uml.sequencediagram.model.ActivationModel">
                                           <ownerLine>
                                             <owner>
-                                              <name>Model</name>
+                                              <name>model:DefaultTableModel</name>
                                               <lifeLine reference="../.."/>
                                               <root reference="../../../../../../../../../../../../../../../../../../../../../../.."/>
                                               <constraint>
                                                 <x>660</x>
                                                 <y>20</y>
-                                                <width>100</width>
+                                                <width>154</width>
                                                 <height>-1</height>
                                               </constraint>
                                               <sourceConnections/>
@@ -187,7 +187,7 @@
                                               </listeners>
                                             </owner>
                                             <constraint>
-                                              <x>710</x>
+                                              <x>736</x>
                                               <y>20</y>
                                               <width>5</width>
                                               <height>393</height>
@@ -214,7 +214,7 @@
                                           </ownerLine>
                                           <movable>true</movable>
                                           <constraint>
-                                            <x>705</x>
+                                            <x>731</x>
                                             <y>284</y>
                                             <width>10</width>
                                             <height>69</height>
@@ -222,7 +222,7 @@
                                           <sourceConnections>
                                             <net.java.amateras.uml.sequencediagram.model.SyncMessageModel>
                                               <order>7</order>
-                                              <oldOrder>0</oldOrder>
+                                              <oldOrder>7</oldOrder>
                                               <name>save()</name>
                                               <direction>true</direction>
                                               <source class="net.java.amateras.uml.sequencediagram.model.ActivationModel" reference="../../.."/>
@@ -231,7 +231,7 @@
                                                 <ownerLine reference="../../../../ownerLine"/>
                                                 <movable>true</movable>
                                                 <constraint>
-                                                  <x>710</x>
+                                                  <x>736</x>
                                                   <y>313</y>
                                                   <width>10</width>
                                                   <height>30</height>
@@ -360,7 +360,7 @@
                               </ownerLine>
                               <movable>true</movable>
                               <constraint>
-                                <x>493</x>
+                                <x>524</x>
                                 <y>246</y>
                                 <width>10</width>
                                 <height>30</height>
@@ -482,7 +482,7 @@
                   </ownerLine>
                   <movable>true</movable>
                   <constraint>
-                    <x>272</x>
+                    <x>287</x>
                     <y>140</y>
                     <width>10</width>
                     <height>72</height>
@@ -499,7 +499,7 @@
                         <ownerLine reference="../../../../ownerLine"/>
                         <movable>true</movable>
                         <constraint>
-                          <x>277</x>
+                          <x>292</x>
                           <y>172</y>
                           <width>10</width>
                           <height>30</height>
