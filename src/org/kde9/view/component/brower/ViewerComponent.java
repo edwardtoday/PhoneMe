@@ -111,11 +111,11 @@ implements Constants {
 		itemTable.setCellEditor(null);
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		itemTable.getColumnModel().getColumn(0).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(0).setMaxWidth(15);
 		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
 		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(3).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(80);
+		itemTable.getColumnModel().getColumn(3).setMaxWidth(30);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(90);
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		itemTable.setTableHeader(null);
@@ -128,13 +128,13 @@ implements Constants {
 		// "toolBarRollover");
 
 		relationTable = new JTable(0, 8);
-		relationTable.getColumnModel().getColumn(0).setMaxWidth(25);
+		relationTable.getColumnModel().getColumn(0).setMaxWidth(15);
 		relationTable.getColumnModel().getColumn(1).setMaxWidth(25);
 		relationTable.getColumnModel().getColumn(2).setMaxWidth(25);
-		relationTable.getColumnModel().getColumn(3).setMaxWidth(25);
-		relationTable.getColumnModel().getColumn(4).setMaxWidth(40);
-		relationTable.getColumnModel().getColumn(5).setMaxWidth(40);
-		relationTable.getColumnModel().getColumn(6).setMaxWidth(40);
+		relationTable.getColumnModel().getColumn(3).setMaxWidth(30);
+		relationTable.getColumnModel().getColumn(4).setMaxWidth(60);
+		relationTable.getColumnModel().getColumn(5).setMaxWidth(15);
+		relationTable.getColumnModel().getColumn(6).setMaxWidth(50);
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
 		
@@ -175,9 +175,21 @@ implements Constants {
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
 		JPanel tablePanel = new JPanel();
-		tablePanel.setLayout(new BorderLayout());
-		tablePanel.add("Center", itemTable);
-		tablePanel.add("South", relationTable);
+		
+		GridBagLayout tableLayout = new GridBagLayout();
+		GridBagConstraints cc = new GridBagConstraints();
+		tablePanel.setLayout(tableLayout);
+		cc.fill = GridBagConstraints.BOTH;
+		cc.weightx = 1.0;
+		cc.weighty = 0.1;
+		cc.gridwidth = GridBagConstraints.REMAINDER;
+		tableLayout.setConstraints(itemTable, cc);
+		cc.gridheight = GridBagConstraints.REMAINDER;
+		cc.weighty = 1.0;
+		tableLayout.setConstraints(relationTable, cc);
+		tablePanel.add(itemTable);
+		tablePanel.add(relationTable);
+		
 		pane = new JScrollPane(tablePanel);
 		pane.setBorder(BorderFactory.createEmptyBorder());
 		pane.setPreferredSize(new Dimension(100, 180));
@@ -254,7 +266,7 @@ implements Constants {
 		if(rel != null && rel.size() != 0) {
 			//System.out.println(rel);
 			relation = rel;
-			relationModel.addRow(new Object[] {"","","","","您的"});
+			relationModel.addRow(new Object[] {"","","","关系",""});
 			for(int id : rel.keySet()) {
 				if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0)
 					relationModel.addRow(new Object[] {"","","","",
@@ -271,7 +283,7 @@ implements Constants {
 		while (itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
 		buttons.removeAllElements();
-		itemModel.addRow(new Object[] { "" });
+		itemModel.addRow(new Object[] {"","","","信息",""});
 		buttons.add(new ButtonUnit(""));
 		itemKeys = new Vector<String>();
 		itemValues = new Vector<Vector<String>>();
