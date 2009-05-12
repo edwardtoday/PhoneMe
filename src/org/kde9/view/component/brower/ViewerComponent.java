@@ -34,6 +34,8 @@ import javax.swing.table.TableColumnModel;
 
 import org.kde9.control.Kernel;
 import org.kde9.model.card.ConstCard;
+import org.kde9.util.ConfigFactory;
+import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 import org.kde9.view.listener.EditListener;
 
@@ -64,8 +66,10 @@ implements Constants {
 	private Vector<ButtonUnit> buttons;
 	private HashMap<Integer, Integer> cantSelect;
 	
+	private Configuration configuration;
 
 	ViewerComponent(Kernel kernel) {
+		configuration = ConfigFactory.creatConfig();
 		this.kernel = kernel;
 		cantSelect = new LinkedHashMap<Integer, Integer>();
 		buttons = new Vector<ButtonUnit>();
@@ -252,8 +256,12 @@ implements Constants {
 			relation = rel;
 			relationModel.addRow(new Object[] {"","","","","ÄúµÄ"});
 			for(int id : rel.keySet()) {
-				relationModel.addRow(new Object[] {"","","","",
+				if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0)
+					relationModel.addRow(new Object[] {"","","","",
 						rel.get(id), "", kernel.getFirstName(id), kernel.getLastName(id)});
+				else
+					relationModel.addRow(new Object[] {"","","","",
+							rel.get(id), "", kernel.getLastName(id), kernel.getFirstName(id)});
 			}
 		}
 	}
@@ -323,7 +331,7 @@ implements Constants {
 			System.out.println(itemKeys);
 			System.out.println(itemValues);
 		} else if (b.getType() == 2) {
-			itemValues.get(b.getLocation()).add(NULLITEMCONTENT);
+			//itemValues.get(b.getLocation()).add(NULLITEMCONTENT);
 		}
 		// } else if(e.getActionCommand().equals("-")) {
 		//			
