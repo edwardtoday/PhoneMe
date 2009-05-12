@@ -33,7 +33,11 @@ public class NameComponent extends JPanel {
 
 	NameComponent() {
 		members = new LinkedHashMap<Integer, String>();
-		table = new JTable(0, 1);
+		table = new JTable(0, 1) {
+			public boolean isCellEditable(int i, int j) {
+				return false;
+			}
+		};
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		table.setTableHeader(null);

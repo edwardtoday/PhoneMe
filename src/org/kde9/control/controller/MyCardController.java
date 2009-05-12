@@ -106,6 +106,31 @@ implements CardController, Constants {
 							break;
 						card.addItem(key, value);
 					}
+					while(true) {
+						String id = rf.readLine();
+						while(id != null && !id.equals(SEPERATOR))
+							if(isInt(id))
+								break;
+							else
+								id = rf.readLine();
+						if(id == null || id.equals(SEPERATOR))
+							break;
+						String content  = rf.readLine();
+						if(content == null || content.equals(SEPERATOR))
+							break;
+						card.addShowRelationship(Integer.valueOf(id), content);
+					}
+					while(true) {
+						String id = rf.readLine();
+						while(id != null && !id.equals(SEPERATOR))
+							if(isInt(id))
+								break;
+							else
+								id = rf.readLine();
+						if(id == null || id.equals(SEPERATOR))
+							break;
+						card.addHideRelationship(Integer.valueOf(id));
+					}
 					rf.close();
 					cards.put(cardId, card);
 				} catch (FileNotFoundException e) {

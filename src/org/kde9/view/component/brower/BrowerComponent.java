@@ -127,6 +127,7 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.setName(name);
 			viewer.setPinYin(pinyin);
 			viewer.setItems(card.getAllItems());
+			viewer.setRelations(card.getAllShowRelationship());
 		}
 	}
 
