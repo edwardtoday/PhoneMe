@@ -1,25 +1,15 @@
 package org.kde9.view.dialog;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import com.sun.jna.examples.WindowUtils;
 
@@ -118,6 +108,6 @@ public class CoolInfoBox {
 	}
 	
 	public static void main(String args[]) {
-		new CoolInfoBox(null, "呵呵，名片内容不能为空啊！");
+		new CoolInfoBox(null, "名片内容不能为空哦！");
 	}
 }
