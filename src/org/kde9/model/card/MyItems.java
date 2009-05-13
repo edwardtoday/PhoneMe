@@ -78,7 +78,15 @@ class MyItems {
 	}
 	
 	public LinkedHashMap<String, Vector<String>> getAllItems() {
-		return items;
+		LinkedHashMap<String, Vector<String>> temp = 
+			new LinkedHashMap<String, Vector<String>>();
+		for(String str : items.keySet()) {
+			Vector<String> values = new Vector<String>();
+			for(String s : items.get(str))
+				values.add(s);
+			temp.put(str, values);
+		}
+		return temp;
 	}
 	
 	public Vector<String> getItem(String itemName) {

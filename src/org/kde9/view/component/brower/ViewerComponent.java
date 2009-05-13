@@ -37,6 +37,7 @@ import org.kde9.model.card.ConstCard;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
+import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.listener.EditListener;
 
 public class ViewerComponent 
@@ -115,7 +116,7 @@ implements Constants {
 		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
 		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
 		itemTable.getColumnModel().getColumn(3).setMaxWidth(30);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(90);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(85);
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		itemTable.setTableHeader(null);
@@ -132,9 +133,8 @@ implements Constants {
 		relationTable.getColumnModel().getColumn(1).setMaxWidth(25);
 		relationTable.getColumnModel().getColumn(2).setMaxWidth(25);
 		relationTable.getColumnModel().getColumn(3).setMaxWidth(30);
-		relationTable.getColumnModel().getColumn(4).setMaxWidth(60);
-		relationTable.getColumnModel().getColumn(5).setMaxWidth(15);
-		relationTable.getColumnModel().getColumn(6).setMaxWidth(50);
+		relationTable.getColumnModel().getColumn(4).setMaxWidth(85);
+		relationTable.getColumnModel().getColumn(5).setMaxWidth(40);
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
 		
@@ -270,10 +270,10 @@ implements Constants {
 			for(int id : rel.keySet()) {
 				if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0)
 					relationModel.addRow(new Object[] {"","","","",
-						rel.get(id), "", kernel.getFirstName(id), kernel.getLastName(id)});
+						rel.get(id), kernel.getFirstName(id), kernel.getLastName(id)});
 				else
 					relationModel.addRow(new Object[] {"","","","",
-							rel.get(id), "", kernel.getLastName(id), kernel.getFirstName(id)});
+							rel.get(id), kernel.getLastName(id), kernel.getFirstName(id)});
 			}
 		}
 	}
@@ -312,42 +312,64 @@ implements Constants {
 
 	public void actionPerformed(ButtonUnit b, ActionEvent e) {
 		// TODO Auto-generated method stub
-		// if(e.getActionCommand().equals("+")) {
-		if (b.getType() == 1) {
-			itemKeys.add(b.getLocation(), NULLITEMCONTENT);
-			Vector<String> s = new Vector<String>();
-			s.add(NULLITEMCONTENT);
-			itemValues.add(b.getLocation(), s);
-			ButtonUnit unit = new ButtonUnit(
-					1, b.getLocation() + 1, b.getIndex()
-					+ itemValues.get(b.getLocation() - 1).size(), this);
-			buttons.add(b.getIndex()
-					+ itemValues.get(b.getLocation() - 1).size(), unit);
-			itemModel.insertRow(b.getIndex()
-					+ itemValues.get(b.getLocation() - 1).size(), new Object[] {
-					"", "", "", "", NULLITEMCONTENT, NULLITEMCONTENT });
-			for (int i = b.getIndex() + itemValues.get(b.getLocation() - 1).size() + 1;
-					i < buttons.size(); i++) {
-				buttons.get(i).setLocation(buttons.get(i).getLocation() + 1);
-				buttons.get(i).setIndex(i);
-				if(cantSelect.get(i) != null) {
-					int a = cantSelect.get(i);
-					cantSelect.remove(i);
-					cantSelect.put(i+1, a);
+		if(e.getSource() == b.getButtonAdd()) {
+			if (b.getType() == 1) {
+				itemKeys.add(b.getLocation(), NULLITEMCONTENT);
+				Vector<String> s = new Vector<String>();
+				s.add(NULLITEMCONTENT);
+				itemValues.add(b.getLocation(), s);
+				ButtonUnit unit = new ButtonUnit(
+						1, b.getLocation() + 1, b.getIndex()
+						+ itemValues.get(b.getLocation() - 1).size(), this);
+				buttons.add(b.getIndex()
+						+ itemValues.get(b.getLocation() - 1).size(), unit);
+				itemModel.insertRow(b.getIndex()
+						+ itemValues.get(b.getLocation() - 1).size(), new Object[] {
+						"", "", "", "", NULLITEMCONTENT, NULLITEMCONTENT });
+				
+				for (int i = b.getIndex() + itemValues.get(b.getLocation() - 1).size() + 1;
+						i < buttons.size(); i++) {
+					buttons.get(i).setLocation(buttons.get(i).getLocation() + 1);
+					buttons.get(i).setIndex(i);
+					if(cantSelect.get(i) != null) {
+						int a = cantSelect.get(i);
+						cantSelect.remove(i);
+						cantSelect.put(i+1, a);
+					}
+//					System.out.println(cantSelect);///////////////////////////////////////////////////
 				}
-				System.out.println(cantSelect);
+	//			updateUI();
+			} else if (b.getType() == 2) {
+				int size = itemValues.get(b.getLocation()-1).size();
+				int index = b.getIndex();
+				for(; size > 0; size--) {
+					if(index >= buttons.size() || buttons.get(index).getType() == 1)
+						break;
+					index++;
+				}
+				itemValues.get(b.getLocation()-1).add(size+1, NULLITEMCONTENT);
+				ButtonUnit unit = new ButtonUnit(
+						2, b.getLocation(), b.getIndex()+1, this);
+				buttons.add(b.getIndex()+1, unit);
+				itemModel.insertRow(b.getIndex()+1, new Object[] {
+						"", "", "", "", "", NULLITEMCONTENT });
+				for (int i = b.getIndex()+1; i < buttons.size(); i++) {
+					buttons.get(i).setIndex(i);
+					if(cantSelect.get(i) != null) {
+						int a = cantSelect.get(i);
+						cantSelect.remove(i);
+						cantSelect.put(i+1, a);
 			}
-//			for (int i = 0; i < buttons.size(); i++)
-//				buttons.get(i).update();
-//			updateUI();
-			System.out.println(itemKeys);
-			System.out.println(itemValues);
-		} else if (b.getType() == 2) {
-			//itemValues.get(b.getLocation()).add(NULLITEMCONTENT);
+//			System.out.println(cantSelect);///////////////////////////////////////////////////
 		}
-		// } else if(e.getActionCommand().equals("-")) {
-		//			
-		// }
+			}
+		} else if(e.getSource() == b.getButtonSub()) {
+			new CoolInfoBox(itemTable, "呵呵，名片内容不能为空啊！");
+		}
+		System.out.println(itemKeys);//////////////////////////////////////////////////////////////
+		System.out.println(itemValues);////////////////////////////////////////////////////////////
+		for (int i = 0; i < buttons.size(); i++)
+			buttons.get(i).update();
 	}
 
 //	public void addItem(String name, String content) {
@@ -401,10 +423,10 @@ implements ActionListener {
 	}
 	
 	public void update() {
-//		if(buttonAdd != null) {
-//			buttonAdd.setText(String.valueOf(type));
-//			buttonSub.setText(String.valueOf(location) + ' ' + String.valueOf(index));
-//		}
+		if(buttonAdd != null) {
+			buttonAdd.setText(String.valueOf(type));
+			buttonSub.setText(String.valueOf(location) + ' ' + String.valueOf(index));
+		}
 	}
 	
 	public ButtonUnit(String s) {}
