@@ -18,6 +18,8 @@ import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -153,6 +155,7 @@ implements Constants {
 		photoPanel.setLayout(new GridLayout(0, 3));
 		photo = new JButton("X");
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
+		photo.setPreferredSize(new Dimension(100, 100));
 		name = new JLabel();
 		name.setFont(new Font("HeiTi", 1, 30));
 		name.setHorizontalAlignment(JLabel.CENTER);
@@ -192,7 +195,7 @@ implements Constants {
 		
 		pane = new JScrollPane(tablePanel);
 		pane.setBorder(BorderFactory.createEmptyBorder());
-		pane.setPreferredSize(new Dimension(100, 180));
+		pane.setPreferredSize(new Dimension(100, 150));
 		c.gridheight = GridBagConstraints.RELATIVE;
 		upLayout.setConstraints(pane, c);
 		upPanel.add(pane);
@@ -259,6 +262,28 @@ implements Constants {
 		this.pinyin.setText(pinyin);
 	}
 
+	public void setImage(final ConstCard card) {
+		photo.setIcon(new ImageIcon());
+		new Thread() {
+			public void run() {
+				while(!card.isImageRafdy())
+					try {
+						sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				if(card.getScaleImage() != null) {
+					photo.setIcon(
+							new ImageIcon(card.getScaleImage()));
+					photo.setText(null);
+				} else {
+					photo.setText("X");
+				}
+			}
+		}.start();
+	}
+	
 	public void setRelations(LinkedHashMap<Integer, String> rel) {
 		relation = new LinkedHashMap<Integer, String>();
 		while(relationModel.getRowCount() != 0)

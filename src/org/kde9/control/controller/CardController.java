@@ -1,5 +1,6 @@
 package org.kde9.control.controller;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -41,6 +42,12 @@ public interface CardController {
 
 	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord);
+	
+	public BufferedImage getImage(int id);
+	
+	public BufferedImage getScaleImage(int id);
+	
+	public boolean isImageReady(int id);
 	
 	public boolean save(int cardId);
 }

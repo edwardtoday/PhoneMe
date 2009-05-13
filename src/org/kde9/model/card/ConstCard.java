@@ -1,5 +1,6 @@
 package org.kde9.model.card;
 
+import java.awt.image.BufferedImage;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -80,4 +81,10 @@ public interface ConstCard {
 	 * 		¹ØÏµ
 	 */
 	String getShowRelationship(int cardId);
+	
+	BufferedImage getScaleImage();
+	
+	BufferedImage getImage();
+	
+	boolean isImageRafdy();
 }

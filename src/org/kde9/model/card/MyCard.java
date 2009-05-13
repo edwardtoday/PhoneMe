@@ -1,5 +1,6 @@
 package org.kde9.model.card;
 
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -10,12 +11,14 @@ implements Card {
 	private MyName name;
 	private MyItems items;
 	private MyRelationship relationship;
+	private Image image;
 
 	public MyCard(int id) {
 		this.id = id;
 		name = new MyName();
 		items = new MyItems();
 		relationship = new MyRelationship();
+		image = new Image();
 	}
 	
 	public boolean addHideRelationship(int id) {
@@ -117,6 +120,34 @@ implements Card {
 	public boolean addItem(String key, Vector<String> values) {
 		return items.addItem(key, values);
 	}
+
+	public boolean setImage(BufferedImage image) {
+		this.image.setImage(image);
+		return true;
+	}
+
+	public boolean setScaleImage(BufferedImage scaleImage) {
+		this.image.setScaleImage(scaleImage);
+		return true;
+	}
+
+	public BufferedImage getImage() {
+		return image.getImage();
+	}
+
+	public BufferedImage getScaleImage() {
+		return image.getScaleImage();
+	}
+
+	public boolean isImageRafdy() {
+		return image.isReady();
+	}
+
+	public boolean setImageReady() {
+		image.setReady(true);
+		return true;
+	}
+
 	
 //	public static void main(String args[]) {
 //		MyCard card = new MyCard(21);

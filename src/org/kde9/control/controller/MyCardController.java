@@ -1,11 +1,16 @@
 package org.kde9.control.controller;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
 
 import org.kde9.control.FileOperation.ReadFile;
 import org.kde9.control.FileOperation.WriteFile;
@@ -78,6 +83,48 @@ implements CardController, Constants {
 		return temp;
 	}
 	
+	private void setImage(final Card card) {
+		new Thread() {
+			public void run() {
+				File fi = new File(CARDPATH + card.getId() + ".p"); // ´óÍ¼ÎÄ¼þ
+				if (!fi.isFile())
+					return;
+				AffineTransform transform = new AffineTransform();
+				BufferedImage bis;
+				try {
+					int nw, nh;
+					bis = ImageIO.read(fi);
+					int w = bis.getWidth();
+					int h = bis.getHeight();
+					// double scale = (double) w / h;
+					if(w > h) {
+						nw = 110;
+						nh = (nw * h) / w;
+					} else {
+						nh = 110;
+						nw = (nh * w) / h;
+					}
+					double sx = (double) nw / w;
+					double sy = (double) nh / h;
+					transform.setToScale(sx, sy);
+					System.out.println(w + " " + h);
+					AffineTransformOp ato = new AffineTransformOp(transform,
+							null);
+					BufferedImage bid = new BufferedImage(nw, nh,
+							BufferedImage.TYPE_3BYTE_BGR);
+					ato.filter(bis, bid);
+					card.setImage(bis);
+					card.setScaleImage(bid);
+					card.setImageReady();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}.start();
+
+	}
+	
 	private Card get(int cardId) {
 		Card card = cards.get(cardId);
 		if(card == null) {
@@ -132,6 +179,7 @@ implements CardController, Constants {
 						card.addHideRelationship(Integer.valueOf(id));
 					}
 					rf.close();
+					setImage(card);
 					cards.put(cardId, card);
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
@@ -251,6 +299,27 @@ implements CardController, Constants {
 	public boolean setRelationships(int cardId,
 			LinkedHashMap<Integer, String> relation) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public BufferedImage getImage(int cardId) {
+		Card card = get(cardId);
+		if(card != null)
+			return card.getImage();
+		return null;
+	}
+
+	public BufferedImage getScaleImage(int cardId) {
+		Card card = get(cardId);
+		if(card != null)
+			return card.getScaleImage();
+		return null;
+	}
+
+	public boolean isImageReady(int cardId) {
+		Card card = get(cardId);
+		if(card != null)
+			return card.isImageRafdy();
 		return false;
 	}
 

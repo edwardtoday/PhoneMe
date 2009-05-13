@@ -1,5 +1,6 @@
 package org.kde9.model.card;
 
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -154,4 +155,10 @@ extends ConstCard {
 	 * @return
 	 */
 	boolean setShowRelationship(int id, String content);
+	
+	boolean setScaleImage(BufferedImage scaleImage);
+	
+	boolean setImage(BufferedImage image);
+	
+	boolean setImageReady();
 }
