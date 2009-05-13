@@ -9,6 +9,10 @@ public interface Constants {
 	
 	static String CONFIGURATION = "configuration";
 	
+	static String IMGPATH = "./img/";
+	
+	static String NULLIMAGE = "nullImag.gif";
+	
 	/**
 	 * 未命名的名片的默认名字
 	 */

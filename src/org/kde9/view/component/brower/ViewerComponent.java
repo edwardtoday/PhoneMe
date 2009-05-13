@@ -153,7 +153,7 @@ implements Constants {
 		photoPanel = new JPanel();
 		photoPanel.setBorder(BorderFactory.createEtchedBorder());
 		photoPanel.setLayout(new GridLayout(0, 3));
-		photo = new JButton("X");
+		photo = new JButton();
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
 		photo.setPreferredSize(new Dimension(100, 100));
 		name = new JLabel();
@@ -263,25 +263,30 @@ implements Constants {
 	}
 
 	public void setImage(final ConstCard card) {
-		photo.setIcon(new ImageIcon());
+		photo.setIcon(new ImageIcon(IMGPATH + NULLIMAGE));
+		final int id = card.getId();
 		new Thread() {
 			public void run() {
 				while(!card.isImageRafdy())
 					try {
-						sleep(100);
+						if(card.getId() != id)
+							return;
+						sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				if(card.getScaleImage() != null) {
-					photo.setIcon(
-							new ImageIcon(card.getScaleImage()));
-					photo.setText(null);
-				} else {
-					photo.setText("X");
-				}
+					showImage(id);
 			}
 		}.start();
+	}
+	
+	synchronized private void showImage(int id) {
+		if(card.getId() != id)
+			return;
+		if(card.getScaleImage() != null) {
+			photo.setIcon(new ImageIcon(card.getScaleImage()));
+		}
 	}
 	
 	public void setRelations(LinkedHashMap<Integer, String> rel) {
