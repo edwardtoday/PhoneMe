@@ -364,7 +364,7 @@ implements Constants {
 		}
 			}
 		} else if(e.getSource() == b.getButtonSub()) {
-			new CoolInfoBox(itemTable, "呵呵，名片内容不能为空啊！");
+			new CoolInfoBox(itemTable, "名片内容不能为空哦！");
 		}
 		System.out.println(itemKeys);//////////////////////////////////////////////////////////////
 		System.out.println(itemValues);////////////////////////////////////////////////////////////
