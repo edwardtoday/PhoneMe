@@ -24,10 +24,12 @@ public class CoolInfoBox {
 	private JDialog dialog;
 	private JPanel container;
 	private String str;
+	private Color color;
 
-	public CoolInfoBox(JComponent father, String str) {
+	public CoolInfoBox(JComponent father, String str, Color color) {
 		this.father = father;
 		this.str = str;
+		this.color = color;
 		launch();
 	}
 
@@ -108,6 +110,6 @@ public class CoolInfoBox {
 	}
 	
 	public static void main(String args[]) {
-		new CoolInfoBox(null, "名片内容不能为空哦！");
+		new CoolInfoBox(null, "名片内容不能为空哦！", Color.YELLOW);
 	}
 }
