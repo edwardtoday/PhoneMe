@@ -107,7 +107,7 @@ implements CardController, Constants {
 					double sx = (double) nw / w;
 					double sy = (double) nh / h;
 					transform.setToScale(sx, sy);
-					System.out.println(w + " " + h);
+//					System.out.println(w + " " + h);
 					AffineTransformOp ato = new AffineTransformOp(transform,
 							null);
 					BufferedImage bid = new BufferedImage(nw, nh,
