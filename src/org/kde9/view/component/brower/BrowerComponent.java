@@ -1,6 +1,7 @@
 package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -76,12 +77,12 @@ implements ListSelectionListener, KeyListener, Constants {
 		viewer.addEditListener(editListener);
 	}
 	
-	public void addGroupListener(AddGroupListener addGroupListener) {
-		group.addGroupListener(addGroupListener);
+	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
+		group.addGroupListener(component,addGroupListener);
 	}
 	
-	public void addNameListener(AddNameListener addNameListener) {
-		name.addNameListener(addNameListener);
+	public void addNameListener(Container component,AddNameListener addNameListener) {
+		name.addNameListener(component,addNameListener);
 	}
 	
 	private void init() {

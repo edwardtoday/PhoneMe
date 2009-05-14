@@ -2,6 +2,7 @@ package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -83,8 +84,9 @@ public class GroupComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	public void addGroupListener(AddGroupListener addGroupListener) {
+	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
 		addGroupListener.setComponent(this);
+		addGroupListener.setMainComponent(component);
 		buttonAdd.addActionListener(addGroupListener);
 	}
 

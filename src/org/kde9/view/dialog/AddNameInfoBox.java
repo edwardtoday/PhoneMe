@@ -22,21 +22,25 @@ public class AddNameInfoBox
 implements ActionListener {
 	private JFrame frame;
 	private JComponent father;
+	private Container mainContainer;
 	private JSheet sheet;
 	private JPanel container;
 	private Color color;
-	private JTextField textField;
+	JTextField firstName;
+	JTextField lastName;
 	private JButton confirm;
 	private JButton cancel;
 	int w;
 	int h;
 
-	public AddNameInfoBox(JComponent father, Color color, int w, int h) {
+	public AddNameInfoBox(JComponent father, Container container,Color color, int w, int h) {
 		this.frame = new JFrame();
-		this.textField = new JTextField();
+		this.firstName = new JTextField();
+		this.lastName = new JTextField();
 		this.confirm = new JButton("Yes");
 		this.cancel = new JButton("No");
 		this.father = father;
+		this.mainContainer = container;
 		this.color = color;
 		this.w = w;
 		this.h = h;
@@ -67,8 +71,6 @@ implements ActionListener {
 		JPanel lastNamePane = new JPanel(new BorderLayout());
 		JLabel firstNameLabel = new JLabel("First Name:");
 		JLabel lastNameLabel = new JLabel("Last Name:");
-		JTextField firstName = new JTextField();
-		JTextField lastName = new JTextField();
 		firstNamePane.add("North",firstNameLabel);
 		firstNamePane.add("Center",firstName);
 		lastNamePane.add("North",lastNameLabel);
@@ -114,13 +116,17 @@ implements ActionListener {
 		return cancel;
 	}
 	
+	public Container getMainContainer() {
+		return mainContainer;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		getMainContainer().setEnabled(true);
+		sheet.dispose();
 		if(e.getSource() == this.getCancel()) {
-			sheet.dispose();
 			System.out.println("Name added cancelled!!");
 		}else if(e.getSource() == this.getConfirm()) {
-			sheet.dispose();
 			System.out.println("Name added confirmed!!");
 		}
 	}

@@ -22,6 +22,7 @@ public class AddGroupInfoBox
 implements ActionListener {
 	private JFrame frame;
 	private JComponent father;
+	private Container mainContainer;
 	private JSheet sheet;
 	private JPanel container;
 	private Color color;
@@ -31,12 +32,13 @@ implements ActionListener {
 	int w;
 	int h;
 
-	public AddGroupInfoBox(JComponent father, Color color, int w, int h) {
+	public AddGroupInfoBox(JComponent father, Container container,Color color, int w, int h) {
 		this.frame = new JFrame();
 		this.textField = new JTextField();
 		this.confirm = new JButton("Yes");
 		this.cancel = new JButton("No");
 		this.father = father;
+		this.mainContainer = container;
 		this.color = color;
 		this.w = w;
 		this.h = h;
@@ -62,7 +64,7 @@ implements ActionListener {
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
-		JLabel label = new JLabel("Please input the group name:");
+		JLabel label = new JLabel("Group Name:");
 		//label.setFont(new Font("HeiTi", 1, 15));
 		container.add("North",label);
 		container.add("Center",textField);
@@ -104,13 +106,17 @@ implements ActionListener {
 		return cancel;
 	}
 	
+	public Container getMainContainer() {
+		return mainContainer;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource() == this.getCancel()) {
-			sheet.dispose();
+		getMainContainer().setEnabled(true);
+		sheet.dispose();
+		if(e.getSource() == this.getCancel()) {		
 			System.out.println("Group added cancelled!!");
 		}else if(e.getSource() == this.getConfirm()) {
-			sheet.dispose();
 			System.out.println("Group added confirmed!!");
 		}
 	}

@@ -2,6 +2,7 @@ package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -77,8 +78,9 @@ public class NameComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	public void addNameListener(AddNameListener addNameListener) {
+	public void addNameListener(Container component,AddNameListener addNameListener) {
 		addNameListener.setComponent(this);
+		addNameListener.setMainComponent(component);
 		buttonAdd.addActionListener(addNameListener);
 	}
 

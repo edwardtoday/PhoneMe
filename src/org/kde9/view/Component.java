@@ -1,6 +1,7 @@
 package org.kde9.view;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 
@@ -94,20 +95,20 @@ implements Constants {
 		addGroupListener = new AddGroupListener();
 		addNameListener = new AddNameListener();
 		addEditListener(editListener);
-		addGroupListener(addGroupListener);
-		addNameListener(addNameListener);
+		addGroupListener(this,addGroupListener);
+		addNameListener(this,addNameListener);
 	}
 	
 	public void addEditListener(EditListener editListener) {
 		browerComponent.addEditListener(editListener);
 	}
 	
-	public void addGroupListener(AddGroupListener addGroupListener) {
-		browerComponent.addGroupListener(addGroupListener);
+	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
+		browerComponent.addGroupListener(component,addGroupListener);
 	}
 	
-	public void addNameListener(AddNameListener addNameListener) {
-		browerComponent.addNameListener(addNameListener);
+	public void addNameListener(Container component,AddNameListener addNameListener) {
+		browerComponent.addNameListener(component,addNameListener);
 	}
 
 	protected void buildMenus() {
