@@ -63,8 +63,8 @@ public class CoolInfoBox {
 		container.setOpaque(true);
 		container.setBackground(color);
 
-		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(0, 0, sheet
-				.getWidth(), sheet.getHeight(), 20, 20);
+		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
+				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
 		WindowUtils.setWindowMask(sheet, mask);
 		if(father != null)
 			centerWindow(father, frame);
