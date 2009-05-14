@@ -25,6 +25,8 @@ public class Main {
 	public static void main(String args[]) {
 		final java.util.List argList = Arrays.asList(args);
 		
+        System.setProperty("sun.java2d.noddraw", "true");
+		
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") == -1) {
 			System.setProperty("Quaqua.Debug.crossPlatform", "true");
 			System.setProperty("swing.aatext", "true");
