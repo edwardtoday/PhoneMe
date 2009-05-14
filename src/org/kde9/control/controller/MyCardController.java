@@ -98,10 +98,10 @@ implements CardController, Constants {
 					int h = bis.getHeight();
 					// double scale = (double) w / h;
 					if(w > h) {
-						nw = 110;
+						nw = 115;
 						nh = (nw * h) / w;
 					} else {
-						nh = 110;
+						nh = 115;
 						nw = (nh * w) / h;
 					}
 					double sx = (double) nw / w;
