@@ -72,15 +72,15 @@ public class CoolInfoBox {
 			centerWindow(sheet, frame);
 		new Thread() {
 			public void run() {
-//				for(float i = 0.5f; i < 1; i += 0.05) {
-//					try {
-//						sleep(40);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					WindowUtils.setWindowAlpha(sheet, i);
-//				}
+				for(float i = 0.5f; i < 1; i += 0.05) {
+					try {
+						sleep(40);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					WindowUtils.setWindowAlpha(sheet, i);
+				}
 				try {
 					sleep(800);
 				} catch (InterruptedException e) {
