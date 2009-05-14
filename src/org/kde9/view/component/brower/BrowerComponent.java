@@ -19,6 +19,8 @@ import org.kde9.model.card.ConstCard;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
+import org.kde9.view.listener.AddGroupListener;
+import org.kde9.view.listener.AddNameListener;
 import org.kde9.view.listener.EditListener;
 
 
@@ -72,6 +74,14 @@ implements ListSelectionListener, KeyListener, Constants {
 
 	public void addEditListener(EditListener editListener) {
 		viewer.addEditListener(editListener);
+	}
+	
+	public void addGroupListener(AddGroupListener addGroupListener) {
+		group.addGroupListener(addGroupListener);
+	}
+	
+	public void addNameListener(AddNameListener addNameListener) {
+		name.addNameListener(addNameListener);
 	}
 	
 	private void init() {

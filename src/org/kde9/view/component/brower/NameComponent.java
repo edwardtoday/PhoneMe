@@ -21,6 +21,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.view.listener.AddGroupListener;
+import org.kde9.view.listener.AddNameListener;
+
 public class NameComponent extends JPanel {
 	private JTable table;
 	private JScrollPane pane;
@@ -74,9 +77,10 @@ public class NameComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	// public void buttonSubListener(ActionListener al) {
-	// buttonSub.addActionListener(al);
-	// }
+	public void addNameListener(AddNameListener addNameListener) {
+		addNameListener.setComponent(this);
+		buttonAdd.addActionListener(addNameListener);
+	}
 
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
 		table.getSelectionModel().setSelectionMode(

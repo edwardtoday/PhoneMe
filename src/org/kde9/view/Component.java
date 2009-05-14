@@ -19,6 +19,8 @@ import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 import org.kde9.view.component.brower.BrowerComponent;
 import org.kde9.view.component.toolbar.ToolbarComponent;
+import org.kde9.view.listener.AddGroupListener;
+import org.kde9.view.listener.AddNameListener;
 import org.kde9.view.listener.EditListener;
 
 public class Component 
@@ -32,6 +34,8 @@ implements Constants {
 	Configuration config;
 	
 	private EditListener editListener;
+	private AddGroupListener addGroupListener;
+	private AddNameListener addNameListener;
 
 	public Component(Kernel model) {
 		super("what's this?");
@@ -87,11 +91,23 @@ implements Constants {
 				((screenHeight - shellHeight) / 2));
 		
 		editListener = new EditListener();
+		addGroupListener = new AddGroupListener();
+		addNameListener = new AddNameListener();
 		addEditListener(editListener);
+		addGroupListener(addGroupListener);
+		addNameListener(addNameListener);
 	}
 	
 	public void addEditListener(EditListener editListener) {
 		browerComponent.addEditListener(editListener);
+	}
+	
+	public void addGroupListener(AddGroupListener addGroupListener) {
+		browerComponent.addGroupListener(addGroupListener);
+	}
+	
+	public void addNameListener(AddNameListener addNameListener) {
+		browerComponent.addNameListener(addNameListener);
 	}
 
 	protected void buildMenus() {

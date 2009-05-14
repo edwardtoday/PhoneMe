@@ -18,6 +18,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.view.listener.AddGroupListener;
+import org.kde9.view.listener.EditListener;
+
 public class GroupComponent extends JPanel {
 	private JTable table;
 	private JScrollPane pane;
@@ -80,9 +83,10 @@ public class GroupComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	// public void buttonSubListener(ActionListener al) {
-	// buttonSub.addActionListener(al);
-	// }
+	public void addGroupListener(AddGroupListener addGroupListener) {
+		addGroupListener.setComponent(this);
+		buttonAdd.addActionListener(addGroupListener);
+	}
 
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
 		table.getSelectionModel().setSelectionMode(
