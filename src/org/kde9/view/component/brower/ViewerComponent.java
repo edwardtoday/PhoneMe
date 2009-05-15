@@ -274,8 +274,7 @@ implements Constants {
 		relationTable.setCellSelectionEnabled(true);
 		setEditable(true);
 		buttonEdit.setSelected(true);
-		if(relationButtons.size() == 0) {
-			relationButtons.add(new ButtonUnit(""));
+		if(relationButtons.size() == 1) {
 			ButtonUnit unit = new ButtonUnit(3, 1, 0, this);
 			relationButtons.add(unit);
 			relationModel.insertRow(1, new Object[] {
@@ -307,8 +306,13 @@ outer:
 			}
 			relationButtons.get(i+1).setLocation(i+1);
 		}
-		if(relationId.size() == 0)
+		if(relationId.size() == 0) {
 			relationButtons.removeAllElements();
+			relationButtons.add(new ButtonUnit(""));
+			relationModel.removeRow(1);
+		}
+		System.out.println(relationButtons.size() + " " + relationId.size()
+				+ " " + relationModel.getRowCount());
 		repaint();
 	}
 	
@@ -358,7 +362,7 @@ outer:
 			relationModel.removeRow(0);
 		relationButtons.removeAllElements();
 		relationModel.addRow(new Object[] {"","","","¹ØÏµ",""});
-		if(rel != null && rel.size() != 0) {
+		if(rel != null) {
 			//System.out.println(rel);
 			relationButtons.add(new ButtonUnit(""));
 			for(int id : rel.keySet()) {
