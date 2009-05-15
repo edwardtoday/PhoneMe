@@ -43,6 +43,8 @@ implements Constants {
 		
 		dispatchEvent(new FocusEvent(this, FocusEvent.FOCUS_GAINED, true));
 		
+		ComponentPool.setComponent(this);
+		
 		toolbarComponent = new ToolbarComponent();
 		browerComponent = new BrowerComponent(model);
 		config = ConfigFactory.creatConfig();
@@ -95,20 +97,20 @@ implements Constants {
 		addGroupListener = new AddGroupListener();
 		addNameListener = new AddNameListener();
 		addEditListener(editListener);
-		addGroupListener(this,addGroupListener);
-		addNameListener(this,addNameListener);
+		addGroupListener(addGroupListener);
+		addNameListener(addNameListener);
 	}
 	
 	public void addEditListener(EditListener editListener) {
 		browerComponent.addEditListener(editListener);
 	}
 	
-	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
-		browerComponent.addGroupListener(component,addGroupListener);
+	public void addGroupListener(AddGroupListener addGroupListener) {
+		browerComponent.addGroupListener(addGroupListener);
 	}
 	
-	public void addNameListener(Container component,AddNameListener addNameListener) {
-		browerComponent.addNameListener(component,addNameListener);
+	public void addNameListener(AddNameListener addNameListener) {
+		browerComponent.addNameListener(addNameListener);
 	}
 
 	protected void buildMenus() {

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import ch.randelshofer.quaqua.JSheet;
+import ch.randelshofer.quaqua.util.Fonts;
 
 import com.sun.jna.examples.WindowUtils;
 
@@ -60,7 +61,7 @@ public class CoolInfoBox {
 		JTextArea label = new JTextArea(str);
 		label.setEditable(false);
 		label.setBackground(color);
-		label.setFont(new Font("HeiTi", 1, 14));
+		label.setFont(Fonts.getDialogFont());
 		container.add(label);
 		container.setOpaque(true);
 		container.setBackground(color);

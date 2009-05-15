@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.EditListener;
 
@@ -33,6 +34,8 @@ public class GroupComponent extends JPanel {
 	private LinkedHashMap<Integer, String> groups;
 
 	GroupComponent() {
+		ComponentPool.setGroupComponent(this);
+		
 		groups = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 2) {
 			public boolean isCellEditable(int i, int j) {
@@ -84,9 +87,9 @@ public class GroupComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
+	public void addGroupListener(AddGroupListener addGroupListener) {
 		addGroupListener.setComponent(this);
-		addGroupListener.setMainComponent(component);
+//		addGroupListener.setMainComponent(component);
 		buttonAdd.addActionListener(addGroupListener);
 	}
 

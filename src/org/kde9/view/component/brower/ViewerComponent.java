@@ -41,6 +41,7 @@ import org.kde9.model.card.ConstCard;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
+import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.listener.EditListener;
 
@@ -100,6 +101,8 @@ implements Constants {
 	}
 	
 	ViewerComponent(Kernel kernel) {
+		ComponentPool.setViewerComponent(this);
+		
 		configuration = ConfigFactory.creatConfig();
 		this.kernel = kernel;
 		cantSelect = new LinkedHashMap<Integer, Integer>();

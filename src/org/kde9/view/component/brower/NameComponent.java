@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.AddNameListener;
 
@@ -36,6 +37,8 @@ public class NameComponent extends JPanel {
 	private LinkedHashMap<Integer, String> members;
 
 	NameComponent() {
+		ComponentPool.setNameComponent(this);
+		
 		members = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 1) {
 			public boolean isCellEditable(int i, int j) {
@@ -78,9 +81,9 @@ public class NameComponent extends JPanel {
 		buttonAdd.addActionListener(al);
 	}
 
-	public void addNameListener(Container component,AddNameListener addNameListener) {
+	public void addNameListener(AddNameListener addNameListener) {
 		addNameListener.setComponent(this);
-		addNameListener.setMainComponent(component);
+//		addNameListener.setMainComponent(component);
 		buttonAdd.addActionListener(addNameListener);
 	}
 

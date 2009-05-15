@@ -17,12 +17,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.kde9.view.ComponentPool;
+
 public class ToolbarComponent extends JMenuBar {
 	private JButton button1;
 	private JButton button2;
 	private JTextField textField;
 
 	public ToolbarComponent() {
+		ComponentPool.setToolbarComponent(this);
+		
 		button1 = new JButton("<<");
 		button1.putClientProperty("Quaqua.Button.style", "toggleWest");
 		button2 = new JButton(">>");

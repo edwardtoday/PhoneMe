@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.kde9.view.ComponentPool;
+
 import ch.randelshofer.quaqua.JSheet;
 
 import com.sun.jna.examples.WindowUtils;
@@ -22,7 +24,7 @@ public class AddGroupInfoBox
 implements ActionListener {
 	private JFrame frame;
 	private JComponent father;
-	private Container mainContainer;
+//	private Container mainContainer;
 	private JSheet sheet;
 	private JPanel container;
 	private Color color;
@@ -32,13 +34,13 @@ implements ActionListener {
 	int w;
 	int h;
 
-	public AddGroupInfoBox(JComponent father, Container container,Color color, int w, int h) {
+	public AddGroupInfoBox(JComponent father,Color color, int w, int h) {
 		this.frame = new JFrame();
 		this.textField = new JTextField();
 		this.confirm = new JButton("Yes");
 		this.cancel = new JButton("No");
 		this.father = father;
-		this.mainContainer = container;
+//		this.mainContainer = container;
 		this.color = color;
 		this.w = w;
 		this.h = h;
@@ -83,18 +85,18 @@ implements ActionListener {
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
 		WindowUtils.setWindowMask(sheet, mask);
 		if(father != null)
-			centerWindow(father, frame);
+			centerWindow(father, frame, sheet);
 		else
-			centerWindow(sheet, frame);
+			centerWindow(sheet, frame, sheet);
 	}
 
-	private static void centerWindow(Container window, Container frame) {
+	private static void centerWindow(Container window, Container frame,Container sheet) {
 		int xx = (int) window.getLocationOnScreen().getX();
 		int yy = (int) window.getLocationOnScreen().getY();
 		int w = window.getSize().width;
 		int h = window.getSize().height;
 		int x = xx + (w-frame.getWidth())/2;
-		int y = yy + (h-frame.getHeight())/2;
+		int y = yy + (h-frame.getHeight())*2/5;
 		frame.setLocation(x, y);
 	}
 	
@@ -106,13 +108,14 @@ implements ActionListener {
 		return cancel;
 	}
 	
-	public Container getMainContainer() {
-		return mainContainer;
-	}
+//	public Container getMainContainer() {
+//		return mainContainer;
+//	}
 	
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		getMainContainer().setEnabled(true);
+//		getMainContainer().setEnabled(true);
+		ComponentPool.getComponent().setEnabled(true);
 		sheet.dispose();
 		if(e.getSource() == this.getCancel()) {		
 			System.out.println("Group added cancelled!!");

@@ -20,6 +20,7 @@ import org.kde9.model.card.ConstCard;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
+import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.AddNameListener;
 import org.kde9.view.listener.EditListener;
@@ -40,6 +41,8 @@ implements ListSelectionListener, KeyListener, Constants {
 	public BrowerComponent(Kernel kernel) {
 		dispatchEvent(new FocusEvent(this, FocusEvent.FOCUS_GAINED,
 				true));
+		
+		ComponentPool.setBrowerComponent(this);
 		
 		config = ConfigFactory.creatConfig();
 		group = new GroupComponent();
@@ -77,12 +80,12 @@ implements ListSelectionListener, KeyListener, Constants {
 		viewer.addEditListener(editListener);
 	}
 	
-	public void addGroupListener(Container component,AddGroupListener addGroupListener) {
-		group.addGroupListener(component,addGroupListener);
+	public void addGroupListener(AddGroupListener addGroupListener) {
+		group.addGroupListener(addGroupListener);
 	}
 	
-	public void addNameListener(Container component,AddNameListener addNameListener) {
-		name.addNameListener(component,addNameListener);
+	public void addNameListener(AddNameListener addNameListener) {
+		name.addNameListener(addNameListener);
 	}
 	
 	private void init() {
