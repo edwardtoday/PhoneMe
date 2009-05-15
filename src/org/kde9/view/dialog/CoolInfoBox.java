@@ -17,7 +17,7 @@ import com.sun.jna.examples.WindowUtils;
 
 
 public class CoolInfoBox {
-	private JFrame frame;
+	private static JFrame frame;
 	private JComponent father;
 	private JSheet sheet;
 	private JPanel container;
@@ -61,7 +61,9 @@ public class CoolInfoBox {
 		JTextArea label = new JTextArea(str);
 		label.setEditable(false);
 		label.setBackground(color);
-		label.setFont(Fonts.getDialogFont());
+		Font f = Fonts.getDialogFont();
+		f = new Font(f.getName(), 1, 14);
+		label.setFont(f);
 		container.add(label);
 		container.setOpaque(true);
 		container.setBackground(color);
@@ -70,14 +72,18 @@ public class CoolInfoBox {
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
 		WindowUtils.setWindowMask(sheet, mask);
 		if(father != null)
-			centerWindow(father, frame);
+			centerWindow(father, sheet);
 		else
 			centerWindow(sheet, sheet);
+		changeAlpha(200, 800, 600);
+	}
+
+	private void changeAlpha(final int a, final int b, int c) {
 		new Thread() {
 			public void run() {
-				for(float i = 0.5f; i < 1; i += 0.1) {
+				for (float i = 0.5f; i < 1; i += 0.1) {
 					try {
-						sleep(40);
+						sleep(a/5);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -85,15 +91,15 @@ public class CoolInfoBox {
 					WindowUtils.setWindowAlpha(sheet, i);
 				}
 				try {
-					sleep(800);
+					sleep(b);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				for(float i = 0.9f; i > 0; i -= 0.05) {
+				for (float i = 0.9f; i > 0; i -= 0.05) {
 					WindowUtils.setWindowAlpha(sheet, i);
 					try {
-						sleep(30);
+						sleep(b/20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -103,15 +109,15 @@ public class CoolInfoBox {
 			}
 		}.start();
 	}
-
-	private static void centerWindow(Container window, Container frame) {
+	
+	private static void centerWindow(Container window, Container sheet) {
 		int xx = (int) window.getLocationOnScreen().getX();
 		int yy = (int) window.getLocationOnScreen().getY();
 		int w = window.getWidth();
 		int h = window.getHeight();
-		//System.out.println(w + " " + h + " " + frame.getWidth() + " " + frame.getHeight());
-		int x = xx + (w-frame.getWidth())/2;
-		int y = yy + (h-frame.getHeight())/2;
+//		System.out.println(w + " " + h + " " + sheet.getWidth() + " " + sheet.getHeight());
+		int x = xx + w/2;
+		int y = yy + (h-sheet.getHeight())/2;
 		frame.setLocation(x, y);
 	}
 	

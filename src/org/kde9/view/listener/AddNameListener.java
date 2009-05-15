@@ -17,7 +17,7 @@ implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		//component.addNewGroup();
 //		container.setEnabled(false);
-//		ComponentPool.getComponent().setEnabled(false);
+		ComponentPool.getComponent().setEnabled(false);
 		new AddNameInfoBox(component,new Color(102,255,153),200, 100);
 		System.out.println("A new Name added!!");
 	}

@@ -3,6 +3,7 @@ package org.kde9.view.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
@@ -18,11 +19,12 @@ import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
 public class AddGroupInfoBox 
 implements ActionListener {
-	private JFrame frame;
+	private static JFrame frame;
 	private JComponent father;
 //	private Container mainContainer;
 	private JSheet sheet;
@@ -62,6 +64,7 @@ implements ActionListener {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
+		ComponentPool.getComponent().setAlwaysOnTop(true);
 		sheet.setAlwaysOnTop(true);
 
 		container = new JPanel(new BorderLayout());
@@ -85,18 +88,56 @@ implements ActionListener {
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
 		WindowUtils.setWindowMask(sheet, mask);
 		if(father != null)
-			centerWindow(father, frame, sheet);
+			centerWindow(father, sheet);
 		else
-			centerWindow(sheet, frame, sheet);
+			centerWindow(sheet, sheet);
+		changeAlphaDown(800, 0.8f, ComponentPool.getComponent(), false);
 	}
 
-	private static void centerWindow(Container window, Container frame,Container sheet) {
+	private void changeAlphaUp(final int a, final float s, final Window window) {
+		new Thread() {
+			public void run() {
+				for (float i = s; i < 1; i += 0.01) {
+					try {
+						sleep((long) (a/((1-s)*100)));
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					WindowUtils.setWindowAlpha(window, i);
+				}
+				WindowUtils.setWindowAlpha(window, 1);
+			}
+		}.start();
+	}
+	
+	private void changeAlphaDown(final int a, final float s, final Window window,
+			final boolean close) {
+		new Thread() {
+			public void run() {
+				for (float i = 1; i > s; i -= 0.01) {
+					try {
+						sleep((long) (a/((1-s)*100)));
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					WindowUtils.setWindowAlpha(window, i);
+				}
+				if(close)
+					window.dispose();
+			}
+		}.start();
+	}
+	
+	private static void centerWindow(Container window, Container sheet) {
 		int xx = (int) window.getLocationOnScreen().getX();
 		int yy = (int) window.getLocationOnScreen().getY();
-		int w = window.getSize().width;
-		int h = window.getSize().height;
-		int x = xx + (w-frame.getWidth())/2;
-		int y = yy + (h-frame.getHeight())*2/5;
+		int w = window.getWidth();
+		int h = window.getHeight();
+//		System.out.println(w + " " + h + " " + sheet.getWidth() + " " + sheet.getHeight());
+		int x = xx + w/2;
+		int y = yy + (h-sheet.getHeight())/2;
 		frame.setLocation(x, y);
 	}
 	
@@ -116,7 +157,9 @@ implements ActionListener {
 		// TODO Auto-generated method stub
 //		getMainContainer().setEnabled(true);
 		ComponentPool.getComponent().setEnabled(true);
-		sheet.dispose();
+		ComponentPool.getComponent().setAlwaysOnTop(false);
+		changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+		changeAlphaDown(300, 0, sheet, true);
 		if(e.getSource() == this.getCancel()) {		
 			System.out.println("Group added cancelled!!");
 		}else if(e.getSource() == this.getConfirm()) {
