@@ -149,14 +149,16 @@ implements ListSelectionListener, KeyListener, Constants {
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
 		//System.out.println(e.getSource().equals(group.getSelectionModel()));
-		if (e.getSource().equals(group.getSelectionModel())) {
-			if (group.getSelected() != -1) {
-				showGroupMembers();
-				name.setSelected(0, 0);
+		if (this.isEnabled()) {
+			if (e.getSource().equals(group.getSelectionModel())) {
+				if (group.getSelected() != -1) {
+					showGroupMembers();
+					name.setSelected(0, 0);
+				}
+			} else if (e.getSource().equals(name.getSelectionModel())) {
+				if (name.getSelected() != -1)
+					showItem();
 			}
-		} else if (e.getSource().equals(name.getSelectionModel())) {
-			if (name.getSelected() != -1)
-				showItem();
 		}
 	}
 

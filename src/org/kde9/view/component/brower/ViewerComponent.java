@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -274,7 +275,7 @@ implements Constants {
 		relationTable.setCellSelectionEnabled(true);
 		setEditable(true);
 		buttonEdit.setSelected(true);
-		if(relationButtons.size() == 1) {
+		if(relationId.size() == 0) {
 			ButtonUnit unit = new ButtonUnit(3, 1, 0, this);
 			relationButtons.add(unit);
 			relationModel.insertRow(1, new Object[] {
@@ -309,7 +310,8 @@ outer:
 		if(relationId.size() == 0) {
 			relationButtons.removeAllElements();
 			relationButtons.add(new ButtonUnit(""));
-			relationModel.removeRow(1);
+			if(relationTable.getRowCount() > 2)
+				relationModel.removeRow(1);
 		}
 		System.out.println(relationButtons.size() + " " + relationId.size()
 				+ " " + relationModel.getRowCount());

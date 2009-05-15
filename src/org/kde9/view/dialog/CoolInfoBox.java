@@ -6,9 +6,11 @@ import java.awt.Font;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.util.Fonts;
@@ -17,7 +19,7 @@ import com.sun.jna.examples.WindowUtils;
 
 
 public class CoolInfoBox {
-	private static JFrame frame;
+	private static JDialog frame;
 	private JComponent father;
 	private JSheet sheet;
 	private JPanel container;
@@ -28,7 +30,7 @@ public class CoolInfoBox {
 
 	public CoolInfoBox(JComponent father, String str, Color color,
 			int w, int h) {
-		this.frame = new JFrame();
+		this.frame = new JDialog(ComponentPool.getComponent());
 		this.father = father;
 		this.str = str;
 		this.color = color;
@@ -53,7 +55,7 @@ public class CoolInfoBox {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
-		sheet.setAlwaysOnTop(true);
+		//sheet.setAlwaysOnTop(true);
 		//sheet.setBackground(Color.YELLOW);
 
 		container = new JPanel();

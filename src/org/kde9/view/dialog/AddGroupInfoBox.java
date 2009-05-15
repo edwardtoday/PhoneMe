@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +25,7 @@ import com.sun.jna.examples.WindowUtils;
 
 public class AddGroupInfoBox 
 implements ActionListener {
-	private static JFrame frame;
+	private static JDialog frame;
 	private JComponent father;
 //	private Container mainContainer;
 	private JSheet sheet;
@@ -37,7 +38,7 @@ implements ActionListener {
 	int h;
 
 	public AddGroupInfoBox(JComponent father,Color color, int w, int h) {
-		this.frame = new JFrame();
+		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.textField = new JTextField();
 		this.confirm = new JButton("Yes");
 		this.cancel = new JButton("No");
@@ -64,8 +65,8 @@ implements ActionListener {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
-		ComponentPool.getComponent().setAlwaysOnTop(true);
-		sheet.setAlwaysOnTop(true);
+		//ComponentPool.getComponent().setAlwaysOnTop(true);
+		//sheet.setAlwaysOnTop(true);
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);

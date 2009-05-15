@@ -3,6 +3,7 @@ package org.kde9.view.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,7 +24,7 @@ import com.sun.jna.examples.WindowUtils;
 
 public class AddNameInfoBox 
 implements ActionListener {
-	private static JFrame frame;
+	private static JDialog frame;
 	private JComponent father;
 //	private Container mainContainer;
 	private JSheet sheet;
@@ -37,7 +38,7 @@ implements ActionListener {
 	int h;
 
 	public AddNameInfoBox(JComponent father,Color color, int w, int h) {
-		this.frame = new JFrame();
+		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.firstName = new JTextField();
 		this.lastName = new JTextField();
 		this.confirm = new JButton("Yes");
@@ -65,8 +66,8 @@ implements ActionListener {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
-		ComponentPool.getComponent().setAlwaysOnTop(true);
-		sheet.setAlwaysOnTop(true);
+		//ComponentPool.getComponent().setAlwaysOnTop(true);
+		//sheet.setAlwaysOnTop(true);
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
