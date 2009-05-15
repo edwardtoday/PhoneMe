@@ -383,6 +383,7 @@ outer:
 		while (itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
 		buttons.removeAllElements();
+		buttonsLow.removeAllElements();
 		itemModel.addRow(new Object[] {"","","","","","пео╒",""});
 		buttons.add(new ButtonUnit(""));
 		buttonsLow.add(new ButtonUnit(""));
