@@ -142,6 +142,6 @@ implements GroupController, Constants {
 
 	public boolean save(ConstGroup group) {
 		save.init(group);
-		return false;
+		return save.save();
 	}
 }

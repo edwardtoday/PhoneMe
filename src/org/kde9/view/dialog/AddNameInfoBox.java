@@ -134,8 +134,11 @@ implements ActionListener {
 					}
 					WindowUtils.setWindowAlpha(window, i);
 				}
-				if(close)
+				if(close) {
 					window.dispose();
+					ComponentPool.getComponent().setAlwaysOnTop(true);
+					ComponentPool.getComponent().setAlwaysOnTop(false);
+				}
 			}
 		}.start();
 	}
@@ -166,14 +169,17 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 //		getMainContainer().setEnabled(true);
-		ComponentPool.getComponent().setEnabled(true);
-		ComponentPool.getComponent().setAlwaysOnTop(false);
-		changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 		changeAlphaDown(300, 0, sheet, true);
 		if(e.getSource() == this.getCancel()) {
 			System.out.println("Name added cancelled!!");
+			ComponentPool.getComponent().setEnabled(true);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
 		}else if(e.getSource() == this.getConfirm()) {
 			System.out.println("Name added confirmed!!");
+			ComponentPool.getComponent().setEnabled(true);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
 		}
 	}
 	

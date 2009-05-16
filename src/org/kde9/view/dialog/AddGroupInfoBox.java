@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
@@ -127,8 +128,11 @@ implements ActionListener {
 					}
 					WindowUtils.setWindowAlpha(window, i);
 				}
-				if(close)
+				if(close) {
 					window.dispose();
+					ComponentPool.getComponent().setAlwaysOnTop(true);
+					ComponentPool.getComponent().setAlwaysOnTop(false);
+				}
 			}
 		}.start();
 	}
@@ -163,20 +167,24 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 //		getMainContainer().setEnabled(true);
-		ComponentPool.getComponent().setEnabled(true);
-		ComponentPool.getComponent().setAlwaysOnTop(false);
-		changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-		changeAlphaDown(300, 0, sheet, true);
+		//ComponentPool.getComponent().setAlwaysOnTop(false);
 		if(e.getSource() == this.getCancel()) {		
 			System.out.println("Group added cancelled!!");
+			ComponentPool.getComponent().setEnabled(true);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
 		}else if(e.getSource() == this.getConfirm()) {
 			String groupName = getTextField().getText();
 			if(groupName.length() == 0) {
-				new CoolInfoBox(ComponentPool.getGroupComponent(),"请输入组名！",Color.YELLOW,200,100);
+				new CoolInfoBox(ComponentPool.getGroupComponent(),
+						"请输入组名！",Color.YELLOW,200,100);
 			}else {
 				Kernel kernel = ComponentPool.getComponent().getKernel();
 				ConstGroup group = kernel.addGroup(groupName); 
 				ComponentPool.getGroupComponent().addGroup(group.getId(), groupName);
+				ComponentPool.getComponent().setEnabled(true);
+				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+				changeAlphaDown(300, 0, sheet, true);
 			}
 			System.out.println("Group added confirmed!!");
 		}
