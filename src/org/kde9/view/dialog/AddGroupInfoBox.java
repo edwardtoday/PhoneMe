@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.kde9.control.Kernel;
+import org.kde9.model.group.ConstGroup;
 import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
@@ -150,6 +152,10 @@ implements ActionListener {
 		return cancel;
 	}
 	
+	public JTextField getTextField() {
+		return textField;
+	}
+	
 //	public Container getMainContainer() {
 //		return mainContainer;
 //	}
@@ -164,6 +170,14 @@ implements ActionListener {
 		if(e.getSource() == this.getCancel()) {		
 			System.out.println("Group added cancelled!!");
 		}else if(e.getSource() == this.getConfirm()) {
+			String groupName = getTextField().getText();
+			if(groupName.length() == 0) {
+				new CoolInfoBox(ComponentPool.getGroupComponent(),"«Î ‰»Î◊È√˚£°",Color.YELLOW,200,100);
+			}else {
+				Kernel kernel = ComponentPool.getComponent().getKernel();
+				ConstGroup group = kernel.addGroup(groupName); 
+				ComponentPool.getGroupComponent().addGroup(group.getId(), groupName);
+			}
 			System.out.println("Group added confirmed!!");
 		}
 	}

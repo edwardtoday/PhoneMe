@@ -30,6 +30,7 @@ implements Constants {
 	JPanel contacts;
 	JPanel renlifang;
 	JMenuBar menuBar;
+	Kernel kernel;
 	ToolbarComponent toolbarComponent;
 	BrowerComponent browerComponent;
 	Configuration config;
@@ -38,15 +39,17 @@ implements Constants {
 	private AddGroupListener addGroupListener;
 	private AddNameListener addNameListener;
 
-	public Component(Kernel model) {
+	public Component(Kernel kernel) {
 		super("what's this?");
+		
+		this.kernel = kernel;
 		
 		dispatchEvent(new FocusEvent(this, FocusEvent.FOCUS_GAINED, true));
 		
 		ComponentPool.setComponent(this);
 		
 		toolbarComponent = new ToolbarComponent();
-		browerComponent = new BrowerComponent(model);
+		browerComponent = new BrowerComponent(kernel);
 		config = ConfigFactory.creatConfig();
 
 		buildMenus();
@@ -111,6 +114,10 @@ implements Constants {
 	
 	public void addNameListener(AddNameListener addNameListener) {
 		browerComponent.addNameListener(addNameListener);
+	}
+	
+	public Kernel getKernel() {
+		return kernel;
 	}
 
 	protected void buildMenus() {
