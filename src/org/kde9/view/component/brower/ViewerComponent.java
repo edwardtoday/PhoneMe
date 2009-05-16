@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -44,11 +45,12 @@ import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
+import org.kde9.view.dialog.PhotoBox;
 import org.kde9.view.listener.EditListener;
 
 public class ViewerComponent 
 extends JPanel 
-implements Constants {
+implements ActionListener, Constants {
 	private JTable itemTable;
 	private JTable relationTable;
 	private JPanel upPanel;
@@ -183,6 +185,7 @@ implements Constants {
 		photo = new JButton();
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
 		photo.setPreferredSize(new Dimension(140, 140));
+		photo.addActionListener(this);
 		name = new JLabel();
 		name.setFont(new Font("HeiTi", 1, 30));
 		name.setHorizontalAlignment(JLabel.CENTER);
@@ -430,6 +433,7 @@ outer:
 
 	public void ready() {
 		buttonEdit.setEnabled(true);
+		photo.setEnabled(true);
 	}
 	
 	public void clear() {
@@ -438,6 +442,7 @@ outer:
 		while(relationModel.getRowCount() != 0)
 			relationModel.removeRow(0);
 		buttonEdit.setEnabled(false);
+		photo.setEnabled(false);
 		setName("");
 		setPinYin("");
 		setImage(null);
@@ -616,6 +621,12 @@ outer:
 			relationButtons.get(i).update();
 		repaint();
 		System.out.println(itemTable.getRowCount());
+	}
+
+	public void actionPerformed(ActionEvent arg0) {
+		BufferedImage image = card.getImage();
+		if(image != null && !editable)
+			new PhotoBox(photo, image);
 	}
 
 //	public void addItem(String name, String content) {
