@@ -85,7 +85,6 @@ implements GroupController, Constants {
 	}
 
 	public boolean addGroup(String groupName) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -117,8 +116,8 @@ implements GroupController, Constants {
 		return false;
 	}
 
-	public boolean save(int personId) {
-		Group group = groups.get(personId);
+	public boolean save(int groupId) {
+		Group group = groups.get(groupId);
 		save.init(group);
 		return save.save();
 	}

@@ -113,7 +113,7 @@ implements CardController, Constants {
 					AffineTransformOp ato = new AffineTransformOp(transform,
 							null);
 					BufferedImage bid = new BufferedImage(nw, nh,
-							BufferedImage.TYPE_INT_RGB);
+							bis.getType());
 					ato.filter(bis, bid);
 					card.setImage(bis);
 					card.setScaleImage(bid);
@@ -255,6 +255,12 @@ implements CardController, Constants {
 	public boolean findByItem(int cardId, String item, String content,
 			boolean wholeWord) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean findByRelation(int cardId, 
+			String content, boolean wholeWord) {		
+		// TODO
 		return false;
 	}
 

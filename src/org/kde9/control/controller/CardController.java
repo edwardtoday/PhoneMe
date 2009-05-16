@@ -39,6 +39,9 @@ public interface CardController {
 	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord);
 	
+	public boolean findByRelation(int cardId, 
+			String content, boolean wholeWord);
+	
 	public boolean setImage(String path);
 	
 	public BufferedImage getImage(int id);
