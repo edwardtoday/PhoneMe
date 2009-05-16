@@ -113,7 +113,7 @@ implements CardController, Constants {
 					AffineTransformOp ato = new AffineTransformOp(transform,
 							null);
 					BufferedImage bid = new BufferedImage(nw, nh,
-							BufferedImage.TYPE_3BYTE_BGR);
+							BufferedImage.TYPE_INT_RGB);
 					ato.filter(bis, bid);
 					card.setImage(bis);
 					card.setScaleImage(bid);
