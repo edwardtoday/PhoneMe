@@ -27,9 +27,22 @@ public class CoolInfoBox {
 	private Color color;
 	int w;
 	int h;
+	int loc = 0;
 
 	public CoolInfoBox(JComponent father, String str, Color color,
 			int w, int h) {
+		this.frame = new JDialog(ComponentPool.getComponent());
+		this.father = father;
+		this.str = str;
+		this.color = color;
+		this.w = w;
+		this.h = h;
+		launch();
+	}
+	
+	public CoolInfoBox(JComponent father, String str, Color color,
+			int w, int h, int loc) {
+		this.loc = loc;
 		this.frame = new JDialog(ComponentPool.getComponent());
 		this.father = father;
 		this.str = str;
@@ -55,6 +68,7 @@ public class CoolInfoBox {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
+		//sheet.setAnimated(false);
 		//sheet.setAlwaysOnTop(true);
 		//sheet.setBackground(Color.YELLOW);
 
@@ -77,7 +91,7 @@ public class CoolInfoBox {
 			centerWindow(father, sheet);
 		else
 			centerWindow(sheet, sheet);
-		changeAlpha(200, 800, 600);
+		changeAlpha(200, 800, 400);
 	}
 
 	private void changeAlpha(final int a, final int b, int c) {
@@ -112,15 +126,15 @@ public class CoolInfoBox {
 		}.start();
 	}
 	
-	private static void centerWindow(Container window, Container sheet) {
+	private void centerWindow(Container window, Container sheet) {
 		int xx = (int) window.getLocationOnScreen().getX();
 		int yy = (int) window.getLocationOnScreen().getY();
 		int w = window.getWidth();
 		int h = window.getHeight();
 //		System.out.println(w + " " + h + " " + sheet.getWidth() + " " + sheet.getHeight());
 		int x = xx + w/2;
-		int y = yy + (h-sheet.getHeight())/2;
+		int y = yy + (h-sheet.getHeight())/2 + loc;
 		frame.setLocation(x, y);
 	}
-	
+
 }

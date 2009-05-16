@@ -41,8 +41,8 @@ implements ActionListener {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.firstName = new JTextField();
 		this.lastName = new JTextField();
-		this.confirm = new JButton("Yes");
-		this.cancel = new JButton("No");
+		this.confirm = new JButton("[    OK   ]");
+		this.cancel = new JButton("[Cancel]");
 		this.father = father;
 //		this.mainContainer = container;
 		this.color = color;
@@ -59,7 +59,7 @@ implements ActionListener {
 	private void launchUI() {
 		sheet.setUndecorated(true);
 		sheet.setVisible(true);
-		sheet.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.TRUE);
+		//sheet.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.TRUE);
 	}
 
 	private void createUI() {
@@ -169,7 +169,6 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 //		getMainContainer().setEnabled(true);
-		changeAlphaDown(300, 0, sheet, true);
 		if(e.getSource() == this.getCancel()) {
 			System.out.println("Name added cancelled!!");
 			ComponentPool.getComponent().setEnabled(true);

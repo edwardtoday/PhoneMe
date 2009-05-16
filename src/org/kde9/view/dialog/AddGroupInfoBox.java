@@ -43,8 +43,8 @@ implements ActionListener {
 	public AddGroupInfoBox(JComponent father,Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.textField = new JTextField();
-		this.confirm = new JButton("Yes");
-		this.cancel = new JButton("No");
+		this.confirm = new JButton("[    OK   ]");
+		this.cancel = new JButton("[Cancel]");
 		this.father = father;
 //		this.mainContainer = container;
 		this.color = color;
@@ -177,11 +177,13 @@ implements ActionListener {
 			String groupName = getTextField().getText();
 			if(groupName.length() == 0) {
 				new CoolInfoBox(ComponentPool.getGroupComponent(),
-						"请输入组名！",Color.YELLOW,200,100);
+						"请输入组名！",Color.YELLOW,200,40,-70);
 			}else {
 				Kernel kernel = ComponentPool.getComponent().getKernel();
 				ConstGroup group = kernel.addGroup(groupName); 
 				ComponentPool.getGroupComponent().addGroup(group.getId(), groupName);
+				int index = ComponentPool.getGroupComponent().getTable().getRowCount();
+				ComponentPool.getGroupComponent().setSelected(index-1, index-1);
 				ComponentPool.getComponent().setEnabled(true);
 				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 				changeAlphaDown(300, 0, sheet, true);

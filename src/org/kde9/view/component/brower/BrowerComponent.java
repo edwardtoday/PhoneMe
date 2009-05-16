@@ -140,6 +140,8 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.setItems(card.getAllItems());
 			viewer.setRelations(card.getAllShowRelationship());
 			viewer.setImage(card);
+		} else {
+			// TODO
 		}
 	}
 
