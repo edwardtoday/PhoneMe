@@ -3,13 +3,14 @@ package org.kde9.control.controller;
 import java.util.LinkedHashMap;
 
 import org.kde9.model.group.ConstGroup;
+import org.kde9.model.group.Group;
 
 public interface GroupController {
 	public LinkedHashMap<Integer, String> getAllGroups();
 	
 	public ConstGroup getGroup(int groupId);
 	
-	public ConstGroup addGroup(String groupName);
+	public Group addGroup(String groupName);
 	
 	public boolean deleteGroup(int groupId);
 	
@@ -19,5 +20,7 @@ public interface GroupController {
 	
 	public boolean deleteGroupMember(int groupId, int personId);
 	
-	public boolean save(int personId);
+	public boolean save(int groupId);
+	
+	public boolean save(ConstGroup group);
 }

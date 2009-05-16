@@ -13,6 +13,7 @@ import org.kde9.control.controller.GroupController;
 import org.kde9.model.card.Card;
 import org.kde9.model.card.ConstCard;
 import org.kde9.model.group.ConstGroup;
+import org.kde9.model.group.Group;
 import org.kde9.util.Constants;
 
 public class MyKernel 
@@ -61,31 +62,76 @@ implements Kernel, Constants {
 		card.setItems(items);
 		int id = card.getId();
 		cards.setRelationships(id, relation);
+		cards.save(id);
 		names.addPerson(id, firstName, lastName);
+		names.save();
 		groups.addGroupMember(GROUPALLID, id);
-		if(groupId != GROUPALLID)
+		groups.save(GROUPALLID);
+		if(groupId != GROUPALLID) {
 			groups.addGroupMember(groupId, id);
-		return null;
+			groups.save(groupId);
+		}
+		return card;
 	}
 
 	public ConstGroup addGroup(String groupName) {
-		// TODO Auto-generated method stub
-		return null;
+		Group group = groups.addGroup(groupName);
+		groups.save(group);
+		return group;
 	}
 
 	public boolean addGroupMember(int groupId, int personId) {
-		// TODO Auto-generated method stub
+		if(groups.addGroupMember(groupId, personId)) {
+			groups.save(groupId);
+			return true;
+		}
 		return false;
 	}
 
 	public boolean deleteCard(int personId) {
-		// TODO Auto-generated method stub
-		return false;
+		for(int groupId : groups.getAllGroups().keySet())
+			groups.deleteGroupMember(groupId, personId);
+		names.deletePerson(personId);
+		return cards.deleteCard(personId);
 	}
 
 	public boolean deleteGroupMember(int groupId, int personId) {
-		// TODO Auto-generated method stub
+		if(groups.deleteGroupMember(groupId, personId)) {
+			groups.save(groupId);
+			return true;
+		}
 		return false;
 	}
+
+	public boolean deleteGroup(int groupId) {
+		if(groupId != GROUPALLID)
+			return groups.deleteGroup(groupId);
+		return false;
+	}
+
+	public boolean renameGroup(int groupId, String groupName) {
+		if(groups.renameGroup(groupId, groupName)) {
+			groups.save(groupId);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean updateCard(int cardId, String firstName, String lastName,
+			LinkedHashMap<String, Vector<String>> items,
+			LinkedHashMap<Integer, String> relation) {
+		cards.renameCard(cardId, firstName, lastName);
+		names.setFirstName(cardId, firstName);
+		names.setLastzName(cardId, lastName);
+		if(items != null)
+			cards.setCardItems(cardId, items);
+		if(relation != null)
+			cards.setRelationships(cardId, relation);
+		cards.save(cardId);
+		names.save();
+		return true;
+	}
+
+
 
 }

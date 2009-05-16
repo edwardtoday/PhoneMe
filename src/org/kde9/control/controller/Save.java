@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.allname.AllName;
 import org.kde9.model.card.Card;
-import org.kde9.model.group.Group;
+import org.kde9.model.group.ConstGroup;
 import org.kde9.util.Constants;
 
 public class Save 
@@ -61,7 +61,7 @@ implements Constants{
 		this.content = temp;
 	}
 	
-	public void init(Group group) {
+	public void init(ConstGroup group) {
 		String temp = "";
 		if(group != null) {
 			temp = group.getGroupName() + NEWLINE;

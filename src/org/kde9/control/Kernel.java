@@ -21,11 +21,19 @@ public interface Kernel {
 			LinkedHashMap<String, Vector<String>> items, 
 			LinkedHashMap<Integer, String> relation);
 	
+	public boolean updateCard(int cardId, String firstName, String lastName,
+			LinkedHashMap<String, Vector<String>> items, 
+			LinkedHashMap<Integer, String> relation);
+	
 	public ConstGroup addGroup(String groupName);
 	
 	public boolean addGroupMember(int groupId, int personId);
 	
 	public boolean deleteCard(int personId);
 	
+	public boolean deleteGroup(int groupId);
+	
 	public boolean deleteGroupMember(int groupId, int personId);
+	
+	public boolean renameGroup(int groupId, String groupName);
 }

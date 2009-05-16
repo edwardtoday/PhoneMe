@@ -85,7 +85,7 @@ implements GroupController, Constants {
 		// TODO
 	}
 
-	public ConstGroup addGroup(String groupName) {
+	public Group addGroup(String groupName) {
 		File file = new File(GROUPPATH + staticId);
 		while(file.exists())
 			file = new File(GROUPPATH + ++staticId);
@@ -138,5 +138,10 @@ implements GroupController, Constants {
 		Group group = groups.get(groupId);
 		save.init(group);
 		return save.save();
+	}
+
+	public boolean save(ConstGroup group) {
+		save.init(group);
+		return false;
 	}
 }
