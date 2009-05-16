@@ -7,6 +7,8 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
@@ -27,7 +29,7 @@ import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
 public class AddGroupInfoBox 
-implements ActionListener {
+implements ActionListener, KeyListener {
 	private static JDialog frame;
 	private JComponent father;
 //	private Container mainContainer;
@@ -87,6 +89,8 @@ implements ActionListener {
 		container.add("South",button);
 		container.setOpaque(true);
 		container.setBackground(color);
+		
+		textField.addKeyListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -177,7 +181,7 @@ implements ActionListener {
 			String groupName = getTextField().getText();
 			if(groupName.length() == 0) {
 				new CoolInfoBox(ComponentPool.getGroupComponent(),
-						"请输入组名！",Color.YELLOW,200,40,-70);
+						"请输入组名！",Color.YELLOW,200,35,-70);
 			}else {
 				Kernel kernel = ComponentPool.getComponent().getKernel();
 				ConstGroup group = kernel.addGroup(groupName); 
@@ -190,6 +194,25 @@ implements ActionListener {
 			}
 			System.out.println("Group added confirmed!!");
 		}
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			actionPerformed(new ActionEvent(
+					confirm, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		} else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			actionPerformed(new ActionEvent(
+					cancel, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		}
+	}
+
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
 	}
 	
 }

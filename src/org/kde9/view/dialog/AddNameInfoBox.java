@@ -7,6 +7,8 @@ import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
@@ -23,7 +25,7 @@ import ch.randelshofer.quaqua.JSheet;
 import com.sun.jna.examples.WindowUtils;
 
 public class AddNameInfoBox 
-implements ActionListener {
+implements ActionListener, KeyListener {
 	private static JDialog frame;
 	private JComponent father;
 //	private Container mainContainer;
@@ -93,6 +95,9 @@ implements ActionListener {
 		container.add("South",button);
 		container.setOpaque(true);
 		container.setBackground(color);
+		
+		firstName.addKeyListener(this);
+		lastName.addKeyListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -180,6 +185,26 @@ implements ActionListener {
 			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 			changeAlphaDown(300, 0, sheet, true);
 		}
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			actionPerformed(new ActionEvent(
+					confirm, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		} else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			actionPerformed(new ActionEvent(
+					cancel, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		}
+	}
+
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
