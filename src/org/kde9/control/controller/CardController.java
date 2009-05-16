@@ -9,12 +9,8 @@ import org.kde9.model.card.Card;
 import org.kde9.model.card.ConstCard;
 
 public interface CardController {
-	/**
-	 * 添加联系人
-	 * @param name
-	 * @return
-	 */
-	public Card addCard(String name);
+
+	public ConstCard addCard(String firstName, String lastName);
 
 	public boolean deleteCard(int id);
 	
@@ -26,7 +22,7 @@ public interface CardController {
 
 	public boolean deleteCardItem(int id, String item, String content);
 
-	public boolean setCardItems(int id, HashMap<String, Vector<String>> items);
+	public boolean setCardItems(int id, LinkedHashMap<String, Vector<String>> items);
 
 	public LinkedHashMap<String, Vector<String>> getCardItems(int id);
 
@@ -42,6 +38,8 @@ public interface CardController {
 
 	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord);
+	
+	public boolean setImage(String path);
 	
 	public BufferedImage getImage(int id);
 	

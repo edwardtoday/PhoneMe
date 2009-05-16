@@ -119,15 +119,7 @@ implements GroupController, Constants {
 
 	public boolean save(int personId) {
 		Group group = groups.get(personId);
-		String temp = "";
-		if(group != null) {
-			temp = group.getGroupName() + NEWLINE;
-			for(int id : group.getGroupMembers()) {
-				temp += id;
-				temp += NEWLINE;
-			}
-		}
-		save.init(GROUPPATH + personId, temp);
+		save.init(group);
 		return save.save();
 	}
 }

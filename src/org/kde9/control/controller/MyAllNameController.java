@@ -15,19 +15,19 @@ implements AllNameController, Constants {
 	private Save save;
 	
 	/**
-	 * ÅÐ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎªÊý×Ö
+	 * ï¿½Ð¶ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
 	 * <p>
-	 * ×Ö·û´®Îª¿Õ´®»ò·ÇÊý×Ö´®½«·µ»Øfalse¡£
+	 * ï¿½Ö·ï¿½Îªï¿½Õ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½falseï¿½ï¿½
 	 * 
 	 * @param str
-	 * 		ÒªÅÐ¶ÏµÄ×Ö·û´®
+	 * 		Òªï¿½Ð¶Ïµï¿½ï¿½Ö·ï¿½
 	 */
 	private boolean isInt(String str) {
-		// Îª¿Õ´®·µ»Øfalse
+		// Îªï¿½Õ´ï¿½ï¿½ï¿½ï¿½ï¿½false
 		if (str == null || str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
-			// ·ÇÊý×Ö·µ»Øfalse
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½false
 			if (!Character.isDigit(c))
 				return false;
 		return true;
@@ -91,16 +91,7 @@ implements AllNameController, Constants {
 	}
 
 	public boolean save() {
-		String temp = "";
-		for (int id : names.getIds()) {
-			temp += id;
-			temp += NEWLINE;
-			temp += names.getFirstName(id);
-			temp += NEWLINE;
-			temp += names.getLastName(id);
-			temp += NEWLINE;
-		}
-		save.init(CARDPATH + ALLNAMES, temp);
+		save.init(names);
 		return save.save();
 	}
 

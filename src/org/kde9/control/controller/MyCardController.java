@@ -12,8 +12,9 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
+import org.kde9.control.FileOperation.DeleteFile;
+import org.kde9.control.FileOperation.MoveFile;
 import org.kde9.control.FileOperation.ReadFile;
-import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.card.Card;
 import org.kde9.model.card.ConstCard;
@@ -21,7 +22,8 @@ import org.kde9.util.Constants;
 
 public class MyCardController 
 implements CardController, Constants {
-	private HashMap<Integer, Card> cards;
+	private int staticId = 0;
+	HashMap<Integer, Card> cards;
 	private Save save;
 	
 	/**
@@ -126,6 +128,8 @@ implements CardController, Constants {
 	}
 	
 	private Card get(int cardId) {
+		if(cards.size() > 100)
+			cards.remove(cards.get(cards.keySet().toArray()[0]));
 		Card card = cards.get(cardId);
 		if(card == null) {
 			File file = new File(CARDPATH + cardId);
@@ -196,24 +200,46 @@ implements CardController, Constants {
 		save = new Save();
 	}
 	
-	public Card addCard(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public ConstCard addCard(String firstName, String lastName) {
+		File file = new File(CARDPATH + staticId);
+		while(file.exists())
+			file = new File(CARDPATH + ++staticId);
+		Card card = ModelFactory.createCard(staticId);
+		card.setFirstName(firstName);
+		card.setLastName(lastName);
+		cards.put(staticId, card);
+		return card;
 	}
 
 	public boolean addCardItem(int id, String item, String content) {
-		// TODO Auto-generated method stub
+		Card card = get(id);
+		if(card != null) {
+			card.addItem(item, content);
+			return true;
+		}
 		return false;
 	}
 
 	public boolean addRelationship(int cardId, int personId, String content) {
-		// TODO Auto-generated method stub
+		Card card = get(cardId);
+		if(card != null) {
+			Card person = get(personId);
+			if(person != null) {
+				card.addShowRelationship(personId, content);
+				if(person.getShowRelationship(cardId) == null) {
+					person.addHideRelationship(cardId);
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public boolean deleteCard(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		DeleteFile df = new DeleteFile(CARDPATH + id);
+		df.delete();
+		cards.remove(id);
+		return true;
 	}
 
 	public boolean deleteCardItem(int id, String item, String content) {
@@ -237,7 +263,6 @@ implements CardController, Constants {
 	}
 
 	public LinkedHashMap<String, Vector<String>> getCardItems(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -247,47 +272,27 @@ implements CardController, Constants {
 	}
 
 	public boolean renameCard(int id, String firstName, String lastName) {
-		// TODO Auto-generated method stub
+		Card card = get(id);
+		if(card != null) {
+			card.setFirstName(firstName);
+			card.setLastName(lastName);
+			return true;
+		}
 		return false;
 	}
 
 	public boolean save(int id) {
 		Card card = get(id);
-		String temp = card.getFirstName();
-		temp += NEWLINE;
-		temp += card.getLastName();
-		for (String key : card.getAllItems().keySet()) {
-			temp += key;
-			temp += NEWLINE;
-			for (String value : card.getItem(key)) {
-				temp += value;
-				temp += NEWLINE;
-				temp += VALUESEPERSTOR;
-				temp += NEWLINE;
-			}
-			temp += ITEMSEPERATOR;
-			temp += NEWLINE;
-		}
-		temp += SEPERATOR;
-		temp += NEWLINE;
-		for (int relation : card.getAllShowRelationship().keySet()) {
-			temp += relation;
-			temp += NEWLINE;
-			temp += card.getShowRelationship(relation);
-			temp += NEWLINE;
-		}
-		temp += SEPERATOR;
-		temp += NEWLINE;
-		for (int relation : card.getAllHideRelationship()) {
-			temp += relation;
-			temp += NEWLINE;
-		}
-		save.init(CARDPATH + id, temp);
+		save.init(card);
 		return save.save();
 	}
 
-	public boolean setCardItems(int id, HashMap<String, Vector<String>> items) {
-		// TODO Auto-generated method stub
+	public boolean setCardItems(int id, LinkedHashMap<String, Vector<String>> items) {
+		Card card = get(id);
+		if(card != null) {
+			card.setItems(items);
+			return true;
+		}
 		return false;
 	}
 
@@ -296,9 +301,15 @@ implements CardController, Constants {
 		return false;
 	}
 
-	public boolean setRelationships(int cardId,
+	public boolean setRelationships(int cardId, 
 			LinkedHashMap<Integer, String> relation) {
-		// TODO Auto-generated method stub
+		Card card = get(cardId);
+		if(card != null) {
+			for(int id : relation.keySet()) {
+				addRelationship(cardId, id, relation.get(id));
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -323,4 +334,36 @@ implements CardController, Constants {
 		return false;
 	}
 
+	public boolean setImage(String path) {
+		File file = new File(path);
+		if(file.isFile()) {
+			try {
+				return new MoveFile(file).move(path);
+			} catch (FileNotFoundException e) {
+				System.err.println("MyCardController : setImage error!");
+			}
+		}
+		return false;
+	}
+
+	
+//	public static void main(String args[]) {
+//		MyCardController my = new MyCardController();
+//		ConstCard card = my.addCard("test", "!");
+//		int id = card.getId();
+//		LinkedHashMap<String, Vector<String>> items = new LinkedHashMap<String, Vector<String>>();
+//		for(int key = 0; key < 10; key++) {
+//			Vector<String> values = new Vector<String>();
+//			for(int i = 0; i < 10; i++)
+//				values.add("value" + i);
+//			items.put("key" + key, values);
+//		}
+//		my.setCardItems(id, items);
+//		my.addCardItem(id, "tel", "000000");
+//		my.addRelationship(id, 0, "test for relation");
+//		my.addRelationship(1, id, "test!");
+//		System.out.println(my.cards.get(id).getAllHideRelationship());
+//		System.out.println(my.cards.get(0).getAllShowRelationship());
+//		my.save(id);
+//	}
 }
