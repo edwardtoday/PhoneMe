@@ -9,6 +9,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -47,6 +56,7 @@ import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
 import org.kde9.view.listener.EditListener;
+import org.kde9.view.listener.FileDragGestureListener;
 
 public class ViewerComponent 
 extends JPanel 
@@ -79,6 +89,17 @@ implements ActionListener, Constants {
 	private HashMap<Integer, Integer> cantSelect;
 	
 	private Configuration configuration;
+	
+	private DropTarget dropTarget;
+//	static DataFlavor urlFlavor, urlListFlavor;
+//	static {
+//		try {
+//			urlFlavor = new DataFlavor(
+//					"application/x-java-url; class=java.net.URL");
+//			urlListFlavor = new DataFlavor(
+//					"text/url-list; class=java.lang.String");
+//		} catch (ClassNotFoundException e) {}
+//	}
 	
 	private static boolean TRUE = true;
 	private static boolean FALSE = false;
@@ -186,6 +207,12 @@ implements ActionListener, Constants {
 		photo.putClientProperty("Quaqua.Button.style", "colorWell");
 		photo.setPreferredSize(new Dimension(140, 140));
 		photo.addActionListener(this);
+		
+		DragSource ds = DragSource.getDefaultDragSource();
+		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(
+				photo, DnDConstants.ACTION_COPY_OR_MOVE,
+				new FileDragGestureListener());
+		
 		name = new JLabel();
 		name.setFont(new Font("HeiTi", 1, 30));
 		name.setHorizontalAlignment(JLabel.CENTER);

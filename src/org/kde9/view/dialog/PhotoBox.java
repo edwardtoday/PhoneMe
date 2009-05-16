@@ -1,22 +1,22 @@
 package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -65,16 +65,18 @@ implements MouseListener, MouseMotionListener {
 		
 		sheet.setSize(image.getWidth(), image.getHeight());
 
-		container = new JPanel(new BorderLayout());
-		sheet.setContentPane(container);
+		//container = new JPanel(new BorderLayout());
+		//sheet.setContentPane(container);
 		ok.setIcon(new ImageIcon(image));
 		ok.addMouseListener(this);
 		ok.addMouseMotionListener(this);
-		container.add("Center",ok);
-		container.setOpaque(true);
+		ok.setBorder(BorderFactory.createEmptyBorder());
+		//container.add("Center",ok);
+		//container.setOpaque(true);
+		sheet.add(ok);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
-				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
+				image.getWidth()-2, image.getHeight()-2, 20, 20);
 		WindowUtils.setWindowMask(sheet, mask);
 		if(father != null)
 			centerWindow(father, sheet);
