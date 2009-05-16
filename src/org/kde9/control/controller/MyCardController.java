@@ -115,7 +115,23 @@ implements CardController, Constants {
 					BufferedImage bid = new BufferedImage(nw, nh,
 							bis.getType());
 					ato.filter(bis, bid);
-					card.setImage(bis);
+					if(w > h) {
+						nw = 300;
+						nh = (nw * h) / w;
+					} else {
+						nh = 300;
+						nw = (nh * w) / h;
+					}
+					sx = (double) nw / w;
+					sy = (double) nh / h;
+					transform.setToScale(sx, sy);
+//					System.out.println(w + " " + h);
+					ato = new AffineTransformOp(transform,
+							AffineTransformOp.TYPE_BILINEAR);
+					BufferedImage bidd = new BufferedImage(nw, nh,
+							bis.getType());
+					ato.filter(bis, bidd);
+					card.setImage(bidd);
 					card.setScaleImage(bid);
 					card.setImageReady();
 				} catch (IOException e) {
@@ -124,7 +140,6 @@ implements CardController, Constants {
 				}
 			}
 		}.start();
-
 	}
 	
 	private Card get(int cardId) {
