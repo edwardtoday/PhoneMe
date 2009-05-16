@@ -111,7 +111,7 @@ implements CardController, Constants {
 					transform.setToScale(sx, sy);
 //					System.out.println(w + " " + h);
 					AffineTransformOp ato = new AffineTransformOp(transform,
-							null);
+							AffineTransformOp.TYPE_BILINEAR);
 					BufferedImage bid = new BufferedImage(nw, nh,
 							bis.getType());
 					ato.filter(bis, bid);

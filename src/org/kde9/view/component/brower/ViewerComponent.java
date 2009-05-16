@@ -332,21 +332,23 @@ outer:
 
 	public void setImage(final ConstCard card) {
 		photo.setIcon(new ImageIcon(IMGPATH + NULLIMAGE));
-		final int id = card.getId();
-		new Thread() {
-			public void run() {
-				while(!card.isImageRafdy())
-					try {
-						if(card.getId() != id)
-							return;
-						sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		if (card != null) {
+			final int id = card.getId();
+			new Thread() {
+				public void run() {
+					while (!card.isImageRafdy())
+						try {
+							if (card.getId() != id)
+								return;
+							sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					showImage(id);
-			}
-		}.start();
+				}
+			}.start();
+		}
 	}
 	
 	synchronized private void showImage(int id) {
@@ -438,6 +440,7 @@ outer:
 		buttonEdit.setEnabled(false);
 		setName("");
 		setPinYin("");
+		setImage(null);
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {
