@@ -426,6 +426,20 @@ outer:
 		itemModel.addRow(new Object[]{});
 	}
 
+	public void ready() {
+		buttonEdit.setEnabled(true);
+	}
+	
+	public void clear() {
+		while(itemModel.getRowCount() != 0)
+			itemModel.removeRow(0);
+		while(relationModel.getRowCount() != 0)
+			relationModel.removeRow(0);
+		buttonEdit.setEnabled(false);
+		setName("");
+		setPinYin("");
+	}
+	
 	public void changeItems(ButtonUnit b, ActionEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println(e.getActionCommand());

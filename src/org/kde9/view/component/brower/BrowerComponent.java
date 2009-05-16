@@ -110,6 +110,10 @@ implements ListSelectionListener, KeyListener, Constants {
 					kernel.getLastName(current) + ' ' + kernel.getFirstName(current);
 			members.put(current, name);
 		}
+		if(members.size() == 0)
+			viewer.clear();
+		else
+			viewer.ready();
 		name.setMembers(members);
 		//name.setSelected(begin, end);
 		//name.setMembers(map);
@@ -140,8 +144,7 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.setItems(card.getAllItems());
 			viewer.setRelations(card.getAllShowRelationship());
 			viewer.setImage(card);
-		} else {
-			// TODO
+			viewer.ready();
 		}
 	}
 
