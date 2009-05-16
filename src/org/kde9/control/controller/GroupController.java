@@ -9,15 +9,15 @@ public interface GroupController {
 	
 	public ConstGroup getGroup(int groupId);
 	
-	public boolean addGroup(String groupName);
+	public ConstGroup addGroup(String groupName);
 	
 	public boolean deleteGroup(int groupId);
 	
 	public boolean renameGroup(int groupId, String newName);
 	
-	public boolean addGroupMember(int personId);
+	public boolean addGroupMember(int groupId, int personId);
 	
-	public boolean deleteGroupMember(int personId);
+	public boolean deleteGroupMember(int groupId, int personId);
 	
 	public boolean save(int personId);
 }

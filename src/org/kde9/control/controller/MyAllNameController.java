@@ -14,20 +14,10 @@ implements AllNameController, Constants {
 	private AllName names;
 	private Save save;
 	
-	/**
-	 * �ж�һ���ַ��Ƿ�Ϊ����
-	 * <p>
-	 * �ַ�Ϊ�մ�������ִ�������false��
-	 * 
-	 * @param str
-	 * 		Ҫ�жϵ��ַ�
-	 */
 	private boolean isInt(String str) {
-		// Ϊ�մ�����false
 		if (str == null || str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
-			// �����ַ���false
 			if (!Character.isDigit(c))
 				return false;
 		return true;
@@ -67,14 +57,12 @@ implements AllNameController, Constants {
 		}
 	}
 
-	public boolean addPerson(int id, String name) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addPerson(int id, String firstName, String lastName) {
+		return names.addPerson(id, firstName, lastName);
 	}
 
 	public boolean deletePerson(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return names.deletePerson(id);
 	}
 
 	public boolean findByName(String Name, int type) {
@@ -96,13 +84,11 @@ implements AllNameController, Constants {
 	}
 
 	public boolean setFirstName(int id, String firstName) {
-		// TODO Auto-generated method stub
-		return false;
+		return names.setFirstName(id, firstName);
 	}
 
 	public boolean setLastzName(int id, String lastName) {
-		// TODO Auto-generated method stub
-		return false;
+		return names.setLastName(id, lastName);
 	}
 
 }

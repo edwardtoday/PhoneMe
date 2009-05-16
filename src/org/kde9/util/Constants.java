@@ -13,6 +13,8 @@ public interface Constants {
 	
 	static String NULLIMAGE = "nullImag.gif";
 	
+	static int GROUPALLID = 0;
+	
 	/**
 	 * 未命名的名片的默认名字
 	 */

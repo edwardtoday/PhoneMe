@@ -10,7 +10,7 @@ import org.kde9.model.card.ConstCard;
 
 public interface CardController {
 
-	public ConstCard addCard(String firstName, String lastName);
+	public Card addCard(String firstName, String lastName);
 
 	public boolean deleteCard(int id);
 	

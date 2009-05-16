@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import org.kde9.control.FileOperation.DeleteFile;
 import org.kde9.control.FileOperation.ReadFile;
-import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.model.group.Group;
@@ -15,6 +15,7 @@ import org.kde9.util.Constants;
 
 public class MyGroupController 
 implements GroupController, Constants {
+	private int staticId;
 	private HashMap<Integer, Group> groups;
 	private LinkedHashMap<Integer, String> groupNames;
 	private Save save;
@@ -84,22 +85,35 @@ implements GroupController, Constants {
 		// TODO
 	}
 
-	public boolean addGroup(String groupName) {
-		return false;
+	public ConstGroup addGroup(String groupName) {
+		File file = new File(GROUPPATH + staticId);
+		while(file.exists())
+			file = new File(GROUPPATH + ++staticId);
+		Group group = ModelFactory.createGroup(staticId);
+		group.setGroupName(groupName);
+		groups.put(staticId, group);
+		return group;
 	}
 
-	public boolean addGroupMember(int personId) {
-		// TODO Auto-generated method stub
+	public boolean addGroupMember(int groupId, int personId) {
+		Group group = groups.get(groupId);
+		if(group != null) {
+			return group.addGroupMember(personId);
+		}
 		return false;
 	}
 
 	public boolean deleteGroup(int groupId) {
-		// TODO Auto-generated method stub
-		return false;
+		DeleteFile df = new DeleteFile(GROUPPATH + groupId);
+		df.delete();
+		return true;
 	}
 
-	public boolean deleteGroupMember(int personId) {
-		// TODO Auto-generated method stub
+	public boolean deleteGroupMember(int groupId, int personId) {
+		Group group = groups.get(groupId);
+		if(group != null) {
+			return group.addGroupMember(personId);
+		}
 		return false;
 	}
 
@@ -112,7 +126,11 @@ implements GroupController, Constants {
 	}
 
 	public boolean renameGroup(int groupId, String newName) {
-		// TODO Auto-generated method stub
+		Group group = groups.get(groupId);
+		if(group != null) {
+			group.setGroupName(newName);
+			return true;
+		}
 		return false;
 	}
 

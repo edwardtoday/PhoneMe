@@ -200,7 +200,7 @@ implements CardController, Constants {
 		save = new Save();
 	}
 	
-	public ConstCard addCard(String firstName, String lastName) {
+	public Card addCard(String firstName, String lastName) {
 		File file = new File(CARDPATH + staticId);
 		while(file.exists())
 			file = new File(CARDPATH + ++staticId);
