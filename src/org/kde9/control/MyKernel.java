@@ -65,9 +65,11 @@ implements Kernel, Constants {
 			LinkedHashMap<String, Vector<String>> items,
 			LinkedHashMap<Integer, String> relation) {
 		Card card = cards.addCard(firstName, lastName);
-		card.setItems(items);
+		if(items != null)
+			card.setItems(items);
 		int id = card.getId();
-		cards.setRelationships(id, relation);
+		if(relation != null)
+			cards.setRelationships(id, relation);
 		cards.save(id);
 		names.addPerson(id, firstName, lastName);
 		names.save();
@@ -143,6 +145,8 @@ implements Kernel, Constants {
 		return true;
 	}
 
-
+	public void main(String args[]) {
+		Kernel kernel = new MyKernel();
+	}
 
 }
