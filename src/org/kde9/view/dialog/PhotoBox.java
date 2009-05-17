@@ -42,6 +42,7 @@ implements MouseListener, MouseMotionListener {
 	private JLabel ok;
 	private BufferedImage image;
 	int x, y, loc;
+	boolean drag;
 
 	public PhotoBox(JComponent father, BufferedImage image, int loc) {
 		if(sum > 10) {
@@ -158,6 +159,7 @@ implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		drag = true;
 		Point p = MouseInfo.getPointerInfo().getLocation();
 		sheet.setLocation(
 				p.x - x, 
@@ -185,6 +187,7 @@ implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		drag = false;
 		x = e.getX();
 		y = e.getY();
 	}
@@ -192,7 +195,7 @@ implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		//ComponentPool.getComponent().setEnabled(true);
 		//changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-		if(x == e.getX() && y == e.getY())
+		if(!drag)
 			changeAlphaDown(300, 0, sheet, true);
 	}
 }
