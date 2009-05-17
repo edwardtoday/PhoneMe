@@ -14,7 +14,7 @@ public interface CardController {
 
 	public boolean deleteCard(int id);
 	
-	public ConstCard getCard(int cardId);
+	public Card getCard(int cardId);
 
 	public boolean renameCard(int id, String firstName, String lastName);
 

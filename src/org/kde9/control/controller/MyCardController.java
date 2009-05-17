@@ -285,7 +285,7 @@ implements CardController, Constants {
 		return false;
 	}
 
-	public ConstCard getCard(int cardId) {
+	public Card getCard(int cardId) {
 		return get(cardId);
 	}
 

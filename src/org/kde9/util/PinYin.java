@@ -33,7 +33,9 @@ public class PinYin {
 			// System.out.println(t4);
 			return t4;
 		} catch (BadHanyuPinyinOutputFormatCombination e1) {
-			return null;
+			return "";
+		} catch (NullPointerException e) {
+			return "";
 		}
 	}
 

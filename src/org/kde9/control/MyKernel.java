@@ -41,7 +41,12 @@ implements Kernel, Constants {
 	}
 
 	public ConstCard getCard(int cardId) {
-		return cards.getCard(cardId);
+		Card card = cards.getCard(cardId);
+		String firstName = names.getFirstName(cardId);
+		String lastName = names.getLastName(cardId);
+		if(firstName != card.getFirstName() || lastName != card.getLastName())
+			cards.renameCard(cardId, firstName, lastName);
+		return card;
 	}
 
 	public String getFirstName(int cardId) {
