@@ -2,9 +2,13 @@
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * 数据操作底层
@@ -20,7 +24,8 @@ public class ReadFile {
 	 * 要操作的文件名
 	 */
 	String fileName;
-	FileReader fr;
+	FileInputStream fis;
+	InputStreamReader isr;
 	BufferedReader br;
 
 	/**
@@ -31,15 +36,27 @@ public class ReadFile {
 	public ReadFile(String fileName) 
 	throws FileNotFoundException {
 		this.fileName = fileName;
-		fr = new FileReader(fileName);
-		br = new BufferedReader(fr);
+		fis = new FileInputStream(fileName);
+		try {
+			isr = new InputStreamReader(fis, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		br = new BufferedReader(isr);
 	}
 
 	public ReadFile(File file) 
 	throws FileNotFoundException {
 		this.fileName = file.getPath();
-		fr = new FileReader(file);
-		br = new BufferedReader(fr);
+		fis = new FileInputStream(file);
+		try {
+			isr = new InputStreamReader(fis, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		br = new BufferedReader(isr);
 	}
 	
 	/**
@@ -62,6 +79,7 @@ public class ReadFile {
 	synchronized public void close()
 	throws IOException {
 		br.close();
-		fr.close();
+		isr.close();
+		fis.close();
 	}
 }

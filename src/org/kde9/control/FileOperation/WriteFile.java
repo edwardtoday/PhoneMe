@@ -2,8 +2,10 @@
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /**
  * 数据操作底层
@@ -20,7 +22,8 @@ public class WriteFile {
 	 */
 	String fileName;
 	String contant;
-	FileWriter fw;
+	FileOutputStream fos;
+	OutputStreamWriter osw;
 	BufferedWriter bw;
 
 	/**
@@ -32,8 +35,9 @@ public class WriteFile {
 	public WriteFile(String fileName, boolean flag)
 	throws IOException {
 		this.fileName = fileName;
-		fw = new FileWriter(fileName, flag);
-		bw = new BufferedWriter(fw);
+		fos = new FileOutputStream(fileName);
+		osw = new OutputStreamWriter(fos, "UTF-8");
+		bw = new BufferedWriter(osw);
 	}
 
 	/**
@@ -45,8 +49,9 @@ public class WriteFile {
 	public WriteFile(File file, boolean flag)
 	throws IOException {
 		this.fileName = file.getPath();
-		fw = new FileWriter(file, flag);
-		bw = new BufferedWriter(fw);
+		fos = new FileOutputStream(file);
+		osw = new OutputStreamWriter(fos, "UTF-8");
+		bw = new BufferedWriter(osw);
 	}
 	
 	/**
@@ -86,6 +91,7 @@ public class WriteFile {
 	synchronized public void close() 
 	throws IOException {
 		bw.close();
-		fw.close();
+		osw.close();
+		fos.close();
 	}
 }
