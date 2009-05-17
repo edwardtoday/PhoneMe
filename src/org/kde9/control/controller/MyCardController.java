@@ -85,7 +85,9 @@ implements CardController, Constants {
 		return temp;
 	}
 	
-	private void setImage(final Card card) {
+	private void loadImage(final Card card) {
+		if(card == null)
+			return;
 		new Thread() {
 			public void run() {
 				File fi = new File(CARDPATH + card.getId() + ".p"); // ´óÍ¼ÎÄ¼þ
@@ -133,10 +135,14 @@ implements CardController, Constants {
 					ato.filter(bis, bidd);
 					card.setImage(bidd);
 					card.setScaleImage(bid);
-					card.setImageReady();
+					card.setImageReady(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (NullPointerException e) {
+					card.setImage(null);
+					card.setScaleImage(null);
+					card.setImageReady(true);
 				}
 			}
 		}.start();
@@ -198,7 +204,7 @@ implements CardController, Constants {
 						card.addHideRelationship(Integer.valueOf(id));
 					}
 					rf.close();
-					setImage(card);
+					loadImage(card);
 					cards.put(cardId, card);
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
@@ -355,16 +361,22 @@ implements CardController, Constants {
 		return false;
 	}
 
-	public boolean setImage(String path) {
-		File file = new File(path);
-		if(file.isFile()) {
-			try {
-				return new MoveFile(file).move(path);
-			} catch (FileNotFoundException e) {
-				System.err.println("MyCardController : setImage error!");
+	public boolean setImage(final int cardId, final File file) {
+		Card card = cards.get(cardId);
+		card.setImageReady(false);
+		new Thread() {
+			public void run() {
+				if(file.isFile()) {
+					try {
+						new MoveFile(file).move(CARDPATH + cardId + ".p");
+						loadImage(get(cardId));
+					} catch (FileNotFoundException e) {
+						System.err.println("MyCardController : setImage error!");
+					}
+				}
 			}
-		}
-		return false;
+		}.start();
+		return true;
 	}
 
 	

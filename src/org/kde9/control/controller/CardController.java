@@ -1,7 +1,7 @@
 package org.kde9.control.controller;
 
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -42,7 +42,7 @@ public interface CardController {
 	public boolean findByRelation(int cardId, 
 			String content, boolean wholeWord);
 	
-	public boolean setImage(String path);
+	public boolean setImage(int cardId, File file);
 	
 	public BufferedImage getImage(int id);
 	

@@ -143,8 +143,8 @@ implements Card {
 		return image.isReady();
 	}
 
-	public boolean setImageReady() {
-		image.setReady(true);
+	public boolean setImageReady(boolean ready) {
+		image.setReady(ready);
 		return true;
 	}
 

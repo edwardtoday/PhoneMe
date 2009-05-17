@@ -1,5 +1,6 @@
 package org.kde9.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -129,6 +130,11 @@ implements Kernel, Constants {
 			cards.setRelationships(cardId, relation);
 		cards.save(cardId);
 		names.save();
+		return true;
+	}
+
+	public boolean setCardImage(int cardId, File file) {
+		cards.setImage(cardId, file);
 		return true;
 	}
 

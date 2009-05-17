@@ -160,5 +160,5 @@ extends ConstCard {
 	
 	boolean setImage(BufferedImage image);
 	
-	boolean setImageReady();
+	boolean setImageReady(boolean ready);
 }

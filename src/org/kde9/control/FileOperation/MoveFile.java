@@ -19,7 +19,7 @@ public class MoveFile {
 		return copyFile(path);
 	}
 	
-	private boolean copyFile(String newPath) 
+	synchronized private boolean copyFile(String newPath) 
 	throws FileNotFoundException {
 		try {
 			int bytesum = 0;

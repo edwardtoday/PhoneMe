@@ -1,5 +1,6 @@
 package org.kde9.control;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -24,6 +25,8 @@ public interface Kernel {
 	public boolean updateCard(int cardId, String firstName, String lastName,
 			LinkedHashMap<String, Vector<String>> items, 
 			LinkedHashMap<Integer, String> relation);
+	
+	public boolean setCardImage(int cardId, File file);
 	
 	public ConstGroup addGroup(String groupName);
 	

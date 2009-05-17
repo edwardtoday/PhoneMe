@@ -38,13 +38,14 @@ implements MouseListener, MouseMotionListener {
 	private JPanel container;
 	private JLabel ok;
 	private BufferedImage image;
-	int x, y;
+	int x, y, loc;
 
-	public PhotoBox(JComponent father, BufferedImage image) {
+	public PhotoBox(JComponent father, BufferedImage image, int loc) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.ok = new JLabel();
 		this.father = father;
 		this.image = image;
+		this.loc = loc;
 		launch();
 	}
 
@@ -124,14 +125,14 @@ implements MouseListener, MouseMotionListener {
 		}.start();
 	}
 	
-	private static void centerWindow(Container window, Container sheet) {
+	private void centerWindow(Container window, Container sheet) {
 		int xx = (int) window.getLocationOnScreen().getX();
 		int yy = (int) window.getLocationOnScreen().getY();
 		int w = window.getWidth();
 		int h = window.getHeight();
 //		System.out.println(w + " " + h + " " + sheet.getWidth() + " " + sheet.getHeight());
 		int x = xx + w/2;
-		int y = yy + (h-sheet.getHeight())/2;
+		int y = yy + (h-sheet.getHeight())/2 + loc;
 		frame.setLocation(x, y);
 	}
 

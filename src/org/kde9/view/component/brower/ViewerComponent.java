@@ -8,11 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -20,10 +16,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,9 +25,9 @@ import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,6 +35,7 @@ import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -56,11 +51,14 @@ import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
 import org.kde9.view.listener.EditListener;
-import org.kde9.view.listener.FileDragGestureListener;
+
+import ch.randelshofer.quaqua.JSheet;
+import ch.randelshofer.quaqua.SheetEvent;
+import ch.randelshofer.quaqua.SheetListener;
 
 public class ViewerComponent 
 extends JPanel 
-implements ActionListener, Constants {
+implements ActionListener, DropTargetListener, SheetListener, Constants {
 	private JTable itemTable;
 	private JTable relationTable;
 	private JPanel upPanel;
@@ -208,10 +206,7 @@ implements ActionListener, Constants {
 		photo.setPreferredSize(new Dimension(140, 140));
 		photo.addActionListener(this);
 		
-		DragSource ds = DragSource.getDefaultDragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(
-				photo, DnDConstants.ACTION_COPY_OR_MOVE,
-				new FileDragGestureListener());
+		dropTarget = new DropTarget(photo, DnDConstants.ACTION_COPY_OR_MOVE, this);
 		
 		name = new JLabel();
 		name.setFont(new Font("HeiTi", 1, 30));
@@ -460,7 +455,7 @@ outer:
 
 	public void ready() {
 		buttonEdit.setEnabled(true);
-		photo.setEnabled(true);
+//		photo.setEnabled(true);
 	}
 	
 	public void clear() {
@@ -469,7 +464,8 @@ outer:
 		while(relationModel.getRowCount() != 0)
 			relationModel.removeRow(0);
 		buttonEdit.setEnabled(false);
-		photo.setEnabled(false);
+//		photo.setEnabled(false);
+		setCard(null);
 		setName("");
 		setPinYin("");
 		setImage(null);
@@ -651,9 +647,69 @@ outer:
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+		if(card == null)
+			return;
 		BufferedImage image = card.getImage();
 		if(image != null && !editable)
-			new PhotoBox(photo, image);
+			new PhotoBox(photo, image, 20);
+		else if(editable) {
+			// TODO
+			JFileChooser chooser = new JFileChooser();
+			FileFilter filter = new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					String name = f.getName();
+					if(name.endsWith(".jpg") || name.endsWith(".bmp") ||
+							name.endsWith(".png") || name.endsWith(".jpeg") ||
+							name.endsWith(".JPG") || name.endsWith(".PNG") ||
+							name.endsWith(".gif"))
+						return true;
+					return false;
+				}
+				@Override
+				public String getDescription() {
+					// TODO Auto-generated method stub
+					return "Í¼Æ¬ÎÄ¼þ";
+				}
+			};
+			chooser.setFileFilter(filter);
+			chooser.setPreferredSize(new Dimension(700, 400));
+			JSheet.showOpenSheet(chooser, this, this);
+		}
+	}
+
+	public void dragEnter(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void dragExit(DropTargetEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void dragOver(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void drop(DropTargetDropEvent d) {
+		System.out.println(d.getSource());
+		d.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+	}
+
+	public void dropActionChanged(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void optionSelected(SheetEvent e) {
+		// TODO Auto-generated method stub
+		File file = e.getFileChooser().getSelectedFile();
+		if(file != null) {
+			kernel.setCardImage(card.getId(), file);
+			setImage(card);
+		}
 	}
 
 //	public void addItem(String name, String content) {
