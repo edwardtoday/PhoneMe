@@ -1,6 +1,7 @@
 package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -20,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -32,7 +34,8 @@ import com.sun.jna.examples.WindowUtils;
 
 public class PhotoBox 
 implements MouseListener, MouseMotionListener {
-	private static JDialog frame;
+	private static int sum = 0;
+	private static JFrame frame;
 	private JComponent father;
 	private JSheet sheet;
 	private JPanel container;
@@ -41,7 +44,15 @@ implements MouseListener, MouseMotionListener {
 	int x, y, loc;
 
 	public PhotoBox(JComponent father, BufferedImage image, int loc) {
-		this.frame = new JDialog(ComponentPool.getComponent(), true);
+		if(sum > 10) {
+			new CoolInfoBox(father,   "  您打开的照片太多了，" +
+									"\n     会影响性能哦！" +
+									"\n       关掉一些吧~",
+					Color.YELLOW, 200, 100);
+			return;
+		}
+		sum++;
+		this.frame = new JFrame();
 		this.ok = new JLabel();
 		this.father = father;
 		this.image = image;
@@ -118,6 +129,7 @@ implements MouseListener, MouseMotionListener {
 				}
 				if(close) {
 					window.dispose();
+					sum--;
 					ComponentPool.getComponent().setAlwaysOnTop(true);
 					ComponentPool.getComponent().setAlwaysOnTop(false);
 				}

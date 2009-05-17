@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 10.0-b23 (Sun Microsystems Inc.)
+Main-Class: org.kde9.view.Main
+Class-Path: ./lib/examples.jar ./lib/jna.jar ./lib/pinyin4j-2.5.0.jar ./lib/quaqua.jar
+X-COMMENT: Main-Class will be added automatically by build
+
