@@ -1,4 +1,4 @@
-package org.kde9.control.controller;
+﻿package org.kde9.control.controller;
 
 public interface AllNameController {
 	public boolean addPerson(int id, String firstName, String lastName);

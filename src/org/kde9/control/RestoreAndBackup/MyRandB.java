@@ -1,4 +1,4 @@
-package org.kde9.control.RestoreAndBackup;
+ï»¿package org.kde9.control.RestoreAndBackup;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,19 +11,19 @@ public class MyRandB
 implements RestoreAndBackup, Constants {
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎªÊı×Ö
+	 * åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯å¦ä¸ºæ•°å­—
 	 * <p>
-	 * ×Ö·û´®Îª¿Õ´®»ò·ÇÊı×Ö´®½«·µ»Øfalse¡£
+	 * å­—ç¬¦ä¸²ä¸ºç©ºä¸²æˆ–éæ•°å­—ä¸²å°†è¿”å›falseã€‚
 	 * 
 	 * @param str
-	 * 		ÒªÅĞ¶ÏµÄ×Ö·û´®
+	 * 		è¦åˆ¤æ–­çš„å­—ç¬¦ä¸²
 	 */
 	private boolean isInt(String str) {
-		// Îª¿Õ´®·µ»Øfalse
+		// ä¸ºç©ºä¸²è¿”å›false
 		if (str == "")
 			return false;
 		for (char c : str.toCharArray())
-			// ·ÇÊı×Ö·µ»Øfalse
+			// éæ•°å­—è¿”å›false
 			if (!Character.isDigit(c))
 				return false;
 		return true;

@@ -1,4 +1,4 @@
-package org.kde9.view.dialog;
+﻿package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -45,9 +45,9 @@ implements MouseListener, MouseMotionListener {
 
 	public PhotoBox(JComponent father, BufferedImage image, int loc) {
 		if(sum > 10) {
-			new CoolInfoBox(father,   "  ���򿪵���Ƭ̫���ˣ�" +
-									"\n     ��Ӱ������Ŷ��" +
-									"\n       �ص�һЩ��~",
+			new CoolInfoBox(father,   "  您打开的照片太多了，" +
+									"\n     会影响性能哦！" +
+									"\n       关掉一些吧~",
 					Color.YELLOW, 200, 100);
 			return;
 		}

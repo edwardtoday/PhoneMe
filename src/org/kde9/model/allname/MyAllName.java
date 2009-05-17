@@ -1,4 +1,4 @@
-package org.kde9.model.allname;
+﻿package org.kde9.model.allname;
 
 import java.util.HashMap;
 import java.util.HashSet;

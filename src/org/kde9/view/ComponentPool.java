@@ -1,4 +1,4 @@
-package org.kde9.view;
+﻿package org.kde9.view;
 
 import org.kde9.view.component.brower.BrowerComponent;
 import org.kde9.view.component.brower.GroupComponent;

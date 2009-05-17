@@ -1,4 +1,4 @@
-package org.kde9.control;
+﻿package org.kde9.control;
 
 import java.io.File;
 import java.util.LinkedHashMap;

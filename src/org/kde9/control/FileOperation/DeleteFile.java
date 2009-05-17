@@ -1,20 +1,20 @@
-package org.kde9.control.FileOperation;
+ï»¿package org.kde9.control.FileOperation;
 
 import java.io.File;
 
 /**
- * Êı¾İ²Ù×÷µ×²ã
+ * æ•°æ®æ“ä½œåº•å±‚
  * <p>
- * ·â×°ÁËÎÄ¼şÉ¾³ıµÄ»ù±¾²Ù×÷£¬
- * ÏòÉÏÌá¹©ÁËdelete·½·¨¡£
+ * å°è£…äº†æ–‡ä»¶åˆ é™¤çš„åŸºæœ¬æ“ä½œï¼Œ
+ * å‘ä¸Šæä¾›äº†deleteæ–¹æ³•ã€‚
  */
 public class DeleteFile {
 	String fileName;
 	File file;
 
 	/**
-	 * ´´½¨ÎÄ¼şÉ¾³ı
-	 * @param fileName ÒªÉ¾³ıµÄÎÄ¼şÃû
+	 * åˆ›å»ºæ–‡ä»¶åˆ é™¤
+	 * @param fileName è¦åˆ é™¤çš„æ–‡ä»¶å
 	 */
 	public DeleteFile(String fileName) {
 		this.fileName = fileName;
@@ -27,7 +27,7 @@ public class DeleteFile {
 	}
 
 	/**
-	 * É¾³ıÎÄ¼ş
+	 * åˆ é™¤æ–‡ä»¶
 	 */
 	synchronized public void delete() {
 		file.delete();

@@ -1,75 +1,75 @@
-package org.kde9.model.allname;
+ï»¿package org.kde9.model.allname;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * ±£´æËùÓĞÁªÏµÈËµÄidÓëÃû×Ö
+ * ä¿å­˜æ‰€æœ‰è”ç³»äººçš„idä¸åå­—
  * <p>
- * ÓÃÓÚ±£´æÁªÏµÈËµÄidÓëÃû×ÖµÄ¶ÔÓ¦£¬ÒÔ±ã¿ìËÙ¼ìË÷¡£
+ * ç”¨äºä¿å­˜è”ç³»äººçš„idä¸åå­—çš„å¯¹åº”ï¼Œä»¥ä¾¿å¿«é€Ÿæ£€ç´¢ã€‚
  * 
  * @author kfirst
  */
 public interface AllName {
 	/**
-	 * »ñµÃÁªÏµÈËµÄĞÕ
+	 * è·å¾—è”ç³»äººçš„å§“
 	 * <p>
-	 * Í¨¹ıÖ¸¶¨ÁªÏµÈËµÄid£¬»ñµÃÁªÏµÈËµÄĞÕ¡£
+	 * é€šè¿‡æŒ‡å®šè”ç³»äººçš„idï¼Œè·å¾—è”ç³»äººçš„å§“ã€‚
 	 * @param id
-	 * 		ÁªÏµÈËµÄid
+	 * 		è”ç³»äººçš„id
 	 * @return
-	 * 		ÁªÏµÈËµÄĞÕ
+	 * 		è”ç³»äººçš„å§“
 	 */
 	public String getFirstName(int id);
 	
 	/**
-	 * »ñµÃÁªÏµÈËµÄÃû
+	 * è·å¾—è”ç³»äººçš„å
 	 * <p>
-	 * Í¨¹ıÖ¸¶¨ÁªÏµÈËµÄid£¬»ñµÃÁªÏµÈËµÄÃû¡£
+	 * é€šè¿‡æŒ‡å®šè”ç³»äººçš„idï¼Œè·å¾—è”ç³»äººçš„åã€‚
 	 * @param id
-	 * 		ÁªÏµÈËµÄid
+	 * 		è”ç³»äººçš„id
 	 * @return
-	 * 		ÁªÏµÈËµÄÃû
+	 * 		è”ç³»äººçš„å
 	 */
 	public String getLastName(int id);
 	
 	/**
-	 * ĞŞ¸ÄÁªÏµÈËµÄĞÕ
+	 * ä¿®æ”¹è”ç³»äººçš„å§“
 	 * @param newName
-	 * 		ÁªÏµÈËµÄĞÂĞÕ
+	 * 		è”ç³»äººçš„æ–°å§“
 	 * @return
-	 * 		ĞŞ¸ÄÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue¡£Èç¹û²ÎÊınewFirstÎªnull£¬Ôò·µ»Øfalse
+	 * 		ä¿®æ”¹æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›trueã€‚å¦‚æœå‚æ•°newFirstä¸ºnullï¼Œåˆ™è¿”å›false
 	 */
 	boolean setFirstName(int id, String newFirst);
 	
 	/**
-	 * ĞŞ¸ÄÁªÏµÈËµÄÃû
+	 * ä¿®æ”¹è”ç³»äººçš„å
 	 * @param newLast
-	 * 		ÁªÏµÈËµÄĞÂÃû
+	 * 		è”ç³»äººçš„æ–°å
 	 * @return
-	 * 		ĞŞ¸ÄÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue¡£Èç¹û²ÎÊınewLastÎªnull£¬Ôò·µ»Øfalse
+	 * 		ä¿®æ”¹æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›trueã€‚å¦‚æœå‚æ•°newLastä¸ºnullï¼Œåˆ™è¿”å›false
 	 */
 	boolean setLastName(int id, String newLast);
 	
 	/**
-	 * ÏòĞÕÃû±íÖĞÔö¼ÓÁªÏµÈË
+	 * å‘å§“åè¡¨ä¸­å¢åŠ è”ç³»äºº
 	 * @param id
-	 * 		ÁªÏµÈËµÄid
+	 * 		è”ç³»äººçš„id
 	 * @param firstName
-	 * 		ÁªÏµÈËµÄĞÕ
+	 * 		è”ç³»äººçš„å§“
 	 * @param lastName
-	 * 		ÁªÏµÈËµÄÃû
+	 * 		è”ç³»äººçš„å
 	 * @return
-	 * 		Ìí¼ÓÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue
+	 * 		æ·»åŠ æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›true
 	 */
 	public boolean addPerson(int id, String firstName, String lastName);
 	
 	/**
-	 * ´ÓĞÕÃû±íÖĞÉ¾³ıÁªÏµÈË
+	 * ä»å§“åè¡¨ä¸­åˆ é™¤è”ç³»äºº
 	 * @param id
-	 * 		ÒªÉ¾³ıµÄÁªÏµÈËµÄid
+	 * 		è¦åˆ é™¤çš„è”ç³»äººçš„id
 	 * @return
-	 * 		É¾³ıÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue
+	 * 		åˆ é™¤æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›true
 	 */
 	public boolean deletePerson(int id);
 	

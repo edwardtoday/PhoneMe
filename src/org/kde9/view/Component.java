@@ -1,4 +1,4 @@
-package org.kde9.view;
+ï»¿package org.kde9.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -84,15 +84,15 @@ implements Constants {
 
 		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-		// µÃµ½Shell´°¿ÚµÄ¿í¶ÈºÍ¸ß¶È
+		// å¾—åˆ°Shellçª—å£çš„å®½åº¦å’Œé«˜åº¦
 		int shellHeight = getBounds().height;
 		int shellWidth = getBounds().width;
-		// Èç¹û´°¿Ú´óĞ¡³¬¹ıÆÁÄ»´óĞ¡£¬ÈÃ´°¿ÚÓëÆÁÄ»µÈ´ó
+		// å¦‚æœçª—å£å¤§å°è¶…è¿‡å±å¹•å¤§å°ï¼Œè®©çª—å£ä¸å±å¹•ç­‰å¤§
 		if (shellHeight > screenHeight)
 			shellHeight = screenHeight;
 		if (shellWidth > screenWidth)
 			shellWidth = screenWidth;
-		// ÈÃ´°¿ÚÔÚÆÁÄ»ÖĞ¼äÏÔÊ¾
+		// è®©çª—å£åœ¨å±å¹•ä¸­é—´æ˜¾ç¤º
 		setLocation(((screenWidth - shellWidth) / 2),
 				((screenHeight - shellHeight) / 2));
 		

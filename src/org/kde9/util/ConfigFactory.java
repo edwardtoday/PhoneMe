@@ -1,4 +1,4 @@
-package org.kde9.util;
+﻿package org.kde9.util;
 
 public class ConfigFactory {
 	static Configuration configuration = new Configuration();

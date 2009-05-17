@@ -1,4 +1,4 @@
-package org.kde9.util;
+ï»¿package org.kde9.util;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -7,7 +7,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
-//½«ºº×Ö×ª»»ÎªÈ«Æ´
+//å°†æ±‰å­—è½¬æ¢ä¸ºå…¨æ‹¼
 public class PinYin {
 	
 	public static String getPingYin(String src) {
@@ -17,12 +17,12 @@ public class PinYin {
 		HanyuPinyinOutputFormat t3 = new HanyuPinyinOutputFormat();
 		t3.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 		t3.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-		t3.setVCharType(HanyuPinyinVCharType.WITH_V);
+		t3.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);
 		String t4 = "";
 		int t0 = t1.length;
 		try {
 			for (int i = 0; i < t0; i++) {
-				// ÅĞ¶ÏÊÇ·ñÎªºº×Ö×Ö·û
+				// åˆ¤æ–­æ˜¯å¦ä¸ºæ±‰å­—å­—ç¬¦
 				if (java.lang.Character.toString(t1[i]).matches(
 						"[\\u4E00-\\u9FA5]+")) {
 					t2 = PinyinHelper.toHanyuPinyinStringArray(t1[i], t3);
@@ -37,7 +37,7 @@ public class PinYin {
 		}
 	}
 
-	// ·µ»ØÖĞÎÄµÄÊ××ÖÄ¸
+	// è¿”å›ä¸­æ–‡çš„é¦–å­—æ¯
 	public static String getPinYinHeadChar(String str) {
 
 		String convert = "";
@@ -53,7 +53,7 @@ public class PinYin {
 		return convert;
 	}
 
-	// ½«×Ö·û´®×ªÒÆÎªASCIIÂë
+	// å°†å­—ç¬¦ä¸²è½¬ç§»ä¸ºASCIIç 
 	public static String getCnASCII(String cnStr) {
 		StringBuffer strBuf = new StringBuffer();
 		byte[] bGBK = cnStr.getBytes();
@@ -64,10 +64,10 @@ public class PinYin {
 		return strBuf.toString();
 	}
 
-//	public static void main(String[] args) {
-//
-//		String cnStr = "ºúçâçâ";
-//		System.out.println(getPingYin(cnStr));
-//		System.out.println(getPinYinHeadChar(cnStr));
-//	}
+	public static void main(String[] args) {
+
+		String cnStr = "èƒ¡ç®ç®";
+		System.out.println(getPingYin(cnStr));
+		System.out.println(getPinYinHeadChar(cnStr));
+	}
 }

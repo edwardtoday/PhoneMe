@@ -1,4 +1,4 @@
-package org.kde9.view.component.brower;
+ï»¿package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -50,7 +50,7 @@ public class NameComponent extends JPanel {
 		table.setTableHeader(null);
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
-		buttonAdd = new JButton("£«");
+		buttonAdd = new JButton("ï¼‹");
 		buttonAdd.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 		// buttonSub = new JButton("-");
 		// buttonSub.putClientProperty("Quaqua.Button.style",

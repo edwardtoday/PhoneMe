@@ -1,4 +1,4 @@
-package org.kde9.model;
+锘縫ackage org.kde9.model;
 
 import org.kde9.model.allname.AllName;
 import org.kde9.model.allname.MyAllName;
@@ -8,7 +8,7 @@ import org.kde9.model.group.Group;
 import org.kde9.model.group.MyGroup;
 
 /**
- * model层的工厂类，用于适配model层的各种接口
+ * model灞傜殑宸ュ巶绫伙紝鐢ㄤ簬閫傞厤model灞傜殑鍚勭鎺ュ彛
  * 
  * @author kfirst
  */

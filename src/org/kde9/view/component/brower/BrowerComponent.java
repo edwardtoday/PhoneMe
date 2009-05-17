@@ -1,4 +1,4 @@
-package org.kde9.view.component.brower;
+﻿package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;

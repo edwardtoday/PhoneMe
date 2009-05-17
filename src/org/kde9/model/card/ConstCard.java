@@ -1,4 +1,4 @@
-package org.kde9.model.card;
+ï»¿package org.kde9.model.card;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedHashMap;
@@ -6,79 +6,79 @@ import java.util.Vector;
 
 public interface ConstCard {
 	/**
-	 * »ñµÃÏµÍ³·ÖÅä¸ø¸ÃÁªÏµÈËµÄid¡£
+	 * è·å¾—ç³»ç»Ÿåˆ†é…ç»™è¯¥è”ç³»äººçš„idã€‚
 	 * <p>
-	 * Ã¿¸öÁªÏµÈË¾ùÓ¦ÓµÓĞÓëÆäËûÁªÏµÈË²»Í¬µÄid
+	 * æ¯ä¸ªè”ç³»äººå‡åº”æ‹¥æœ‰ä¸å…¶ä»–è”ç³»äººä¸åŒçš„id
 	 * @return
-	 * 		¸ÃÁªÏµÈËµÄid
+	 * 		è¯¥è”ç³»äººçš„id
 	 */
 	int getId();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËµÄĞÕ
+	 * è·å¾—è¯¥è”ç³»äººçš„å§“
 	 * @return
 	 */
 	String getFirstName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËĞÕµÄÆ´Òô
+	 * è·å¾—è¯¥è”ç³»äººå§“çš„æ‹¼éŸ³
 	 * @return
 	 */
 	String getPinYinFirstName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËĞÕµÄÆ´ÒôËõĞ´
+	 * è·å¾—è¯¥è”ç³»äººå§“çš„æ‹¼éŸ³ç¼©å†™
 	 * @return
 	 */
 	String getPYFirstName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËµÄÃû
+	 * è·å¾—è¯¥è”ç³»äººçš„å
 	 * @return
 	 */
 	String getLastName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËÃûµÄÆ´Òô
+	 * è·å¾—è¯¥è”ç³»äººåçš„æ‹¼éŸ³
 	 * @return
 	 */
 	String getPinYinLastName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËÃûµÄÆ´ÒôËõĞ´
+	 * è·å¾—è¯¥è”ç³»äººåçš„æ‹¼éŸ³ç¼©å†™
 	 * @return
 	 */
 	String getPYLastName();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËËùÓĞµÄ±íÏî
+	 * è·å¾—è¯¥è”ç³»äººæ‰€æœ‰çš„è¡¨é¡¹
 	 * @return
-	 * 		±íÏîµÄ¼üÖµ¶Ô
+	 * 		è¡¨é¡¹çš„é”®å€¼å¯¹
 	 */
 	LinkedHashMap<String, Vector<String>> getAllItems();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËÖĞÖ¸¶¨±íÏîµÄÖµ
+	 * è·å¾—è¯¥è”ç³»äººä¸­æŒ‡å®šè¡¨é¡¹çš„å€¼
 	 * @param itemName
-	 * 		Ö¸¶¨±íÏîµÄ¼ü
+	 * 		æŒ‡å®šè¡¨é¡¹çš„é”®
 	 * @return
-	 * 		Ö¸¶¨±íÏîµÄÖµ£¬ÈôÎ´ÕÒµ½Ö¸¶¨µÄ¼üÔò·µ»Ønull
+	 * 		æŒ‡å®šè¡¨é¡¹çš„å€¼ï¼Œè‹¥æœªæ‰¾åˆ°æŒ‡å®šçš„é”®åˆ™è¿”å›null
 	 */
 	Vector<String> getItem(String itemName);
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËËùÓĞµÄÏÔĞÔ¹ØÏµ
+	 * è·å¾—è¯¥è”ç³»äººæ‰€æœ‰çš„æ˜¾æ€§å…³ç³»
 	 * @return
-	 * 		Ã¿¸ö¹ØÏµÖĞµÄ¹ØÁªÈËµÄidºÍ¹ØÏµµÄÀàĞÍ¶Ô
+	 * 		æ¯ä¸ªå…³ç³»ä¸­çš„å…³è”äººçš„idå’Œå…³ç³»çš„ç±»å‹å¯¹
 	 */
 	LinkedHashMap<Integer, String> getAllShowRelationship();
 	
 	/**
-	 * »ñµÃ¸ÃÁªÏµÈËÓëÖ¸¶¨ÁªÏµÈËµÄ¹ØÏµ
+	 * è·å¾—è¯¥è”ç³»äººä¸æŒ‡å®šè”ç³»äººçš„å…³ç³»
 	 * @param cardId
-	 * 		Ö¸¶¨ÁªÏµÈËµÄid
+	 * 		æŒ‡å®šè”ç³»äººçš„id
 	 * @return
-	 * 		¹ØÏµ
+	 * 		å…³ç³»
 	 */
 	String getShowRelationship(int cardId);
 	

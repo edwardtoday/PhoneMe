@@ -1,4 +1,4 @@
-package org.kde9.view.component.toolbar;
+﻿package org.kde9.view.component.toolbar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

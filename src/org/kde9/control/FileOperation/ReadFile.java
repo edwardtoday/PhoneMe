@@ -1,4 +1,4 @@
-package org.kde9.control.FileOperation;
+ï»¿package org.kde9.control.FileOperation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,26 +7,26 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Êı¾İ²Ù×÷µ×²ã
+ * æ•°æ®æ“ä½œåº•å±‚
  * <p>
- * ·â×°ÁËÎÄ¼ş¶ÁµÄ»ù±¾²Ù×÷£¬
- * ÏòÉÏÌá¹©ÁËreadLine·½·¨¡£
+ * å°è£…äº†æ–‡ä»¶è¯»çš„åŸºæœ¬æ“ä½œï¼Œ
+ * å‘ä¸Šæä¾›äº†readLineæ–¹æ³•ã€‚
  * <br><strong>
- * Ê¹ÓÃÊ±×¢Òâ£¬ÎÄ¼ş¶Á²Ù×÷½áÊøºóÒªµ÷ÓÃclose·½·¨¹Ø±ÕÁ÷¡£
+ * ä½¿ç”¨æ—¶æ³¨æ„ï¼Œæ–‡ä»¶è¯»æ“ä½œç»“æŸåè¦è°ƒç”¨closeæ–¹æ³•å…³é—­æµã€‚
  * </strong></br>
  */
 public class ReadFile {
 	/**
-	 * Òª²Ù×÷µÄÎÄ¼şÃû
+	 * è¦æ“ä½œçš„æ–‡ä»¶å
 	 */
 	String fileName;
 	FileReader fr;
 	BufferedReader br;
 
 	/**
-	 * Í¨¹ıÎÄ¼şÃû¹¹ÔìÒ»¸öÎÄ¼şreadÁ÷
-	 * @param fileName ÎÄ¼şÃû
-	 * @throws FileNotFoundException Òª´ò¿ªµÄÎÄ¼ş²»´æÔÚ
+	 * é€šè¿‡æ–‡ä»¶åæ„é€ ä¸€ä¸ªæ–‡ä»¶readæµ
+	 * @param fileName æ–‡ä»¶å
+	 * @throws FileNotFoundException è¦æ‰“å¼€çš„æ–‡ä»¶ä¸å­˜åœ¨
 	 */
 	public ReadFile(String fileName) 
 	throws FileNotFoundException {
@@ -43,11 +43,11 @@ public class ReadFile {
 	}
 	
 	/**
-	 * ´ÓÎÄ¼şÖĞ¶ÁÈ¡Ò»ĞĞ
+	 * ä»æ–‡ä»¶ä¸­è¯»å–ä¸€è¡Œ
 	 * <br><strong>
-	 * Ê¹ÓÃÊ±×¢Òâ£¬ÎÄ¼ş¶Á²Ù×÷½áÊøºóÒªµ÷ÓÃclose·½·¨¹Ø±ÕÁ÷¡£
+	 * ä½¿ç”¨æ—¶æ³¨æ„ï¼Œæ–‡ä»¶è¯»æ“ä½œç»“æŸåè¦è°ƒç”¨closeæ–¹æ³•å…³é—­æµã€‚
 	 * </strong></br>
-	 * @return °üº¬Òª¶ÁÈ¡ĞĞÄÚÈİµÄString
+	 * @return åŒ…å«è¦è¯»å–è¡Œå†…å®¹çš„String
 	 * @throws IOException
 	 */
 	synchronized public String readLine() 
@@ -56,7 +56,7 @@ public class ReadFile {
 	}
 
 	/**
-	 * ¹Ø±ÕÁ÷
+	 * å…³é—­æµ
 	 * @throws IOException
 	 */
 	synchronized public void close()

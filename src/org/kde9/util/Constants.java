@@ -1,8 +1,8 @@
-package org.kde9.util;
+ï»¿package org.kde9.util;
 
 public interface Constants {
 	//************************************************************************
-	// ÎÄ¼şÂ·¾¶¼°ÎÄ¼şÃû
+	// æ–‡ä»¶è·¯å¾„åŠæ–‡ä»¶å
 	static String DATAPATH = "./datafiles/";
 	static String GROUPPATH = "./datafiles/groupfiles/";
 	static String CARDPATH = "./datafiles/cardfiles/";
@@ -16,35 +16,35 @@ public interface Constants {
 	static int GROUPALLID = 0;
 	
 	/**
-	 * Î´ÃüÃûµÄÃûÆ¬µÄÄ¬ÈÏÃû×Ö
+	 * æœªå‘½åçš„åç‰‡çš„é»˜è®¤åå­—
 	 */
 	static String NULLCARDNAME = "Null";
 	
 	static String NULLGROUPNAME = "no name";
 	
 	/**
-	 * ±£´æËùÓĞÃû×ÖµÄÎÄ¼şµÄÎÄ¼şÃû
+	 * ä¿å­˜æ‰€æœ‰åå­—çš„æ–‡ä»¶çš„æ–‡ä»¶å
 	 */
 	static String ALLNAMES = "AllNames";
 	
 	//************************************************************************	
-	// ÏµÍ³ÉèÖÃÃû³Æ
+	// ç³»ç»Ÿè®¾ç½®åç§°
 	/**
-	 * Ö÷´°¿Ú¿í
+	 * ä¸»çª—å£å®½
 	 */
 	static String MAIN_FRAME_WIDTH = "MAIN_FRAME_WIDTH";
 
 	/**
-	 * Ö÷´°¿Ú¸ß
+	 * ä¸»çª—å£é«˜
 	 */
 	static String MAIN_FRAME_HEIGHT = "MAIN_FRAME_HEIGHT";
 	
 	/**
-	 * Ãû×ÖÏÔÊ¾·½Ê½
+	 * åå­—æ˜¾ç¤ºæ–¹å¼
 	 */
 	static String NAME_FOMAT = "NAME_FOMAT";
 	//************************************************************************
-	//ÅäÖÃÎÄ¼şÄÚÈİ
+	//é…ç½®æ–‡ä»¶å†…å®¹
 	static String[] config = {
 		MAIN_FRAME_HEIGHT, "500",
 		MAIN_FRAME_WIDTH, "800",
@@ -52,31 +52,31 @@ public interface Constants {
 	};
 	
 	//************************************************************************
-	//ÎÄ¼ş¸ñÊ½Ïà¹Ø
+	//æ–‡ä»¶æ ¼å¼ç›¸å…³
 	/**
-	 * »»ĞĞ·û
+	 * æ¢è¡Œç¬¦
 	 */
 	static String NEWLINE = System.getProperty("line.separator");
 	
 	/**
-	 * ÎÄ¼şÖĞÇø·Ö²»Í¬×Ö¶ÎµÄ·Ö¸ô·û Èç·Ö¸îItemºÍpersons
+	 * æ–‡ä»¶ä¸­åŒºåˆ†ä¸åŒå­—æ®µçš„åˆ†éš”ç¬¦ å¦‚åˆ†å‰²Itemå’Œpersons
 	 */
 	static String SEPERATOR = "!$$%)&(~()(!$#$%#";
 
 	/**
-	 * ÃûÆ¬ÖĞ²»Í¬itemµÄ·Ö¸ô·û Èç·Ö¸îµç»°ºÍEmail
+	 * åç‰‡ä¸­ä¸åŒitemçš„åˆ†éš”ç¬¦ å¦‚åˆ†å‰²ç”µè¯å’ŒEmail
 	 */
 	static String ITEMSEPERATOR = "@@$-=&{*)<?':#}{)($";
 	
 	static String VALUESEPERSTOR = "*((***&^&%^^%%^??+)";
 	
 	/**
-	 * Î´¸³ÖµµÄItemµÄÄ¬ÈÏÖµ
+	 * æœªèµ‹å€¼çš„Itemçš„é»˜è®¤å€¼
 	 */
 	static String NULLITEMCONTENT = "Null";
 	
 	//************************************************************************
-	//ÅäÖÃÏîÀàĞÍ
+	//é…ç½®é¡¹ç±»å‹
 	static int CONFIGINT = 0;
 	static int CONFIGSTRING = 1;
 }

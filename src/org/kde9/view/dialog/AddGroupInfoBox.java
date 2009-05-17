@@ -1,4 +1,4 @@
-package org.kde9.view.dialog;
+ï»¿package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -181,7 +181,7 @@ implements ActionListener, KeyListener {
 			String groupName = getTextField().getText();
 			if(groupName.length() == 0) {
 				new CoolInfoBox(ComponentPool.getGroupComponent(),
-						"ÇëÊäÈë×éÃû£¡",Color.YELLOW,200,35,-70);
+						"è¯·è¾“å…¥ç»„åï¼",Color.YELLOW,200,35,-70);
 			}else {
 				Kernel kernel = ComponentPool.getComponent().getKernel();
 				ConstGroup group = kernel.addGroup(groupName); 

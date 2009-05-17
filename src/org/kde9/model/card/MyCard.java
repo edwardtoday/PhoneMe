@@ -1,4 +1,4 @@
-package org.kde9.model.card;
+ï»¿package org.kde9.model.card;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
@@ -151,16 +151,16 @@ implements Card {
 	
 //	public static void main(String args[]) {
 //		MyCard card = new MyCard(21);
-//		card.setFirstName("ºú");
-//		card.setLastName("çâçâ!");
-//		card.addItem("µç»°", "51534418");
-//		card.addItem("µç»°", "000000");
-//		card.addItem("°à¼¶", "¼Æ62°à");
+//		card.setFirstName("èƒ¡");
+//		card.setLastName("ç®ç®!");
+//		card.addItem("ç”µè¯", "51534418");
+//		card.addItem("ç”µè¯", "000000");
+//		card.addItem("ç­çº§", "è®¡62ç­");
 //		card.addShowRelationship(2, "test");
 //		card.addShowRelationship(3, "ok!");
 //		card.show();
 //		card.deleteShowRelationship(3);
-//		card.deleteItem("µç»°", "000000");
+//		card.deleteItem("ç”µè¯", "000000");
 //		card.show();
 //	}
 //	

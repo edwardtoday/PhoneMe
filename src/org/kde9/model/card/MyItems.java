@@ -1,4 +1,4 @@
-package org.kde9.model.card;
+﻿package org.kde9.model.card;
 
 import java.util.LinkedHashMap;
 import java.util.Vector;

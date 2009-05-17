@@ -1,4 +1,4 @@
-package org.kde9.control.controller;
+ï»¿package org.kde9.control.controller;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -27,19 +27,19 @@ implements CardController, Constants {
 	private Save save;
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎªÊı×Ö
+	 * åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯å¦ä¸ºæ•°å­—
 	 * <p>
-	 * ×Ö·û´®Îª¿Õ´®»ò·ÇÊı×Ö´®½«·µ»Øfalse¡£
+	 * å­—ç¬¦ä¸²ä¸ºç©ºä¸²æˆ–éæ•°å­—ä¸²å°†è¿”å›falseã€‚
 	 * 
 	 * @param str
-	 * 		ÒªÅĞ¶ÏµÄ×Ö·û´®
+	 * 		è¦åˆ¤æ–­çš„å­—ç¬¦ä¸²
 	 */
 	private boolean isInt(String str) {
-		// Îª¿Õ´®·µ»Øfalse
+		// ä¸ºç©ºä¸²è¿”å›false
 		if (str == null || str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
-			// ·ÇÊı×Ö·µ»Øfalse
+			// éæ•°å­—è¿”å›false
 			if (!Character.isDigit(c))
 				return false;
 		return true;
@@ -90,7 +90,7 @@ implements CardController, Constants {
 			return;
 		new Thread() {
 			public void run() {
-				File fi = new File(CARDPATH + card.getId() + ".p"); // ´óÍ¼ÎÄ¼ş
+				File fi = new File(CARDPATH + card.getId() + ".p"); // å¤§å›¾æ–‡ä»¶
 				if (!fi.isFile())
 					return;
 				AffineTransform transform = new AffineTransform();

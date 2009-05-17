@@ -1,4 +1,4 @@
-package org.kde9.util;
+ï»¿package org.kde9.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.kde9.control.FileOperation.ReadFile;
 import org.kde9.control.FileOperation.WriteFile;
 
 /**
- * ¹ÜÀíÅäÖÃÎÄ¼ş
+ * ç®¡ç†é…ç½®æ–‡ä»¶
  * 
  * @author kfirst
  */
@@ -42,7 +42,7 @@ implements Constants {
 			}
 			rf.close();
 		} catch (FileNotFoundException e) {
-			System.err.println("Î´ÕÒµ½ÅäÖÃÎÄ¼ş!");
+			System.err.println("æœªæ‰¾åˆ°é…ç½®æ–‡ä»¶!");
 		} catch (IOException e) {}
 	}
 	
@@ -69,19 +69,19 @@ implements Constants {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎªÊı×Ö
+	 * åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯å¦ä¸ºæ•°å­—
 	 * <p>
-	 * ×Ö·û´®Îª¿Õ´®»ò·ÇÊı×Ö´®½«·µ»Øfalse¡£
+	 * å­—ç¬¦ä¸²ä¸ºç©ºä¸²æˆ–éæ•°å­—ä¸²å°†è¿”å›falseã€‚
 	 * 
 	 * @param str
-	 * 		ÒªÅĞ¶ÏµÄ×Ö·û´®
+	 * 		è¦åˆ¤æ–­çš„å­—ç¬¦ä¸²
 	 */
 	private boolean isInt(String str) {
-		// Îª¿Õ´®·µ»Øfalse
+		// ä¸ºç©ºä¸²è¿”å›false
 		if (str == null || str.length() == 0)
 			return false;
 		for (char c : str.toCharArray())
-			// ·ÇÊı×Ö·µ»Øfalse
+			// éæ•°å­—è¿”å›false
 			if (!Character.isDigit(c))
 				return false;
 		return true;

@@ -1,4 +1,4 @@
-package org.kde9.model.group;
+﻿package org.kde9.model.group;
 
 import java.util.LinkedHashSet;
 

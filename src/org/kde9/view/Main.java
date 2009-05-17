@@ -1,4 +1,4 @@
-package org.kde9.view;
+﻿package org.kde9.view;
 
 import java.security.AccessControlException;
 import java.util.Arrays;

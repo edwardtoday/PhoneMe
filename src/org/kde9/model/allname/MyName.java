@@ -1,4 +1,4 @@
-package org.kde9.model.allname;
+ï»¿package org.kde9.model.allname;
 
 import org.kde9.util.PinYin;
 
@@ -59,7 +59,7 @@ class MyName {
 	}
 	
 //	public static void main(String args[]) {
-//		MyName myName = new MyName("ºú", "çâçâ");
+//		MyName myName = new MyName("èƒ¡", "çŽ®çŽ®");
 //		System.out.println(myName.pinYinFirstName + " " + myName.pinYinLastName);
 //		System.out.println(myName.pYFirstName + ' ' + myName.pYLastName);
 //	}

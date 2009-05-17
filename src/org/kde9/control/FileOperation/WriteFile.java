@@ -1,4 +1,4 @@
-package org.kde9.control.FileOperation;
+ï»¿package org.kde9.control.FileOperation;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,17 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Êı¾İ²Ù×÷µ×²ã
+ * æ•°æ®æ“ä½œåº•å±‚
  * <p>
- * ·â×°ÁËÎÄ¼şĞ´µÄ»ù±¾²Ù×÷£¬
- * ÏòÉÏÌá¹©ÁËwriteLineºÍwrite·½·¨¡£
+ * å°è£…äº†æ–‡ä»¶å†™çš„åŸºæœ¬æ“ä½œï¼Œ
+ * å‘ä¸Šæä¾›äº†writeLineå’Œwriteæ–¹æ³•ã€‚
  * <br><strong>
- * Ê¹ÓÃÊ±×¢Òâ£¬ÎÄ¼şĞ´²Ù×÷½áÊøºóÒªµ÷ÓÃclose·½·¨¹Ø±ÕÁ÷¡£
+ * ä½¿ç”¨æ—¶æ³¨æ„ï¼Œæ–‡ä»¶å†™æ“ä½œç»“æŸåè¦è°ƒç”¨closeæ–¹æ³•å…³é—­æµã€‚
  * </strong></br>
  */
 public class WriteFile {
 	/**
-	 * Òª²Ù×÷µÄÎÄ¼şÃû
+	 * è¦æ“ä½œçš„æ–‡ä»¶å
 	 */
 	String fileName;
 	String contant;
@@ -24,9 +24,9 @@ public class WriteFile {
 	BufferedWriter bw;
 
 	/**
-	 * Í¨¹ıÎÄ¼şÃûºÍ±êÊ¶·û´´½¨ÎÄ¼şwriteÁ÷
-	 * @param fileName ÎÄ¼şÃû
-	 * @param flag ÎªtrueÊ±±íÊ¾×·¼Ó£¬ÎªfalseÊ±±íÊ¾¸²¸Ç¡£
+	 * é€šè¿‡æ–‡ä»¶åå’Œæ ‡è¯†ç¬¦åˆ›å»ºæ–‡ä»¶writeæµ
+	 * @param fileName æ–‡ä»¶å
+	 * @param flag ä¸ºtrueæ—¶è¡¨ç¤ºè¿½åŠ ï¼Œä¸ºfalseæ—¶è¡¨ç¤ºè¦†ç›–ã€‚
 	 * @throws IOException
 	 */
 	public WriteFile(String fileName, boolean flag)
@@ -37,9 +37,9 @@ public class WriteFile {
 	}
 
 	/**
-	 * Í¨¹ıÎÄ¼şÃûºÍ±êÊ¶·û´´½¨ÎÄ¼şwriteÁ÷
-	 * @param fileName ÎÄ¼şÃû
-	 * @param flag ÎªtrueÊ±±íÊ¾×·¼Ó£¬ÎªfalseÊ±±íÊ¾¸²¸Ç¡£
+	 * é€šè¿‡æ–‡ä»¶åå’Œæ ‡è¯†ç¬¦åˆ›å»ºæ–‡ä»¶writeæµ
+	 * @param fileName æ–‡ä»¶å
+	 * @param flag ä¸ºtrueæ—¶è¡¨ç¤ºè¿½åŠ ï¼Œä¸ºfalseæ—¶è¡¨ç¤ºè¦†ç›–ã€‚
 	 * @throws IOException
 	 */
 	public WriteFile(File file, boolean flag)
@@ -50,11 +50,11 @@ public class WriteFile {
 	}
 	
 	/**
-	 * ÏòÎÄ¼şÖĞĞ´ÈëÄÚÈİ
+	 * å‘æ–‡ä»¶ä¸­å†™å…¥å†…å®¹
 	 * <br><strong>
-	 * Ê¹ÓÃÊ±×¢Òâ£¬ÎÄ¼şĞ´²Ù×÷½áÊøºóÒªµ÷ÓÃclose·½·¨¹Ø±ÕÁ÷¡£
+	 * ä½¿ç”¨æ—¶æ³¨æ„ï¼Œæ–‡ä»¶å†™æ“ä½œç»“æŸåè¦è°ƒç”¨closeæ–¹æ³•å…³é—­æµã€‚
 	 * </strong></br>
-	 * @param str ÒªĞ´ÈëµÄÄÚÈİ
+	 * @param str è¦å†™å…¥çš„å†…å®¹
 	 * @return 
 	 * @throws IOException
 	 */
@@ -64,11 +64,11 @@ public class WriteFile {
 	}
 
 	/**
-	 * ÏòÎÄ¼şÖĞĞ´ÈëÄÚÈİ£¬²¢»»ĞĞ
+	 * å‘æ–‡ä»¶ä¸­å†™å…¥å†…å®¹ï¼Œå¹¶æ¢è¡Œ
 	 * <br><strong>
-	 * Ê¹ÓÃÊ±×¢Òâ£¬ÎÄ¼şĞ´²Ù×÷½áÊøºóÒªµ÷ÓÃclose·½·¨¹Ø±ÕÁ÷¡£
+	 * ä½¿ç”¨æ—¶æ³¨æ„ï¼Œæ–‡ä»¶å†™æ“ä½œç»“æŸåè¦è°ƒç”¨closeæ–¹æ³•å…³é—­æµã€‚
 	 * </strong></br>
-	 * @param str ÒªĞ´ÈëµÄÄÚÈİ
+	 * @param str è¦å†™å…¥çš„å†…å®¹
 	 * @throws IOException
 	 */
 	synchronized public void writeLine(String str) 
@@ -79,7 +79,7 @@ public class WriteFile {
 	}
 	
 	/**
-	 * ¹Ø±ÕÁ÷
+	 * å…³é—­æµ
 	 * @throws IOException 
 	 * @throws IOException
 	 */

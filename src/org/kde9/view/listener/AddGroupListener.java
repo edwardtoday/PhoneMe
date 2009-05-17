@@ -1,4 +1,4 @@
-package org.kde9.view.listener;
+﻿package org.kde9.view.listener;
 
 import java.awt.Color;
 import java.awt.Container;

@@ -1,4 +1,4 @@
-package org.kde9.view.dialog;
+﻿package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

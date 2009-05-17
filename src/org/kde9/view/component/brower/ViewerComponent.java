@@ -1,4 +1,4 @@
-package org.kde9.view.component.brower;
+ï»¿package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -390,7 +390,7 @@ outer:
 		while(relationModel.getRowCount() != 0)
 			relationModel.removeRow(0);
 		relationButtons.removeAllElements();
-		relationModel.addRow(new Object[] {"","","","¹ØÏµ",""});
+		relationModel.addRow(new Object[] {"","","","å…³ç³»",""});
 		if(rel != null) {
 			//System.out.println(rel);
 			relationButtons.add(new ButtonUnit(""));
@@ -417,7 +417,7 @@ outer:
 			itemModel.removeRow(0);
 		buttons.removeAllElements();
 		buttonsLow.removeAllElements();
-		itemModel.addRow(new Object[] {"","","","","","ĞÅÏ¢",""});
+		itemModel.addRow(new Object[] {"","","","","","ä¿¡æ¯",""});
 		buttons.add(new ButtonUnit(""));
 		buttonsLow.add(new ButtonUnit(""));
 		itemKeys = new Vector<String>();
@@ -542,14 +542,14 @@ outer:
 					relationId.add(null);
 					relationModel.removeRow(1);
 					relationModel.insertRow(1, new Object[] {
-						"","","","",NULLITEMCONTENT,"µãÕâÀïÑ¡ÔñÁªÏµÈË"});
+						"","","","",NULLITEMCONTENT,"ç‚¹è¿™é‡Œé€‰æ‹©è”ç³»äºº"});
 				} else {
 					relationContent.add(b.getLocation(), NULLITEMCONTENT);
 					relationId.add(b.getLocation(),	null);
 					ButtonUnit unit = new ButtonUnit(3, b.getLocation()+1, 0, this);
 					relationButtons.add(unit);
 					relationModel.insertRow(b.getLocation()+1, new Object[] {
-							"","","","",NULLITEMCONTENT,"µãÕâÀïÑ¡ÔñÁªÏµÈË"});
+							"","","","",NULLITEMCONTENT,"ç‚¹è¿™é‡Œé€‰æ‹©è”ç³»äºº"});
 					for (int i = b.getLocation()+1; i < relationButtons.size(); i++) {
 						relationButtons.get(i).setLocation(i);
 					}
@@ -558,7 +558,7 @@ outer:
 		} else if(e.getSource() == b.getButtonSub()) {
 			if (b.getType() == 1) {
 				if (itemKeys.size() < 2) {
-					new CoolInfoBox(this, "\nĞÅÏ¢²¿·Ö²»ÄÜÎª¿ÕÅ¶£¡", Color.YELLOW,
+					new CoolInfoBox(this, "\nä¿¡æ¯éƒ¨åˆ†ä¸èƒ½ä¸ºç©ºå“¦ï¼", Color.YELLOW,
 							200, 100);
 					return;
 				} else {
@@ -592,8 +592,8 @@ outer:
 				System.out.println(loc + "((((((((((((");
 				int sum = itemValues.get(loc-1).size();
 				if(sum == 1)
-					new CoolInfoBox(this, "\n     ÒªÉ¾³ıÕû¸ö " + itemKeys.get(loc-1) +  
-							" ±íÏî£¬\n  °´°´Ç°ÃæµÄÉ¾³ı°´Å¥ÊÔÊÔ°É£¡",
+					new CoolInfoBox(this, "\n     è¦åˆ é™¤æ•´ä¸ª " + itemKeys.get(loc-1) +  
+							" è¡¨é¡¹ï¼Œ\n  æŒ‰æŒ‰å‰é¢çš„åˆ é™¤æŒ‰é’®è¯•è¯•å§ï¼",
 							Color.YELLOW, 200, 100);
 				else {
 					for (; sum > 0; sum--) {
@@ -669,7 +669,7 @@ outer:
 				@Override
 				public String getDescription() {
 					// TODO Auto-generated method stub
-					return "Í¼Æ¬ÎÄ¼ş";
+					return "å›¾ç‰‡æ–‡ä»¶";
 				}
 			};
 			chooser.setFileFilter(filter);
@@ -755,12 +755,12 @@ implements ActionListener {
 		else
 			buttonAdd.setBackground(Color.WHITE);
 		if(type == 1 || type == 2 || type == 3) {
-			buttonAdd.setText("£«");
+			buttonAdd.setText("ï¼‹");
 			buttonAdd.addActionListener(this);
 		}
 		this.buttonSub = new JButton();
 		if(type == 1 || type == 2 || type == 3) {
-			buttonSub.setText("£­");
+			buttonSub.setText("ï¼");
 			buttonSub.addActionListener(this);
 		}
 		buttonSub.setOpaque(true);

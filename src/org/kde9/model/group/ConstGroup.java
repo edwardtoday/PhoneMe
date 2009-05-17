@@ -1,18 +1,18 @@
-package org.kde9.model.group;
+ï»¿package org.kde9.model.group;
 
 import java.util.LinkedHashSet;
 
 public interface ConstGroup {
 	/**
-	 * »ñµÃ×éµÄid
+	 * è·å¾—ç»„çš„id
 	 * @return
 	 */
 	public int getId();
 	
 	/**
-	 * »ñµÃËùÓĞµÄ×é³ÉÔ±
+	 * è·å¾—æ‰€æœ‰çš„ç»„æˆå‘˜
 	 * @return
-	 * 	ËùÓĞ×é³ÉÔ±µÄid
+	 * 	æ‰€æœ‰ç»„æˆå‘˜çš„id
 	 */
 	public LinkedHashSet<Integer> getGroupMembers();
 	

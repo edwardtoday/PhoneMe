@@ -1,4 +1,4 @@
-package org.kde9.control.FileOperation;
+ï»¿package org.kde9.control.FileOperation;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,18 +24,18 @@ public class MoveFile {
 		try {
 			int bytesum = 0;
 			int byteread = 0;
-			InputStream inStream = new FileInputStream(file); // ¶ÁÈëÔ­ÎÄ¼ş
+			InputStream inStream = new FileInputStream(file); // è¯»å…¥åŸæ–‡ä»¶
 			FileOutputStream fs = new FileOutputStream(newPath);
 			byte[] buffer = new byte[1024];
 			int length;
 			while ((byteread = inStream.read(buffer)) != -1) {
-				bytesum += byteread; // ×Ö½ÚÊı ÎÄ¼ş´óĞ¡
+				bytesum += byteread; // å­—èŠ‚æ•° æ–‡ä»¶å¤§å°
 				System.out.println(bytesum);
 				fs.write(buffer, 0, byteread);
 			}
 			inStream.close();
 		} catch (IOException e) {
-			System.out.println("¸´ÖÆµ¥¸öÎÄ¼ş²Ù×÷³ö´í");
+			System.out.println("å¤åˆ¶å•ä¸ªæ–‡ä»¶æ“ä½œå‡ºé”™");
 			return false;
 		}
 		return true;

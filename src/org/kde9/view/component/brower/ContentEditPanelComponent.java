@@ -1,4 +1,4 @@
-package org.kde9.view.component.brower;
+Ôªøpackage org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -51,12 +51,12 @@ implements ActionListener {
 		for(JTextField key : contents.keySet()) {
 			JPanel oneItemPanel = new JPanel();
 			oneItemPanel.setBorder(BorderFactory.createEmptyBorder());
-			JButton keybuttonAdd = new JButton("£´");
+			JButton keybuttonAdd = new JButton("Ôºã");
 			keybuttonAdd.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 			keybuttonAdd.addActionListener(this);
 			index.put(keybuttonAdd, ++i);
 			oneItemPanel.add(keybuttonAdd);
-			JButton keybuttonSub = new JButton("£≠");
+			JButton keybuttonSub = new JButton("Ôºç");
 			keybuttonSub.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 			keybuttonSub.addActionListener(this);
 			index.put(keybuttonSub, ++i);
@@ -65,12 +65,12 @@ implements ActionListener {
 			for(JTextArea value : contents.get(key)) {
 				oneItemPanel.add(value);
 			}
-			JButton valuebuttonAdd = new JButton("£´");
+			JButton valuebuttonAdd = new JButton("Ôºã");
 			valuebuttonAdd.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 			oneItemPanel.add(valuebuttonAdd);
 			valuebuttonAdd.addActionListener(this);
 			index.put(valuebuttonAdd, ++i);
-			JButton valuebuttonSub = new JButton("£≠");
+			JButton valuebuttonSub = new JButton("Ôºç");
 			valuebuttonSub.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 			oneItemPanel.add(valuebuttonSub);
 			valuebuttonSub.addActionListener(this);

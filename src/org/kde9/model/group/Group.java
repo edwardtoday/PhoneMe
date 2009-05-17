@@ -1,4 +1,4 @@
-package org.kde9.model.group;
+ï»¿package org.kde9.model.group;
 
 import java.util.LinkedHashSet;
 
@@ -7,27 +7,27 @@ extends ConstGroup {
 	public void setGroupName(String groupName);
 	
 	/**
-	 * Ôö¼Ó×é³ÉÔ±
+	 * å¢åŠ ç»„æˆå‘˜
 	 * @param id
-	 * 		ÒªÔö¼ÓµÄ×é³ÉÔ±µÄid
+	 * 		è¦å¢åŠ çš„ç»„æˆå‘˜çš„id
 	 * @return
-	 * 		Ìí¼Ó³ÉÔ±ÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue
+	 * 		æ·»åŠ æˆå‘˜æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›true
 	 */
 	public boolean addGroupMember(int id);
 	
 	/**
-	 * ÉèÖÃ×é³ÉÔ±
+	 * è®¾ç½®ç»„æˆå‘˜
 	 * @param members
 	 * @return
 	 */
 	public boolean setGroupMembers(LinkedHashSet<Integer> members);
 	
 	/**
-	 * É¾³ı×éµÄ³ÉÔ±
+	 * åˆ é™¤ç»„çš„æˆå‘˜
 	 * @param id
-	 * 		ÒªÉ¾³ıµÄ×é³ÉÔ±µÄid
+	 * 		è¦åˆ é™¤çš„ç»„æˆå‘˜çš„id
 	 * @return
-	 * 		É¾³ıÊÇ·ñ³É¹¦£¬³É¹¦·µ»Øtrue
+	 * 		åˆ é™¤æ˜¯å¦æˆåŠŸï¼ŒæˆåŠŸè¿”å›true
 	 */
 	public boolean deleteGroupMember(int id);
 }
