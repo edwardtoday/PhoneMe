@@ -17,7 +17,7 @@ public class PinYin {
 		HanyuPinyinOutputFormat t3 = new HanyuPinyinOutputFormat();
 		t3.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 		t3.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-		t3.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);
+		t3.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 		String t4 = "";
 		int t0 = t1.length;
 		try {
