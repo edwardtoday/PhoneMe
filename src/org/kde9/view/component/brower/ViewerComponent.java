@@ -362,7 +362,7 @@ outer:
 		this.pinyin.setText(pinyin);
 	}
 
-	public void setImage(final ConstCard card) {
+	synchronized public void setImage(final ConstCard card) {
 		photo.setIcon(new ImageIcon(IMGPATH + NULLIMAGE));
 		if (card != null) {
 			final int id = card.getId();
@@ -384,9 +384,9 @@ outer:
 	}
 	
 	synchronized private void showImage(int id) {
-		if(card.getId() != id)
+		if(card == null || card.getScaleImage() == null || card.getId() != id) {
 			return;
-		if(card.getScaleImage() != null) {
+		} else {
 			photo.setIcon(new ImageIcon(card.getScaleImage()));
 		}
 	}

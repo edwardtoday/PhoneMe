@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.control.Kernel;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.AddNameListener;
@@ -34,15 +35,11 @@ public class NameComponent extends JPanel {
 	private DefaultTableModel model;
 	private TitledBorder border;
 	
-	private int threadId = 0;
+	private static int threadId = 0;
 	
 	private boolean ready = true;
 
 	private LinkedHashMap<Integer, String> members;
-
-	public void nextThread() {
-		threadId = (threadId + 1)%100;
-	}
 	
 	NameComponent() {
 		ComponentPool.setNameComponent(this);
@@ -103,12 +100,18 @@ public class NameComponent extends JPanel {
 		table.addKeyListener(kl);
 	}
 
+	private void nextThread() {
+		threadId = (threadId + 1)%100;
+	}
+	
 	public void setMembers(final LinkedHashMap<Integer, String> members) {
+		nextThread();
 		this.members = members;
 		final int id = threadId;
 		while (model.getRowCount() != 0) {
 			model.removeRow(0);
 		}
+		final Kernel kernel = ComponentPool.getComponent().getKernel();
 		if (members.size() != 0) {
 			new Thread() {
 				public void run() {
@@ -116,12 +119,14 @@ public class NameComponent extends JPanel {
 					int i = 0;
 					while(true) {
 //						System.err.print(threadId);
+						if(id != threadId)
+							return;
 						if(i < members.size()) {
 							name = members.get(members.keySet().toArray()[i]);
 							i++;
 							if (!addRow(id, threadId, name))
 								return;
-						} else if(ready)
+						} else if(kernel.isSearchFinish())
 							break;
 						else
 							try {

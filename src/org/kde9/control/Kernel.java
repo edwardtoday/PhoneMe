@@ -43,4 +43,6 @@ public interface Kernel {
 //	public LinkedHashMap<Integer, String> findByName(String nameOrPinYin);
 	
 	public LinkedHashMap<Integer, String> find(String keyWords);
+	
+	public boolean isSearchFinish();
 }
