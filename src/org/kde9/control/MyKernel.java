@@ -79,7 +79,7 @@ implements Kernel, Constants {
 		names.addPerson(id, firstName, lastName);
 		names.save();
 		groups.addGroupMember(GROUPALLID, id);
-		groups.save(GROUPALLID);
+		//groups.save(GROUPALLID);
 		if(groupId != GROUPALLID) {
 			groups.addGroupMember(groupId, id);
 			groups.save(groupId);
@@ -95,7 +95,8 @@ implements Kernel, Constants {
 
 	public boolean addGroupMember(int groupId, int personId) {
 		if(groups.addGroupMember(groupId, personId)) {
-			groups.save(groupId);
+			if(groupId != GROUPALLID)
+				groups.save(groupId);
 			return true;
 		}
 		return false;
@@ -110,7 +111,8 @@ implements Kernel, Constants {
 
 	public boolean deleteGroupMember(int groupId, int personId) {
 		if(groups.deleteGroupMember(groupId, personId)) {
-			groups.save(groupId);
+			if(groupId != GROUPALLID)
+				groups.save(groupId);
 			return true;
 		}
 		return false;
