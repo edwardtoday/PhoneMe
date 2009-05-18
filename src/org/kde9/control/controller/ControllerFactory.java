@@ -1,5 +1,7 @@
 ﻿package org.kde9.control.controller;
 
+import java.util.LinkedHashSet;
+
 public class ControllerFactory {
 	public static AllNameController createAllNameController() {
 		return new MyAllNameController();
@@ -9,7 +11,7 @@ public class ControllerFactory {
 		return new MyCardController();
 	}
 	
-	public static GroupController createGroupController() {
-		return new MyGroupController();
+	public static GroupController createGroupController(LinkedHashSet<Integer> ids) {
+		return new MyGroupController(ids);
 	}
 }

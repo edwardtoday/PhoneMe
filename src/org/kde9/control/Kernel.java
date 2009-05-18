@@ -39,4 +39,8 @@ public interface Kernel {
 	public boolean deleteGroupMember(int groupId, int personId);
 	
 	public boolean renameGroup(int groupId, String groupName);
+	
+//	public LinkedHashMap<Integer, String> findByName(String nameOrPinYin);
+	
+	public LinkedHashMap<Integer, String> find(String keyWords);
 }

@@ -148,7 +148,7 @@ implements CardController, Constants {
 		}.start();
 	}
 	
-	private Card get(int cardId) {
+	private Card get(int cardId, boolean buffer) {
 		if(cards.size() > 100)
 			cards.remove(cards.get(cards.keySet().toArray()[0]));
 		Card card = cards.get(cardId);
@@ -205,7 +205,8 @@ implements CardController, Constants {
 					}
 					rf.close();
 					loadImage(card);
-					cards.put(cardId, card);
+					if(buffer)
+						cards.put(cardId, card);
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
 				} catch (IOException e) {
@@ -233,7 +234,7 @@ implements CardController, Constants {
 	}
 
 	public boolean addCardItem(int id, String item, String content) {
-		Card card = get(id);
+		Card card = get(id, true);
 		if(card != null) {
 			card.addItem(item, content);
 			return true;
@@ -242,9 +243,9 @@ implements CardController, Constants {
 	}
 
 	public boolean addRelationship(int cardId, int personId, String content) {
-		Card card = get(cardId);
+		Card card = get(cardId, true);
 		if(card != null) {
-			Card person = get(personId);
+			Card person = get(personId, true);
 			if(person != null) {
 				card.addShowRelationship(personId, content);
 				if(person.getShowRelationship(cardId) == null) {
@@ -275,18 +276,63 @@ implements CardController, Constants {
 
 	public boolean findByItem(int cardId, String item, String content,
 			boolean wholeWord) {
-		// TODO Auto-generated method stub
+		Card card = get(cardId, false);
+		if(card != null) {
+			if(item != null) {
+				if(content != null) {
+					Vector<String> temp = card.getItem(item);
+					if(temp == null) {
+						return false;
+					} else {
+						for(String str : temp)
+							if(wholeWord && str.equals(content))
+								return true;
+							else if(!wholeWord && str.contains(content))
+								return true;
+					}
+				} else {
+					if(wholeWord)
+						return (card.getItem(item) != null);
+					else
+						for(String it : card.getAllItems().keySet())
+							if(it.contains(item))
+								return true;
+				}
+			} else if(content != null) {
+				for(String it : card.getAllItems().keySet()) {
+					Vector<String> temp = card.getItem(it);
+					for(String str : temp)
+						if(wholeWord && str.equals(content))
+							return true;
+						else if(!wholeWord && str.contains(content))
+							return true;
+				}
+			}
+		}
 		return false;
 	}
 	
 	public boolean findByRelation(int cardId, 
 			String content, boolean wholeWord) {		
-		// TODO
+		Card card = get(cardId, false);
+		if(card != null) {
+			LinkedHashMap<Integer, String> relation = 
+				card.getAllShowRelationship();
+			for(String str : relation.values()) {
+				if(wholeWord) {
+					if(str.equals(content))
+						return true;
+				} else {
+					if(str.contains(content))
+						return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	public Card getCard(int cardId) {
-		return get(cardId);
+		return get(cardId, true);
 	}
 
 	public LinkedHashMap<String, Vector<String>> getCardItems(int id) {
@@ -299,7 +345,7 @@ implements CardController, Constants {
 	}
 
 	public boolean renameCard(int id, String firstName, String lastName) {
-		Card card = get(id);
+		Card card = get(id, true);
 		if(card != null) {
 			card.setFirstName(firstName);
 			card.setLastName(lastName);
@@ -309,13 +355,13 @@ implements CardController, Constants {
 	}
 
 	public boolean save(int id) {
-		Card card = get(id);
+		Card card = get(id, true);
 		save.init(card);
 		return save.save();
 	}
 
 	public boolean setCardItems(int id, LinkedHashMap<String, Vector<String>> items) {
-		Card card = get(id);
+		Card card = get(id, true);
 		if(card != null) {
 			card.setItems(items);
 			return true;
@@ -330,7 +376,7 @@ implements CardController, Constants {
 
 	public boolean setRelationships(int cardId, 
 			LinkedHashMap<Integer, String> relation) {
-		Card card = get(cardId);
+		Card card = get(cardId, true);
 		if(card != null) {
 			for(int id : relation.keySet()) {
 				addRelationship(cardId, id, relation.get(id));
@@ -341,21 +387,21 @@ implements CardController, Constants {
 	}
 
 	public BufferedImage getImage(int cardId) {
-		Card card = get(cardId);
+		Card card = get(cardId, true);
 		if(card != null)
 			return card.getImage();
 		return null;
 	}
 
 	public BufferedImage getScaleImage(int cardId) {
-		Card card = get(cardId);
+		Card card = get(cardId, true);
 		if(card != null)
 			return card.getScaleImage();
 		return null;
 	}
 
 	public boolean isImageReady(int cardId) {
-		Card card = get(cardId);
+		Card card = get(cardId, true);
 		if(card != null)
 			return card.isImageRafdy();
 		return false;
@@ -369,7 +415,7 @@ implements CardController, Constants {
 				if(file.isFile()) {
 					try {
 						new MoveFile(file).move(CARDPATH + cardId + ".p");
-						loadImage(get(cardId));
+						loadImage(get(cardId, true));
 					} catch (FileNotFoundException e) {
 						System.err.println("MyCardController : setImage error!");
 					}

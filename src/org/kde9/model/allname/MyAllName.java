@@ -1,15 +1,14 @@
 ﻿package org.kde9.model.allname;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 public class MyAllName 
 implements AllName {
-	private HashMap<Integer, MyName> people;
+	private LinkedHashMap<Integer, MyName> people;
 	
 	public MyAllName() {
-		people = new HashMap<Integer, MyName>();
+		people = new LinkedHashMap<Integer, MyName>();
 	}
 
 	public boolean addPerson(int id, String firstName, String lastName) {
@@ -57,7 +56,26 @@ implements AllName {
 		return false;
 	}
 	
-	public Set<Integer> getIds() {
-		return people.keySet();
+	public LinkedHashSet<Integer> getIds() {
+		LinkedHashSet<Integer> ids = new LinkedHashSet<Integer>();
+		for(int id : people.keySet())
+			ids.add(id);
+		return ids;
+	}
+
+	public String getPYFirstName(int id) {
+		return people.get(id).getPYFirstName();
+	}
+
+	public String getPYLastName(int id) {
+		return people.get(id).getPYLastName();
+	}
+
+	public String getPinYinFirstName(int id) {
+		return people.get(id).getPinYinFirstName();
+	}
+
+	public String getPinYinLastName(int id) {
+		return people.get(id).getPinYinLastName();
 	}
 }

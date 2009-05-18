@@ -415,6 +415,7 @@ outer:
 		//this.items = items;
 		while (itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
+		
 		buttons.removeAllElements();
 		buttonsLow.removeAllElements();
 		itemModel.addRow(new Object[] {"","","","","","信息",""});

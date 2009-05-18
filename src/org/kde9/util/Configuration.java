@@ -47,8 +47,13 @@ implements Constants {
 	}
 	
 	public Object getConfig(String item, int type) {
-		if(type == CONFIGSTRING)
-			return config.get(item);
+		if(type == CONFIGSTRING) {
+			String temp = config.get(item);
+			if(temp != null)
+				return temp;
+			else
+				return original.get(item);
+		}
 		else if(type == CONFIGINT) {
 			String temp = config.get(item);
 			if(isInt(temp))

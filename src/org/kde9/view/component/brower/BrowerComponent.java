@@ -114,6 +114,7 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.clear();
 		else
 			viewer.ready();
+		name.nextThread();
 		name.setMembers(members);
 		//name.setSelected(begin, end);
 		//name.setMembers(map);

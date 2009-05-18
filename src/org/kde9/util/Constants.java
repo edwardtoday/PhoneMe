@@ -43,11 +43,14 @@ public interface Constants {
 	 * 名字显示方式
 	 */
 	static String NAME_FOMAT = "NAME_FOMAT";
+	
+	static String GROUP_ALL_NAME = "GROUP_ALL_NAME";
 	//************************************************************************
 	//配置文件内容
 	static String[] config = {
 		MAIN_FRAME_HEIGHT, "500",
 		MAIN_FRAME_WIDTH, "800",
+		GROUP_ALL_NAME, "ALL",
 		NAME_FOMAT, "0",
 	};
 	

@@ -5,12 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.kde9.control.FileOperation.DeleteFile;
 import org.kde9.control.FileOperation.ReadFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.model.group.Group;
+import org.kde9.util.ConfigFactory;
+import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 
 public class MyGroupController 
@@ -19,6 +23,8 @@ implements GroupController, Constants {
 	private HashMap<Integer, Group> groups;
 	private LinkedHashMap<Integer, String> groupNames;
 	private Save save;
+	
+	private Configuration configuration;
 
 	/**
 	 * 判断一个字符串是否为数字
@@ -69,19 +75,29 @@ implements GroupController, Constants {
 		return g;
 	}
 	
-	public MyGroupController() {
+	public MyGroupController(LinkedHashSet<Integer> ids) {
+		configuration = ConfigFactory.creatConfig();
+		
 		groups = new HashMap<Integer, Group>();
 		groupNames = new LinkedHashMap<Integer, String>();
 		save = new Save();
 		File groupPath = new File(GROUPPATH);
 		if(!groupPath.isDirectory())
 			return;
+		Group group = ModelFactory.createGroup(GROUPALLID);
+		String groupName = (String) configuration.getConfig(GROUP_ALL_NAME, CONFIGSTRING);
+		group.setGroupName(groupName);
+		group.setGroupMembers(ids);
+		groups.put(GROUPALLID, group);
+		groupNames.put(GROUPALLID, groupName);
 		for(File file : groupPath.listFiles()) {
 			if(file.isFile() && isInt(file.getName())) {
 				int id = Integer.valueOf(file.getName());
-				groups.put(id, initGroup(file, id));
+				if(id != GROUPALLID)
+					groups.put(id, initGroup(file, id));
 			}
 		}
+
 		// TODO
 	}
 

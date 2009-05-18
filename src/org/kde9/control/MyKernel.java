@@ -15,6 +15,8 @@ import org.kde9.model.card.Card;
 import org.kde9.model.card.ConstCard;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.model.group.Group;
+import org.kde9.util.ConfigFactory;
+import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 
 public class MyKernel 
@@ -23,8 +25,11 @@ implements Kernel, Constants {
 	private CardController cards;
 	private GroupController groups;
 	private RestoreAndBackup randb;
+	
+	private Configuration configuration;
 
 	public MyKernel() {
+		configuration = ConfigFactory.creatConfig();
 		randb = new MyRandB();
 		try {
 			randb.checkout();
@@ -33,7 +38,7 @@ implements Kernel, Constants {
 		}
 		names = ControllerFactory.createAllNameController();
 		cards = ControllerFactory.createCardController();
-		groups = ControllerFactory.createGroupController();
+		groups = ControllerFactory.createGroupController(names.getIds());
 	}
 	
 	public LinkedHashMap<Integer, String> getAllGroups() {
@@ -145,8 +150,49 @@ implements Kernel, Constants {
 		return true;
 	}
 
-	public void main(String args[]) {
-		Kernel kernel = new MyKernel();
+	public LinkedHashMap<Integer, String> find(String keyWords) {
+		// TODO Auto-generated method stub
+		keyWords += " ";
+		Vector<String> keys = new Vector<String>();
+		for(int i = 0, j = 0; i < keyWords.length(); i++) {
+			if(keyWords.charAt(i) == ' ') {
+				if(j != i)
+					keys.add(keyWords.substring(j, i));
+				j = i + 1;
+			}
+		}
+		LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
+		
+		System.out.println(keys);
+		
+		for(int id : names.getIds()) {
+			boolean flag = true;
+			for(String key : keys) {
+				if(!names.findByName(id, key)) {
+					flag = false;
+					break;
+				}
+			}
+			if(flag)
+				temp.put(id, getName(id));
+		}
+		
+		return temp;
 	}
 
+	private String getName(int id) {
+		if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
+			String fullName = names.getFirstName(id) + names.getLastName(id);
+			return fullName;
+		}
+		else {
+			String fullName = names.getLastName(id) + names.getFirstName(id);
+			return fullName;
+		}
+	}
+	
+	public static void main(String args[]) {
+		Kernel kernel = new MyKernel();
+		System.out.println(kernel.find("u"));
+	}
 }

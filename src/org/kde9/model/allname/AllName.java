@@ -1,7 +1,6 @@
 ﻿package org.kde9.model.allname;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 /**
  * 保存所有联系人的id与名字
@@ -73,5 +72,13 @@ public interface AllName {
 	 */
 	public boolean deletePerson(int id);
 	
-	public Set<Integer> getIds();
+	public LinkedHashSet<Integer> getIds();
+	
+	public String getPinYinFirstName(int id);
+	
+	public String getPinYinLastName(int id);
+	
+	public String getPYFirstName(int id);
+	
+	public String getPYLastName(int id);
 }

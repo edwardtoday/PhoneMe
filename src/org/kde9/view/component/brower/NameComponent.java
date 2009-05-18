@@ -33,9 +33,17 @@ public class NameComponent extends JPanel {
 	// private JButton buttonSub;
 	private DefaultTableModel model;
 	private TitledBorder border;
+	
+	private int threadId = 0;
+	
+	private boolean ready = true;
 
 	private LinkedHashMap<Integer, String> members;
 
+	public void nextThread() {
+		threadId = (threadId + 1)%100;
+	}
+	
 	NameComponent() {
 		ComponentPool.setNameComponent(this);
 		
@@ -88,27 +96,76 @@ public class NameComponent extends JPanel {
 	}
 
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
-		table.getSelectionModel().setSelectionMode(
+		table.setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
+		table.setCellSelectionEnabled(true);
 		table.getSelectionModel().addListSelectionListener(lsl);
 		table.addKeyListener(kl);
 	}
 
-	public void setMembers(LinkedHashMap<Integer, String> members) {
+	public void setMembers(final LinkedHashMap<Integer, String> members) {
 		this.members = members;
-		while (model.getRowCount() != 0)
+		final int id = threadId;
+		while (model.getRowCount() != 0) {
 			model.removeRow(0);
-		if (members.size() != 0) {
-			for (String name : members.values())
-				model.addRow(new Object[] { name });
 		}
+		if (members.size() != 0) {
+			new Thread() {
+				public void run() {
+					String name;
+					int i = 0;
+					while(true) {
+//						System.err.print(threadId);
+						if(i < members.size()) {
+							name = members.get(members.keySet().toArray()[i]);
+							i++;
+							if (!addRow(id, threadId, name))
+								return;
+						} else if(ready)
+							break;
+						else
+							try {
+								sleep(10);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					}
+				}
+			}.start();
+		}
+//		System.err.println('\n');
+	}
+	
+	synchronized private boolean addRow(int id, int thread, String name) {
+		if (id == threadId) {
+			model.addRow(new Object[] { name });
+			return true;
+		}
+		else
+			return false;
 	}
 
-	public void setSelected(int indexs, int indexe) {
-		if (indexs == -1)
+	public void setSelected(final int indexs, final int indexe) {
+//		System.out.print(":"+indexs);
+		if (indexs != -1 && members.size() > 0)
+//			new Thread() {
+//				public void run() {
+			while(!selectSet(indexs, indexe)) {}
+//				}
+//			}.start();
+		//table.getSelectionModel().clearSelection();
+//		if (indexs != -1)
+//			table.getSelectionModel().setSelectionInterval(indexs, indexe);
+	}
+	
+	synchronized private boolean selectSet(int indexs, int indexe) {
+		if(indexs <= indexe && indexe < table.getRowCount() && indexs >=0) {
 			table.getSelectionModel().clearSelection();
-		else
 			table.getSelectionModel().setSelectionInterval(indexs, indexe);
+			return true;
+		}
+		return false;
 	}
 
 	public int getSelected() {
@@ -121,8 +178,9 @@ public class NameComponent extends JPanel {
 
 	public int getSelectedMemberId() {
 		int id;
-		if(getSelected() != -1)
-			id = (Integer) members.keySet().toArray()[getSelected()];
+		int temp = getSelected();
+		if(temp != -1)
+			id = (Integer) members.keySet().toArray()[temp];
 		else
 			id = -1;
 		return id;
