@@ -14,7 +14,7 @@ import org.kde9.util.Constants;
 public class MyAllNameController 
 implements AllNameController, Constants {
 	private AllName names;
-	private Save save;
+	//private Save save;
 	
 	public static final int NAME = 112;
 	public static final int PINYINNAME = 123;
@@ -34,7 +34,6 @@ implements AllNameController, Constants {
 	public MyAllNameController() {
 		configuration = ConfigFactory.creatConfig();
 		names = ModelFactory.createAllName();
-		save = new Save();
 		ReadFile rf;
 		try {
 			rf = new ReadFile(CARDPATH + ALLNAMES);
@@ -160,6 +159,7 @@ implements AllNameController, Constants {
 	}
 
 	public boolean save() {
+		Save save = new Save();
 		save.init(names);
 		return save.save();
 	}

@@ -24,7 +24,7 @@ public class MyCardController
 implements CardController, Constants {
 	private int staticId = 0;
 	HashMap<Integer, Card> cards;
-	private Save save;
+	//private Save save;
 	
 	/**
 	 * 判断一个字符串是否为数字
@@ -219,7 +219,6 @@ implements CardController, Constants {
 	
 	public MyCardController() {
 		cards = new HashMap<Integer, Card>();
-		save = new Save();
 	}
 	
 	public Card addCard(String firstName, String lastName) {
@@ -356,6 +355,7 @@ implements CardController, Constants {
 
 	public boolean save(int id) {
 		Card card = get(id, true);
+		Save save = new Save();
 		save.init(card);
 		return save.save();
 	}

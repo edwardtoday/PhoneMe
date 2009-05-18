@@ -22,7 +22,7 @@ implements GroupController, Constants {
 	private int staticId;
 	private HashMap<Integer, Group> groups;
 	private LinkedHashMap<Integer, String> groupNames;
-	private Save save;
+	//private Save save;
 	
 	private Configuration configuration;
 
@@ -80,7 +80,6 @@ implements GroupController, Constants {
 		
 		groups = new HashMap<Integer, Group>();
 		groupNames = new LinkedHashMap<Integer, String>();
-		save = new Save();
 		File groupPath = new File(GROUPPATH);
 		if(!groupPath.isDirectory())
 			return;
@@ -152,11 +151,13 @@ implements GroupController, Constants {
 
 	public boolean save(int groupId) {
 		Group group = groups.get(groupId);
+		Save save = new Save();
 		save.init(group);
 		return save.save();
 	}
 
 	public boolean save(ConstGroup group) {
+		Save save = new Save();
 		save.init(group);
 		return save.save();
 	}
