@@ -103,18 +103,21 @@ implements Kernel, Constants {
 	}
 
 	public boolean deleteCard(int personId) {
-		for(int groupId : groups.getAllGroups().keySet())
-			groups.deleteGroupMember(groupId, personId);
+		for(int groupId : groups.getAllGroups().keySet()) {
+			if(groupId != GROUPALLID && 
+					groups.deleteGroupMember(groupId, personId))
+				groups.save(groupId);
+		}
 		names.deletePerson(personId);
 		return cards.deleteCard(personId);
 	}
 
 	public boolean deleteGroupMember(int groupId, int personId) {
-		if(groups.deleteGroupMember(groupId, personId)) {
-			if(groupId != GROUPALLID)
+		if(groupId != GROUPALLID)
+			if(groups.deleteGroupMember(groupId, personId)) {
 				groups.save(groupId);
-			return true;
-		}
+				return true;
+			}
 		return false;
 	}
 

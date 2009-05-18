@@ -127,7 +127,7 @@ implements GroupController, Constants {
 	public boolean deleteGroupMember(int groupId, int personId) {
 		Group group = groups.get(groupId);
 		if(group != null) {
-			return group.addGroupMember(personId);
+			return group.deleteGroupMember(personId);
 		}
 		return false;
 	}
