@@ -29,10 +29,15 @@ public class MyKernel implements Kernel, Constants {
 	
 	private static int threadId = 0;
 	
-	private boolean searchFinish = true;
+	private boolean nameSearchFinish = true;
+	private boolean itemSearchFinish = true;
+	private boolean relationSearchFinish = true;
 
-	public boolean isSearchFinish() {
-		return searchFinish;
+	synchronized public boolean isSearchFinish() {
+		if(nameSearchFinish && itemSearchFinish && relationSearchFinish)
+			return true;
+		else
+			return false;
 	}
 
 	public MyKernel() {
@@ -180,20 +185,20 @@ public class MyKernel implements Kernel, Constants {
 		final LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
 
 		nextThread();
-		searchFinish = false;
+		nameSearchFinish = false;
 		
 		final int thread = threadId;
 		new Thread() {
 			public void run() {
 				for (int id : names.getIds()) {
 					if(thread != threadId) {
-						searchFinish = true;
+						nameSearchFinish = true;
 						return;
 					}
 					boolean flag = true;
 					for (String key : keys) {
 						if(thread != threadId) {
-							searchFinish = true;
+							nameSearchFinish = true;
 							return;
 						}
 						if (!names.findByName(id, key)) {
@@ -204,7 +209,7 @@ public class MyKernel implements Kernel, Constants {
 					if (flag)
 						addSearchResult(temp, id, thread, threadId);
 				}
-				searchFinish = true;
+				nameSearchFinish = true;
 			}
 		}.start();
 

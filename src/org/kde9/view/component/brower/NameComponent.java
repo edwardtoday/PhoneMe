@@ -112,7 +112,7 @@ public class NameComponent extends JPanel {
 			model.removeRow(0);
 		}
 		final Kernel kernel = ComponentPool.getComponent().getKernel();
-		if (members.size() != 0) {
+		//if (members.size() != 0) {
 			new Thread() {
 				public void run() {
 					String name;
@@ -136,9 +136,10 @@ public class NameComponent extends JPanel {
 								e.printStackTrace();
 							}
 					}
+					System.out.println(members);
 				}
 			}.start();
-		}
+		//}
 //		System.err.println('\n');
 	}
 	
