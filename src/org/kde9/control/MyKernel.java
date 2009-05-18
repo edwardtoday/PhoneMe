@@ -29,15 +29,21 @@ public class MyKernel implements Kernel, Constants {
 	
 	private static int threadId = 0;
 	
-	private boolean nameSearchFinish = true;
-	private boolean itemSearchFinish = true;
-	private boolean relationSearchFinish = true;
+	private int SearchThread = 0;
 
 	synchronized public boolean isSearchFinish() {
-		if(nameSearchFinish && itemSearchFinish && relationSearchFinish)
+		if(SearchThread == 0)
 			return true;
 		else
 			return false;
+	}
+	
+	synchronized private void addThreadNum() {
+		SearchThread++;
+	}
+	
+	synchronized private void subThreadNum() {
+		SearchThread--;
 	}
 
 	public MyKernel() {
@@ -185,20 +191,20 @@ public class MyKernel implements Kernel, Constants {
 		final LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
 
 		nextThread();
-		nameSearchFinish = false;
 		
 		final int thread = threadId;
+		addThreadNum();
 		new Thread() {
 			public void run() {
 				for (int id : names.getIds()) {
 					if(thread != threadId) {
-						nameSearchFinish = true;
+						subThreadNum();
 						return;
 					}
 					boolean flag = true;
 					for (String key : keys) {
 						if(thread != threadId) {
-							nameSearchFinish = true;
+							subThreadNum();
 							return;
 						}
 						if (!names.findByName(id, key)) {
@@ -208,8 +214,15 @@ public class MyKernel implements Kernel, Constants {
 					}
 					if (flag)
 						addSearchResult(temp, id, thread, threadId);
+//					try {
+//						sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
-				nameSearchFinish = true;
+				System.out.println("kernel : " + temp);
+				subThreadNum();
 			}
 		}.start();
 

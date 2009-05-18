@@ -20,11 +20,12 @@ implements KeyListener {
 	private JButton button1;
 	private JButton button2;
 	private JTextField textField;
-	private Thread thread;
 	
 	private Kernel kernel;
 	
 	private int flag = 0;
+	
+	private String text = "";
 
 	public ToolbarComponent() {
 		ComponentPool.setToolbarComponent(this);
@@ -76,53 +77,42 @@ implements KeyListener {
 		add(textField);
 		
 		kernel = ComponentPool.getComponent().getKernel();
-		
-		thread = new Thread() {
-			public void run() {
-				while (true) {
-					int current = flag;
-					synchronized (this) {
-						try {
-							wait(300);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if(current == flag && textField.getText().length() != 0) {
-						System.out.println(textField.getText());
-						
-						LinkedHashMap<Integer, String> result = 
-							kernel.find(textField.getText());
-						System.out.println(result);
-						ComponentPool.getNameComponent().setMembers(result);
-						
-						synchronized (this) {
-							try {
-								wait();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
-		};
-		thread.start();
 	}
 
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		flag = (flag + 1)%100;
-		synchronized (thread) {
-			thread.notify();
+
+	}
+	
+	synchronized void setSearchResult(int current) {
+		if(current == flag && textField.getText().length() != 0) {
+			System.out.println(textField.getText());//////////////////////////////
+			LinkedHashMap<Integer, String> result = 
+				kernel.find(textField.getText());
+			System.out.println(result);//////////////////////////////////////////
+			ComponentPool.getNameComponent().setMembers(result);
+			ComponentPool.getGroupComponent().getTable().clearSelection();
 		}
 	}
 
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		flag = (flag + 1)%100;
+		final int current = flag;
+		if(text.equals(textField.getText()))
+			return;
+		text = textField.getText();
+		new Thread() {
+			public void run() {
+				try {
+					sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				setSearchResult(current);
+			}
+		}.start();
 	}
 
 	public void keyTyped(KeyEvent arg0) {

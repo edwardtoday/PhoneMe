@@ -124,7 +124,7 @@ public class NameComponent extends JPanel {
 						if(i < members.size()) {
 							name = members.get(members.keySet().toArray()[i]);
 							i++;
-							if (!addRow(id, threadId, name))
+							if (!addRow(id, name))
 								return;
 						} else if(kernel.isSearchFinish())
 							break;
@@ -143,7 +143,7 @@ public class NameComponent extends JPanel {
 //		System.err.println('\n');
 	}
 	
-	synchronized private boolean addRow(int id, int thread, String name) {
+	synchronized private boolean addRow(int id, String name) {
 		if (id == threadId) {
 			model.addRow(new Object[] { name });
 			return true;
