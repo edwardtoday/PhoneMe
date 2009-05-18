@@ -3,13 +3,14 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.LinkedHashMap;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -17,7 +18,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
+import org.kde9.control.Kernel;
+import org.kde9.model.card.ConstCard;
+import org.kde9.util.ConfigFactory;
+import org.kde9.util.Configuration;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
@@ -25,7 +32,7 @@ import ch.randelshofer.quaqua.JSheet;
 import com.sun.jna.examples.WindowUtils;
 
 public class AddNameInfoBox 
-implements ActionListener, KeyListener {
+implements ActionListener, KeyListener, Constants {
 	private static JDialog frame;
 	private JComponent father;
 //	private Container mainContainer;
@@ -36,6 +43,8 @@ implements ActionListener, KeyListener {
 	JTextField lastName;
 	private JButton confirm;
 	private JButton cancel;
+	private Configuration config;
+	private LinkedHashMap<String, Vector<String>> items;
 	int w;
 	int h;
 
@@ -45,12 +54,26 @@ implements ActionListener, KeyListener {
 		this.lastName = new JTextField();
 		this.confirm = new JButton("[    OK   ]");
 		this.cancel = new JButton("[Cancel]");
+		config = ConfigFactory.creatConfig();
 		this.father = father;
-//		this.mainContainer = container;
 		this.color = color;
 		this.w = w;
 		this.h = h;
+		items = new LinkedHashMap<String, Vector<String>>();
+		initItems();
 		launch();
+	}
+	
+	private void initItems() {
+		Vector<String> temp = new Vector<String>();
+		temp.add(Constants.NULLITEMCONTENT);
+		items.put("电话号码", temp);
+		items.put("电子邮件", temp);
+		items.put("通信地址", temp);
+		items.put("工作单位", temp);
+		items.put("IM", temp);
+		items.put("生日", temp);
+		items.put("URL", temp);
 	}
 
 	private void launch() {
@@ -180,10 +203,33 @@ implements ActionListener, KeyListener {
 			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 			changeAlphaDown(300, 0, sheet, true);
 		}else if(e.getSource() == this.getConfirm()) {
-			System.out.println("Name added confirmed!!");
-			ComponentPool.getComponent().setEnabled(true);
-			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-			changeAlphaDown(300, 0, sheet, true);
+			String firstName = this.firstName.getText();
+			String lastName = this.lastName.getText();
+			if(firstName.length() == 0 || lastName.length() == 0) {
+				new CoolInfoBox(ComponentPool.getNameComponent(),
+						"请输入完整姓名！",Color.YELLOW,200,35,-70);
+			}else {
+				
+				Kernel kernel = ComponentPool.getComponent().getKernel();
+				ConstCard card = kernel.addCard(ComponentPool.getGroupComponent().getSelectedGroupId(),
+												firstName, lastName, items, null);
+				String name;
+				if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0)
+					name = firstName + ' ' + lastName;
+				else
+					name = lastName + ' ' + firstName;
+				ComponentPool.getNameComponent().addMember(card.getId(), name);
+				int index = ComponentPool.getNameComponent().getTable().getRowCount();
+				ComponentPool.getNameComponent().setSelected(index-1, index-1);
+				ComponentPool.getComponent().setEnabled(true);
+				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+				changeAlphaDown(300, 0, sheet, true);
+				JToggleButton button = ComponentPool.getViewerComponent().getButtonEdit();
+				button.setSelected(true);
+				button.getActionListeners()[0].actionPerformed(
+						new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "Edit"));
+			}
+			System.out.println("Name added confirmed!!");		
 		}
 	}
 

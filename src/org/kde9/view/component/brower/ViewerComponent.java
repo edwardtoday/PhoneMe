@@ -64,6 +64,13 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 	private JPanel upPanel;
 	private JScrollPane pane;
 	private JToggleButton buttonEdit;
+	/**
+	 * @return the buttonEdit
+	 */
+	public JToggleButton getButtonEdit() {
+		return buttonEdit;
+	}
+
 	private DefaultTableModel itemModel;
 	private DefaultTableModel relationModel;
 	private TitledBorder border;
