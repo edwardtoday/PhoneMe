@@ -95,13 +95,14 @@ implements KeyListener {
 		}
 	}
 
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		flag = (flag + 1)%100;
 		final int current = flag;
-		if(text.equals(textField.getText()))
+		if(e.getKeyCode() != KeyEvent.VK_ENTER && text.equals(textField.getText()))
 			return;
 		text = textField.getText();
+		//ComponentPool.getNameComponent().
 		new Thread() {
 			public void run() {
 				try {
