@@ -133,9 +133,9 @@ implements ActionListener, KeyListener, Constants {
 	}
 	
 	private void changeAlphaUp(final int a, final float s, final Window window) {
-		new Thread() {
+		Thread thread = new Thread() {
 			public void run() {
-				for (float i = s; i < 1; i += 0.01) {
+				for (float i = s; i < 1; i += 0.1) {
 					try {
 						sleep((long) (a/((1-s)*100)));
 					} catch (InterruptedException e) {
@@ -146,12 +146,14 @@ implements ActionListener, KeyListener, Constants {
 				}
 				WindowUtils.setWindowAlpha(window, 1);
 			}
-		}.start();
+		};
+		thread.setPriority(Thread.MAX_PRIORITY);
+		thread.start();
 	}
 	
 	private void changeAlphaDown(final int a, final float s, final Window window,
 			final boolean close) {
-		new Thread() {
+		Thread thread = new Thread() {
 			public void run() {
 				for (float i = 1; i > s; i -= 0.01) {
 					try {
@@ -168,7 +170,9 @@ implements ActionListener, KeyListener, Constants {
 					ComponentPool.getComponent().setAlwaysOnTop(false);
 				}
 			}
-		}.start();
+		};
+		thread.setPriority(Thread.MAX_PRIORITY);
+		thread.start();
 	}
 
 	private static void centerWindow(Container window, Container sheet) {
