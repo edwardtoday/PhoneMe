@@ -150,7 +150,7 @@ implements CardController, Constants {
 	
 	private Card get(int cardId, boolean buffer) {
 		if(cards.size() > 100)
-			cards.remove(cards.get(cards.keySet().toArray()[0]));
+			cards.remove(cards.keySet().toArray()[0]);
 		Card card = cards.get(cardId);
 		if(card == null) {
 			File file = new File(CARDPATH + cardId);
