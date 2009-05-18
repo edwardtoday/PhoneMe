@@ -27,10 +27,9 @@ extends JMenuBar {
 		add(file);
 		add(edit);
 		add(card);
-		add(window);
-		add(sync);
+		//add(window);
+		//add(sync);
 		add(help);
-		//setJMenuBar(menuBar);
 	}
 
 	protected JMenu buildFileMenu() {
@@ -68,12 +67,12 @@ extends JMenuBar {
 		JMenuItem editsmartgroup = new JMenuItem("Edit Smart Group");
 		JMenuItem editcard = new JMenuItem("Edit Card");
 
-		edit.add(undo);
-		edit.add(redo);
-		edit.addSeparator();
-		edit.add(cut);
-		edit.add(copy);
-		edit.add(paste);
+		//edit.add(undo);
+		//edit.add(redo);
+		//edit.addSeparator();
+//		edit.add(cut);
+//		edit.add(copy);
+//		edit.add(paste);
 		edit.add(delete);
 		edit.add(removefromgroup);
 		edit.add(selectall);
@@ -126,7 +125,7 @@ extends JMenuBar {
 		JMenuItem birthdayReminder = new JMenuItem("Birthday Reminder");
 
 		help.add(about);
-		help.add(birthdayReminder);
+		//help.add(birthdayReminder);
 		return help;
 	}
 }
