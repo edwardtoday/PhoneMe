@@ -19,7 +19,7 @@ import org.kde9.util.Constants;
 
 public class MyGroupController 
 implements GroupController, Constants {
-	private int staticId;
+	private int staticId = 1;
 	private HashMap<Integer, Group> groups;
 	private LinkedHashMap<Integer, String> groupNames;
 	//private Save save;
@@ -90,7 +90,7 @@ implements GroupController, Constants {
 		groups.put(GROUPALLID, group);
 		groupNames.put(GROUPALLID, groupName);
 		for(File file : groupPath.listFiles()) {
-			if(file.isFile() && isInt(file.getName())) {
+			if(file.isFile() && isInt(file.getName()) && file.getName().length() < 6) {
 				int id = Integer.valueOf(file.getName());
 				if(id != GROUPALLID)
 					groups.put(id, initGroup(file, id));
