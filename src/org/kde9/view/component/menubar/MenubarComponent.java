@@ -85,6 +85,10 @@ implements ActionListener {
 		
 		newCard.addActionListener(this);
 		newGroup.addActionListener(this);
+		newGroupfromSelection.addActionListener(this);
+		Import.addActionListener(this);
+		Export.addActionListener(this);
+		quit.addActionListener(this);
 		return file;
 	}
 
@@ -115,6 +119,12 @@ implements ActionListener {
 		edit.add(renamegroup);
 		edit.add(editsmartgroup);
 		edit.add(editcard);
+		delete.addActionListener(this);
+		removefromgroup.addActionListener(this);
+		selectall.addActionListener(this);
+		renamegroup.addActionListener(this);
+		editsmartgroup.addActionListener(this);
+		editcard.addActionListener(this);
 		return edit;
 	}
 
@@ -130,6 +140,10 @@ implements ActionListener {
 		card.addSeparator();
 		card.add(choosecustomimage);
 		card.add(clearcustomimage);
+		gotonextcard.addActionListener(this);
+		gotoprewcard.addActionListener(this);
+		choosecustomimage.addActionListener(this);
+		clearcustomimage.addActionListener(this);
 		return card;
 	}
 
@@ -173,6 +187,35 @@ implements ActionListener {
 		}else if(e.getSource() == newGroup) {
 			ComponentPool.getComponent().setEnabled(false);
 			new AddGroupInfoBox(ComponentPool.getGroupComponent(), new Color(102,255,153),200, 100);	
+		}else if(e.getSource() == newGroupfromSelection) {
+			System.out.println("newGroupfromSelection");
+		}else if(e.getSource() == Import) {
+			System.out.println("Import");
+		}else if(e.getSource() == Export) {
+			System.out.println("Export");
+		}else if(e.getSource() == quit) {
+			System.exit(0);
+			System.out.println("quit");
+		}else if(e.getSource() == delete) {
+			System.out.println("delete");
+		}else if(e.getSource() == removefromgroup) {
+			System.out.println("removefromgroup");
+		}else if(e.getSource() == selectall) {
+			System.out.println("selectall");
+		}else if(e.getSource() == renamegroup) {
+			System.out.println("renamegroup");
+		}else if(e.getSource() == editsmartgroup) {
+			System.out.println("editsmartgroup");
+		}else if(e.getSource() == editcard) {
+			System.out.println("editcard");
+		}else if(e.getSource() == gotonextcard) {
+			System.out.println("gotonextcard");
+		}else if(e.getSource() == gotoprewcard) {
+			System.out.println("gotoprewcard");
+		}else if(e.getSource() == choosecustomimage) {
+			System.out.println("choosecustomimage");
+		}else if(e.getSource() == clearcustomimage) {
+			System.out.println("clearcustomimage");
 		}else if(e.getSource() == about) {
 			new CoolInfoBox(ComponentPool.getComponent(),"hahaha!!",Color.blue,200,100);
 		}
