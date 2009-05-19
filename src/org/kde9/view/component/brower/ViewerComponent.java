@@ -164,7 +164,7 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		itemTable.setTableHeader(null);
-		// table.putClientProperty("Quaqua.Table.style", "striped");
+//		itemTable.putClientProperty("Quaqua.Table.style", "striped");
 		itemModel = (DefaultTableModel) itemTable.getModel();
 		buttonEdit = new JToggleButton("Edit");
 		buttonEdit.putClientProperty("Quaqua.Button.style", "toolBarRollover");
@@ -185,6 +185,7 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		relationTable.setFocusable(false);
 		relationTable.setCellEditor(null);
 		relationTable.setCellSelectionEnabled(false);
+		relationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		relationTable.getColumnModel().getColumn(0).setMaxWidth(15);
 		relationTable.getColumnModel().getColumn(1).setMaxWidth(45);
 		relationTable.getColumnModel().getColumn(2).setMaxWidth(45);
@@ -192,6 +193,7 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		relationTable.getColumnModel().getColumn(4).setMaxWidth(85);
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
+//		relationTable.putClientProperty("Quaqua.Table.style", "striped");
 		
 		border = new TitledBorder("view");
 		border.setTitleJustification(TitledBorder.CENTER);
@@ -299,6 +301,8 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 	}
 	
 	public void startEditModel() {
+//		itemTable.putClientProperty("Quaqua.Table.style", "plain");
+//		relationTable.putClientProperty("Quaqua.Table.style", "plain");
 		itemTable.setFocusable(true);
 		itemTable.requestFocus();
 		itemTable.setCellSelectionEnabled(true);
@@ -317,6 +321,8 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 	}
 	
 	public void stopEditModel() {
+//		itemTable.putClientProperty("Quaqua.Table.style", "striped");
+//		relationTable.putClientProperty("Quaqua.Table.style", "striped");
 		itemTable.setFocusable(false);
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.removeEditor();

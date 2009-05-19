@@ -26,7 +26,12 @@ implements KeyListener {
 	private int flag = 0;
 	
 	private String text = "";
+	
+	private searchThread thread;
 
+	/**
+	 * 
+	 */
 	public ToolbarComponent() {
 		ComponentPool.setToolbarComponent(this);
 		
@@ -77,6 +82,9 @@ implements KeyListener {
 		add(textField);
 		
 		kernel = ComponentPool.getComponent().getKernel();
+		
+		thread = new searchThread();
+		thread.start();
 	}
 
 	public void keyPressed(KeyEvent arg0) {
@@ -84,14 +92,20 @@ implements KeyListener {
 
 	}
 	
-	synchronized void setSearchResult(int current) {
-		if(current == flag && textField.getText().length() != 0) {
-			System.out.println(textField.getText());//////////////////////////////
+	synchronized private void setSearchResult(int current) {
+		if(current == flag && text.length() != 0) {
+			System.out.println(text);//////////////////////////////
 			LinkedHashMap<Integer, String> result = 
-				kernel.find(textField.getText());
+				kernel.find(text);
 			System.out.println(result);//////////////////////////////////////////
 			ComponentPool.getNameComponent().setMembers(result);
+			System.err.println(current + " setMember end!");
 			ComponentPool.getGroupComponent().getTable().clearSelection();
+			System.err.println(current + " clearSelection end!");
+			ComponentPool.getViewerComponent().clear();
+			System.err.println(current + " clearVierer end!");
+			ComponentPool.getNameComponent().setSelected(0, 0);
+			System.err.println(current + " setSelection end!");
 		}
 	}
 
@@ -103,21 +117,47 @@ implements KeyListener {
 			return;
 		text = textField.getText();
 		//ComponentPool.getNameComponent().
-		new Thread() {
-			public void run() {
-				try {
-					sleep(200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				setSearchResult(current);
-			}
-		}.start();
+		synchronized (thread) {
+			System.err.println(flag + " notify");
+			thread.notify();
+		}
 	}
 
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private class searchThread 
+	extends Thread {
+		private int current = 0;
+
+		public void run() {
+			while (true) {
+				current = flag;
+				System.err.println(current + " begin!");
+				synchronized (this) {
+					try {
+						wait(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (current == flag) {
+					setSearchResult(current);
+					synchronized (this) {
+						try {
+							wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				System.err.println(current + " end!");
+			}
+		}
+	}
 }
+

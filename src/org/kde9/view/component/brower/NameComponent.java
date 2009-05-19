@@ -38,6 +38,8 @@ public class NameComponent extends JPanel {
 	private static int threadId = 0;
 	
 	private boolean ready = true;
+	
+	private final Kernel kernel;
 
 	private LinkedHashMap<Integer, String> members;
 	
@@ -52,7 +54,10 @@ public class NameComponent extends JPanel {
 		};
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
+		table.setSelectionMode(
+				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setTableHeader(null);
+		table.setDragEnabled(true);
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
 		buttonAdd = new JButton("＋");
@@ -80,6 +85,8 @@ public class NameComponent extends JPanel {
 		// table.setBackground(color);
 
 		setBorder(border);
+		
+		kernel = ComponentPool.getComponent().getKernel();
 	}
 
 	public void buttonAddListener(ActionListener al) {
@@ -93,9 +100,7 @@ public class NameComponent extends JPanel {
 	}
 
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
-		table.setSelectionMode(
-				ListSelectionModel.SINGLE_SELECTION);
-		table.setCellSelectionEnabled(true);
+		//table.setCellSelectionEnabled(true);
 		table.getSelectionModel().addListSelectionListener(lsl);
 		table.addKeyListener(kl);
 	}
@@ -111,7 +116,6 @@ public class NameComponent extends JPanel {
 		while (model.getRowCount() != 0) {
 			model.removeRow(0);
 		}
-		final Kernel kernel = ComponentPool.getComponent().getKernel();
 		//if (members.size() != 0) {
 			new Thread() {
 				public void run() {
@@ -153,8 +157,7 @@ public class NameComponent extends JPanel {
 	}
 
 	public void setSelected(final int indexs, final int indexe) {
-//		System.out.print(":"+indexs);
-		if (indexs != -1 && members.size() > 0)
+		if (indexs != -1 && (members.size() > 0 || !kernel.isSearchFinish()))
 //			new Thread() {
 //				public void run() {
 			while(!selectSet(indexs, indexe)) {}
@@ -166,6 +169,8 @@ public class NameComponent extends JPanel {
 	}
 	
 	synchronized private boolean selectSet(int indexs, int indexe) {
+		if(kernel.isSearchFinish() && members.size() == 0)
+			return true;
 		if(indexs <= indexe && indexe < table.getRowCount() && indexs >=0) {
 			table.getSelectionModel().clearSelection();
 			table.getSelectionModel().setSelectionInterval(indexs, indexe);

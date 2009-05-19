@@ -207,7 +207,8 @@ public class MyKernel implements Kernel, Constants {
 							subThreadNum();
 							return;
 						}
-						if (!names.findByName(id, key)) {
+						if (!names.findByName(id, key) &&
+								!cards.findByItem(id, null, key, false)) {
 							flag = false;
 							break;
 						}
@@ -223,6 +224,7 @@ public class MyKernel implements Kernel, Constants {
 				}
 				System.out.println("kernel : " + temp);
 				subThreadNum();
+				System.out.println("kernel Thread Num : " + SearchThread);
 			}
 		}.start();
 
