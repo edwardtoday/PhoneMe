@@ -37,7 +37,7 @@ implements ActionListener {
 	private JMenuItem quit;
 	
 	private JMenuItem deletegroup;
-	private JMenuItem deletename;
+	private JMenuItem deletecard;
 	private JMenuItem removefromgroup;
 	private JMenuItem selectall;
 	private JMenuItem renamegroup;
@@ -119,7 +119,7 @@ implements ActionListener {
 		JMenuItem copy = new JMenuItem("Copy");
 		JMenuItem paste = new JMenuItem("Paste");
 		deletegroup = new JMenuItem("Delete Group");
-		deletename = new JMenuItem("Delete Name");
+		deletecard = new JMenuItem("Delete Card");
 		removefromgroup = new JMenuItem("Remove from Group");
 		selectall = new JMenuItem("Select All");
 		renamegroup = new JMenuItem("Rename Group");
@@ -133,7 +133,7 @@ implements ActionListener {
 //		edit.add(copy);
 //		edit.add(paste);
 		edit.add(deletegroup);
-		edit.add(deletename);
+		edit.add(deletecard);
 		edit.add(removefromgroup);
 		edit.add(selectall);
 		edit.addSeparator();
@@ -141,7 +141,7 @@ implements ActionListener {
 		edit.add(editsmartgroup);
 		edit.add(editcard);
 		deletegroup.addActionListener(this);
-		deletename.addActionListener(this);
+		deletecard.addActionListener(this);
 		removefromgroup.addActionListener(this);
 		selectall.addActionListener(this);
 		renamegroup.addActionListener(this);
@@ -226,7 +226,7 @@ implements ActionListener {
 			new DeleteInfoBox(Constants.DELETEGROUP, ComponentPool.getComponent(), "      您确定要删除该组吗？", 
 							Color.YELLOW, 200, 80);	
 			System.out.println("deletegroup");
-		}else if(e.getSource() == deletename) {
+		}else if(e.getSource() == deletecard) {
 			new DeleteInfoBox(Constants.DELETENAME, ComponentPool.getComponent(), "      您确定要删除该名片吗？", 
 					Color.YELLOW, 200, 80);	
 			System.out.println("deletename");
