@@ -15,6 +15,7 @@ import org.kde9.view.Component;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.AddGroupInfoBox;
 import org.kde9.view.dialog.AddNameInfoBox;
+import org.kde9.view.dialog.CardSumInfoBox;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.DeleteInfoBox;
 
@@ -268,6 +269,8 @@ implements ActionListener {
 		}else if(e.getSource() == editcard) {
 			System.out.println("editcard");
 		}else if(e.getSource() == cardsum) {
+			new CardSumInfoBox(ComponentPool.getComponent(), 
+					"       名片数统计如下表：", Color.YELLOW, 200, 200);
 			System.out.println("cardsum");
 		}else if(e.getSource() == birthdaystatistic) {
 			System.out.println("birthdaystatistic");
