@@ -213,7 +213,9 @@ implements ActionListener {
 		}else if(e.getSource() == newGroupfromSelection) {
 			System.out.println("newGroupfromSelection");
 		}else if(e.getSource() == newGroupfromSearchResult){
-			
+			ComponentPool.getComponent().setEnabled(false);
+			new AddGroupInfoBox(ComponentPool.getGroupComponent(), 
+					new Color(102,255,153),200, 100);
 			System.out.println("newGroupfromSearchResult");
 		}else if(e.getSource() == Import) {
 			System.out.println("Import");
