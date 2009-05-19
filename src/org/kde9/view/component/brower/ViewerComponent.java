@@ -71,13 +71,6 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private JPanel upPanel;
 	private JScrollPane pane;
 	private JToggleButton buttonEdit;
-	/**
-	 * @return the buttonEdit
-	 */
-	public JToggleButton getButtonEdit() {
-		return buttonEdit;
-	}
-
 	private DefaultTableModel itemModel;
 	private DefaultTableModel relationModel;
 	private TitledBorder border;
@@ -100,11 +93,13 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private Vector<ButtonUnit> buttons;
 	private Vector<ButtonUnit> buttonsLow;
 	private Vector<ButtonUnit> relationButtons;
-	private HashMap<Integer, Integer> cantSelect;
+//	private HashMap<Integer, Integer> cantSelect;
 	
 	private Configuration configuration;
 	
 	private DropTarget dropTarget;
+	
+	private boolean setting = false;
 //	static DataFlavor urlFlavor, urlListFlavor;
 //	static {
 //		try {
@@ -115,6 +110,14 @@ implements ActionListener, DropTargetListener, SheetListener,
 //		} catch (ClassNotFoundException e) {}
 //	}
 	
+	public boolean isSetting() {
+		return setting;
+	}
+
+	public void setSetting(boolean setting) {
+		this.setting = setting;
+	}
+
 	private static boolean TRUE = true;
 	private static boolean FALSE = false;
 
@@ -143,15 +146,15 @@ implements ActionListener, DropTargetListener, SheetListener,
 		
 		configuration = ConfigFactory.creatConfig();
 		this.kernel = kernel;
-		cantSelect = new LinkedHashMap<Integer, Integer>();
+//		cantSelect = new LinkedHashMap<Integer, Integer>();
 		buttons = new Vector<ButtonUnit>();
 		buttonsLow = new Vector<ButtonUnit>();
 		itemTable = new JTable(0, 8) {
 			public boolean isCellEditable(int i, int j) {
 				if(i == 0 || j == 0 || j == 5) 
 					return false;
-				if(cantSelect.get(i) != null && j == 6)
-					return false;
+//				if(cantSelect.get(i) != null && j == 6)
+//					return false;
 				return editable;
 			}
 		};
@@ -503,7 +506,7 @@ outer:
 		buttonsLow.add(new ButtonUnit(""));
 		itemKeys = new Vector<String>();
 		itemValues = new Vector<Vector<String>>();
-		cantSelect = new LinkedHashMap<Integer, Integer>();
+//		cantSelect = new LinkedHashMap<Integer, Integer>();
 		if (items != null) {
 			for (String name : items.keySet()) {
 				//model.addRow(new Object[] { "", name});
@@ -523,7 +526,7 @@ outer:
 					} else {
 						itemModel.addRow(new Object[] { 
 								"" ,"" ,"", "", "", "", "", value });
-						cantSelect.put(buttons.size(), 4);
+//						cantSelect.put(buttons.size(), 4);
 						buttons.add(new ButtonUnit(9, itemKeys.size(),
 								buttons.size(), this));
 						buttonsLow.add(new ButtonUnit(2, itemKeys.size(),
@@ -581,11 +584,11 @@ outer:
 					buttons.get(i).setIndex(i);
 					buttonsLow.get(i).setIndex(i);
 					buttonsLow.get(i).setLocation(buttonsLow.get(i).getLocation() + 1);
-					if(cantSelect.get(i) != null) {
-						int a = cantSelect.get(i);
-						cantSelect.remove(i);
-						cantSelect.put(i+1, a);
-					}
+//					if(cantSelect.get(i) != null) {
+//						int a = cantSelect.get(i);
+//						cantSelect.remove(i);
+//						cantSelect.put(i+1, a);
+//					}
 //					System.out.println(cantSelect);///////////////////////////////////////////////////
 				}
 //				itemTable.setEditingColumn(b.getIndex()+1);
@@ -610,11 +613,11 @@ outer:
 				for (int i = b.getIndex()+1; i < buttons.size(); i++) {
 					buttons.get(i).setIndex(i);
 					buttonsLow.get(i).setIndex(i);
-					if (cantSelect.get(i) != null) {
-						int a = cantSelect.get(i);
-						cantSelect.remove(i);
-						cantSelect.put(i + 1, a);
-					}
+//					if (cantSelect.get(i) != null) {
+//						int a = cantSelect.get(i);
+//						cantSelect.remove(i);
+//						cantSelect.put(i + 1, a);
+//					}
 					// System.out.println(cantSelect);///////////////////////////////////////////////////
 				}
 			} else if (b.getType() == 3) {
@@ -776,6 +779,13 @@ outer:
 		}
 	}
 
+	/**
+	 * @return the buttonEdit
+	 */
+	public JToggleButton getButtonEdit() {
+		return buttonEdit;
+	}
+	
 	public void dragEnter(DropTargetDragEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -810,9 +820,55 @@ outer:
 		}
 	}
 
-	public void tableChanged(TableModelEvent arg0) {
+	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("change happened");
+		if(!isSetting()) {
+			if(e.getSource() == itemModel) {
+				System.out.println("item changed!" + e.getFirstRow());
+				int changed = e.getFirstRow();
+				if(changed < buttons.size() && changed > 0) {
+					System.out.println("item change catched!"+changed);
+					int itemLoc = buttons.get(changed).getLocation();
+					int itemIndex = buttons.get(changed).getIndex();
+					int lastIndex = 0;
+					System.out.println(itemLoc + " " + itemIndex);
+					for(; changed > 0; changed--) {
+						if(buttons.get(changed).getLocation() != itemLoc) {
+							lastIndex = buttons.get(changed).getIndex();
+							break;
+						}
+					}
+					System.out.println(changed);
+					if(changed == 0) {
+						if(itemLoc == itemIndex)
+							itemKeys.set(itemLoc-1, 
+									(String)itemTable.getValueAt(itemIndex, 6));
+						itemValues.get(itemLoc-1).set(itemIndex-1,
+								(String)itemTable.getValueAt(itemIndex, 7));
+					} else {
+						try {
+							if(itemIndex == changed+1)
+								itemKeys.set(itemLoc-1, 
+										(String)itemTable.getValueAt(itemIndex, 6));
+							itemValues.get(itemLoc-1).set(itemIndex-1-lastIndex,
+									(String)itemTable.getValueAt(itemIndex, 7));
+						} catch (ArrayIndexOutOfBoundsException ee) {}
+					}
+				}
+			} else {
+				System.out.println("relation changed!" + e.getFirstRow());
+				int changed = e.getFirstRow();
+				if(changed < buttons.size() && changed > 0) {
+					try {
+						System.out.println("relation change catched!"+changed);
+						int itemLoc = relationButtons.get(changed).getLocation();
+						relationContent.set(itemLoc-1, 
+									(String)relationTable.getValueAt(itemLoc, 5));
+					} catch (ArrayIndexOutOfBoundsException ee) {}
+				}
+			}
+		}
+			
 	}
 
 //	public void addItem(String name, String content) {

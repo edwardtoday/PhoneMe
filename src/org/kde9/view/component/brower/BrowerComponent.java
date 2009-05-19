@@ -121,6 +121,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	}
 
 	public void showItem() {
+		viewer.setSetting(true);
 		int id = name.getSelectedMemberId();
 		if(id != -1) {
 			ConstCard card = kernel.getCard(id);
@@ -141,6 +142,7 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.setImage(card);
 			viewer.ready();
 		}
+		viewer.setSetting(false);
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
