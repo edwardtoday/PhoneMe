@@ -44,13 +44,15 @@ public class GroupComponent extends JPanel {
 				return false;
 			}
 		};
-		table.setDragEnabled(true);
+		//table.setDragEnabled(true);
 		table.getColumnModel().getColumn(1).setMaxWidth(3);
 		// dispatchEvent(new
 		// FocusEvent(table.getComponent(0),FocusEvent.FOCUS_GAINED, true));
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		table.setTableHeader(null);
+		//table.setCellSelectionEnabled(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
 		buttonAdd = new JButton("＋");
