@@ -94,9 +94,9 @@ implements ActionListener {
 	private void changeAlphaUp(final int a, final float s, final Window window) {
 		Thread thread = new Thread() {
 			public void run() {
-				for (float i = s; i < 1; i += 0.01) {
+				for (float i = s; i < 1; i += 0.02) {
 					try {
-						sleep((long) (a/((1-s)*100)));
+						sleep((long) (a/((1-s)*50)));
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -114,9 +114,9 @@ implements ActionListener {
 			final boolean close) {
 		Thread thread = new Thread() {
 			public void run() {
-				for (float i = 1; i > s; i -= 0.01) {
+				for (float i = 1; i > s; i -= 0.02) {
 					try {
-						sleep((long) (a/((1-s)*100)));
+						sleep((long) (a/((1-s)*50)));
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
