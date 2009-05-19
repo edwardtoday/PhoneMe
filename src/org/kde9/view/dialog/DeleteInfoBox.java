@@ -155,6 +155,7 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+		int selected = ComponentPool.getNameComponent().getSelected();
 		int nameIdSelected = ComponentPool.getNameComponent().getSelectedMemberId();
 		int groupNum = ComponentPool.getGroupComponent().getTable().getRowCount();
 //		System.err.println(groupIdSelected);
@@ -176,8 +177,12 @@ implements ActionListener {
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETENAME) {
 				kernel.deleteCard(nameIdSelected);
-				ComponentPool.getViewerComponent().clear();
-				ComponentPool.getBrowerComponent().showGroupMembers();
+//				ComponentPool.getViewerComponent().clear();
+				ComponentPool.getNameComponent().deleteMember();
+				if(selected < ComponentPool.getNameComponent().getTable().getRowCount())
+					ComponentPool.getNameComponent().setSelected(selected, selected);
+				else
+					ComponentPool.getNameComponent().setSelected(selected-1, selected-1);
 				System.err.println("delete name!!!");
 			}else if(type == Constants.DELETEFROMGROUP) {
 				kernel.deleteGroupMember(groupIdSelected, nameIdSelected);

@@ -205,8 +205,10 @@ public class NameComponent extends JPanel {
 	}
 
 	public void deleteMember() {
-		members.remove(members.keySet().toArray()[table.getSelectedRow()]);
-		model.removeRow(table.getSelectedRow());
+		if(table.getSelectedRow() != -1) {
+			members.remove(members.keySet().toArray()[table.getSelectedRow()]);
+			model.removeRow(table.getSelectedRow());
+		}
 	}
 
 	public DefaultTableModel getModel() {
