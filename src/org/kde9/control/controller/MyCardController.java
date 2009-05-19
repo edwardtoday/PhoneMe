@@ -257,7 +257,28 @@ implements CardController, Constants {
 	}
 
 	public boolean deleteCard(int id) {
+		Card card = get(id, false);
+		if(card != null) {
+			for(int cardId : card.getAllHideRelationship()) {
+				Card temp = get(cardId, false);
+				if(temp != null) {
+					if(temp.deleteShowRelationship(id) || 
+							temp.deleteHideRelationship(id))
+						save(cardId);
+				}
+			}
+			for(int cardId : card.getAllShowRelationship().keySet()) {
+				Card temp = get(cardId, false);
+				if(temp != null) {
+					if(temp.deleteShowRelationship(id)|| 
+							temp.deleteHideRelationship(id))
+						save(cardId);
+				}
+			}
+		}
 		DeleteFile df = new DeleteFile(CARDPATH + id);
+		df.delete();
+		df = new DeleteFile(CARDPATH + id + ".p");
 		df.delete();
 		cards.remove(id);
 		return true;

@@ -66,10 +66,13 @@ public class MyKernel implements Kernel, Constants {
 
 	public ConstCard getCard(int cardId) {
 		Card card = cards.getCard(cardId);
-		String firstName = names.getFirstName(cardId);
-		String lastName = names.getLastName(cardId);
-		if (firstName != card.getFirstName() || lastName != card.getLastName())
-			cards.renameCard(cardId, firstName, lastName);
+		if (card != null) {
+			String firstName = names.getFirstName(cardId);
+			String lastName = names.getLastName(cardId);
+			if (firstName != card.getFirstName()
+					|| lastName != card.getLastName())
+				cards.renameCard(cardId, firstName, lastName);
+		}
 		return card;
 	}
 
@@ -129,11 +132,12 @@ public class MyKernel implements Kernel, Constants {
 
 	public boolean deleteCard(int personId) {
 		for (int groupId : groups.getAllGroups().keySet()) {
-			if (groupId != GROUPALLID
-					&& groups.deleteGroupMember(groupId, personId))
+			if (groups.deleteGroupMember(groupId, personId)
+					&& groupId != GROUPALLID)
 				groups.save(groupId);
 		}
 		names.deletePerson(personId);
+		names.save();
 		return cards.deleteCard(personId);
 	}
 

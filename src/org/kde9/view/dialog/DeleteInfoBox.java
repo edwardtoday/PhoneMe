@@ -176,6 +176,7 @@ implements ActionListener {
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETENAME) {
 				kernel.deleteCard(nameIdSelected);
+				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getBrowerComponent().showGroupMembers();
 				System.err.println("delete name!!!");
 			}else if(type == Constants.DELETEFROMGROUP) {

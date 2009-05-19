@@ -26,7 +26,10 @@ class MyRelationship {
 	}
 
 	public boolean deleteHideRelationship(int id) {
-		hideRelationship.remove(id);
+		if(hideRelationship.contains(id)) {
+			hideRelationship.remove(id);
+			return true;
+		}
 		return false;
 	}
 	

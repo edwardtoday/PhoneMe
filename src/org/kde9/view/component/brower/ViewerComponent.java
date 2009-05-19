@@ -458,17 +458,34 @@ outer:
 			//System.out.println(rel);
 			relationButtons.add(new ButtonUnit(""));
 			for(int id : rel.keySet()) {
-				relationId.add(id);
-				relationContent.add(rel.get(id));
-				if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-					relationModel.addRow(new Object[] {"","","","","",
-						rel.get(id), kernel.getFirstName(id) + ' ' + kernel.getLastName(id)});
+				if (kernel.getCard(id) != null) {
+					relationId.add(id);
+					relationContent.add(rel.get(id));
+					if ((Integer) configuration
+							.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
+						relationModel.addRow(new Object[] {
+								"",
+								"",
+								"",
+								"",
+								"",
+								rel.get(id),
+								kernel.getFirstName(id) + ' '
+										+ kernel.getLastName(id) });
+					} else {
+						relationModel.addRow(new Object[] {
+								"",
+								"",
+								"",
+								"",
+								"",
+								rel.get(id),
+								kernel.getLastName(id) + ' '
+										+ kernel.getFirstName(id) });
+					}
+					relationButtons.add(new ButtonUnit(3, relationButtons
+							.size(), 0, this));
 				}
-				else {
-					relationModel.addRow(new Object[] {"","","","","",
-							rel.get(id), kernel.getLastName(id) + ' ' + kernel.getFirstName(id)});
-				}
-				relationButtons.add(new ButtonUnit(3, relationButtons.size(), 0, this));
 			}
 		}
 		relationModel.addRow(new Object[]{});
@@ -530,7 +547,7 @@ outer:
 		buttonEdit.setEnabled(false);
 //		photo.setEnabled(false);
 		setCard(null);
-		setName("");
+		setName("", "");
 		setPinYin("","");
 		setImage(null);
 	}
