@@ -17,6 +17,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.EventObject;
@@ -37,6 +39,8 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -60,7 +64,8 @@ import ch.randelshofer.quaqua.SheetListener;
 
 public class ViewerComponent 
 extends JPanel 
-implements ActionListener, DropTargetListener, SheetListener, Constants {
+implements ActionListener, DropTargetListener, SheetListener, 
+		TableModelListener, Constants {
 	private JTable itemTable;
 	private JTable relationTable;
 	private JPanel upPanel;
@@ -170,6 +175,8 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		itemTable.setTableHeader(null);
 //		itemTable.putClientProperty("Quaqua.Table.style", "striped");
 		itemModel = (DefaultTableModel) itemTable.getModel();
+		itemModel.addTableModelListener(this);
+		
 		buttonEdit = new JToggleButton("Edit");
 		buttonEdit.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 
@@ -195,6 +202,7 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		relationTable.getColumnModel().getColumn(5).setMaxWidth(80);
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
+		relationModel.addTableModelListener(this);
 //		relationTable.putClientProperty("Quaqua.Table.style", "striped");
 		
 		border = new TitledBorder("view");
@@ -598,14 +606,14 @@ outer:
 					relationId.add(null);
 					relationModel.removeRow(1);
 					relationModel.insertRow(1, new Object[] {
-						"","","","",NULLITEMCONTENT,"点这里选择联系人"});
+						"","","","","",NULLITEMCONTENT,"点击这里添加联系人"});
 				} else {
 					relationContent.add(b.getLocation(), NULLITEMCONTENT);
 					relationId.add(b.getLocation(),	null);
 					ButtonUnit unit = new ButtonUnit(3, b.getLocation()+1, 0, this);
 					relationButtons.add(unit);
 					relationModel.insertRow(b.getLocation()+1, new Object[] {
-							"","","","",NULLITEMCONTENT,"点这里选择联系人"});
+							"","","","","",NULLITEMCONTENT,"点击这里添加联系人"});
 					for (int i = b.getLocation()+1; i < relationButtons.size(); i++) {
 						relationButtons.get(i).setLocation(i);
 					}
@@ -614,7 +622,7 @@ outer:
 		} else if(e.getSource() == b.getButtonSub()) {
 			if (b.getType() == 1) {
 				if (itemKeys.size() < 2) {
-					new CoolInfoBox(this, "\n 信息部分不能为空哦！", Color.YELLOW,
+					new CoolInfoBox(this, "\n 表项部分不能为空哦！", Color.YELLOW,
 							200, 100); 
 					return;
 				} else {
@@ -648,8 +656,8 @@ outer:
 				System.out.println(loc + "((((((((((((");
 				int sum = itemValues.get(loc-1).size();
 				if(sum == 1)
-					new CoolInfoBox(this, "\n     要删除整个 " + itemKeys.get(loc-1) +  
-							" 表项，\n  按按前面的删除按钮试试吧！",
+					new CoolInfoBox(this, "\n       要删除整个 " + itemKeys.get(loc-1) +  
+							" 表项\n  按按前面的删除按钮试试吧！",
 							Color.YELLOW, 200, 100);
 				else {
 					for (; sum > 0; sum--) {
@@ -783,6 +791,11 @@ outer:
 			kernel.setCardImage(card.getId(), file);
 			setImage(card);
 		}
+	}
+
+	public void tableChanged(TableModelEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("change happened");
 	}
 
 //	public void addItem(String name, String content) {
