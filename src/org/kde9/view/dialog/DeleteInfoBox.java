@@ -155,8 +155,9 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
-		int selected = ComponentPool.getNameComponent().getSelected();
+		int nameSelected = ComponentPool.getNameComponent().getSelected();
 		int nameIdSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+		int groupSelected = ComponentPool.getGroupComponent().getSelected();
 		int groupNum = ComponentPool.getGroupComponent().getTable().getRowCount();
 //		System.err.println(groupIdSelected);
 //		System.err.println(nameIDSelected);
@@ -172,21 +173,35 @@ implements ActionListener {
 					new CoolInfoBox(ComponentPool.getComponent(), "  All分组不能被删除！", Color.YELLOW , 200, 100);
 				}else {
 					kernel.deleteGroup(groupIdSelected);
-					ComponentPool.getBrowerComponent().showAllGroups(0, groupNum - 1);
+					ComponentPool.getGroupComponent().deleteGroup();
+					//ComponentPool.getBrowerComponent().showAllGroups(0, groupNum - 1);
+					if(groupSelected < ComponentPool.getGroupComponent().getTable().getRowCount())
+						ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
+					else
+						ComponentPool.getGroupComponent().setSelected(groupSelected-1, groupSelected-1);
 				}
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETENAME) {
 				kernel.deleteCard(nameIdSelected);
 //				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getNameComponent().deleteMember();
-				if(selected < ComponentPool.getNameComponent().getTable().getRowCount())
-					ComponentPool.getNameComponent().setSelected(selected, selected);
+				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
+					ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 				else
-					ComponentPool.getNameComponent().setSelected(selected-1, selected-1);
+					ComponentPool.getNameComponent().setSelected(nameSelected-1, nameSelected-1);
 				System.err.println("delete name!!!");
 			}else if(type == Constants.DELETEFROMGROUP) {
-				kernel.deleteGroupMember(groupIdSelected, nameIdSelected);
-				ComponentPool.getBrowerComponent().showGroupMembers();
+				if(groupIdSelected == 0) {
+					new CoolInfoBox(ComponentPool.getComponent(), "不能从ALL分组里删除名片！", Color.YELLOW , 200, 100);
+				}else {
+					kernel.deleteGroupMember(groupIdSelected, nameIdSelected);
+					//ComponentPool.getBrowerComponent().showGroupMembers();
+					ComponentPool.getNameComponent().deleteMember();
+					if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
+						ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
+					else
+						ComponentPool.getNameComponent().setSelected(nameSelected-1, nameSelected-1);
+				}
 			}
 			//int index = ComponentPool.getGroupComponent().getTable().getRowCount();
 			//ComponentPool.getGroupComponent().setSelected(index - 1, index - 1);

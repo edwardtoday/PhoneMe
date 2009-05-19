@@ -142,8 +142,10 @@ public class GroupComponent extends JPanel {
 	}
 
 	public void deleteGroup() {
-		groups.remove(groups.keySet().toArray()[table.getSelectedRow()]);
-		model.removeRow(table.getSelectedRow());
+		if(table.getSelectedRow() != -1) {
+			groups.remove(groups.keySet().toArray()[table.getSelectedRow()]);
+			model.removeRow(table.getSelectedRow());
+		}
 	}
 
 	public DefaultTableModel getModel() {

@@ -223,15 +223,18 @@ implements ActionListener {
 			System.exit(0);
 			System.out.println("quit");
 		}else if(e.getSource() == deletegroup) {
-			new DeleteInfoBox(Constants.DELETEGROUP, ComponentPool.getComponent(), "      您确定要删除该组吗？", 
+			new DeleteInfoBox(Constants.DELETEGROUP, 
+					ComponentPool.getComponent(), "     您确定要删除该组吗？", 
 							Color.YELLOW, 200, 80);	
 			System.out.println("deletegroup");
 		}else if(e.getSource() == deletecard) {
-			new DeleteInfoBox(Constants.DELETENAME, ComponentPool.getComponent(), "      您确定要删除该名片吗？", 
+			new DeleteInfoBox(Constants.DELETENAME, 
+					ComponentPool.getComponent(), "     您确定要删除该名片吗？", 
 					Color.YELLOW, 200, 80);	
 			System.out.println("deletename");
 		}else if(e.getSource() == removefromgroup) {
-			new DeleteInfoBox(Constants.DELETEFROMGROUP, ComponentPool.getComponent(), "      您确定要从该组中删除该名片吗？", 
+			new DeleteInfoBox(Constants.DELETEFROMGROUP, 
+					ComponentPool.getComponent(), "您确定从该组中删除该名片吗？", 
 					Color.YELLOW, 200, 80);	
 			System.out.println("removefromgroup");
 		}else if(e.getSource() == selectall) {
