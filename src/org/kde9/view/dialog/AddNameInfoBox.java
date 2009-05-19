@@ -215,8 +215,17 @@ implements ActionListener, KeyListener, Constants {
 			}else {
 				
 				Kernel kernel = ComponentPool.getComponent().getKernel();
-				ConstCard card = kernel.addCard(ComponentPool.getGroupComponent().getSelectedGroupId(),
+				ConstCard card;
+				int groupIdSelected = 
+					ComponentPool.getGroupComponent().getSelectedGroupId();
+				if(groupIdSelected != -1)
+					card = kernel.addCard(groupIdSelected,
 												firstName, lastName, items, null);
+				else {
+					
+					card = kernel.addCard(0,
+							firstName, lastName, items, null);
+				}
 				String name;
 				if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0)
 					name = firstName + ' ' + lastName;

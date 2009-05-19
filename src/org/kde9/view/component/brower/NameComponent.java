@@ -140,7 +140,8 @@ public class NameComponent extends JPanel {
 								e.printStackTrace();
 							}
 					}
-					System.out.println(members);
+					NameComponent.this.members = members;
+					System.out.println("!!!!!!!!!!!" + members);
 				}
 			}.start();
 		//}
@@ -217,6 +218,10 @@ public class NameComponent extends JPanel {
 
 	public ListSelectionModel getSelectionModel() {
 		return table.getSelectionModel();
+	}
+	
+	public LinkedHashMap<Integer, String> getMembers() {
+		return members;
 	}
 
 	// public JButton getButtonSub() {

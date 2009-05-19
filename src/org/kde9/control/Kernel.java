@@ -2,6 +2,8 @@
 
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import org.kde9.model.card.ConstCard;
@@ -31,6 +33,8 @@ public interface Kernel {
 	public ConstGroup addGroup(String groupName);
 	
 	public boolean addGroupMember(int groupId, int personId);
+	
+	public boolean addGroupMember(int groupId, Set<Integer> ids);
 	
 	public boolean deleteCard(int personId);
 	

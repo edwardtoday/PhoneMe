@@ -1,6 +1,7 @@
 ﻿package org.kde9.control.controller;
 
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.kde9.model.group.ConstGroup;
 import org.kde9.model.group.Group;
@@ -17,6 +18,8 @@ public interface GroupController {
 	public boolean renameGroup(int groupId, String newName);
 	
 	public boolean addGroupMember(int groupId, int personId);
+	
+	public boolean addGroupMember(int groupId, Set<Integer> ids);
 	
 	public boolean deleteGroupMember(int groupId, int personId);
 	

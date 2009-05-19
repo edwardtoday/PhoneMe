@@ -15,6 +15,7 @@ implements ActionListener {
 //	Container container;
 
 	public void actionPerformed(ActionEvent e) {
+		//System.err.println(ComponentPool.getNameComponent().getMembers());
 		//component.addNewGroup();
 		//container.setEnabled(false);
 		ComponentPool.getComponent().setEnabled(false);

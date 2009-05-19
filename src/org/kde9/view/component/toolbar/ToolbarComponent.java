@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
 
+import javax.naming.CompoundName;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -110,12 +111,21 @@ implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
+		System.out.println(textField.getText().length() + " textfield content");
 		// TODO Auto-generated method stub
 		flag = (flag + 1)%100;
 		final int current = flag;
 		if(e.getKeyCode() != KeyEvent.VK_ENTER && text.equals(textField.getText()))
 			return;
-		text = textField.getText();
+		if(textField.getText().length() == 0) {
+			ComponentPool.getGroupComponent().setSelected(0, 0);
+			text = textField.getText();
+			return;
+		}
+		else {
+			ComponentPool.getNameComponent().getButtonAdd().setEnabled(false);
+			text = textField.getText();
+		}
 		//ComponentPool.getNameComponent().
 		synchronized (thread) {
 			System.err.println(flag + " notify");

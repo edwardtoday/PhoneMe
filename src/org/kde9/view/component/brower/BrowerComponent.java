@@ -97,6 +97,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	}
 
 	public void showGroupMembers() {
+		name.getButtonAdd().setEnabled(true);
 		int id = group.getSelectedGroupId();
 		LinkedHashMap<Integer, String> members = 
 			new LinkedHashMap<Integer, String>();

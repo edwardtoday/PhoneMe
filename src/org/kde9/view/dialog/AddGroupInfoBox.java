@@ -1,4 +1,4 @@
-﻿package org.kde9.view.dialog;
+package org.kde9.view.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,6 +39,7 @@ implements ActionListener, KeyListener {
 	private JTextField textField;
 	private JButton confirm;
 	private JButton cancel;
+	private Kernel kernel;
 	int w;
 	int h;
 
@@ -52,6 +53,7 @@ implements ActionListener, KeyListener {
 		this.color = color;
 		this.w = w;
 		this.h = h;
+		this.kernel = ComponentPool.getComponent().getKernel();
 		launch();
 	}
 
@@ -183,12 +185,18 @@ implements ActionListener, KeyListener {
 			changeAlphaDown(300, 0, sheet, true);
 		}else if(e.getSource() == this.getConfirm()) {
 			String groupName = getTextField().getText();
+			int groupIdSelected = 
+				ComponentPool.getGroupComponent().getSelectedGroupId();
 			if(groupName.length() == 0) {
 				new CoolInfoBox(ComponentPool.getGroupComponent(),
 						"请输入组名！",Color.YELLOW,200,35,-70);
 			}else {
-				Kernel kernel = ComponentPool.getComponent().getKernel();
 				ConstGroup group = kernel.addGroup(groupName); 
+				System.err.println(ComponentPool.getNameComponent().getMembers());
+				if(groupIdSelected == -1) {
+					kernel.addGroupMember(group.getId(), 
+							ComponentPool.getNameComponent().getMembers().keySet());
+				}
 				ComponentPool.getGroupComponent().addGroup(group.getId(), groupName);
 				int index = ComponentPool.getGroupComponent().getTable().getRowCount();
 				ComponentPool.getGroupComponent().setSelected(index-1, index-1);

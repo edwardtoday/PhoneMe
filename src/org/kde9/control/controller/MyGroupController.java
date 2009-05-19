@@ -161,4 +161,14 @@ implements GroupController, Constants {
 		save.init(group);
 		return save.save();
 	}
+
+	public boolean addGroupMember(int groupId, Set<Integer> ids) {
+		Group group = groups.get(groupId);
+		if(group != null && ids != null) {
+			for(int id : ids)
+				group.addGroupMember(id);
+			return true;
+		}
+		return false;
+	}
 }

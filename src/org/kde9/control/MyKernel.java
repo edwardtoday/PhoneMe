@@ -3,6 +3,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Vector;
 
 import org.kde9.control.RestoreAndBackup.MyRandB;
@@ -117,6 +118,12 @@ public class MyKernel implements Kernel, Constants {
 				groups.save(groupId);
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean addGroupMember(int groupId, Set<Integer> ids) {
+		groups.addGroupMember(groupId, ids);
+		groups.save(groupId);
 		return false;
 	}
 
