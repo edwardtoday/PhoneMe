@@ -128,20 +128,14 @@ implements ListSelectionListener, KeyListener, Constants {
 				return;
 			String name, pinyin;
 			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-				name = 
-					card.getFirstName() + ' ' + card.getLastName();
-				pinyin = 
-					card.getPinYinFirstName() + ' ' + card.getPinYinLastName();
+				viewer.setName(card.getFirstName(), card.getLastName());
+				viewer.setPinYin(card.getPinYinFirstName(), card.getPinYinLastName());
 			}
 			else {
-				name = 
-					card.getLastName() + ' ' + card.getFirstName();
-				pinyin = 
-					card.getPinYinLastName() + ' ' + card.getPinYinFirstName();
+				viewer.setName(card.getLastName(), card.getFirstName());
+				viewer.setPinYin(card.getPinYinLastName(), card.getPinYinFirstName());
 			}
 			viewer.setCard(card);
-			viewer.setName(name);
-			viewer.setPinYin(pinyin);
 			viewer.setItems(card.getAllItems());
 			viewer.setRelations(card.getAllShowRelationship());
 			viewer.setImage(card);

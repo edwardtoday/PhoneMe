@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -32,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
@@ -76,8 +78,10 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 	private TitledBorder border;
 	private JPanel photoPanel;
 	private JPanel namePanel;
-	private JLabel name;
-	private JLabel pinyin;
+	private JTextField nameOne;
+	private JTextField nameTwo;
+	private JLabel pinyinOne;
+	private JLabel pinyinTwo;
 	private JButton photo;
 	private Kernel kernel;
 	private ConstCard card;
@@ -154,13 +158,13 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		itemTable.setCellEditor(null);
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		itemTable.getColumnModel().getColumn(0).setMaxWidth(15);
-		itemTable.getColumnModel().getColumn(1).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(2).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(3).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(45);
+		itemTable.getColumnModel().getColumn(0).setMaxWidth(5);
+		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(3).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(25);
 		itemTable.getColumnModel().getColumn(5).setMaxWidth(30);
-		itemTable.getColumnModel().getColumn(5).setMaxWidth(80);
+		itemTable.getColumnModel().getColumn(6).setMaxWidth(80);
 		// JTableHeader header = new JTableHeader();
 		// header.setName("group");
 		itemTable.setTableHeader(null);
@@ -170,7 +174,7 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		buttonEdit.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 
 		relationButtons = new Vector<ButtonUnit>();
-		relationTable = new JTable(0, 6) {
+		relationTable = new JTable(0, 7) {
 			public boolean isCellEditable(int i, int j) {
 				if(i == 0 || j == 0 || j == 3) 
 					return false;
@@ -183,11 +187,12 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		relationTable.setCellEditor(null);
 		relationTable.setCellSelectionEnabled(false);
 		relationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		relationTable.getColumnModel().getColumn(0).setMaxWidth(15);
-		relationTable.getColumnModel().getColumn(1).setMaxWidth(45);
-		relationTable.getColumnModel().getColumn(2).setMaxWidth(45);
-		relationTable.getColumnModel().getColumn(3).setMaxWidth(30);
-		relationTable.getColumnModel().getColumn(4).setMaxWidth(85);
+		relationTable.getColumnModel().getColumn(0).setMaxWidth(5);
+		relationTable.getColumnModel().getColumn(1).setMaxWidth(25);
+		relationTable.getColumnModel().getColumn(2).setMaxWidth(25);
+		relationTable.getColumnModel().getColumn(3).setMaxWidth(50);
+		relationTable.getColumnModel().getColumn(4).setMaxWidth(30);
+		relationTable.getColumnModel().getColumn(5).setMaxWidth(80);
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
 //		relationTable.putClientProperty("Quaqua.Table.style", "striped");
@@ -214,16 +219,42 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		
 		dropTarget = new DropTarget(photo, DnDConstants.ACTION_COPY_OR_MOVE, this);
 		
-		name = new JLabel();
-		name.setFont(new Font("HeiTi", 1, 30));
-		name.setHorizontalAlignment(JLabel.CENTER);
-		pinyin = new JLabel();
-		pinyin.setFont(new Font("Serif", 1, 15));
-		pinyin.setHorizontalAlignment(JLabel.CENTER);
+		nameOne = new JTextField();
+		nameOne.setEnabled(false);
+		nameOne.setFont(new Font("HeiTi", 1, 30));
+		nameOne.setHorizontalAlignment(JLabel.RIGHT);
+		nameTwo = new JTextField();
+		nameTwo.setEnabled(false);
+		nameTwo.setFont(new Font("HeiTi", 1, 30));
+		nameTwo.setHorizontalAlignment(JLabel.LEFT);
+		pinyinOne = new JLabel();
+		pinyinOne.setFont(new Font("Serif", 1, 15));
+		pinyinOne.setHorizontalAlignment(JLabel.RIGHT);
+		pinyinTwo = new JLabel();
+		pinyinTwo.setFont(new Font("Serif", 1, 15));
+		pinyinTwo.setHorizontalAlignment(JLabel.LEFT);
 		namePanel = new JPanel();
+		nameOne.setDisabledTextColor(Color.BLACK);
+		//nameOne.setBackground(namePanel.getBackground());
+		nameOne.setBorder(BorderFactory.createEmptyBorder());
+		nameTwo.setDisabledTextColor(Color.BLACK);
+		//nameTwo.setBackground(namePanel.getBackground());
+		nameTwo.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+		GridBagLayout grid = new GridBagLayout();
+		GridBagConstraints namec = new GridBagConstraints();
+		namec.fill = GridBagConstraints.BOTH;
+		namec.weightx = 1.0;
+		JPanel fullName = new JPanel(grid);
+		grid.setConstraints(nameOne, namec);
+		fullName.add(nameOne);
+		grid.setConstraints(nameTwo, namec);
+		fullName.add(nameTwo);
+		JPanel fullPinYin = new JPanel(grid);
+		fullPinYin.add(pinyinOne);
+		fullPinYin.add(pinyinTwo);
 		namePanel.setLayout(new BorderLayout());
-		namePanel.add("North", pinyin);
-		namePanel.add("Center", name);
+		namePanel.add("North", fullPinYin);
+		namePanel.add("Center", fullName);
 		photoc.fill = GridBagConstraints.BOTH;
 		photoc.weightx = 0;
 		photoc.gridwidth = 1;
@@ -314,6 +345,10 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 			relationModel.insertRow(1, new Object[] {
 					"","","",""});
 		}
+		nameOne.setEnabled(true);
+		nameOne.setBorder(BorderFactory.createBevelBorder(1));
+		nameTwo.setEnabled(true);
+		nameTwo.setBorder(BorderFactory.createBevelBorder(1));
 		repaint();
 	}
 	
@@ -348,8 +383,16 @@ outer:
 			if(relationTable.getRowCount() > 2)
 				relationModel.removeRow(1);
 		}
+		itemModel.removeRow(itemTable.getRowCount()-1);
+		itemModel.addRow(new Object[]{});
+		relationModel.removeRow(relationModel.getRowCount()-1);
+		relationModel.addRow(new Object[]{});
 		System.out.println(relationButtons.size() + " " + relationId.size()
 				+ " " + relationModel.getRowCount());
+		nameOne.setEnabled(false);
+		nameOne.setBorder(BorderFactory.createEmptyBorder());
+		nameTwo.setEnabled(false);
+		nameTwo.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		repaint();
 	}
 	
@@ -357,12 +400,14 @@ outer:
 		this.card = card;
 	}
 	
-	public void setName(String name) {
-		this.name.setText(name);
+	public void setName(String nameOne, String nameTwo) {
+		this.nameOne.setText(nameOne);
+		this.nameTwo.setText(nameTwo);
 	}
 	
-	public void setPinYin(String pinyin) {
-		this.pinyin.setText(pinyin);
+	public void setPinYin(String pinyinOne, String pinyinTwo) {
+		this.pinyinOne.setText(pinyinOne);
+		this.pinyinTwo.setText(pinyinTwo);
 	}
 
 	synchronized public void setImage(final ConstCard card) {
@@ -400,7 +445,7 @@ outer:
 		while(relationModel.getRowCount() != 0)
 			relationModel.removeRow(0);
 		relationButtons.removeAllElements();
-		relationModel.addRow(new Object[] {"","","","关系",""});
+		relationModel.addRow(new Object[] {"","","","","关系",""});
 		if(rel != null) {
 			//System.out.println(rel);
 			relationButtons.add(new ButtonUnit(""));
@@ -408,11 +453,11 @@ outer:
 				relationId.add(id);
 				relationContent.add(rel.get(id));
 				if((Integer)configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-					relationModel.addRow(new Object[] {"","","","",
+					relationModel.addRow(new Object[] {"","","","","",
 						rel.get(id), kernel.getFirstName(id) + ' ' + kernel.getLastName(id)});
 				}
 				else {
-					relationModel.addRow(new Object[] {"","","","",
+					relationModel.addRow(new Object[] {"","","","","",
 							rel.get(id), kernel.getLastName(id) + ' ' + kernel.getFirstName(id)});
 				}
 				relationButtons.add(new ButtonUnit(3, relationButtons.size(), 0, this));
@@ -478,7 +523,7 @@ outer:
 //		photo.setEnabled(false);
 		setCard(null);
 		setName("");
-		setPinYin("");
+		setPinYin("","");
 		setImage(null);
 	}
 	
@@ -569,8 +614,8 @@ outer:
 		} else if(e.getSource() == b.getButtonSub()) {
 			if (b.getType() == 1) {
 				if (itemKeys.size() < 2) {
-					new CoolInfoBox(this, "\n信息部分不能为空哦！", Color.YELLOW,
-							200, 100);
+					new CoolInfoBox(this, "\n 信息部分不能为空哦！", Color.YELLOW,
+							200, 100); 
 					return;
 				} else {
 					int index = b.getIndex();
@@ -639,7 +684,25 @@ outer:
 					}
 				}
 			} else if (b.getType() == 3) {
-				
+				int loc = b.getLocation();
+				if(relationId.size() != 0) {
+					relationId.remove(loc-1);
+					relationContent.remove(loc-1);
+					relationModel.removeRow(loc);
+					if(relationTable.getRowCount() < 3)
+						relationModel.addRow(new Object[]{});
+				} else {
+					new CoolInfoBox(this, "\n 已经没有关系了哦！", Color.YELLOW, 200, 100);
+				}
+				if(relationId.size() != 0) {
+					relationButtons.get(loc).getButtonSub().setVisible(false);
+					relationButtons.remove(loc);
+				}
+				relationTable.setEditingRow(0);
+				relationTable.setEditingColumn(1);
+				for (int i = b.getLocation(); i < relationButtons.size(); i++) {
+					relationButtons.get(i).setLocation(i);
+				}
 			}
 			System.out.println(buttons.size());
 		}
@@ -679,7 +742,6 @@ outer:
 				}
 				@Override
 				public String getDescription() {
-					// TODO Auto-generated method stub
 					return "图片文件";
 				}
 			};
