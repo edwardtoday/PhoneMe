@@ -1,4 +1,4 @@
-﻿package org.kde9.view.component.brower;
+package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -168,9 +168,6 @@ implements ActionListener, DropTargetListener, SheetListener, Constants {
 		itemModel = (DefaultTableModel) itemTable.getModel();
 		buttonEdit = new JToggleButton("Edit");
 		buttonEdit.putClientProperty("Quaqua.Button.style", "toolBarRollover");
-		// buttonSub = new JButton("-");
-		// buttonSub.putClientProperty("Quaqua.Button.style",
-		// "toolBarRollover");
 
 		relationButtons = new Vector<ButtonUnit>();
 		relationTable = new JTable(0, 6) {

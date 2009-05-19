@@ -10,11 +10,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
 
+import org.kde9.util.Constants;
 import org.kde9.view.Component;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.AddGroupInfoBox;
 import org.kde9.view.dialog.AddNameInfoBox;
 import org.kde9.view.dialog.CoolInfoBox;
+import org.kde9.view.dialog.DeleteInfoBox;
 
 public class MenubarComponent 
 extends JMenuBar 
@@ -29,11 +31,13 @@ implements ActionListener {
 	private JMenuItem newCard;
 	private JMenuItem newGroup;
 	private JMenuItem newGroupfromSelection;
+	private JMenuItem newGroupfromSearchResult;
 	private JMenuItem Import;
 	private JMenuItem Export;
 	private JMenuItem quit;
 	
-	private JMenuItem delete;
+	private JMenuItem deletegroup;
+	private JMenuItem deletename;
 	private JMenuItem removefromgroup;
 	private JMenuItem selectall;
 	private JMenuItem renamegroup;
@@ -62,6 +66,17 @@ implements ActionListener {
 		//add(window);
 		//add(sync);
 		add(help);
+		setMenubar();
+	}
+	
+	public void setMenubar() {
+//		int groupIdSelected = 
+//			ComponentPool.getGroupComponent().getSelectedGroupId();
+//		if(groupIdSelected == -1){
+//			newGroupfromSelection.setEnabled(true);
+//		}else {
+//			newGroupfromSelection.setEnabled(false);
+//		}
 	}
 
 	protected JMenu buildFileMenu() {
@@ -70,6 +85,8 @@ implements ActionListener {
 		newGroup = new JMenuItem("New Group");		
 		newGroupfromSelection = new JMenuItem(
 				"New Group from Selection");
+		newGroupfromSearchResult = new JMenuItem(
+				"New Group from Search Results");
 		Import = new JMenuItem("Import");
 		Export = new JMenuItem("Export");
 		quit = new JMenuItem("Quit");
@@ -77,6 +94,7 @@ implements ActionListener {
 		file.add(newCard);
 		file.add(newGroup);
 		file.add(newGroupfromSelection);
+		file.add(newGroupfromSearchResult);
 		file.addSeparator();
 		file.add(Import);
 		file.add(Export);
@@ -86,6 +104,7 @@ implements ActionListener {
 		newCard.addActionListener(this);
 		newGroup.addActionListener(this);
 		newGroupfromSelection.addActionListener(this);
+		newGroupfromSearchResult.addActionListener(this);
 		Import.addActionListener(this);
 		Export.addActionListener(this);
 		quit.addActionListener(this);
@@ -99,7 +118,8 @@ implements ActionListener {
 		JMenuItem cut = new JMenuItem("Cut");
 		JMenuItem copy = new JMenuItem("Copy");
 		JMenuItem paste = new JMenuItem("Paste");
-		delete = new JMenuItem("Delete");
+		deletegroup = new JMenuItem("Delete Group");
+		deletename = new JMenuItem("Delete Name");
 		removefromgroup = new JMenuItem("Remove from Group");
 		selectall = new JMenuItem("Select All");
 		renamegroup = new JMenuItem("Rename Group");
@@ -112,14 +132,16 @@ implements ActionListener {
 //		edit.add(cut);
 //		edit.add(copy);
 //		edit.add(paste);
-		edit.add(delete);
+		edit.add(deletegroup);
+		edit.add(deletename);
 		edit.add(removefromgroup);
 		edit.add(selectall);
 		edit.addSeparator();
 		edit.add(renamegroup);
 		edit.add(editsmartgroup);
 		edit.add(editcard);
-		delete.addActionListener(this);
+		deletegroup.addActionListener(this);
+		deletename.addActionListener(this);
 		removefromgroup.addActionListener(this);
 		selectall.addActionListener(this);
 		renamegroup.addActionListener(this);
@@ -181,6 +203,7 @@ implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		setMenubar();
 		if(e.getSource() == newCard) {
 			ComponentPool.getComponent().setEnabled(false);
 			new AddNameInfoBox(ComponentPool.getNameComponent(),new Color(102,255,153),200, 100);
@@ -189,6 +212,9 @@ implements ActionListener {
 			new AddGroupInfoBox(ComponentPool.getGroupComponent(), new Color(102,255,153),200, 100);	
 		}else if(e.getSource() == newGroupfromSelection) {
 			System.out.println("newGroupfromSelection");
+		}else if(e.getSource() == newGroupfromSearchResult){
+			
+			System.out.println("newGroupfromSearchResult");
 		}else if(e.getSource() == Import) {
 			System.out.println("Import");
 		}else if(e.getSource() == Export) {
@@ -196,11 +222,21 @@ implements ActionListener {
 		}else if(e.getSource() == quit) {
 			System.exit(0);
 			System.out.println("quit");
-		}else if(e.getSource() == delete) {
-			System.out.println("delete");
+		}else if(e.getSource() == deletegroup) {
+			new DeleteInfoBox(Constants.DELETEGROUP, ComponentPool.getComponent(), "      您确定要删除该组吗？", 
+							Color.YELLOW, 200, 80);	
+			System.out.println("deletegroup");
+		}else if(e.getSource() == deletename) {
+			new DeleteInfoBox(Constants.DELETENAME, ComponentPool.getComponent(), "      您确定要删除该名片吗？", 
+					Color.YELLOW, 200, 80);	
+			System.out.println("deletename");
 		}else if(e.getSource() == removefromgroup) {
+			new DeleteInfoBox(Constants.DELETEFROMGROUP, ComponentPool.getComponent(), "      您确定要从该组中删除该名片吗？", 
+					Color.YELLOW, 200, 80);	
 			System.out.println("removefromgroup");
 		}else if(e.getSource() == selectall) {
+			ComponentPool.getNameComponent().setSelected(0, 
+					ComponentPool.getNameComponent().getTable().getRowCount()-1);
 			System.out.println("selectall");
 		}else if(e.getSource() == renamegroup) {
 			System.out.println("renamegroup");

@@ -82,4 +82,19 @@ public interface Constants {
 	//配置项类型
 	static int CONFIGINT = 0;
 	static int CONFIGSTRING = 1;
+	
+	//************************************************************************
+	//删除类型
+	/*
+	 * 删除组
+	 */
+	static int DELETEGROUP = 0;
+	/*
+	 * 删除card
+	 */
+	static int DELETENAME = 1;
+	/*
+	 * 将card从组中移出
+	 */
+	static int DELETEFROMGROUP = 2;
 }
