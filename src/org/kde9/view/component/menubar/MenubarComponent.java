@@ -1,19 +1,51 @@
 package org.kde9.view.component.menubar;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
 
+import org.kde9.view.Component;
+import org.kde9.view.ComponentPool;
+import org.kde9.view.dialog.AddGroupInfoBox;
+import org.kde9.view.dialog.AddNameInfoBox;
+import org.kde9.view.dialog.CoolInfoBox;
+
 public class MenubarComponent 
-extends JMenuBar {
+extends JMenuBar 
+implements ActionListener {
 	private JMenu file;
 	private JMenu edit;
 	private JMenu card;
 	private JMenu window;
 	private JMenu sync;
 	private JMenu help;
+	
+	private JMenuItem newCard;
+	private JMenuItem newGroup;
+	private JMenuItem newGroupfromSelection;
+	private JMenuItem Import;
+	private JMenuItem Export;
+	private JMenuItem quit;
+	
+	private JMenuItem delete;
+	private JMenuItem removefromgroup;
+	private JMenuItem selectall;
+	private JMenuItem renamegroup;
+	private JMenuItem editsmartgroup;
+	private JMenuItem editcard;
+	
+	private JMenuItem gotonextcard;
+	private JMenuItem gotoprewcard;
+	private JMenuItem choosecustomimage;
+	private JMenuItem clearcustomimage;
+	 
+	private JMenuItem about;
 	
 	public MenubarComponent() {
 		setOpaque(true);
@@ -33,15 +65,15 @@ extends JMenuBar {
 	}
 
 	protected JMenu buildFileMenu() {
-		JMenu file = new JMenu("File");
-		JMenuItem newCard = new JMenuItem("New Card");
-		JMenuItem newGroup = new JMenuItem("New Group");
-		JMenuItem newGroupfromSelection = new JMenuItem(
+		file = new JMenu("File");
+		newCard = new JMenuItem("New Card");		
+		newGroup = new JMenuItem("New Group");		
+		newGroupfromSelection = new JMenuItem(
 				"New Group from Selection");
-		JMenuItem Import = new JMenuItem("Import");
-		JMenuItem Export = new JMenuItem("Export");
-		JMenuItem quit = new JMenuItem("Quit");
-
+		Import = new JMenuItem("Import");
+		Export = new JMenuItem("Export");
+		quit = new JMenuItem("Quit");
+		
 		file.add(newCard);
 		file.add(newGroup);
 		file.add(newGroupfromSelection);
@@ -50,22 +82,25 @@ extends JMenuBar {
 		file.add(Export);
 		file.addSeparator();
 		file.add(quit);
+		
+		newCard.addActionListener(this);
+		newGroup.addActionListener(this);
 		return file;
 	}
 
 	protected JMenu buildEditMenu() {
-		JMenu edit = new JMenu("Edit");
+		edit = new JMenu("Edit");
 		JMenuItem undo = new JMenuItem("Undo");
 		JMenuItem redo = new JMenuItem("Redo");
 		JMenuItem cut = new JMenuItem("Cut");
 		JMenuItem copy = new JMenuItem("Copy");
 		JMenuItem paste = new JMenuItem("Paste");
-		JMenuItem delete = new JMenuItem("Delete");
-		JMenuItem removefromgroup = new JMenuItem("Remove from Group");
-		JMenuItem selectall = new JMenuItem("Select All");
-		JMenuItem renamegroup = new JMenuItem("Rename Group");
-		JMenuItem editsmartgroup = new JMenuItem("Edit Smart Group");
-		JMenuItem editcard = new JMenuItem("Edit Card");
+		delete = new JMenuItem("Delete");
+		removefromgroup = new JMenuItem("Remove from Group");
+		selectall = new JMenuItem("Select All");
+		renamegroup = new JMenuItem("Rename Group");
+		editsmartgroup = new JMenuItem("Edit Smart Group");
+		editcard = new JMenuItem("Edit Card");
 
 		//edit.add(undo);
 		//edit.add(redo);
@@ -84,11 +119,11 @@ extends JMenuBar {
 	}
 
 	protected JMenu buildCardMenu() {
-		JMenu card = new JMenu("Card");
-		JMenuItem gotonextcard = new JMenuItem("Goto Next Card");
-		JMenuItem gotoprewcard = new JMenuItem("Goto Prew Card");
-		JMenuItem choosecustomimage = new JMenuItem("Choose Custom Image");
-		JMenuItem clearcustomimage = new JMenuItem("Clear Custom Image");
+		card = new JMenu("Card");
+		gotonextcard = new JMenuItem("Goto Next Card");
+		gotoprewcard = new JMenuItem("Goto Prew Card");
+		choosecustomimage = new JMenuItem("Choose Custom Image");
+		clearcustomimage = new JMenuItem("Clear Custom Image");
 
 		card.add(gotonextcard);
 		card.add(gotoprewcard);
@@ -99,7 +134,7 @@ extends JMenuBar {
 	}
 
 	protected JMenu buildWindowMenu() {
-		JMenu window = new JMenu("Window");
+		window = new JMenu("Window");
 		ButtonGroup group = new ButtonGroup();
 		JRadioButton contacts = new JRadioButton("Contacts");
 		JRadioButton renlifang = new JRadioButton("Ren Li Fang");
@@ -112,7 +147,7 @@ extends JMenuBar {
 	}
 
 	protected JMenu buildSyncMenu() {
-		JMenu sync = new JMenu("Sync");
+		sync = new JMenu("Sync");
 		JMenuItem syncwithgoogle = new JMenuItem("Sync with Google");
 
 		sync.add(syncwithgoogle);
@@ -120,12 +155,26 @@ extends JMenuBar {
 	}
 
 	protected JMenu buildHelpMenu() {
-		JMenu help = new JMenu("Help");
-		JMenuItem about = new JMenuItem("About");
+		help = new JMenu("Help");
+		about = new JMenuItem("About");
 		JMenuItem birthdayReminder = new JMenuItem("Birthday Reminder");
 
 		help.add(about);
+		about.addActionListener(this);
 		//help.add(birthdayReminder);
 		return help;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == newCard) {
+			ComponentPool.getComponent().setEnabled(false);
+			new AddNameInfoBox(ComponentPool.getNameComponent(),new Color(102,255,153),200, 100);
+		}else if(e.getSource() == newGroup) {
+			ComponentPool.getComponent().setEnabled(false);
+			new AddGroupInfoBox(ComponentPool.getGroupComponent(), new Color(102,255,153),200, 100);	
+		}else if(e.getSource() == about) {
+			new CoolInfoBox(ComponentPool.getComponent(),"hahaha!!",Color.blue,200,100);
+		}
 	}
 }

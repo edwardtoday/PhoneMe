@@ -20,7 +20,7 @@ import com.sun.jna.examples.WindowUtils;
 
 public class CoolInfoBox {
 	private static JDialog frame;
-	private JComponent father;
+	private Container father;
 	private JSheet sheet;
 	private JPanel container;
 	private String str;
@@ -29,7 +29,7 @@ public class CoolInfoBox {
 	int h;
 	int loc = 0;
 
-	public CoolInfoBox(JComponent father, String str, Color color,
+	public CoolInfoBox(Container father, String str, Color color,
 			int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent());
 		this.father = father;
@@ -40,7 +40,7 @@ public class CoolInfoBox {
 		launch();
 	}
 	
-	public CoolInfoBox(JComponent father, String str, Color color,
+	public CoolInfoBox(Container father, String str, Color color,
 			int w, int h, int loc) {
 		this.loc = loc;
 		this.frame = new JDialog(ComponentPool.getComponent());
@@ -51,6 +51,7 @@ public class CoolInfoBox {
 		this.h = h;
 		launch();
 	}
+	
 
 	private void launch() {
 		createUI();
