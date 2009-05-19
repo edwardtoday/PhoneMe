@@ -40,6 +40,7 @@ implements ActionListener, KeyListener {
 	private JButton confirm;
 	private JButton cancel;
 	private Kernel kernel;
+	private int groupIdSelected;
 	int w;
 	int h;
 
@@ -77,7 +78,13 @@ implements ActionListener, KeyListener {
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
-		JLabel label = new JLabel("Group Name:");
+		JLabel label;
+		groupIdSelected = 
+			ComponentPool.getGroupComponent().getSelectedGroupId();
+		if(groupIdSelected != -1)
+			label = new JLabel("Group Name:");
+		else
+			label = new JLabel("Group Name: (将保存搜索结果)");
 		//label.setFont(new Font("HeiTi", 1, 15));
 		container.add("North",label);
 		container.add("Center",textField);
@@ -185,8 +192,6 @@ implements ActionListener, KeyListener {
 			changeAlphaDown(300, 0, sheet, true);
 		}else if(e.getSource() == this.getConfirm()) {
 			String groupName = getTextField().getText();
-			int groupIdSelected = 
-				ComponentPool.getGroupComponent().getSelectedGroupId();
 			if(groupName.length() == 0) {
 				new CoolInfoBox(ComponentPool.getGroupComponent(),
 						"请输入组名！",Color.YELLOW,200,35,-70);
