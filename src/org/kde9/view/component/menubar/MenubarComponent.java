@@ -24,6 +24,7 @@ implements ActionListener {
 	private JMenu file;
 	private JMenu edit;
 	private JMenu card;
+	private JMenu statistics;
 	private JMenu window;
 	private JMenu sync;
 	private JMenu help;
@@ -44,6 +45,9 @@ implements ActionListener {
 	private JMenuItem editsmartgroup;
 	private JMenuItem editcard;
 	
+	private JMenuItem cardsum;
+	private JMenuItem birthdaystatistic;
+	
 	private JMenuItem gotonextcard;
 	private JMenuItem gotoprewcard;
 	private JMenuItem choosecustomimage;
@@ -56,6 +60,7 @@ implements ActionListener {
 		file = buildFileMenu();
 		edit = buildEditMenu();
 		card = buildCardMenu();
+		statistics = buildStatisticsMenu();
 		window = buildWindowMenu();
 		sync = buildSyncMenu();
 		help = buildHelpMenu();
@@ -63,6 +68,7 @@ implements ActionListener {
 		add(file);
 		add(edit);
 		add(card);
+		add(statistics);
 		//add(window);
 		//add(sync);
 		add(help);
@@ -168,6 +174,18 @@ implements ActionListener {
 		clearcustomimage.addActionListener(this);
 		return card;
 	}
+	
+	protected JMenu buildStatisticsMenu() {
+		statistics = new JMenu("Statistics");
+		cardsum = new JMenuItem("Card Sum");
+		birthdaystatistic = new JMenuItem("Birthday Statistics");
+		
+		statistics.add(cardsum);
+		statistics.add(birthdaystatistic);
+		cardsum.addActionListener(this);
+		birthdaystatistic.addActionListener(this);
+		return statistics;
+	}
 
 	protected JMenu buildWindowMenu() {
 		window = new JMenu("Window");
@@ -249,6 +267,10 @@ implements ActionListener {
 			System.out.println("editsmartgroup");
 		}else if(e.getSource() == editcard) {
 			System.out.println("editcard");
+		}else if(e.getSource() == cardsum) {
+			System.out.println("cardsum");
+		}else if(e.getSource() == birthdaystatistic) {
+			System.out.println("birthdaystatistic");
 		}else if(e.getSource() == gotonextcard) {
 			System.out.println("gotonextcard");
 		}else if(e.getSource() == gotoprewcard) {
