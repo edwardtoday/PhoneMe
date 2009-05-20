@@ -138,8 +138,11 @@ public class MyKernel implements Kernel, Constants {
 	}
 	
 	public boolean addGroupMember(int groupId, Set<Integer> ids) {
-		groups.addGroupMember(groupId, ids);
-		groups.save(groupId);
+		if (ids != null) {
+			groups.addGroupMember(groupId, ids);
+			groups.save(groupId);
+			return true;
+		}
 		return false;
 	}
 
@@ -155,18 +158,21 @@ public class MyKernel implements Kernel, Constants {
 	}
 
 	public boolean deleteCard(Set<Integer> personIds) {
-		for (int groupId : groups.getAllGroups().keySet()) {
-			for (int personId : personIds) {
-				groups.deleteGroupMember(groupId, personId);
-				names.deletePerson(personId);
+		if (personIds != null) {
+			for (int groupId : groups.getAllGroups().keySet()) {
+				for (int personId : personIds) {
+					groups.deleteGroupMember(groupId, personId);
+					names.deletePerson(personId);
+				}
+				if (groupId != GROUPALLID)
+					groups.save(groupId);
 			}
-			if(groupId != GROUPALLID)
-				groups.save(groupId);
+			for (int personId : personIds)
+				cards.deleteCard(personId);
+			names.save();
+			return true;
 		}
-		for (int personId : personIds)
-			cards.deleteCard(personId);
-		names.save();
-		return true;
+		return false;
 	}
 	
 	public boolean deleteGroupMember(int groupId, int personId) {
@@ -179,7 +185,7 @@ public class MyKernel implements Kernel, Constants {
 	}
 	
 	public boolean deleteGroupMember(int groupId, Set<Integer> ids) {
-		if (groupId != GROUPALLID) {
+		if (groupId != GROUPALLID && ids != null) {
 			for(int id : ids)
 				groups.deleteGroupMember(groupId, id);
 			groups.save(groupId);
