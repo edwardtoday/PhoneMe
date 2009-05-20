@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,6 +31,7 @@ public class NameComponent extends JPanel {
 	// private JButton buttonSub;
 	private DefaultTableModel model;
 	private TitledBorder border;
+	private JLabel sumLabel;
 	
 	private static int threadId = 0;
 	
@@ -70,13 +72,15 @@ public class NameComponent extends JPanel {
 		pane.setBorder(BorderFactory.createEmptyBorder());
 		add("Center", pane);
 		JPanel panel = new JPanel();
-		FlowLayout flowLayout = new FlowLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel.setLayout(flowLayout);
-		panel.add(buttonAdd);
-		// panel.add(buttonSub);
+		BorderLayout layout = new BorderLayout();
+		panel.setLayout(layout);
+		panel.add("West", buttonAdd);
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		sumLabel = new JLabel();
+		sumLabel.setForeground(Color.GRAY);
+		panel.add("East", sumLabel);
 		add("South", panel);
-
+		
 		Color color = getBackground();
 		// table.setBackground(color);
 
@@ -106,6 +110,7 @@ public class NameComponent extends JPanel {
 	}
 	
 	public void setMembers(final LinkedHashMap<Integer, String> members) {
+		sumLabel.setText(String.valueOf(members.size()));
 		nextThread();
 		this.members = members;
 		final int id = threadId;
@@ -204,12 +209,14 @@ public class NameComponent extends JPanel {
 	public void addMember(int id, String name) {
 		members.put(id, name);
 		model.addRow(new Object[] { name });
+		sumLabel.setText(String.valueOf(members.size()));
 	}
 
 	public void deleteMember() {
 		if(table.getSelectedRow() != -1) {
 			members.remove(members.keySet().toArray()[table.getSelectedRow()]);
 			model.removeRow(table.getSelectedRow());
+			sumLabel.setText(String.valueOf(members.size()));
 		}
 	}
 

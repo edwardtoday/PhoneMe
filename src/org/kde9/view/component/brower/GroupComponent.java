@@ -3,6 +3,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,6 +48,7 @@ implements DropTargetListener {
 	// private JButton buttonSub;
 	private DefaultTableModel model;
 	private TitledBorder border;
+	private JLabel sumLabel;
 	
 	private Kernel kernel;
 
@@ -95,11 +98,13 @@ implements DropTargetListener {
 		pane.setBorder(BorderFactory.createEmptyBorder());
 		add("Center", pane);
 		JPanel panel = new JPanel();
-		FlowLayout flowLayout = new FlowLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel.setLayout(flowLayout);
-		panel.add(buttonAdd);
-		// panel.add(buttonSub);
+		BorderLayout layout = new BorderLayout();
+		panel.setLayout(layout);
+		panel.add("West", buttonAdd);
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		sumLabel = new JLabel();
+		sumLabel.setForeground(Color.GRAY);
+		panel.add("East", sumLabel);
 		add("South", panel);
 
 		Color color = getBackground();
@@ -129,6 +134,7 @@ implements DropTargetListener {
 	}
 
 	public void setGroups(LinkedHashMap<Integer, String> groups) {
+		sumLabel.setText(String.valueOf(groups.size()));
 		this.groups = groups;
 		while (model.getRowCount() != 0)
 			model.removeRow(0);
@@ -166,12 +172,14 @@ implements DropTargetListener {
 	public void addGroup(int id, String name) {
 		groups.put(id, name);
 		model.addRow(new Object[] { name, ">" });
+		sumLabel.setText(String.valueOf(groups.size()));
 	}
 
 	public void deleteGroup() {
 		if(table.getSelectedRow() != -1) {
 			groups.remove(groups.keySet().toArray()[table.getSelectedRow()]);
 			model.removeRow(table.getSelectedRow());
+			sumLabel.setText(String.valueOf(groups.size()));
 		}
 	}
 	
