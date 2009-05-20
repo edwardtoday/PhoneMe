@@ -162,6 +162,16 @@ public class MyKernel implements Kernel, Constants {
 			}
 		return false;
 	}
+	
+	public boolean deleteGroupMember(int groupId, Set<Integer> ids) {
+		if (groupId != GROUPALLID) {
+			for(int id : ids)
+				groups.deleteGroupMember(groupId, id);
+			groups.save(groupId);
+			return true;
+		}
+		return false;
+	}
 
 	public boolean deleteGroup(int groupId) {
 		if (groupId != GROUPALLID)

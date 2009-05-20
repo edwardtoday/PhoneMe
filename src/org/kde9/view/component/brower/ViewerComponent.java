@@ -201,6 +201,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 			public boolean stopCellEditing() {
 				// TODO Auto-generated method stub
 				table.removeAll();
+				table.setEditingRow(0);
+				table.setEditingColumn(1);
 				return true;
 			}
 		});
@@ -252,10 +254,10 @@ implements ActionListener, DropTargetListener, SheetListener,
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemTable.getColumnModel().getColumn(0).setMaxWidth(5);
-		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(3).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(1).setMaxWidth(45);
+		itemTable.getColumnModel().getColumn(2).setMaxWidth(45);
+		itemTable.getColumnModel().getColumn(3).setMaxWidth(45);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(45);
 		itemTable.getColumnModel().getColumn(5).setMaxWidth(30);
 		itemTable.getColumnModel().getColumn(6).setMaxWidth(80);
 		// JTableHeader header = new JTableHeader();
@@ -629,6 +631,7 @@ outer:
 	}
 	
 	public void clear() {
+		setSetting(true);
 		while(itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
 		while(relationModel.getRowCount() != 0)
@@ -639,10 +642,12 @@ outer:
 		setName("", "");
 		setPinYin("","");
 		setImage(null);
+		setSetting(false);
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {
 		// TODO Auto-generated method stub
+		setSetting(true);
 		System.out.println(e.getActionCommand());
 		if(e.getSource() == b.getButtonAdd()) {
 			if (b.getType() == 1) {
@@ -832,6 +837,7 @@ outer:
 			relationButtons.get(i).update();
 		repaint();
 		System.out.println(itemTable.getRowCount());
+		setSetting(false);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {

@@ -2,30 +2,25 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.PopupMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.control.Kernel;
 import org.kde9.view.ComponentPool;
-import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.AddNameListener;
 
 public class NameComponent extends JPanel {
@@ -197,6 +192,13 @@ public class NameComponent extends JPanel {
 		else
 			id = -1;
 		return id;
+	}
+	
+	public LinkedHashSet<Integer> getSelectedMemberIds() {
+		LinkedHashSet<Integer> temp = new LinkedHashSet<Integer>();
+		for(int count : table.getSelectedRows())
+			temp.add((Integer) members.keySet().toArray()[count]);
+		return temp;
 	}
 	
 	public void addMember(int id, String name) {

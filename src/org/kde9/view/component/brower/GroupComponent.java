@@ -4,6 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -13,7 +18,9 @@ import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +32,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.kde9.control.Kernel;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.EditListener;
@@ -38,13 +46,20 @@ implements DropTargetListener {
 	// private JButton buttonSub;
 	private DefaultTableModel model;
 	private TitledBorder border;
+	
+	private Kernel kernel;
 
 	private LinkedHashMap<Integer, String> groups;
 	
 	private DropTarget dropTarget;
+	private int loc = -1;
+	private Set<Integer> selectedId;
+	private int preGroupId;
+	private Object flag;
 
 	GroupComponent() {
 		ComponentPool.setGroupComponent(this);
+		kernel = ComponentPool.getComponent().getKernel();
 		
 		groups = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 2) {
@@ -182,9 +197,25 @@ implements DropTargetListener {
 		return table;
 	}
 
-	public void dragEnter(DropTargetDragEvent arg0) {
+	public void dragEnter(DropTargetDragEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("记录选定");
+		Transferable transferable = e.getTransferable();
+		DataFlavor d = e.getTransferable().getTransferDataFlavors()[0];
+		try {
+			if (transferable.getTransferData(d) != flag) {
+				flag = transferable.getTransferData(d);
+				System.out.println("记录选定");
+				preGroupId = getSelectedGroupId();
+				selectedId = 
+					ComponentPool.getNameComponent().getSelectedMemberIds();
+			}
+		} catch (UnsupportedFlavorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void dragExit(DropTargetEvent arg0) {
@@ -194,12 +225,24 @@ implements DropTargetListener {
 
 	public void dragOver(DropTargetDragEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("设置选定");
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		Point pp = table.getLocationOnScreen();
+		int loctemp = (p.y-pp.y)/table.getRowHeight();
+		if(loc != loctemp) {
+			loc = loctemp;
+			System.out.println("设置选定");
+			System.out.println(loctemp);
+			setSelected(loc, loc);
+		}
 	}
 
 	public void drop(DropTargetDropEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("drop!");
+		if(preGroupId != -1)
+			kernel.deleteGroupMember(preGroupId, selectedId);
+		kernel.addGroupMember(getSelectedGroupId(), selectedId);
+		ComponentPool.getBrowerComponent().showGroupMembers();
 	}
 
 	public void dropActionChanged(DropTargetDragEvent arg0) {
