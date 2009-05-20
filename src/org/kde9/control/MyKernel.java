@@ -154,6 +154,21 @@ public class MyKernel implements Kernel, Constants {
 		return cards.deleteCard(personId);
 	}
 
+	public boolean deleteCard(Set<Integer> personIds) {
+		for (int groupId : groups.getAllGroups().keySet()) {
+			for (int personId : personIds) {
+				groups.deleteGroupMember(groupId, personId);
+				names.deletePerson(personId);
+			}
+			if(groupId != GROUPALLID)
+				groups.save(groupId);
+		}
+		for (int personId : personIds)
+			cards.deleteCard(personId);
+		names.save();
+		return true;
+	}
+	
 	public boolean deleteGroupMember(int groupId, int personId) {
 		if (groupId != GROUPALLID)
 			if (groups.deleteGroupMember(groupId, personId)) {

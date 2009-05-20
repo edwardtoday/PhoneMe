@@ -40,6 +40,8 @@ public interface Kernel {
 	
 	public boolean deleteCard(int personId);
 	
+	public boolean deleteCard(Set<Integer> personIds);
+	
 	public boolean deleteGroup(int groupId);
 	
 	public boolean deleteGroupMember(int groupId, int personId);
