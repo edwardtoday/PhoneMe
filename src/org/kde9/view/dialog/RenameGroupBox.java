@@ -6,43 +6,49 @@ import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.kde9.control.Kernel;
-import org.kde9.util.Constants;
+import org.kde9.model.group.ConstGroup;
 import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
-public class DeleteInfoBox 
+public class RenameGroupBox 
 implements ActionListener {
 	private static JDialog frame;
-	private Container father;
+	private JComponent father;
 	private JSheet sheet;
 	private JPanel container;
 	private Color color;
-	private String str;
+	private JTextField textField;
 	private JButton confirm;
 	private JButton cancel;
 	private Kernel kernel;
-	private int type;
+	private int groupIdSelected;
 	int w;
 	int h;
 
-	public DeleteInfoBox(int type, Container father, String str , Color color, int w, int h) {
+	public RenameGroupBox(JComponent father,Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
-		this.type = type;
+		this.textField = new JTextField();
 		this.confirm = new JButton("[    OK   ]");
 		this.cancel = new JButton("[Cancel]");
 		this.father = father;
-		this.str = str;
 		this.color = color;
 		this.w = w;
 		this.h = h;
@@ -65,11 +71,13 @@ implements ActionListener {
 		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
-
+		
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
-		JLabel label = new JLabel(str);
-		container.add("Center",label);
+		JLabel label = new JLabel("New Group Name:");
+		//label.setFont(new Font("HeiTi", 1, 15));
+		container.add("North",label);
+		container.add("Center",textField);
 		confirm.addActionListener(this);
 		cancel.addActionListener(this);
 		confirm.putClientProperty("Quaqua.Button.style", "toolBarRollover");
@@ -139,6 +147,7 @@ implements ActionListener {
 		int yy = (int) window.getLocationOnScreen().getY();
 		int w = window.getWidth();
 		int h = window.getHeight();
+//		System.out.println(w + " " + h + " " + sheet.getWidth() + " " + sheet.getHeight());
 		int x = xx + w/2;
 		int y = yy + (h-sheet.getHeight())/2;
 		frame.setLocation(x, y);
@@ -152,65 +161,36 @@ implements ActionListener {
 		return cancel;
 	}
 	
+	public JTextField getTextField() {
+		return textField;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		int groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
-		int nameSelected = ComponentPool.getNameComponent().getSelected();
-		int nameIdSelected = ComponentPool.getNameComponent().getSelectedMemberId();
-		int groupSelected = ComponentPool.getGroupComponent().getSelected();
-		int groupNum = ComponentPool.getGroupComponent().getTable().getRowCount();
-//		System.err.println(groupIdSelected);
-//		System.err.println(nameIDSelected);
-		System.err.println(ComponentPool.getGroupComponent().getTable().hasFocus());
-		System.err.println(ComponentPool.getNameComponent().getTable().hasFocus());
-		if (e.getSource() == this.getCancel()) {
+		groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+		if(e.getSource() == this.getCancel()) {		
 			ComponentPool.getComponent().setEnabled(true);
 			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 			changeAlphaDown(300, 0, sheet, true);
-		} else if (e.getSource() == this.getConfirm()) {
-			if(type == Constants.DELETEGROUP) {
+		}else if(e.getSource() == this.getConfirm()) {
+			String newGroupName = getTextField().getText();
+			if(newGroupName.length() == 0) {
+				new CoolInfoBox(ComponentPool.getGroupComponent(),
+						"请输入新组名！",Color.YELLOW,200,35,-70);
+			}else {
 				if(groupIdSelected == 0) {
-					new CoolInfoBox(ComponentPool.getComponent(), 
-							"  All分组不能被删除！", Color.YELLOW , 200, 35,-60);
-				}else {
-					kernel.deleteGroup(groupIdSelected);
-					ComponentPool.getGroupComponent().deleteGroup();
-					//ComponentPool.getBrowerComponent().showAllGroups(0, groupNum - 1);
-					if(groupSelected < ComponentPool.getGroupComponent().getTable().getRowCount())
-						ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
-					else
-						ComponentPool.getGroupComponent().setSelected(groupSelected-1, groupSelected-1);
+					new CoolInfoBox(ComponentPool.getGroupComponent(),
+							"ALL组不能被改名字！",Color.YELLOW,200,35,-70);
+				}else{
+					kernel.renameGroup(groupIdSelected, newGroupName);
+					ComponentPool.getGroupComponent().renameGroup(newGroupName);
 				}
-				System.err.println("delete group!!!");
-			}else if(type == Constants.DELETENAME) {
-				kernel.deleteCard(nameIdSelected);
-//				ComponentPool.getViewerComponent().clear();
-				ComponentPool.getNameComponent().deleteMember();
-				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
-					ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
-				else
-					ComponentPool.getNameComponent().setSelected(nameSelected-1, nameSelected-1);
-				System.err.println("delete name!!!");
-			}else if(type == Constants.DELETEFROMGROUP) {
-				if(groupIdSelected == 0) {
-					new CoolInfoBox(ComponentPool.getComponent(), 
-							"不能从ALL分组里删除名片！", Color.YELLOW , 200, 35,-60);
-				}else {
-					kernel.deleteGroupMember(groupIdSelected, nameIdSelected);
-					//ComponentPool.getBrowerComponent().showGroupMembers();
-					ComponentPool.getNameComponent().deleteMember();
-					if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
-						ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
-					else
-						ComponentPool.getNameComponent().setSelected(nameSelected-1, nameSelected-1);
-				}
+				ComponentPool.getGroupComponent().setSelected(groupIdSelected, groupIdSelected);
+				ComponentPool.getComponent().setEnabled(true);
+				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+				changeAlphaDown(300, 0, sheet, true);
 			}
-			//int index = ComponentPool.getGroupComponent().getTable().getRowCount();
-			//ComponentPool.getGroupComponent().setSelected(index - 1, index - 1);
-			ComponentPool.getComponent().setEnabled(true);
-			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-			changeAlphaDown(300, 0, sheet, true);
 		}
 	}
-	
 }
+

@@ -176,6 +176,11 @@ implements DropTargetListener {
 			model.removeRow(table.getSelectedRow());
 		}
 	}
+	
+	public void renameGroup(String newName) {
+		groups.put(getSelectedGroupId(), newName);
+		model.setValueAt(newName, getSelected(), 0);
+	}
 
 	public DefaultTableModel getModel() {
 		return model;

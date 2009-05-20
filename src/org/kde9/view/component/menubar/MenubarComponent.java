@@ -18,6 +18,9 @@ import org.kde9.view.dialog.AddNameInfoBox;
 import org.kde9.view.dialog.CardSumInfoBox;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.DeleteInfoBox;
+import org.kde9.view.dialog.RenameGroupBox;
+
+import ch.randelshofer.quaqua.colorchooser.ColorChooserMainPanel;
 
 public class MenubarComponent 
 extends JMenuBar 
@@ -263,6 +266,7 @@ implements ActionListener {
 					ComponentPool.getNameComponent().getTable().getRowCount()-1);
 			System.out.println("selectall");
 		}else if(e.getSource() == renamegroup) {
+			new RenameGroupBox(ComponentPool.getGroupComponent(),Color.YELLOW,200,100);
 			System.out.println("renamegroup");
 		}else if(e.getSource() == editsmartgroup) {
 			System.out.println("editsmartgroup");
