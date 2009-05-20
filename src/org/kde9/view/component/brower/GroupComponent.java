@@ -64,8 +64,6 @@ implements DropTargetListener {
 		groups = new LinkedHashMap<Integer, String>();
 		table = new JTable(0, 2) {
 			public boolean isCellEditable(int i, int j) {
-				if (j == 0)
-					return true;
 				return false;
 			}
 		};

@@ -187,6 +187,9 @@ implements ActionListener , KeyListener {
 				}else{
 					kernel.renameGroup(groupIdSelected, newGroupName);
 					ComponentPool.getGroupComponent().renameGroup(newGroupName);
+					textField.setEnabled(false);
+					this.confirm.setEnabled(false);
+					this.cancel.setEnabled(false);
 				}
 				ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
 				ComponentPool.getComponent().setEnabled(true);
