@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.EventObject;
@@ -39,6 +40,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileFilter;
@@ -57,6 +59,7 @@ import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
 import org.kde9.view.listener.EditListener;
+import org.w3c.dom.events.MouseEvent;
 
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
@@ -65,7 +68,7 @@ import ch.randelshofer.quaqua.SheetListener;
 public class ViewerComponent 
 extends JPanel 
 implements ActionListener, DropTargetListener, SheetListener, 
-		TableModelListener, Constants {
+		TableModelListener, MouseListener, Constants {
 	private JTable itemTable;
 	private JTable relationTable;
 	private JPanel upPanel;
@@ -141,6 +144,88 @@ implements ActionListener, DropTargetListener, SheetListener,
 		});
 	}
 	
+	private void setRelationTabel(final JTable table, int i) {
+		TableColumnModel columnModel = table.getColumnModel();
+		TableColumn column = columnModel.getColumn(i);
+		column.setCellEditor(new TableCellEditor() {
+			public Component getTableCellEditorComponent(JTable table, Object value,
+					boolean isSelected, int row, int vColIndex) {
+				if(row > 0 && row != table.getRowCount()-1) {
+					Integer id = relationId.get(row-1);
+					if(id != null) {
+						JLabel label = new JLabel(kernel.getName(id));
+						label.addMouseListener(ViewerComponent.this);
+						return label;
+					}
+					else {
+						JLabel label = new JLabel("点击此处添加联系人");
+						label.addMouseListener(ViewerComponent.this);
+						return label;
+					}
+				}
+				else 
+					return new JLabel();
+//				return null;
+			}
+
+			public void addCellEditorListener(CellEditorListener arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void cancelCellEditing() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public Object getCellEditorValue() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			public boolean isCellEditable(EventObject arg0) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+
+			public void removeCellEditorListener(CellEditorListener arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public boolean shouldSelectCell(EventObject arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			public boolean stopCellEditing() {
+				// TODO Auto-generated method stub
+				table.removeAll();
+				return true;
+			}
+		});
+		column.setCellRenderer(new TableCellRenderer() {
+			public Component getTableCellRendererComponent(JTable table, Object value,
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				if(row > 0 && row != table.getRowCount()-1) {
+					Integer id = relationId.get(row-1);
+					if(id != null) {
+						JLabel label = new JLabel(kernel.getName(id));
+						label.addMouseListener(ViewerComponent.this);
+						return label;
+					}
+					else {
+						JLabel label = new JLabel("点击此处添加联系人");
+						label.addMouseListener(ViewerComponent.this);
+						return label;
+					}
+				}
+				else 
+					return new JLabel();
+			}
+		});
+	}
+	
 	ViewerComponent(Kernel kernel) {
 		ComponentPool.setViewerComponent(this);
 		
@@ -193,6 +278,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		};
 		setTabel(relationTable, relationButtons, 1, TRUE);
 		setTabel(relationTable, relationButtons, 2, FALSE);
+		setRelationTabel(relationTable, 6);
 		relationTable.setFocusable(false);
 		relationTable.setCellEditor(null);
 		relationTable.setCellSelectionEnabled(false);
@@ -869,6 +955,31 @@ outer:
 			}
 		}
 			
+	}
+
+	public void mouseClicked(java.awt.event.MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	public void mouseEntered(java.awt.event.MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(java.awt.event.MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(java.awt.event.MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(java.awt.event.MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("relation selected" + relationTable.getSelectedRow());
+		
 	}
 
 //	public void addItem(String name, String content) {

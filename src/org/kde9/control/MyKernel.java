@@ -87,6 +87,19 @@ public class MyKernel implements Kernel, Constants {
 	public String getLastName(int cardId) {
 		return names.getLastName(cardId);
 	}
+	
+	public String getName(int cardId) {
+		String name = "";
+		ConstCard card = getCard(cardId);
+		if (card != null) {
+			if ((Integer) configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
+				name = card.getFirstName() + " " + card.getLastName();
+			} else {
+				name = card.getLastName() + " " + card.getFirstName();
+			}
+		}
+		return name;
+	}
 
 	public ConstCard addCard(int groupId, String firstName, String lastName,
 			LinkedHashMap<String, Vector<String>> items,
@@ -246,16 +259,6 @@ public class MyKernel implements Kernel, Constants {
 			int id, int thread, int threadId) {
 		if(thread == threadId)
 			temp.put(id, getName(id));
-	}
-
-	private String getName(int id) {
-		if ((Integer) configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-			String fullName = names.getFirstName(id) + names.getLastName(id);
-			return fullName;
-		} else {
-			String fullName = names.getLastName(id) + names.getFirstName(id);
-			return fullName;
-		}
 	}
 
 	public static void main(String args[]) {

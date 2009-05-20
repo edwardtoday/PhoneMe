@@ -20,6 +20,8 @@ public interface Kernel {
 	
 	public String getLastName(int cardId);
 	
+	public String getName(int cardId);
+	
 	public ConstCard addCard(int groupId, String firstName, String lastName,
 			LinkedHashMap<String, Vector<String>> items, 
 			LinkedHashMap<Integer, String> relation);
