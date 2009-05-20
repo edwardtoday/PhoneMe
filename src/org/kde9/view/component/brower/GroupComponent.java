@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -238,6 +239,14 @@ implements DropTargetListener {
 		// TODO Auto-generated method stub
 		Point p = MouseInfo.getPointerInfo().getLocation();
 		Point pp = table.getLocationOnScreen();
+		table.scrollRectToVisible(new Rectangle(
+				pane.getWidth(), 
+				table.getRowHeight()*table.getSelectedRow() - 10,
+				0, 0));
+		table.scrollRectToVisible(new Rectangle(
+				pane.getWidth(), 
+				table.getRowHeight()*(table.getSelectedRow()+1) + 10,
+				0, 0));
 		int loctemp = (p.y-pp.y)/table.getRowHeight();
 		if(loc != loctemp) {
 			loc = loctemp;
