@@ -237,6 +237,10 @@ implements ActionListener, KeyListener, Constants {
 				ComponentPool.getComponent().setEnabled(true);
 				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 				changeAlphaDown(300, 0, sheet, true);
+				this.firstName.setEnabled(false);
+				this.lastName.setEnabled(false);
+				this.confirm.setEnabled(false);
+				this.cancel.setEnabled(false);
 				JToggleButton button = ComponentPool.getViewerComponent().getButtonEdit();
 				button.setSelected(true);
 				button.getActionListeners()[0].actionPerformed(

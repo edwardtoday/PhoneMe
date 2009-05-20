@@ -205,6 +205,9 @@ implements ActionListener, KeyListener {
 				int index = ComponentPool.getGroupComponent().getTable().getRowCount();
 				ComponentPool.getGroupComponent().setSelected(index-1, index-1);
 				ComponentPool.getComponent().setEnabled(true);
+				textField.setEnabled(false);
+				this.confirm.setEnabled(false);
+				this.cancel.setEnabled(false);
 				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 				changeAlphaDown(300, 0, sheet, true);
 			}

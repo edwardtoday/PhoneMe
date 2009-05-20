@@ -173,6 +173,8 @@ implements ActionListener {
 					new CoolInfoBox(ComponentPool.getComponent(), 
 							"  All分组不能被删除！", Color.YELLOW , 200, 35,-60);
 				}else {
+					this.confirm.setEnabled(false);
+					this.cancel.setEnabled(false);
 					kernel.deleteGroup(groupIdSelected);
 					ComponentPool.getGroupComponent().deleteGroup();
 					//ComponentPool.getBrowerComponent().showAllGroups(0, groupNum - 1);
@@ -183,6 +185,8 @@ implements ActionListener {
 				}
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETENAME) {
+				this.confirm.setEnabled(false);
+				this.cancel.setEnabled(false);
 				kernel.deleteCard(nameIdSelected);
 //				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getNameComponent().deleteMember();
@@ -196,6 +200,8 @@ implements ActionListener {
 					new CoolInfoBox(ComponentPool.getComponent(), 
 							"不能从ALL分组里删除名片！", Color.YELLOW , 200, 35,-60);
 				}else {
+					this.confirm.setEnabled(false);
+					this.cancel.setEnabled(false);
 					kernel.deleteGroupMember(groupIdSelected, nameIdSelected);
 					//ComponentPool.getBrowerComponent().showGroupMembers();
 					ComponentPool.getNameComponent().deleteMember();
