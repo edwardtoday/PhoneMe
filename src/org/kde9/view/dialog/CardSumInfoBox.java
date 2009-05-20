@@ -20,6 +20,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import org.kde9.control.Kernel;
+import org.kde9.model.group.ConstGroup;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 
 import ch.randelshofer.quaqua.JSheet;
@@ -28,7 +30,7 @@ import ch.randelshofer.quaqua.util.Fonts;
 import com.sun.jna.examples.WindowUtils;
 
 public class CardSumInfoBox 
-implements ActionListener {
+implements ActionListener, Constants {
 	private static JDialog frame;
 	private Container father;
 	private Kernel kernel;
@@ -38,8 +40,8 @@ implements ActionListener {
 	private Color color;
 	private JButton confirm;
 	private JTable infoTable;
-	private int groupSum;
-	private int cardSum;
+	//private int groupSum;
+	//private int cardSum;
 	int w;
 	int h;
 	int loc = 0;
@@ -54,13 +56,18 @@ implements ActionListener {
 		this.w = w;
 		this.h = h;
 		this.kernel = ComponentPool.getComponent().getKernel();
-		this.groupSum = kernel.getAllGroups().size();
-		this.cardSum = kernel.getGroup(0).getGroupMembers().size();
+		int groupSum = kernel.getAllGroups().size();
+		//this.cardSum = kernel.getGroup(0).getGroupMembers().size();
 		Object rows[][] = new Object[groupSum][3];
-		for(int i = 1; i < groupSum; i++){
-			rows[i-1][0] = "";
-			rows[i-1][1] = kernel.getGroup(i).getGroupName().toString();
-			rows[i-1][2] = String.valueOf(kernel.getGroup(i).getGroupMembers().size());
+		int i = 0;
+		for(int groupId : kernel.getAllGroups().keySet()){
+			if (groupId != GROUPALLID) {
+				rows[i][0] = "";
+				rows[i][1] = kernel.getGroup(groupId).getGroupName().toString();
+				rows[i][2] = String.valueOf(kernel.getGroup(groupId)
+						.getGroupMembers().size());
+				i++;
+			}
 		}
 		rows[groupSum - 1][0] = "";
 		rows[groupSum - 1][1] = "总计";
