@@ -29,7 +29,7 @@ import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
 public class RenameGroupBox 
-implements ActionListener {
+implements ActionListener , KeyListener {
 	private static JDialog frame;
 	private JComponent father;
 	private JSheet sheet;
@@ -88,6 +88,8 @@ implements ActionListener {
 		container.add("South",button);
 		container.setOpaque(true);
 		container.setBackground(color);
+		
+		textField.addKeyListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -167,6 +169,7 @@ implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		int groupSelected = ComponentPool.getGroupComponent().getSelected();
 		groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
 		if(e.getSource() == this.getCancel()) {		
 			ComponentPool.getComponent().setEnabled(true);
@@ -185,12 +188,33 @@ implements ActionListener {
 					kernel.renameGroup(groupIdSelected, newGroupName);
 					ComponentPool.getGroupComponent().renameGroup(newGroupName);
 				}
-				ComponentPool.getGroupComponent().setSelected(groupIdSelected, groupIdSelected);
+				ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
 				ComponentPool.getComponent().setEnabled(true);
 				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 				changeAlphaDown(300, 0, sheet, true);
 			}
 		}
+	}
+
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			actionPerformed(new ActionEvent(
+					confirm, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		} else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			actionPerformed(new ActionEvent(
+					cancel, ActionEvent.ACTION_PERFORMED, confirm.getText()));
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
