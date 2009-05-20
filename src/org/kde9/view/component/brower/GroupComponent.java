@@ -241,11 +241,11 @@ implements DropTargetListener {
 		Point pp = table.getLocationOnScreen();
 		table.scrollRectToVisible(new Rectangle(
 				pane.getWidth(), 
-				table.getRowHeight()*table.getSelectedRow() - 10,
+				table.getRowHeight()*table.getSelectedRow() - 15,
 				0, 0));
 		table.scrollRectToVisible(new Rectangle(
 				pane.getWidth(), 
-				table.getRowHeight()*(table.getSelectedRow()+1) + 10,
+				table.getRowHeight()*(table.getSelectedRow()+1) + 15,
 				0, 0));
 		int loctemp = (p.y-pp.y)/table.getRowHeight();
 		if(loc != loctemp) {
