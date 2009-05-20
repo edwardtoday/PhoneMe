@@ -4,6 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
@@ -23,7 +29,9 @@ import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.EditListener;
 
-public class GroupComponent extends JPanel {
+public class GroupComponent 
+extends JPanel 
+implements DropTargetListener {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;
@@ -32,6 +40,8 @@ public class GroupComponent extends JPanel {
 	private TitledBorder border;
 
 	private LinkedHashMap<Integer, String> groups;
+	
+	private DropTarget dropTarget;
 
 	GroupComponent() {
 		ComponentPool.setGroupComponent(this);
@@ -53,6 +63,9 @@ public class GroupComponent extends JPanel {
 		table.setTableHeader(null);
 		//table.setCellSelectionEnabled(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		dropTarget = new DropTarget(table, DnDConstants.ACTION_COPY_OR_MOVE, this);
+		
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
 		buttonAdd = new JButton("＋");
@@ -107,8 +120,9 @@ public class GroupComponent extends JPanel {
 		while (model.getRowCount() != 0)
 			model.removeRow(0);
 		if (groups.size() != 0) {
-			for (String name : groups.values())
+			for (String name : groups.values()) {
 				model.addRow(new Object[] { name, ">" });
+			}
 		}
 	}
 
@@ -166,5 +180,30 @@ public class GroupComponent extends JPanel {
 
 	public JTable getTable() {
 		return table;
+	}
+
+	public void dragEnter(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("记录选定");
+	}
+
+	public void dragExit(DropTargetEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void dragOver(DropTargetDragEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("设置选定");
+	}
+
+	public void drop(DropTargetDropEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void dropActionChanged(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
