@@ -58,7 +58,7 @@ import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
-import org.kde9.view.dialog.SearchPanel;
+//import org.kde9.view.dialog.SearchPanel;
 import org.kde9.view.listener.EditListener;
 import org.w3c.dom.events.MouseEvent;
 
@@ -423,7 +423,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		return editable;
 	}
 
-	private void setEditable(boolean editable) {
+	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
 	
@@ -528,6 +528,13 @@ outer:
 	
 	public int getCardId() {
 		return card.getId();
+	}
+	
+	/**
+	 * @return the photo
+	 */
+	public JButton getPhoto() {
+		return photo;
 	}
 	
 	public void setCard(ConstCard card) {
@@ -1022,7 +1029,7 @@ outer:
 	public void mouseReleased(java.awt.event.MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("relation selected" + relationTable.getSelectedRow());
-		new SearchPanel(ComponentPool.getComponent(), Color.black, 400, 400);
+		//new SearchPanel(ComponentPool.getComponent(), Color.black, 400, 400);
 	}
 
 //	public void addItem(String name, String content) {

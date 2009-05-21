@@ -206,9 +206,12 @@ implements ActionListener {
 				}else {
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
-					kernel.deleteGroupMember(groupIdSelected, nameIdSelected);
+					
+					kernel.deleteGroupMember(groupIdSelected, 
+							ComponentPool.getNameComponent().getSelectedMemberIds());
 					//ComponentPool.getBrowerComponent().showGroupMembers();
 					ComponentPool.getNameComponent().deleteMember();
+					ComponentPool.getViewerComponent().clear();
 					if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 						ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 					else

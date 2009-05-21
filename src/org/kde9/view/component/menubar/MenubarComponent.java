@@ -5,10 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
+import javax.swing.event.MenuListener;
 
 import org.kde9.util.Constants;
 import org.kde9.view.Component;
@@ -76,10 +81,11 @@ implements ActionListener {
 		//add(window);
 		//add(sync);
 		add(help);
-		setMenubar();
+		
+		//setMenubarState();
 	}
 	
-	public void setMenubar() {
+	public void setMenubarState() {
 		if(ComponentPool.getViewerComponent().isEditable()) {
 			newCard.setEnabled(false);
 			newGroup.setEnabled(false);
@@ -259,7 +265,6 @@ implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		setMenubar();
 		if(e.getSource() == newCard) {
 			ComponentPool.getComponent().setEnabled(false);
 			new AddNameInfoBox(ComponentPool.getNameComponent(),new Color(102,255,153),200, 100);
@@ -305,6 +310,13 @@ implements ActionListener {
 		}else if(e.getSource() == editsmartgroup) {
 			System.out.println("editsmartgroup");
 		}else if(e.getSource() == editcard) {
+			ComponentPool.getViewerComponent().getButtonEdit().setSelected(true);
+			ComponentPool.getViewerComponent().startEditModel();
+			ComponentPool.getBrowerComponent().setEnabled(false);
+			ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
+			ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
+			ComponentPool.getGroupComponent().getTable().setFocusable(false);
+			ComponentPool.getNameComponent().getTable().setFocusable(false);
 			System.out.println("editcard");
 		}else if(e.getSource() == cardsum) {
 			new CardSumInfoBox(ComponentPool.getComponent(), 
@@ -317,6 +329,12 @@ implements ActionListener {
 		}else if(e.getSource() == gotoprewcard) {
 			System.out.println("gotoprewcard");
 		}else if(e.getSource() == choosecustomimage) {
+//			if(ComponentPool.getViewerComponent().isEditable()) {
+				JButton b = ComponentPool.getViewerComponent().getPhoto();
+				ComponentPool.getViewerComponent().setEditable(true);
+				b.getActionListeners()[0].actionPerformed(new ActionEvent(b, ActionEvent.ACTION_PERFORMED, ""));
+				ComponentPool.getViewerComponent().setEditable(false);
+//			}
 			System.out.println("choosecustomimage");
 		}else if(e.getSource() == clearcustomimage) {
 			System.out.println("clearcustomimage");
