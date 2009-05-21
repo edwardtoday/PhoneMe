@@ -188,8 +188,8 @@ implements ActionListener {
 				this.confirm.setEnabled(false);
 				this.cancel.setEnabled(false);
 				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
-//				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getNameComponent().deleteMember();
+				ComponentPool.getViewerComponent().clear();
 				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 					ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 				else
