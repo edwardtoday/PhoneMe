@@ -30,7 +30,8 @@ import com.sun.jna.examples.WindowUtils;
 
 public class AddGroupInfoBox 
 implements ActionListener, KeyListener {
-	private static JDialog frame;
+	private static JDialog frame = 
+		new JDialog(ComponentPool.getComponent(), true);;
 	private JComponent father;
 //	private Container mainContainer;
 	private JSheet sheet;
@@ -47,7 +48,6 @@ implements ActionListener, KeyListener {
 	private boolean closing = false;
 
 	public AddGroupInfoBox(JComponent father,Color color, int w, int h) {
-		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.textField = new JTextField();
 		this.confirm = new JButton("[    OK   ]");
 		this.cancel = new JButton("[Cancel]");

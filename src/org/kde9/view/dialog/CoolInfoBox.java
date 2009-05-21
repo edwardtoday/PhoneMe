@@ -19,7 +19,8 @@ import com.sun.jna.examples.WindowUtils;
 
 
 public class CoolInfoBox {
-	private static JDialog frame;
+	private static JDialog frame = 
+		new JDialog(ComponentPool.getComponent());
 	private Container father;
 	private JSheet sheet;
 	private JPanel container;
@@ -31,7 +32,6 @@ public class CoolInfoBox {
 
 	public CoolInfoBox(Container father, String str, Color color,
 			int w, int h) {
-		this.frame = new JDialog(ComponentPool.getComponent());
 		this.father = father;
 		this.str = str;
 		this.color = color;

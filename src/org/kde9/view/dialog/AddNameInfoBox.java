@@ -33,7 +33,8 @@ import com.sun.jna.examples.WindowUtils;
 
 public class AddNameInfoBox 
 implements ActionListener, KeyListener, Constants {
-	private static JDialog frame;
+	private static JDialog frame = 
+		new JDialog(ComponentPool.getComponent(), true);;
 	private JComponent father;
 //	private Container mainContainer;
 	private JSheet sheet;
@@ -51,7 +52,6 @@ implements ActionListener, KeyListener, Constants {
 	private boolean closing;
 
 	public AddNameInfoBox(JComponent father,Color color, int w, int h) {
-		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.firstName = new JTextField();
 		this.lastName = new JTextField();
 		this.confirm = new JButton("[    OK   ]");
