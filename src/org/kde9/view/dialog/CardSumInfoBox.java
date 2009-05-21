@@ -99,7 +99,6 @@ implements ActionListener, Constants {
 	}
 	
 	private void createUI() {
-		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
 

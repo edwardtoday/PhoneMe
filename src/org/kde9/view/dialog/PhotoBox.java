@@ -73,7 +73,6 @@ implements MouseListener, MouseMotionListener {
 	}
 
 	private void createUI() {
-		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		
 		sheet.setSize(image.getWidth(), image.getHeight());

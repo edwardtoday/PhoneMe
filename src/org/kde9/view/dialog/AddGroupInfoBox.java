@@ -71,7 +71,6 @@ implements ActionListener, KeyListener {
 	}
 
 	private void createUI() {
-		System.setProperty("sun.java2d.noddraw", "true");
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
 		//ComponentPool.getComponent().setAlwaysOnTop(true);
