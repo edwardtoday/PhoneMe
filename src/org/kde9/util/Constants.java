@@ -92,7 +92,7 @@ public interface Constants {
 	/*
 	 * 删除card
 	 */
-	static int DELETENAME = 1;
+	static int DELETECARD = 1;
 	/*
 	 * 将card从组中移出
 	 */

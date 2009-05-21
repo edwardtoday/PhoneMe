@@ -215,11 +215,13 @@ public class NameComponent extends JPanel {
 	}
 
 	public void deleteMember() {
-		if(table.getSelectedRow() != -1) {
-			members.remove(members.keySet().toArray()[table.getSelectedRow()]);
-			model.removeRow(table.getSelectedRow());
-			sumLabel.setText(String.valueOf(members.size()));
+		int i = 0;
+		for(int row : table.getSelectedRows()) {
+			members.remove(members.keySet().toArray()[row-i]);
+			model.removeRow(row-i);
+			i++;	
 		}
+		sumLabel.setText(String.valueOf(members.size()));
 	}
 
 	public DefaultTableModel getModel() {

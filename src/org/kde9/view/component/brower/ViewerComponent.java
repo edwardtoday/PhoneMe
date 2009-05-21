@@ -418,7 +418,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		setBorder(border);
 	}
 
-	private boolean isEditable() {
+	public boolean isEditable() {
 		return editable;
 	}
 

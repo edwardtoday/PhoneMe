@@ -184,10 +184,10 @@ implements ActionListener {
 						ComponentPool.getGroupComponent().setSelected(groupSelected-1, groupSelected-1);
 				}
 				System.err.println("delete group!!!");
-			}else if(type == Constants.DELETENAME) {
+			}else if(type == Constants.DELETECARD) {
 				this.confirm.setEnabled(false);
 				this.cancel.setEnabled(false);
-				kernel.deleteCard(nameIdSelected);
+				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
 //				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getNameComponent().deleteMember();
 				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())

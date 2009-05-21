@@ -80,13 +80,47 @@ implements ActionListener {
 	}
 	
 	public void setMenubar() {
-//		int groupIdSelected = 
-//			ComponentPool.getGroupComponent().getSelectedGroupId();
-//		if(groupIdSelected == -1){
-//			newGroupfromSelection.setEnabled(true);
-//		}else {
-//			newGroupfromSelection.setEnabled(false);
-//		}
+		if(ComponentPool.getViewerComponent().isEditable()) {
+			newCard.setEnabled(false);
+			newGroup.setEnabled(false);
+			newGroupfromSelection.setEnabled(false);
+			newGroupfromSearchResult.setEnabled(false);
+			Import.setEnabled(false);
+			Export.setEnabled(false);
+			
+			deletegroup.setEnabled(false);
+			deletecard.setEnabled(false);
+			removefromgroup.setEnabled(false);
+			selectall.setEnabled(false);
+			renamegroup.setEnabled(false);
+			editsmartgroup.setEnabled(false);
+			editcard.setEnabled(false);
+			
+			gotonextcard.setEnabled(false);
+			gotoprewcard.setEnabled(false);
+			choosecustomimage.setEnabled(false);
+			clearcustomimage.setEnabled(false);
+		}else {
+			newCard.setEnabled(true);
+			newGroup.setEnabled(true);
+			newGroupfromSelection.setEnabled(true);
+			newGroupfromSearchResult.setEnabled(true);
+			Import.setEnabled(true);
+			Export.setEnabled(true);
+			
+			deletegroup.setEnabled(true);
+			deletecard.setEnabled(true);
+			removefromgroup.setEnabled(true);
+			selectall.setEnabled(true);
+			renamegroup.setEnabled(true);
+			editsmartgroup.setEnabled(true);
+			editcard.setEnabled(true);
+			
+			gotonextcard.setEnabled(true);
+			gotoprewcard.setEnabled(true);
+			choosecustomimage.setEnabled(true);
+			clearcustomimage.setEnabled(true);
+		}
 	}
 
 	protected JMenu buildFileMenu() {
@@ -252,7 +286,7 @@ implements ActionListener {
 							Color.YELLOW, 200, 80);	
 			System.out.println("deletegroup");
 		}else if(e.getSource() == deletecard) {
-			new DeleteInfoBox(Constants.DELETENAME, 
+			new DeleteInfoBox(Constants.DELETECARD, 
 					ComponentPool.getComponent(), "     您确定要删除该名片吗？", 
 					Color.YELLOW, 200, 80);	
 			System.out.println("deletename");
