@@ -141,7 +141,8 @@ public class NameComponent extends JPanel {
 								e.printStackTrace();
 							}
 					}
-					NameComponent.this.members = members;
+					//NameComponent.this.members = members;
+					System.out.println(NameComponent.this.members = members);
 					System.out.println("!!!!!!!!!!!" + members);
 				}
 			}.start();
@@ -152,6 +153,7 @@ public class NameComponent extends JPanel {
 	synchronized private boolean addRow(int id, String name) {
 		if (id == threadId) {
 			model.addRow(new Object[] { name });
+			sumLabel.setText(String.valueOf(members.size()));
 			return true;
 		}
 		else
