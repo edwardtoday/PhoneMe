@@ -151,8 +151,11 @@ implements ActionListener, DropTargetListener, SheetListener,
 			public Component getTableCellEditorComponent(JTable table, Object value,
 					boolean isSelected, int row, int vColIndex) {
 				if(row > 0 && row != table.getRowCount()-1) {
+					if(row-1 >= relationId.size())
+						return new JLabel();
 					Integer id = relationId.get(row-1);
 					if(id != null) {
+						id = relationId.get(row-1);
 						JLabel label = new JLabel(kernel.getName(id));
 						label.addMouseListener(ViewerComponent.this);
 						return label;
@@ -210,6 +213,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 			public Component getTableCellRendererComponent(JTable table, Object value,
 					boolean isSelected, boolean hasFocus, int row, int column) {
 				if(row > 0 && row != table.getRowCount()-1) {
+					if(row-1 >= relationId.size())
+						return new JLabel();
 					Integer id = relationId.get(row-1);
 					if(id != null) {
 						JLabel label = new JLabel(kernel.getName(id));
@@ -254,10 +259,10 @@ implements ActionListener, DropTargetListener, SheetListener,
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemTable.getColumnModel().getColumn(0).setMaxWidth(5);
-		itemTable.getColumnModel().getColumn(1).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(2).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(3).setMaxWidth(45);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(45);
+		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(3).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(25);
 		itemTable.getColumnModel().getColumn(5).setMaxWidth(30);
 		itemTable.getColumnModel().getColumn(6).setMaxWidth(80);
 		// JTableHeader header = new JTableHeader();
@@ -441,8 +446,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		if(relationId.size() == 0) {
 			ButtonUnit unit = new ButtonUnit(3, 1, 0, this);
 			relationButtons.add(unit);
-			relationModel.insertRow(1, new Object[] {
-					"","","",""});
+			relationModel.insertRow(1, new Object[] {});
 		}
 		nameOne.setEnabled(true);
 		nameOne.setBorder(BorderFactory.createBevelBorder(1));
@@ -493,6 +497,33 @@ outer:
 		nameTwo.setEnabled(false);
 		nameTwo.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		repaint();
+	}
+	
+	public String getNewNameOne() {
+		return nameOne.getText();
+	}
+	
+	public String getNewNameTwo() {
+		return nameTwo.getText();
+	}
+	
+	public LinkedHashMap<String, Vector<String>> getNewItems() {
+		LinkedHashMap<String, Vector<String>> temp = new LinkedHashMap<String, Vector<String>>(); 
+		for(int i = 0; i < itemKeys.size(); i++) {
+			temp.put(itemKeys.get(i), itemValues.get(i));
+		}
+		return temp;
+	}
+	
+	public LinkedHashMap<Integer, String> getNewRelation() {
+		LinkedHashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
+		for(int i = 0; i < relationId.size(); i++)
+			temp.put(relationId.get(i), relationContent.get(i));
+		return temp;
+	}
+	
+	public int getCardId() {
+		return card.getId();
 	}
 	
 	public void setCard(ConstCard card) {
@@ -811,6 +842,8 @@ outer:
 					if(relationTable.getRowCount() < 3)
 						relationModel.addRow(new Object[]{});
 				} else {
+//					if(relationTable.getRowCount() < 1)
+//						relationModel.addRow(new Object[]{});
 					new CoolInfoBox(this, "\n 已经没有关系了哦！", Color.YELLOW, 200, 100);
 				}
 				if(relationId.size() != 0) {
@@ -950,7 +983,7 @@ outer:
 			} else {
 				System.out.println("relation changed!" + e.getFirstRow());
 				int changed = e.getFirstRow();
-				if(changed < buttons.size() && changed > 0) {
+				if(changed < relationButtons.size() && changed > 0) {
 					try {
 						System.out.println("relation change catched!"+changed);
 						int itemLoc = relationButtons.get(changed).getLocation();

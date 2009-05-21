@@ -73,7 +73,13 @@ class MyItems {
 	}
 
 	public boolean setItems(LinkedHashMap<String, Vector<String>> items) {
-		this.items = items;
+		this.items = new LinkedHashMap<String, Vector<String>>();
+		for(String str : items.keySet()) {
+			Vector<String> values = new Vector<String>();
+			for(String s : items.get(str))
+				values.add(s);
+			this.items.put(str, values);
+		}
 		return true;
 	}
 	
