@@ -271,6 +271,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 //		itemTable.putClientProperty("Quaqua.Table.style", "striped");
 		itemModel = (DefaultTableModel) itemTable.getModel();
 		itemModel.addTableModelListener(this);
+		ExcelAdapter myAd1 = new ExcelAdapter(itemTable);
+
 		
 		buttonEdit = new JToggleButton("Edit");
 		buttonEdit.putClientProperty("Quaqua.Button.style", "toolBarRollover");
@@ -299,6 +301,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		relationTable.setTableHeader(null);
 		relationModel = (DefaultTableModel) relationTable.getModel();
 		relationModel.addTableModelListener(this);
+		ExcelAdapter myAd2 = new ExcelAdapter(relationTable);
 //		relationTable.putClientProperty("Quaqua.Table.style", "striped");
 		
 		border = new TitledBorder("view");

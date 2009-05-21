@@ -50,7 +50,7 @@ implements ActionListener, Constants {
 						viewer.getNewRelation());
 				ComponentPool.getNameComponent().getModel().setValueAt(
 						viewer.getNewNameOne() + " " + viewer.getNewNameTwo(),
-						ComponentPool.getGroupComponent().getSelected(), 0);
+						j, 0);
 			}
 			else {
 				kernel.updateCard(viewer.getCardId(),
@@ -60,7 +60,7 @@ implements ActionListener, Constants {
 						viewer.getNewRelation());
 				ComponentPool.getNameComponent().getModel().setValueAt(
 						viewer.getNewNameTwo() + " " + viewer.getNewNameOne(),
-						ComponentPool.getGroupComponent().getSelected(), 0);
+						j, 0);
 			}
 			System.out.println("Saving!!!!!!!!!!!!!!!!!!!!");
 		}
