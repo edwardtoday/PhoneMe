@@ -43,6 +43,8 @@ implements ActionListener, KeyListener {
 	private int groupIdSelected;
 	int w;
 	int h;
+	
+	private boolean closing = false;
 
 	public AddGroupInfoBox(JComponent father,Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
@@ -133,6 +135,8 @@ implements ActionListener, KeyListener {
 			final boolean close) {
 		Thread thread = new Thread() {
 			public void run() {
+				if(close)
+					AddGroupInfoBox.this.closing = true;
 				for (float i = 1; i > s; i -= 0.02) {
 					try {
 						sleep((long) (a/((1-s)*50)));
@@ -140,7 +144,8 @@ implements ActionListener, KeyListener {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					WindowUtils.setWindowAlpha(window, i);
+					if(!AddGroupInfoBox.this.closing)
+						WindowUtils.setWindowAlpha(window, i);
 				}
 				if(close) {
 					window.dispose();

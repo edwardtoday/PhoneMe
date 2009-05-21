@@ -47,6 +47,8 @@ implements ActionListener, KeyListener, Constants {
 	private LinkedHashMap<String, Vector<String>> items;
 	int w;
 	int h;
+	
+	private boolean closing;
 
 	public AddNameInfoBox(JComponent father,Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
@@ -155,6 +157,8 @@ implements ActionListener, KeyListener, Constants {
 			final boolean close) {
 		Thread thread = new Thread() {
 			public void run() {
+				if(close)
+					AddNameInfoBox.this.closing = true;
 				for (float i = 1; i > s; i -= 0.02) {
 					try {
 						sleep((long) (a/((1-s)*50)));
@@ -162,7 +166,8 @@ implements ActionListener, KeyListener, Constants {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					WindowUtils.setWindowAlpha(window, i);
+					if(!AddNameInfoBox.this.closing)
+						WindowUtils.setWindowAlpha(window, i);
 				}
 				if(close) {
 					window.dispose();

@@ -35,6 +35,8 @@ implements ActionListener {
 	private int type;
 	int w;
 	int h;
+	
+	private boolean closing;
 
 	public DeleteInfoBox(int type, Container father, String str , Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
@@ -114,6 +116,8 @@ implements ActionListener {
 			final boolean close) {
 		Thread thread = new Thread() {
 			public void run() {
+				if(close)
+					DeleteInfoBox.this.closing = true;
 				for (float i = 1; i > s; i -= 0.02) {
 					try {
 						sleep((long) (a/((1-s)*50)));
@@ -121,7 +125,8 @@ implements ActionListener {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					WindowUtils.setWindowAlpha(window, i);
+					if(!DeleteInfoBox.this.closing)
+						WindowUtils.setWindowAlpha(window, i);
 				}
 				if(close) {
 					window.dispose();
