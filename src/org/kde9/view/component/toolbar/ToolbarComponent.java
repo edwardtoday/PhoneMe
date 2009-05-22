@@ -134,8 +134,9 @@ implements KeyListener, ActionListener {
 			return;
 		}
 		else {
-			if (textField.getText().charAt(textField.getText().length() - 1) == ' '
-					|| (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && 
+			if ((textField.getText().charAt(textField.getText().length() - 1) == ' ' &&
+					e.getKeyCode() == KeyEvent.VK_SPACE) ||
+					(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && 
 							text.charAt(text.length() - 1) == ' ')) {
 				text = textField.getText();
 				return;

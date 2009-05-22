@@ -126,8 +126,7 @@ public class NameComponent extends JPanel {
 //						System.err.print(threadId);
 						if(id != threadId)
 							return;
-						if(i < members.size()) {
-							name = members.get(members.keySet().toArray()[i]);
+						if((name = getNamenext(i, members)) != null) {
 							i++;
 							if (!addRow(id, name))
 								return;
@@ -148,6 +147,12 @@ public class NameComponent extends JPanel {
 			}.start();
 		//}
 //		System.err.println('\n');
+	}
+	
+	synchronized private String getNamenext(int i, LinkedHashMap<Integer, String> members) {
+		if(i < members.size())
+			return members.get(members.keySet().toArray()[i]);
+		return null;
 	}
 	
 	synchronized private boolean addRow(int id, String name) {

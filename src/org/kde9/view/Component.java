@@ -36,7 +36,7 @@ implements Constants {
 	BrowerComponent browerComponent;
 	Configuration config;
 	JPanel cube;
-	
+
 	private EditListener editListener;
 	private AddGroupListener addGroupListener;
 	private AddNameListener addNameListener;
@@ -119,6 +119,7 @@ implements Constants {
 	public void resetCenterComponent() {
 		contacts.remove(cube);
 		contacts.add("Center", browerComponent);
+		this.cube = null;
 		contacts.repaint();
 		this.repaint();
 	}
@@ -137,5 +138,9 @@ implements Constants {
 	
 	public Kernel getKernel() {
 		return kernel;
+	}
+	
+	public JPanel getCube() {
+		return cube;
 	}
 }
