@@ -15,6 +15,7 @@ import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.MenuListener;
 
+import org.kde9.control.ImportAndExport.MyImportAndExport;
 import org.kde9.util.Constants;
 import org.kde9.view.Component;
 import org.kde9.view.ComponentPool;
@@ -279,8 +280,14 @@ implements ActionListener {
 					new Color(102,255,153),200, 100);
 			System.out.println("newGroupfromSearchResult");
 		}else if(e.getSource() == Import) {
+			MyImportAndExport mie = new MyImportAndExport();
+			int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+			mie.ImportFile(groupSelected);
 			System.out.println("Import");
 		}else if(e.getSource() == Export) {
+			MyImportAndExport mie = new MyImportAndExport();
+			int cardSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+			mie.ExportFile(cardSelected);
 			System.out.println("Export");
 		}else if(e.getSource() == quit) {
 			System.exit(0);

@@ -6,46 +6,46 @@ import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.kde9.control.Kernel;
-import org.kde9.model.group.ConstGroup;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
-import org.kde9.view.component.brower.BrowerComponent;
 
 import ch.randelshofer.quaqua.JSheet;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
-public class SearchPanel {
-	private static JDialog frame = 
-		new JDialog(ComponentPool.getComponent(), true);
+public class WarningInfoBox 
+implements ActionListener {
+	private static JDialog frame;
 	private Container father;
 	private JSheet sheet;
 	private JPanel container;
 	private Color color;
+	private String str;
+	private JButton confirm;
+	private JButton cancel;
 	private Kernel kernel;
+	private int type;
+	private boolean flag;
+	int w;
+	int h;
 	
-	
-	
-	private int w;
-	private int h;
-	private boolean closing = false;
+	private boolean closing;
 
-	public SearchPanel(Container father,Color color, int w, int h) {
+	public WarningInfoBox(Container father, String str , Color color, int w, int h) {
+		this.frame = new JDialog(ComponentPool.getComponent(), true);
+		this.type = type;
+		this.confirm = new JButton("[    OK   ]");
+		this.cancel = new JButton("[Cancel]");
 		this.father = father;
+		this.str = str;
 		this.color = color;
 		this.w = w;
 		this.h = h;
@@ -69,12 +69,19 @@ public class SearchPanel {
 		sheet.setSize(w, h);
 
 		container = new JPanel(new BorderLayout());
-		container.add(new BrowerComponent(kernel));
 		sheet.setContentPane(container);
-
+		JLabel label = new JLabel(str);
+		container.add("Center",label);
+		confirm.addActionListener(this);
+		cancel.addActionListener(this);
+		confirm.putClientProperty("Quaqua.Button.style", "toolBarRollover");
+		cancel.putClientProperty("Quaqua.Button.style", "toolBarRollover");
+		JPanel button = new JPanel();
+		button.add(confirm);
+		button.add(cancel);
+		container.add("South",button);
 		container.setOpaque(true);
 		container.setBackground(color);
-		//JPanel 
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -110,7 +117,7 @@ public class SearchPanel {
 		Thread thread = new Thread() {
 			public void run() {
 				if(close)
-					SearchPanel.this.closing = true;
+					WarningInfoBox.this.closing = true;
 				for (float i = 1; i > s; i -= 0.02) {
 					try {
 						sleep((long) (a/((1-s)*50)));
@@ -118,7 +125,7 @@ public class SearchPanel {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(!SearchPanel.this.closing)
+					if(!WarningInfoBox.this.closing)
 						WindowUtils.setWindowAlpha(window, i);
 				}
 				if(close) {
@@ -141,5 +148,41 @@ public class SearchPanel {
 		int y = yy + (h-sheet.getHeight())/2;
 		frame.setLocation(x, y);
 	}
+	
+	/**
+	 * @return the flag
+	 */
+	public boolean isFlag() {
+		return flag;
+	}
+	
+	/**
+	 * @param flag the flag to set
+	 */
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+	
+	public JButton getConfirm() {
+		return confirm;
+	}
+	
+	public JButton getCancel() {
+		return cancel;
+	}
 
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == getConfirm()) {
+			setFlag(true);
+			ComponentPool.getComponent().setEnabled(true);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+		}else if(e.getSource() == getCancel()) {
+			setFlag(false);
+			ComponentPool.getComponent().setEnabled(true);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+		}
+	}
 }
