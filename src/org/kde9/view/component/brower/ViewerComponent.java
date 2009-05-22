@@ -147,10 +147,18 @@ implements ActionListener, DropTargetListener, SheetListener,
 			public Component getTableCellRendererComponent(JTable table, Object value,
 					boolean isSelected, boolean hasFocus, int row, int column) {
 				if(editable && row != table.getRowCount()-1) {
-					if(addOrSub)
-						return b.get(row).getButtonAdd();
-					else
-						return b.get(row).getButtonSub();
+					if(addOrSub) {
+						JButton add = b.get(row).getButtonAdd();
+						if(add != null)
+							add.setFont(new Font("", 1, 8));
+						return add;
+					}
+					else {
+						JButton sub = b.get(row).getButtonSub();
+						if(sub != null)
+							sub.setFont(new Font("", 1, 8));
+						return sub;
+					}
 				}
 				else 
 					return new JLabel();
@@ -290,10 +298,10 @@ implements ActionListener, DropTargetListener, SheetListener,
 		itemTable.setCellSelectionEnabled(false);
 		itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemTable.getColumnModel().getColumn(0).setMaxWidth(5);
-		itemTable.getColumnModel().getColumn(1).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(2).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(3).setMaxWidth(25);
-		itemTable.getColumnModel().getColumn(4).setMaxWidth(25);
+		itemTable.getColumnModel().getColumn(1).setMaxWidth(17);
+		itemTable.getColumnModel().getColumn(2).setMaxWidth(17);
+		itemTable.getColumnModel().getColumn(3).setMaxWidth(17);
+		itemTable.getColumnModel().getColumn(4).setMaxWidth(17);
 		itemTable.getColumnModel().getColumn(5).setMaxWidth(30);
 		itemTable.getColumnModel().getColumn(6).setMaxWidth(80);
 		// JTableHeader header = new JTableHeader();
@@ -324,9 +332,9 @@ implements ActionListener, DropTargetListener, SheetListener,
 		relationTable.setCellSelectionEnabled(false);
 		relationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		relationTable.getColumnModel().getColumn(0).setMaxWidth(5);
-		relationTable.getColumnModel().getColumn(1).setMaxWidth(25);
-		relationTable.getColumnModel().getColumn(2).setMaxWidth(25);
-		relationTable.getColumnModel().getColumn(3).setMaxWidth(50);
+		relationTable.getColumnModel().getColumn(1).setMaxWidth(17);
+		relationTable.getColumnModel().getColumn(2).setMaxWidth(17);
+		relationTable.getColumnModel().getColumn(3).setMaxWidth(34);
 		relationTable.getColumnModel().getColumn(4).setMaxWidth(30);
 		relationTable.getColumnModel().getColumn(5).setMaxWidth(80);
 		relationTable.setTableHeader(null);
@@ -1111,29 +1119,35 @@ implements ActionListener {
 		this.buttonAdd = new JButton();
 		buttonAdd.putClientProperty("Quaqua.Button.style", "toolBarTab");
 		buttonAdd.setOpaque(true);
+		buttonAdd.setBackground(new Color(0,0,0,0));
 		if(type != 2 && type < 4)
-			buttonAdd.setBackground(Color.GREEN);
+			buttonAdd.setIcon(new ImageIcon("./img/add.png"));
 		else if(type < 4)
-			buttonAdd.setBackground(Color.blue);
-		else
-			buttonAdd.setBackground(Color.WHITE);
+			buttonAdd.setIcon(new ImageIcon("./img/add2.png"));
 		if(type == 1 || type == 2 || type == 3) {
-			buttonAdd.setText("＋");
+			//buttonAdd.setText("＋");
+			
 			buttonAdd.addActionListener(this);
 		}
+		buttonAdd.setFont(new Font("", 1, 8));
+		
+		
 		this.buttonSub = new JButton();
 		if(type == 1 || type == 2 || type == 3) {
-			buttonSub.setText("－");
+			//buttonSub.setText("－");
+			
 			buttonSub.addActionListener(this);
 		}
-		buttonSub.setOpaque(true);
-		if(type != 2 && type < 4)
-			buttonSub.setBackground(Color.RED);
-		else if(type < 4)
-			buttonSub.setBackground(Color.cyan);
-		else
-			buttonSub.setBackground(Color.WHITE);
 		buttonSub.putClientProperty("Quaqua.Button.style", "toolBarTab");
+		buttonSub.setOpaque(true);
+		buttonSub.setBackground(new Color(0,0,0,0));
+		if(type != 2 && type < 4)
+			buttonSub.setIcon(new ImageIcon("./img/sub.png"));
+		else if(type < 4)
+			buttonSub.setIcon(new ImageIcon("./img/sub2.png"));
+		buttonSub.setFont(new Font("", 1, 8));
+		
+		
 		this.type = type;
 		this.location = location;
 		this.index = index;
@@ -1141,10 +1155,14 @@ implements ActionListener {
 	}
 	
 	public void update() {
-		if(buttonAdd != null)
-			buttonAdd.setText(String.valueOf(type));
-		if(buttonSub != null)
-			buttonSub.setText(String.valueOf(location) + ' ' + String.valueOf(index));
+//		if(buttonAdd != null) {
+//			buttonAdd.setFont(new Font("", 1, 8));
+//			buttonAdd.setText(String.valueOf(type));
+//		}
+//		if(buttonSub != null) {
+//			buttonSub.setFont(new Font("", 1, 8));
+//			buttonSub.setText(String.valueOf(location) + ' ' + String.valueOf(index));
+//		}
 	}
 	
 	public ButtonUnit(String s) {}
@@ -1184,6 +1202,7 @@ extends AbstractCellEditor
 implements TableCellEditor {
 	private Vector<ButtonUnit> unit;
 	private boolean addOrSub; 
+	private int row;
 
 	public DataTableCellEditor(Vector<ButtonUnit> unit, boolean addOrSub) {
 		this.unit = unit;
@@ -1191,13 +1210,22 @@ implements TableCellEditor {
 	}
 
 	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int rowIndex, int vColIndex) {
-		if (rowIndex == table.getRowCount()-1)
+			boolean isSelected, int row, int vColIndex) {
+		this.row = row;
+		if (row == table.getRowCount()-1)
 			return new JLabel();
-		if (addOrSub)
-			return unit.get(rowIndex).getButtonAdd();
-		else
-			return unit.get(rowIndex).getButtonSub();
+		if(addOrSub) {
+			JButton add = unit.get(row).getButtonAdd();
+			if(add != null)
+				add.setFont(new Font("", 1, 8));
+			return add;
+		}
+		else {
+			JButton sub = unit.get(row).getButtonSub();
+			if(sub != null)
+				sub.setFont(new Font("", 1, 8));
+			return sub;
+		}
 	}
 
 	public boolean stopCellEditing() {
