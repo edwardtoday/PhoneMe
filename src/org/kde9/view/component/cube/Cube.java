@@ -81,6 +81,7 @@ public class Cube extends Display {
     private static final String treeNodes = "tree.nodes";
     private static final String treeEdges = "tree.edges";
     private static final String linear = "linear";
+    private static final String nearby = "nearby";
     
     private static int a, b;
     
@@ -123,8 +124,8 @@ public class Cube extends Display {
                 VisualItem.STROKECOLOR, ColorLib.rgb(0,200,200));
         
         FontAction fonts = new FontAction(treeNodes, 
-                FontLib.getFont("", 15));
-        fonts.add("ingroup('_focus_')", FontLib.getFont("", 16));
+                FontLib.getFont("", 12));
+        fonts.add("ingroup('_focus_')", FontLib.getFont("", 15));
         
         // recolor
         ActionList recolor = new ActionList();
@@ -202,6 +203,12 @@ public class Cube extends Display {
                     if ( add.length < 1 ) return; linearInterp.clear();
                     for ( Node n = (Node)add[0]; n!=null; n=n.getParent() ) {
                         linearInterp.addTuple(n);
+                    }
+                    if(add[0] != null) {
+                    	System.out.println(((Node)add[0]).get("node"));
+                        ComponentPool.getGroupComponent().setSelected(0, 0);
+                        ComponentPool.getNameComponent().setSelectedById(
+                        		Integer.valueOf(((Node)add[0]).getString("node")));
                     }
                 }
             }
@@ -307,42 +314,39 @@ public class Cube extends Display {
         Visualization vis = gview.getVisualization();
         
         // create a search panel for the tree map
-        SearchQueryBinding sq = new SearchQueryBinding(
-             (Table)vis.getGroup(treeNodes), label,
-             (SearchTupleSet)vis.getGroup(Visualization.SEARCH_ITEMS));
-        JSearchPanel search = sq.createSearchPanel();
-        search.setShowResultCount(true);
-        search.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
-        search.setFont(FontLib.getFont("", Font.PLAIN, 11));
-        Cube.search = search;
-        
-        final JFastLabel title = new JFastLabel("                 ");
-        title.setPreferredSize(new Dimension(50, 20));
-        title.setVerticalAlignment(SwingConstants.BOTTOM);
-        title.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
-        title.setFont(FontLib.getFont("", Font.PLAIN, 16));
+//        SearchQueryBinding sq = new SearchQueryBinding(
+//             (Table)vis.getGroup(treeNodes), label,
+//             (SearchTupleSet)vis.getGroup(Visualization.SEARCH_ITEMS));
+//        JSearchPanel search = sq.createSearchPanel();
+//        search.setShowResultCount(true);
+//        search.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
+//        search.setFont(FontLib.getFont("", Font.PLAIN, 11));
+//        Cube.search = search;
+//        
+//        final JFastLabel title = new JFastLabel("                 ");
+//        title.setPreferredSize(new Dimension(50, 20));
+//        title.setVerticalAlignment(SwingConstants.BOTTOM);
+//        title.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
+//        title.setFont(FontLib.getFont("", Font.PLAIN, 16));
         
         gview.addControlListener(new ControlAdapter() {
             public void itemEntered(VisualItem item, MouseEvent e) {
                 if ( item.canGetString(label) ) {
-                    title.setText(item.getString(label));
-                    System.out.println(":::" + item.getString("node"));
-                    ComponentPool.getGroupComponent().setSelected(0, 0);
-                    ComponentPool.getNameComponent().setSelectedById(
-                    		Integer.valueOf(item.getString("node")));
+//                    title.setText(item.getString(label));
+//                    System.out.println(":::" + item.getString("node"));
                 }
             }
             public void itemExited(VisualItem item, MouseEvent e) {
-                title.setText(null);
+//                title.setText(null);
             }
         });
         
-        Box box = new Box(BoxLayout.X_AXIS);
-        box.add(Box.createHorizontalStrut(10));
-        box.add(title);
-        box.add(Box.createHorizontalGlue());
-        box.add(search);
-        box.add(Box.createHorizontalStrut(3));
+//        Box box = new Box(BoxLayout.X_AXIS);
+//        box.add(Box.createHorizontalStrut(10));
+//        box.add(title);
+//        box.add(Box.createHorizontalGlue());
+//        box.add(search);
+//        box.add(Box.createHorizontalStrut(3));
         
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(a, b));

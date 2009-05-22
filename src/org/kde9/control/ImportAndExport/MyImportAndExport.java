@@ -296,6 +296,7 @@ implements ImportAndExport {
 				}
 				wwb.write();  
 				wwb.close();
+				os.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
