@@ -35,6 +35,7 @@ implements Constants {
 	ToolbarComponent toolbarComponent;
 	BrowerComponent browerComponent;
 	Configuration config;
+	JPanel cube;
 	
 	private EditListener editListener;
 	private AddGroupListener addGroupListener;
@@ -104,6 +105,22 @@ implements Constants {
 		addEditListener(editListener);
 		addGroupListener(addGroupListener);
 		addNameListener(addNameListener);
+	}
+	
+	public void setCenterComponent(JPanel panel) {
+		this.cube = panel;
+		contacts.remove(browerComponent);
+		contacts.add("Center", panel);
+		panel.updateUI();
+		contacts.repaint();
+		this.repaint();
+	}
+	
+	public void resetCenterComponent() {
+		contacts.remove(cube);
+		contacts.add("Center", browerComponent);
+		contacts.repaint();
+		this.repaint();
 	}
 	
 	public void addEditListener(EditListener editListener) {

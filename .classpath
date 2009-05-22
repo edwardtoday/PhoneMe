@@ -5,6 +5,7 @@
 	<classpathentry kind="lib" path="lib/examples.jar"/>
 	<classpathentry kind="lib" path="lib/jna.jar"/>
 	<classpathentry kind="lib" path="lib/swing-layout.jar"/>
+	<classpathentry kind="lib" path="lib/prefuse.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/libquaqua.jnilib"/>
 	<classpathentry kind="lib" path="lib/libquaqua64.jnilib"/>

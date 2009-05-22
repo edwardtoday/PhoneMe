@@ -25,24 +25,24 @@ implements ActionListener, Constants {
 			ComponentPool.getViewerComponent().setHighlight(false);
 			component.startEditModel();
 			//ComponentPool.getViewerComponent().setEnabled(true);
-			ComponentPool.getBrowerComponent().setEnabled(false);
-			i = ComponentPool.getGroupComponent().getSelected();
-			j = ComponentPool.getNameComponent().getSelected();
-			ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
-			ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
-			ComponentPool.getGroupComponent().getTable().setFocusable(false);
-			ComponentPool.getNameComponent().getTable().setFocusable(false);
+			//ComponentPool.getBrowerComponent().setEnabled(false);
+			//i = ComponentPool.getGroupComponent().getSelected();
+			//j = ComponentPool.getNameComponent().getSelected();
+			//ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
+			//ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
+			//ComponentPool.getGroupComponent().getTable().setFocusable(false);
+			//ComponentPool.getNameComponent().getTable().setFocusable(false);
 		}
 		else {
 			component.stopEditModel();
 			ViewerComponent viewer = ComponentPool.getViewerComponent();
-			ComponentPool.getGroupComponent().getTable().setRowSelectionAllowed(true);
-			ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(true);
-			ComponentPool.getGroupComponent().getTable().setFocusable(true);
-			ComponentPool.getNameComponent().getTable().setFocusable(true);
-			ComponentPool.getGroupComponent().setSelected(i, i);
-			ComponentPool.getNameComponent().setSelected(j, j);
-			ComponentPool.getBrowerComponent().setEnabled(true);
+			//ComponentPool.getGroupComponent().getTable().setRowSelectionAllowed(true);
+			//ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(true);
+			//ComponentPool.getGroupComponent().getTable().setFocusable(true);
+			//ComponentPool.getNameComponent().getTable().setFocusable(true);
+			//ComponentPool.getGroupComponent().setSelected(i, i);
+			//ComponentPool.getNameComponent().setSelected(j, j);
+			//ComponentPool.getBrowerComponent().setEnabled(true);
 			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
 				kernel.updateCard(viewer.getCardId(), 
 						viewer.getNewNameOne(), 

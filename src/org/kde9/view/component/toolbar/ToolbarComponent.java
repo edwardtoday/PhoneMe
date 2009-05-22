@@ -2,25 +2,33 @@
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedHashMap;
 
 import javax.naming.CompoundName;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.kde9.control.Kernel;
 import org.kde9.view.ComponentPool;
+import org.kde9.view.component.brower.BrowerComponent;
+import org.kde9.view.component.cube.Cube;
 
 public class ToolbarComponent 
 extends JMenuBar 
-implements KeyListener {
+implements KeyListener, ActionListener {
 	private JButton button1;
 	private JButton button2;
 	private JTextField textField;
+	
+	private boolean cube = false;
 	
 	private Kernel kernel;
 	
@@ -36,10 +44,12 @@ implements KeyListener {
 	public ToolbarComponent() {
 		ComponentPool.setToolbarComponent(this);
 		
-		button1 = new JButton("<<");
+		button1 = new JButton(new ImageIcon("./img/brower.png"));
 		button1.putClientProperty("Quaqua.Button.style", "toggleWest");
-		button2 = new JButton(">>");
+		button1.addActionListener(this);
+		button2 = new JButton(new ImageIcon("./img/cube.png"));
 		button2.putClientProperty("Quaqua.Button.style", "toggleEast");
+		button2.addActionListener(this);
 		textField = new JTextField();
 		textField.addKeyListener(this);
 
@@ -174,6 +184,20 @@ implements KeyListener {
 				}
 				System.err.println(current + " end!");
 			}
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == button1 && cube) {
+			ComponentPool.getComponent().resetCenterComponent();
+			cube = false;
+			ComponentPool.getComponent().repaint();
+		} else if(e.getSource() == button2 && !cube) {
+			JPanel panel = Cube.getCube();
+			ComponentPool.getComponent().setCenterComponent(panel);
+			cube = true;
+			ComponentPool.getComponent().repaint();
 		}
 	}
 }

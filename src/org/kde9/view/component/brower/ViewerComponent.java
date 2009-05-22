@@ -92,6 +92,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private ConstCard card;
 	private boolean editable;
 	private boolean highlight = false;
+	
 	private Vector<Integer> high;
 
 	private Vector<String> itemKeys;
@@ -1119,11 +1120,11 @@ implements ActionListener {
 		this.buttonAdd = new JButton();
 		buttonAdd.putClientProperty("Quaqua.Button.style", "toolBarTab");
 		buttonAdd.setOpaque(true);
-		buttonAdd.setBackground(new Color(0,0,0,0));
+		buttonAdd.setBackground(Color.WHITE);
 		if(type != 2 && type < 4)
-			buttonAdd.setIcon(new ImageIcon("./img/add.png"));
-		else if(type < 4)
 			buttonAdd.setIcon(new ImageIcon("./img/add2.png"));
+		else if(type < 4)
+			buttonAdd.setIcon(new ImageIcon("./img/add.png"));
 		if(type == 1 || type == 2 || type == 3) {
 			//buttonAdd.setText("＋");
 			
@@ -1140,11 +1141,11 @@ implements ActionListener {
 		}
 		buttonSub.putClientProperty("Quaqua.Button.style", "toolBarTab");
 		buttonSub.setOpaque(true);
-		buttonSub.setBackground(new Color(0,0,0,0));
+		buttonSub.setBackground(Color.WHITE);
 		if(type != 2 && type < 4)
-			buttonSub.setIcon(new ImageIcon("./img/sub.png"));
-		else if(type < 4)
 			buttonSub.setIcon(new ImageIcon("./img/sub2.png"));
+		else if(type < 4)
+			buttonSub.setIcon(new ImageIcon("./img/sub.png"));
 		buttonSub.setFont(new Font("", 1, 8));
 		
 		
