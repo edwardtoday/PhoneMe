@@ -193,6 +193,8 @@ implements KeyListener, ActionListener {
 		if(e.getSource() == button1 && cube) {
 			ComponentPool.getComponent().resetCenterComponent();
 			cube = false;
+			textField.setEnabled(true);
+			ComponentPool.getViewerComponent().getButtonEdit().setEnabled(true);
 			ComponentPool.getComponent().repaint();
 		} else if(e.getSource() == button2 && !cube) {
 			int a = ComponentPool.getBrowerComponent().getLeftW();
@@ -200,6 +202,8 @@ implements KeyListener, ActionListener {
 			JPanel panel = Cube.getCube(a, b);
 			ComponentPool.getComponent().setCenterComponent(panel);
 			cube = true;
+			textField.setEnabled(false);
+			ComponentPool.getViewerComponent().getButtonEdit().setEnabled(false);
 			ComponentPool.getComponent().repaint();
 		}
 	}

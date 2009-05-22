@@ -81,7 +81,7 @@ public class Cube extends Display {
     private static final String treeNodes = "tree.nodes";
     private static final String treeEdges = "tree.edges";
     private static final String linear = "linear";
-    private static final String nearby = "nearby";
+//    private static final String nearby = "nearby";
     
     private static int a, b;
     
@@ -118,6 +118,7 @@ public class Cube extends Display {
         // colors
         ItemAction nodeColor = new NodeColorAction(treeNodes);
         ItemAction textColor = new TextColorAction(treeNodes);
+//        ItemAction nearColor = new NodeColorAction(nearby);/////////////////
         m_vis.putAction("textColor", textColor);
         
         ItemAction edgeColor = new ColorAction(treeEdges,
@@ -131,6 +132,7 @@ public class Cube extends Display {
         ActionList recolor = new ActionList();
         recolor.add(nodeColor);
         recolor.add(textColor);
+//        recolor.add(nearColor);/////////////////////////////////////////////
         m_vis.putAction("recolor", recolor);
         
         // repaint
@@ -142,6 +144,7 @@ public class Cube extends Display {
         // animate paint change
         ActionList animatePaint = new ActionList(400);
         animatePaint.add(new ColorAnimator(treeNodes));
+//        animatePaint.add(new ColorAnimator(nearby));/////////////////////////
         animatePaint.add(new RepaintAction());
         m_vis.putAction("animatePaint", animatePaint);
         

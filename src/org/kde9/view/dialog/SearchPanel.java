@@ -23,6 +23,7 @@ import org.kde9.control.Kernel;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.component.brower.BrowerComponent;
+import org.kde9.view.component.brower.GroupComponent;
 
 import ch.randelshofer.quaqua.JSheet;
 
@@ -37,7 +38,6 @@ public class SearchPanel {
 	private JPanel container;
 	private Color color;
 	private Kernel kernel;
-	
 	
 	
 	private int w;

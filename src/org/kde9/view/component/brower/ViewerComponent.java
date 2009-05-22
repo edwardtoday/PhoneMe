@@ -60,6 +60,7 @@ import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
+import org.kde9.view.dialog.SearchPanel;
 //import org.kde9.view.dialog.SearchPanel;
 import org.kde9.view.listener.EditListener;
 import org.w3c.dom.events.MouseEvent;
@@ -1081,7 +1082,7 @@ outer:
 	public void mouseReleased(java.awt.event.MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("relation selected" + relationTable.getSelectedRow());
-		//new SearchPanel(ComponentPool.getComponent(), Color.black, 400, 400);
+		new SearchPanel(ComponentPool.getComponent(), Color.WHITE, 400, 400);
 	}
 
 //	public void addItem(String name, String content) {

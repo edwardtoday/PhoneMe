@@ -164,8 +164,11 @@ implements ListSelectionListener, KeyListener, Constants {
 			viewer.setItems(card.getAllItems());
 			viewer.setRelations(card.getAllShowRelationship());
 			viewer.setImage(card);
-			viewer.ready();
+			if(cube == null)
+				viewer.ready();
 		}
+		if(viewer.isEditable())
+			viewer.startEditModel();
 		viewer.setSetting(false);
 	}
 
