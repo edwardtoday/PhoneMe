@@ -41,7 +41,7 @@ public class NameComponent extends JPanel {
 
 	private LinkedHashMap<Integer, String> members;
 	
-	NameComponent() {
+	public NameComponent() {
 		ComponentPool.setNameComponent(this);
 		
 		members = new LinkedHashMap<Integer, String>();

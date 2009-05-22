@@ -25,6 +25,8 @@ public class MyKernel implements Kernel, Constants {
 	private CardController cards;
 	private GroupController groups;
 	private RestoreAndBackup randb;
+	
+	private Vector<String> keys;
 
 	private Configuration configuration;
 	
@@ -235,7 +237,7 @@ public class MyKernel implements Kernel, Constants {
 	public LinkedHashMap<Integer, String> find(String keyWords) {
 		// TODO Auto-generated method stub
 		keyWords += " ";
-		final Vector<String> keys = new Vector<String>();
+		keys = new Vector<String>();
 		for (int i = 0, j = 0; i < keyWords.length(); i++) {
 			if (keyWords.charAt(i) == ' ') {
 				if (j != i)
@@ -286,6 +288,10 @@ public class MyKernel implements Kernel, Constants {
 		return temp;
 	}
 	
+	public Vector<String> getKeys() {
+		return keys;
+	}
+
 	synchronized void addSearchResult(LinkedHashMap<Integer, String> temp,
 			int id, int thread, int threadId) {
 		if(thread == threadId)

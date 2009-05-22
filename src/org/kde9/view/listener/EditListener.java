@@ -22,6 +22,7 @@ implements ActionListener, Constants {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(((JToggleButton)e.getSource()).isSelected()) {
+			ComponentPool.getViewerComponent().setHighlight(false);
 			component.startEditModel();
 			//ComponentPool.getViewerComponent().setEnabled(true);
 			ComponentPool.getBrowerComponent().setEnabled(false);

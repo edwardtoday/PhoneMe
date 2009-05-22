@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -72,6 +74,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		TableModelListener, MouseListener, Constants {
 	private JTable itemTable;
 	private JTable relationTable;
+	private JPanel tablePanel;
 	private JPanel upPanel;
 	private JScrollPane pane;
 	private JToggleButton buttonEdit;
@@ -88,6 +91,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private Kernel kernel;
 	private ConstCard card;
 	private boolean editable;
+	private boolean highlight = false;
+	private Vector<Integer> high;
 
 	private Vector<String> itemKeys;
 	private Vector<Vector<String>> itemValues;
@@ -120,6 +125,14 @@ implements ActionListener, DropTargetListener, SheetListener,
 
 	public void setSetting(boolean setting) {
 		this.setting = setting;
+	}
+	
+	public boolean isHighlight() {
+		return highlight;
+	}
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
 	}
 
 	private static boolean TRUE = true;
@@ -249,6 +262,23 @@ implements ActionListener, DropTargetListener, SheetListener,
 //				if(cantSelect.get(i) != null && j == 6)
 //					return false;
 				return editable;
+			}
+			
+			public void paint(Graphics g) {
+				super.paint(g);
+				g.setColor(new Color(118,255,5,90));
+				int width = this.getColumnModel().getColumn(0).getWidth() +
+						this.getColumnModel().getColumn(1).getWidth() +
+						this.getColumnModel().getColumn(2).getWidth() +
+						this.getColumnModel().getColumn(3).getWidth() +
+						this.getColumnModel().getColumn(4).getWidth() +
+						this.getColumnModel().getColumn(5).getWidth() +
+						this.getColumnModel().getColumn(6).getWidth();
+				if(highlight && high != null)
+					for(int i : high)
+						g.fillRect(width, this.getRowHeight()*(i-1),
+								this.getColumnModel().getColumn(7).getWidth(),
+								this.getRowHeight());
 			}
 		};
 		setTabel(itemTable, buttons, 1, TRUE);
@@ -381,7 +411,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
-		JPanel tablePanel = new JPanel();
+		tablePanel = new JPanel();
 		
 		GridBagLayout tableLayout = new GridBagLayout();
 		GridBagConstraints cc = new GridBagConstraints();
@@ -626,6 +656,7 @@ outer:
 	
 	public void setItems(LinkedHashMap<String, Vector<String>> items) {
 		//this.items = items;
+		high = new Vector<Integer>();
 		while (itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
 		
@@ -643,7 +674,7 @@ outer:
 				boolean flag = true;
 				itemKeys.add(name);
 				itemValues.add(items.get(name));
-				for(String value : items.get(name))
+				for(String value : items.get(name)) {
 					if(flag) {
 						itemModel.addRow(new Object[] {
 								"", "", "", "", "", "", name, value });
@@ -662,9 +693,20 @@ outer:
 						buttonsLow.add(new ButtonUnit(2, itemKeys.size(),
 								buttonsLow.size(), this));
 					}
+					if(highlight && kernel.getKeys() != null) {
+						boolean ok = true;
+						for(String search : kernel.getKeys()) {
+							if(value.contains(search)) {
+								high.add(buttons.size());
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 		itemModel.addRow(new Object[]{});
+		System.out.println("highlight : " + high);
 	}
 
 	public void ready() {
@@ -685,6 +727,7 @@ outer:
 		setPinYin("","");
 		setImage(null);
 		setSetting(false);
+		high = null;
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {

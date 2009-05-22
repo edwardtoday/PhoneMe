@@ -111,6 +111,7 @@ implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
+		ComponentPool.getViewerComponent().setHighlight(true);
 		System.out.println(textField.getText().length() + " textfield content");
 		// TODO Auto-generated method stub
 		flag = (flag + 1)%100;
@@ -123,6 +124,12 @@ implements KeyListener {
 			return;
 		}
 		else {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE
+					|| (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && text
+							.charAt(text.length() - 1) == ' ')) {
+				text = textField.getText();
+				return;
+			}
 			ComponentPool.getNameComponent().getButtonAdd().setEnabled(false);
 			text = textField.getText();
 		}

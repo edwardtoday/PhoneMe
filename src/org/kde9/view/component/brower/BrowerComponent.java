@@ -151,6 +151,7 @@ implements ListSelectionListener, KeyListener, Constants {
 		if (this.isEnabled()) {
 			if (e.getSource().equals(group.getSelectionModel())) {
 				if (group.getSelected() != -1) {
+					viewer.setHighlight(false);
 					showGroupMembers();
 					name.setSelected(0, 0);
 				}

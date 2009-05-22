@@ -55,4 +55,6 @@ public interface Kernel {
 	public LinkedHashMap<Integer, String> find(String keyWords);
 	
 	public boolean isSearchFinish();
+	
+	public Vector<String> getKeys();
 }
