@@ -39,6 +39,14 @@ public class WriteFile {
 		osw = new OutputStreamWriter(fos, "UTF-8");
 		bw = new BufferedWriter(osw);
 	}
+	
+	public WriteFile(String fileName, boolean flag, String charset)
+	throws IOException {
+		this.fileName = fileName;
+		fos = new FileOutputStream(fileName);
+		osw = new OutputStreamWriter(fos, charset);
+		bw = new BufferedWriter(osw);
+	}
 
 	/**
 	 * 通过文件名和标识符创建文件write流
