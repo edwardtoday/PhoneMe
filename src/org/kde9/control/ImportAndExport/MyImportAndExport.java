@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -21,7 +22,6 @@ public class MyImportAndExport
 implements ImportAndExport {
 	JFileChooser jfc;
 	Kernel kernel;
-	LinkedHashMap<String, Vector<String>> items;
 	
 	public MyImportAndExport() {
 		kernel = ComponentPool.getComponent().getKernel();
@@ -160,19 +160,67 @@ implements ImportAndExport {
 	public void ExportFile(int id) {
 		// TODO Auto-generated method stub
 		String filePath = this.saveFile();
-		ConstCard card = kernel.getCard(id);
+		int cardCount = kernel.getGroup(0).getGroupMembers().size();
+		//System.out.println(cardCount);
+		ConstCard card;
 		if (filePath.endsWith(".csv")) {
 			try {
 				WriteFile wf = new WriteFile(filePath, false, "GB2312");
-				String name = card.getFirstName() + "," + card.getLastName();
-				wf.writeLine(name);
-				items = card.getAllItems();
-				for (String itemName : items.keySet()) {
-					int sum = items.get(itemName).size();
-					String temp = itemName;
-					for (int i = 0; i < sum; i++) {
-						temp += ",";
-						temp += items.get(itemName).get(i);
+//				String name = card.getFirstName() + "," + card.getLastName();
+//				wf.writeLine(name);
+//				items = card.getAllItems();
+//				for (String itemName : items.keySet()) {
+//					int sum = items.get(itemName).size();
+//					String temp = itemName;
+//					for (int i = 0; i < sum; i++) {
+//						temp += ",";
+//						temp += items.get(itemName).get(i);
+//					}
+//					wf.writeLine(temp);
+//					temp = "";
+//				}
+				LinkedHashMap<String, Integer> itemsIndex = new LinkedHashMap<String, Integer>();
+				for(int i = 0 ; i < cardCount; i++) {
+					card = kernel.getCard(i);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for(String itemName : items.keySet()) {
+						//itemsIndex.put(itemName);
+						itemsIndex.put(itemName, 0);
+					}
+				}
+				for(int i = 0 ; i < cardCount; i++) {
+					card = kernel.getCard(i);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for(String itemName : items.keySet()) {
+						if(items.get(itemName).size() > itemsIndex.get(itemName))
+							itemsIndex.put(itemName, items.get(itemName).size());
+					}
+				}
+				String index = "FirstName,LastName";
+				for(String itemName : itemsIndex.keySet()) {
+					for(int i = 0; i < itemsIndex.get(itemName); i++) {
+						index += ",";
+						index += itemName;
+					}	
+				}
+				wf.writeLine(index);
+				String temp = "";
+				for(int i = 0; i < cardCount; i++) {
+					card = kernel.getCard(i);
+					temp = card.getFirstName() + "," + card.getLastName();
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for(String itemName : itemsIndex.keySet()) {
+						if(items.get(itemName) != null) {
+							for(int t = 0; t < items.get(itemName).size(); t++) {
+								temp += ",";
+								temp += items.get(itemName).get(t);
+							}
+							for(int t = 0; t < itemsIndex.get(itemName) - items.get(itemName).size(); t++)
+								temp += ",";
+						}else {
+							for(int t = 0; t < itemsIndex.get(itemName); t++)
+								temp += ",";
+						}
 					}
 					wf.writeLine(temp);
 					temp = "";
