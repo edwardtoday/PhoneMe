@@ -33,6 +33,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	private JSplitPane nameSplitPane;
 	private Kernel kernel;
 	private Configuration config;
+	private JPanel cube;
 	
 
 	public BrowerComponent(Kernel kernel) {
@@ -73,6 +74,29 @@ implements ListSelectionListener, KeyListener, Constants {
 		init();
 	}
 
+	public void setCenterComponent(JPanel panel) {
+		this.cube = panel;
+		panel.setSize(groupSplitPane.getSize());
+		nameSplitPane.remove(groupSplitPane);
+		nameSplitPane.setLeftComponent(panel);
+		panel.repaint();
+		repaint();
+	}
+	
+	public int getLeftW() {
+		return groupSplitPane.getWidth();
+	}
+	
+	public int getLeftH() {
+		return groupSplitPane.getHeight();
+	}
+	
+	public void resetCenterComponent() {
+		nameSplitPane.remove(cube);
+		nameSplitPane.setLeftComponent(groupSplitPane);
+		repaint();
+	}
+	
 	public void addEditListener(EditListener editListener) {
 		viewer.addEditListener(editListener);
 	}

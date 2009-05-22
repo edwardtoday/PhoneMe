@@ -108,20 +108,13 @@ implements Constants {
 	}
 	
 	public void setCenterComponent(JPanel panel) {
-		this.cube = panel;
-		contacts.remove(browerComponent);
-		contacts.add("Center", panel);
-		panel.updateUI();
-		contacts.repaint();
-		this.repaint();
+		browerComponent.setCenterComponent(panel);
+		repaint();
 	}
 	
 	public void resetCenterComponent() {
-		contacts.remove(cube);
-		contacts.add("Center", browerComponent);
-		this.cube = null;
-		contacts.repaint();
-		this.repaint();
+		browerComponent.resetCenterComponent();
+		repaint();
 	}
 	
 	public void addEditListener(EditListener editListener) {

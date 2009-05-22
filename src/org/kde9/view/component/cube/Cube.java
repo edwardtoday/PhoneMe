@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -14,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import org.kde9.control.Kernel;
 import org.kde9.model.card.ConstCard;
@@ -78,6 +81,8 @@ public class Cube extends Display {
     private static final String treeNodes = "tree.nodes";
     private static final String treeEdges = "tree.edges";
     private static final String linear = "linear";
+    
+    private static int a, b;
     
     private static JSearchPanel search;
 
@@ -231,7 +236,9 @@ public class Cube extends Display {
 //        frame.setVisible(true);
 //    }
     
-    public static JPanel getCube() {
+    public static JPanel getCube(int a, int b) {
+    	Cube.a = a;
+        Cube.b = b;
         return demo("name");
     }
     
@@ -288,6 +295,15 @@ public class Cube extends Display {
     public static JPanel demo(Graph g, final String label) {        
         // create a new radial tree view
         final Cube gview = new Cube(g, label);
+//        gview.setSize(a, b);
+//        gview.setMaximumSize(new Dimension(a, b));
+        gview.setBounds(0, 0, a, b);
+        gview.setBorder(BorderFactory.createEmptyBorder());
+        
+        TitledBorder border = new TitledBorder("cube");
+		border.setTitleJustification(TitledBorder.CENTER);
+		//p.setBorder(border);
+        
         Visualization vis = gview.getVisualization();
         
         // create a search panel for the tree map
@@ -301,7 +317,7 @@ public class Cube extends Display {
         Cube.search = search;
         
         final JFastLabel title = new JFastLabel("                 ");
-        title.setPreferredSize(new Dimension(350, 20));
+        title.setPreferredSize(new Dimension(50, 20));
         title.setVerticalAlignment(SwingConstants.BOTTOM);
         title.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
         title.setFont(FontLib.getFont("", Font.PLAIN, 16));
@@ -311,6 +327,9 @@ public class Cube extends Display {
                 if ( item.canGetString(label) ) {
                     title.setText(item.getString(label));
                     System.out.println(":::" + item.getString("node"));
+                    ComponentPool.getGroupComponent().setSelected(0, 0);
+                    ComponentPool.getNameComponent().setSelectedById(
+                    		Integer.valueOf(item.getString("node")));
                 }
             }
             public void itemExited(VisualItem item, MouseEvent e) {
@@ -326,8 +345,9 @@ public class Cube extends Display {
         box.add(Box.createHorizontalStrut(3));
         
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(a, b));
         panel.add(gview, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+        panel.setBorder(border);
         //panel.add(box, BorderLayout.SOUTH);
         
         Color BACKGROUND = Color.WHITE;

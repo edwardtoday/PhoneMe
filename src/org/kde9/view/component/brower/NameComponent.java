@@ -177,6 +177,16 @@ public class NameComponent extends JPanel {
 //			table.getSelectionModel().setSelectionInterval(indexs, indexe);
 	}
 	
+	public void setSelectedById(int id) {
+		int i = 0;
+		for(int cardId : members.keySet()) {
+			if(cardId == id)
+				break;
+			i++;
+		}
+		setSelected(i, i);
+	}
+	
 	synchronized private boolean selectSet(int indexs, int indexe) {
 		if(kernel.isSearchFinish() && members.size() == 0)
 			return true;
