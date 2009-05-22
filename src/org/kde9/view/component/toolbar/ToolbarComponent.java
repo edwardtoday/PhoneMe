@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import org.kde9.control.Kernel;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.component.brower.BrowerComponent;
-//import org.kde9.view.component.cube.Cube;
+import org.kde9.view.component.cube.Cube;
 
 public class ToolbarComponent 
 extends JMenuBar 
@@ -189,16 +189,16 @@ implements KeyListener, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-//		if(e.getSource() == button1 && cube) {
-//			ComponentPool.getComponent().resetCenterComponent();
-//			cube = false;
-//			ComponentPool.getComponent().repaint();
-//		} else if(e.getSource() == button2 && !cube) {
-//			JPanel panel = Cube.getCube();
-//			ComponentPool.getComponent().setCenterComponent(panel);
-//			cube = true;
-//			ComponentPool.getComponent().repaint();
-//		}
+		if(e.getSource() == button1 && cube) {
+			ComponentPool.getComponent().resetCenterComponent();
+			cube = false;
+			ComponentPool.getComponent().repaint();
+		} else if(e.getSource() == button2 && !cube) {
+			JPanel panel = Cube.getCube();
+			ComponentPool.getComponent().setCenterComponent(panel);
+			cube = true;
+			ComponentPool.getComponent().repaint();
+		}
 	}
 }
 
