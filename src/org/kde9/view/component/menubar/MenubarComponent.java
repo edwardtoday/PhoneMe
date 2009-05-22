@@ -286,8 +286,7 @@ implements ActionListener {
 			System.out.println("Import");
 		}else if(e.getSource() == Export) {
 			MyImportAndExport mie = new MyImportAndExport();
-			int cardSelected = ComponentPool.getNameComponent().getSelectedMemberId();
-			mie.ExportFile(cardSelected);
+			mie.ExportFile();
 			System.out.println("Export");
 		}else if(e.getSource() == quit) {
 			System.exit(0);
