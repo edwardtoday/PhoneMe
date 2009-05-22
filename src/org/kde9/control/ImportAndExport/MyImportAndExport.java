@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -24,6 +25,7 @@ import jxl.write.biff.RowsExceededException;
 import org.kde9.control.Kernel;
 import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.card.ConstCard;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.WarningInfoBox;
@@ -32,9 +34,15 @@ public class MyImportAndExport
 implements ImportAndExport {
 	JFileChooser jfc;
 	Kernel kernel;
+	int type;
 	
 	public MyImportAndExport() {
 		kernel = ComponentPool.getComponent().getKernel();
+	}
+	
+	public MyImportAndExport(int type) {
+		kernel = ComponentPool.getComponent().getKernel();
+		this.type = type;
 	}
 	
 	public String saveFile() {
@@ -209,98 +217,302 @@ implements ImportAndExport {
 			}
 		}
 		if (filePath.endsWith(".csv")) {
-			try {
-				WriteFile wf = new WriteFile(filePath, false, "GB2312");		
-				String index = "FirstName,LastName";
-				for(String itemName : itemsIndex.keySet()) {
-					for(int i = 0; i < itemsIndex.get(itemName); i++) {
-						index += ",";
-						index += itemName;
-					}	
-				}
-				wf.writeLine(index);
-				String temp = "";
-				for(int i = 0; i < cardCount; i++) {
-					card = kernel.getCard(i);
-					temp = card.getFirstName() + "," + card.getLastName();
-					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
-					for(String itemName : itemsIndex.keySet()) {
-						if(items.get(itemName) != null) {
-							for(int t = 0; t < items.get(itemName).size(); t++) {
-								temp += ",";
-								temp += items.get(itemName).get(t);
-							}
-							for(int t = 0; t < itemsIndex.get(itemName) - items.get(itemName).size(); t++)
-								temp += ",";
-						}else {
-							for(int t = 0; t < itemsIndex.get(itemName); t++)
-								temp += ",";
+			if (type == Constants.EXPORT) {
+				try {
+					WriteFile wf = new WriteFile(filePath, false, "GB2312");
+					String index = "FirstName,LastName";
+					for (String itemName : itemsIndex.keySet()) {
+						for (int i = 0; i < itemsIndex.get(itemName); i++) {
+							index += ",";
+							index += itemName;
 						}
 					}
-					wf.writeLine(temp);
-					temp = "";
+					wf.writeLine(index);
+					String temp = "";
+					for (int i = 0; i < cardCount; i++) {
+						card = kernel.getCard(i);
+						temp = card.getFirstName() + "," + card.getLastName();
+						LinkedHashMap<String, Vector<String>> items = card
+								.getAllItems();
+						for (String itemName : itemsIndex.keySet()) {
+							if (items.get(itemName) != null) {
+								for (int t = 0; t < items.get(itemName).size(); t++) {
+									temp += ",";
+									temp += items.get(itemName).get(t);
+								}
+								for (int t = 0; t < itemsIndex.get(itemName)
+										- items.get(itemName).size(); t++)
+									temp += ",";
+							} else {
+								for (int t = 0; t < itemsIndex.get(itemName); t++)
+									temp += ",";
+							}
+						}
+						wf.writeLine(temp);
+						temp = "";
+					}
+					wf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				wf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} else if (type == Constants.EXPORTCARD) {
+				try {
+					WriteFile wf = new WriteFile(filePath, false, "GB2312");
+					int cardSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+					card = kernel.getCard(cardSelected);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					String index = "FirstName,LastName";
+					String temp = card.getFirstName() + "," + card.getLastName();
+					for (String itemName : items.keySet()) {
+						for (int i = 0; i < items.get(itemName).size(); i++) {
+							index += ",";
+							index += itemName;
+							temp += ",";
+							temp += items.get(itemName).get(i);
+						}
+					}
+					wf.writeLine(index);
+					wf.writeLine(temp);
+					wf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (type == Constants.EXPORTGROUP) {
+				int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+				int groupCardCount = kernel.getGroup(groupSelected).getGroupMembers().size();
+				LinkedHashMap<String, Integer> gItemsIndex = new LinkedHashMap<String, Integer>();
+				LinkedHashSet<Integer> gCardItems = kernel.getGroup(groupSelected).getGroupMembers();
+				for(int i : gCardItems) {
+					card = kernel.getCard(i);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for(String itemName : items.keySet()) {
+						gItemsIndex.put(itemName, 0);
+					}
+				}
+				for(int i : gCardItems) {
+					card = kernel.getCard(i);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for(String itemName : items.keySet()) {
+						if(items.get(itemName).size() > gItemsIndex.get(itemName))
+							gItemsIndex.put(itemName, items.get(itemName).size());
+					}
+				}
+				try {
+					WriteFile wf = new WriteFile(filePath, false, "GB2312");
+					String index = "FirstName,LastName";
+					for (String itemName : gItemsIndex.keySet()) {
+						for (int i = 0; i < gItemsIndex.get(itemName); i++) {
+							index += ",";
+							index += itemName;
+						}
+					}
+					wf.writeLine(index);
+					String temp = "";
+					for (int i : gCardItems) {
+						card = kernel.getCard(i);
+						temp = card.getFirstName() + "," + card.getLastName();
+						LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+						for (String itemName : gItemsIndex.keySet()) {
+							if (items.get(itemName) != null) {
+								for (int t = 0; t < items.get(itemName).size(); t++) {
+									temp += ",";
+									temp += items.get(itemName).get(t);
+								}
+								for (int t = 0; t < itemsIndex.get(itemName)
+										- items.get(itemName).size(); t++)
+									temp += ",";
+							} else {
+								for (int t = 0; t < itemsIndex.get(itemName); t++)
+									temp += ",";
+							}
+						}
+						wf.writeLine(temp);
+						temp = "";
+					}
+					wf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}else if(filePath.endsWith(".xls")) {
 			WritableWorkbook wwb;
 			OutputStream os;
-			try {
-				os = new FileOutputStream(filePath);
-				wwb = Workbook.createWorkbook(os);
-				WritableSheet sheet = wwb.createSheet("sheet1", 0);
-				Label label;  
-				int index = 2;
-				label = new Label(0,0,"FirstName");
-				sheet.addCell(label);
-				label = new Label(1,0,"LastName");
-				sheet.addCell(label);
-				for(String itemName : itemsIndex.keySet()) {
-					for(int i = 0; i < itemsIndex.get(itemName); i++) {
-						label = new Label(index, 0, itemName);
-						sheet.addCell(label);
-						index++;
+			if (type == Constants.EXPORT) {
+				try {
+					os = new FileOutputStream(filePath);
+					wwb = Workbook.createWorkbook(os);
+					WritableSheet sheet = wwb.createSheet("sheet1", 0);
+					Label label;
+					int index = 2;
+					label = new Label(0, 0, "FirstName");
+					sheet.addCell(label);
+					label = new Label(1, 0, "LastName");
+					sheet.addCell(label);
+					for (String itemName : itemsIndex.keySet()) {
+						for (int i = 0; i < itemsIndex.get(itemName); i++) {
+							label = new Label(index, 0, itemName);
+							sheet.addCell(label);
+							index++;
+						}
 					}
-				}
-				for(int i = 0; i < cardCount; i++) {
-					card = kernel.getCard(i);
-					label = new Label(0,i+1,card.getFirstName());
-					sheet.addCell(label);
-					label = new Label(1,i+1,card.getLastName());
-					sheet.addCell(label);
-					int temp = 2;
-					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
-					for(String itemName : itemsIndex.keySet()) {
-						if(items.get(itemName) != null) {
-							for(int t = 0; t < items.get(itemName).size(); t++) {
-								label = new Label(temp,i+1,items.get(itemName).get(t));
-								temp++;
-								sheet.addCell(label);
-							}
-							for(int t = 0; t < itemsIndex.get(itemName) - items.get(itemName).size(); t++) {
-								label = new Label(temp,i+1,"NULL");
-								temp++;
-								sheet.addCell(label);
-							}
-						}else {
-							for(int t = 0; t < itemsIndex.get(itemName); t++){
-								label = new Label(temp,i+1,"NULL");
-								temp++;
-								sheet.addCell(label);
+					for (int i = 0; i < cardCount; i++) {
+						card = kernel.getCard(i);
+						label = new Label(0, i + 1, card.getFirstName());
+						sheet.addCell(label);
+						label = new Label(1, i + 1, card.getLastName());
+						sheet.addCell(label);
+						int temp = 2;
+						LinkedHashMap<String, Vector<String>> items = card
+								.getAllItems();
+						for (String itemName : itemsIndex.keySet()) {
+							if (items.get(itemName) != null) {
+								for (int t = 0; t < items.get(itemName).size(); t++) {
+									label = new Label(temp, i + 1, items.get(
+											itemName).get(t));
+									temp++;
+									sheet.addCell(label);
+								}
+								for (int t = 0; t < itemsIndex.get(itemName)
+										- items.get(itemName).size(); t++) {
+									label = new Label(temp, i + 1, "NULL");
+									temp++;
+									sheet.addCell(label);
+								}
+							} else {
+								for (int t = 0; t < itemsIndex.get(itemName); t++) {
+									label = new Label(temp, i + 1, "NULL");
+									temp++;
+									sheet.addCell(label);
+								}
 							}
 						}
 					}
+					wwb.write();
+					wwb.close();
+					os.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				wwb.write();  
-				wwb.close();
-				os.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 	   
+			}else if (type == Constants.EXPORTCARD) {
+				try {
+					os = new FileOutputStream(filePath);
+					wwb = Workbook.createWorkbook(os);
+					WritableSheet sheet = wwb.createSheet("sheet1", 0);
+					Label label;
+					int index = 2;
+					label = new Label(0, 0, "FirstName");
+					sheet.addCell(label);
+					label = new Label(1, 0, "LastName");
+					sheet.addCell(label);
+					int cardSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+					card = kernel.getCard(cardSelected);
+					LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+					for (String itemName : items.keySet()) {
+						for (int i = 0; i < items.get(itemName).size(); i++) {
+							label = new Label(index, 0, itemName);
+							sheet.addCell(label);
+							index++;
+						}
+					}
+					label = new Label(0, 1, card.getFirstName());
+					sheet.addCell(label);
+					label = new Label(1, 1, card.getLastName());
+					sheet.addCell(label);
+					int temp = 2;
+					for (String itemName : items.keySet()) {
+						for (int i = 0; i < items.get(itemName).size(); i++) {
+							label = new Label(temp, 1, items.get(itemName).get(i));
+							sheet.addCell(label);
+							temp++;
+						}
+					}
+					wwb.write();
+					wwb.close();
+					os.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else if (type == Constants.EXPORTGROUP) {
+				try {
+					int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+					int groupCardCount = kernel.getGroup(groupSelected).getGroupMembers().size();
+					LinkedHashMap<String, Integer> gItemsIndex = new LinkedHashMap<String, Integer>();
+					LinkedHashSet<Integer> gCardItems = kernel.getGroup(groupSelected).getGroupMembers();
+					for(int i : gCardItems) {
+						card = kernel.getCard(i);
+						LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+						for(String itemName : items.keySet()) {
+							gItemsIndex.put(itemName, 0);
+						}
+					}
+					for(int i : gCardItems) {
+						card = kernel.getCard(i);
+						LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+						for(String itemName : items.keySet()) {
+							if(items.get(itemName).size() > gItemsIndex.get(itemName))
+								gItemsIndex.put(itemName, items.get(itemName).size());
+						}
+					}
+					os = new FileOutputStream(filePath);
+					wwb = Workbook.createWorkbook(os);
+					WritableSheet sheet = wwb.createSheet("sheet1", 0);
+					Label label;
+					int index = 2;
+					label = new Label(0, 0, "FirstName");
+					sheet.addCell(label);
+					label = new Label(1, 0, "LastName");
+					sheet.addCell(label);
+					for (String itemName : gItemsIndex.keySet()) {
+						for (int i = 0; i < gItemsIndex.get(itemName); i++) {
+							label = new Label(index, 0, itemName);
+							sheet.addCell(label);
+							index++;
+						}
+					}
+					int rows = 0;
+					for (int i : gCardItems) {
+						card = kernel.getCard(i);
+						label = new Label(0, rows + 1, card.getFirstName());
+						sheet.addCell(label);
+						label = new Label(1, rows + 1, card.getLastName());
+						sheet.addCell(label);
+						int temp = 2;
+						LinkedHashMap<String, Vector<String>> items = card.getAllItems();
+						for (String itemName : gItemsIndex.keySet()) {
+							if (items.get(itemName) != null) {
+								for (int t = 0; t < items.get(itemName).size(); t++) {
+									label = new Label(temp, rows + 1, items.get(itemName).get(t));
+									temp++;
+									sheet.addCell(label);
+								}
+								for (int t = 0; t < itemsIndex.get(itemName)- items.get(itemName).size(); t++) {
+									label = new Label(temp, rows + 1, "NULL");
+									temp++;
+									sheet.addCell(label);
+								}
+							} else {
+								for (int t = 0; t < itemsIndex.get(itemName); t++) {
+									label = new Label(temp, rows + 1, "NULL");
+									temp++;
+									sheet.addCell(label);
+								}
+							}
+						}
+						rows++;
+					}
+					wwb.write();
+					wwb.close();
+					os.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		System.out.println(filePath);
 	}

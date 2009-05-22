@@ -97,4 +97,18 @@ public interface Constants {
 	 * 将card从组中移出
 	 */
 	static int DELETEFROMGROUP = 2;
+	//************************************************************************
+	//导出类型
+	/*
+	 * 导出所有
+	 */
+	static int EXPORT = 0;
+	/*
+	 * 导出card
+	 */
+	static int EXPORTCARD = 1;
+	/*
+	 * 导出组
+	 */
+	static int EXPORTGROUP = 2;
 }

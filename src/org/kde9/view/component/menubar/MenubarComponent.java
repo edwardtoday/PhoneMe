@@ -45,6 +45,8 @@ implements ActionListener {
 	private JMenuItem newGroupfromSearchResult;
 	private JMenuItem Import;
 	private JMenuItem Export;
+	private JMenuItem exportCard;
+	private JMenuItem exportGroup;
 	private JMenuItem quit;
 	
 	private JMenuItem deletegroup;
@@ -140,6 +142,8 @@ implements ActionListener {
 				"New Group from Search Results");
 		Import = new JMenuItem("Import");
 		Export = new JMenuItem("Export");
+		exportCard = new JMenuItem("Export Card");
+		exportGroup = new JMenuItem("Export Group");
 		quit = new JMenuItem("Quit");
 		
 		file.add(newCard);
@@ -149,6 +153,8 @@ implements ActionListener {
 		file.addSeparator();
 		file.add(Import);
 		file.add(Export);
+		file.add(exportCard);
+		file.add(exportGroup);
 		file.addSeparator();
 		file.add(quit);
 		
@@ -158,6 +164,8 @@ implements ActionListener {
 		newGroupfromSearchResult.addActionListener(this);
 		Import.addActionListener(this);
 		Export.addActionListener(this);
+		exportCard.addActionListener(this);
+		exportGroup.addActionListener(this);
 		quit.addActionListener(this);
 		return file;
 	}
@@ -285,9 +293,15 @@ implements ActionListener {
 			mie.ImportFile(groupSelected);
 			System.out.println("Import");
 		}else if(e.getSource() == Export) {
-			MyImportAndExport mie = new MyImportAndExport();
+			MyImportAndExport mie = new MyImportAndExport(Constants.EXPORT);
 			mie.ExportFile();
 			System.out.println("Export");
+		}else if(e.getSource() == exportCard) {
+			MyImportAndExport mie = new MyImportAndExport(Constants.EXPORTCARD);
+			mie.ExportFile();
+		}else if(e.getSource() == exportGroup) {
+			MyImportAndExport mie = new MyImportAndExport(Constants.EXPORTGROUP);
+			mie.ExportFile();
 		}else if(e.getSource() == quit) {
 			System.exit(0);
 			System.out.println("quit");
