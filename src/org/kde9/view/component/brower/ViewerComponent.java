@@ -1080,13 +1080,14 @@ outer:
 
 	public void mouseReleased(java.awt.event.MouseEvent e) {
 		// TODO Auto-generated method stub
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		Point pp = relationTable.getLocationOnScreen();
+		int row = (p.y-pp.y)/relationTable.getRowHeight();
 		System.out.println("relation selected " + relationTable.getSelectedRow());
 		if(editable)
-			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400);
+			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400,
+					row, relationId);
 		else {
-			Point p = MouseInfo.getPointerInfo().getLocation();
-			Point pp = relationTable.getLocationOnScreen();
-			int row = (p.y-pp.y)/relationTable.getRowHeight();
 			System.out.println(p + " " + row);
 			if(row > 0 && row < relationTable.getRowCount()-1) {
 				int id = relationId.get(row-1);

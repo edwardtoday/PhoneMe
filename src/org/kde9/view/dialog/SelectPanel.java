@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedHashMap;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -61,7 +62,8 @@ implements KeyListener, Constants {
 	private int h;
 	private boolean closing = false;
 
-	public SelectPanel(Container father,Color color, int w, int h) {
+	public SelectPanel(Container father,Color color, int w, int h,
+			int index, Vector<Integer> ids) {
 		this.father = father;
 		this.color = color;
 		this.w = w;
