@@ -121,6 +121,8 @@ extends ConstCard {
 	 */
 	boolean addShowRelationship(int id, String content);
 	
+	public boolean clearShowRelation();
+	
 	/**
 	 * 添加隐关系
 	 * @param id

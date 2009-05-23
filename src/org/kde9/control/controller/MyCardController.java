@@ -434,7 +434,9 @@ implements CardController, Constants {
 
 	public boolean setRelationships(int cardId, 
 			LinkedHashMap<Integer, String> relation) {
+		System.out.println(relation);
 		Card card = get(cardId, true);
+		card.clearShowRelation();
 		if(card != null) {
 			for(int id : relation.keySet()) {
 				addRelationship(cardId, id, relation.get(id));

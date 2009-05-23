@@ -73,6 +73,10 @@ implements Card {
 		return relationship.setShowRelationship(id, content);
 	}
 
+	public boolean clearShowRelation() {
+		return relationship.clearShowRelation();
+	}
+	
 	public LinkedHashMap<String, Vector<String>> getAllItems() {
 		return items.getAllItems();
 	}

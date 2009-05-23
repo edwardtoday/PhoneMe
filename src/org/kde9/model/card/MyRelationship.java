@@ -53,6 +53,11 @@ class MyRelationship {
 		return false;
 	}
 	
+	public boolean clearShowRelation() {
+		showRelationship.clear();
+		return true;
+	}
+	
 	public LinkedHashMap<Integer, String> getAllShowRelationship() {
 		return showRelationship;
 	}

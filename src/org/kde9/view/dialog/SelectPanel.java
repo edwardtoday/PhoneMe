@@ -251,14 +251,25 @@ implements KeyListener, ListSelectionListener,ActionListener,
 			}
 		} else if (e.getSource() != search &&
 				e.getKeyCode() == KeyEvent.VK_ENTER) {
-			group.getTable().setEnabled(false);
-			name.getTable().setEnabled(false);
-			ids.set(index, name.getSelectedMemberId());
-			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-			changeAlphaDown(300, 0, sheet, true);
+			setIdAndClose();
 		}
 	}
 
+	public void setIdAndClose() {
+		group.getTable().setEnabled(false);
+		name.getTable().setEnabled(false);
+		if(!ids.contains(name.getSelectedMemberId())) {
+			ids.set(index-1, name.getSelectedMemberId());
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+	//		ComponentPool.getViewerComponent().startEditModel();
+			ComponentPool.getViewerComponent().getRelationTable().editCellAt(index, 6);
+	//		ComponentPool.getViewerComponent().get.setEditingColumn(6);
+		} else {
+			new CoolInfoBox(sheet, "\n 这个联系人已经在关系中存在了哦！", Color.YELLOW, 250, 100);
+		}
+	}
+	
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -272,7 +283,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == confirm) {
-			
+			setIdAndClose();
 		} else {
 			confirm.setEnabled(false);
 			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());

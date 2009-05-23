@@ -574,6 +574,10 @@ outer:
 		return photo;
 	}
 	
+	public JTable getRelationTable() {
+		return relationTable;
+	}
+	
 	public void setCard(ConstCard card) {
 		this.card = card;
 	}
@@ -1084,9 +1088,19 @@ outer:
 		Point pp = relationTable.getLocationOnScreen();
 		int row = (p.y-pp.y)/relationTable.getRowHeight();
 		System.out.println("relation selected " + relationTable.getSelectedRow());
-		if(editable)
-			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400,
-					row, relationId);
+		if(editable) {
+			int width = relationTable.getColumnModel().getColumn(0).getWidth() +
+					relationTable.getColumnModel().getColumn(1).getWidth() +
+					relationTable.getColumnModel().getColumn(2).getWidth() +
+					relationTable.getColumnModel().getColumn(3).getWidth() +
+					relationTable.getColumnModel().getColumn(4).getWidth() +
+					relationTable.getColumnModel().getColumn(5).getWidth();
+			System.out.println((p.x-pp.x) + " " + width);
+			if((p.x-pp.x) > width &&
+					row > 0 && row < relationTable.getRowCount()-1)
+				new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400,
+						row, relationId);
+		}
 		else {
 			System.out.println(p + " " + row);
 			if(row > 0 && row < relationTable.getRowCount()-1) {
