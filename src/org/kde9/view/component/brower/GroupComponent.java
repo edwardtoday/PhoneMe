@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -21,7 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -36,13 +39,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.control.Kernel;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.EditListener;
 
 public class GroupComponent 
 extends JPanel 
-implements DropTargetListener {
+implements DropTargetListener, Constants {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;
@@ -60,6 +64,8 @@ implements DropTargetListener {
 	private Set<Integer> selectedId;
 	private int preGroupId;
 	private Object flag;
+	
+	private HashSet<Integer> highLight;
 
 	GroupComponent() {
 		ComponentPool.setGroupComponent(this);
@@ -69,6 +75,17 @@ implements DropTargetListener {
 		table = new JTable(0, 2) {
 			public boolean isCellEditable(int i, int j) {
 				return false;
+			}
+			
+			public void paint(Graphics g) {
+				super.paint(g);
+				g.setColor(new Color(100,225,5,100));
+				if(highLight != null && highLight.size() != 0)
+					for(int i : highLight)
+						g.fillRect(this.getColumnModel().getColumn(0).getWidth(), 
+								this.getRowHeight()*(i) + 2,
+								this.getColumnModel().getColumn(1).getWidth()/2 + 2,
+								this.getRowHeight() - 5);
 			}
 		};
 		//table.setDragEnabled(true);
@@ -127,6 +144,20 @@ implements DropTargetListener {
 		buttonAdd.addActionListener(addGroupListener);
 	}
 
+	public void highLightGroup(int cardId) {
+		highLight = new LinkedHashSet<Integer>();
+		for(int i = 0; i < groups.size(); i++) {
+			int groupId = (Integer) groups.keySet().toArray()[i];
+			if(groupId != GROUPALLID &&
+					groupId != getSelectedGroupId() &&
+					kernel.getGroup(groupId) != null &&
+					kernel.getGroup(groupId).getGroupMembers().contains(cardId))
+				highLight.add(i);
+		}
+		System.out.println("grouphighlight "+highLight);
+		repaint();
+	}
+	
 	public void tableListener(KeyListener kl, ListSelectionListener lsl) {
 		table.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);

@@ -189,8 +189,10 @@ implements ListSelectionListener, KeyListener, Constants {
 					name.setSelected(0, 0);
 				}
 			} else if (e.getSource().equals(name.getSelectionModel())) {
-				if (name.getSelected() != -1)
+				if (name.getSelected() != -1) {
+					group.highLightGroup(name.getSelectedMemberId());
 					showItem();
+				}
 			}
 		}
 	}
