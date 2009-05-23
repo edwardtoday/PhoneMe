@@ -1,6 +1,8 @@
 ﻿package org.kde9.control.controller;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.allname.AllName;
@@ -10,20 +12,39 @@ import org.kde9.util.Constants;
 
 public class Save 
 implements Constants{
-	private String pathAndName;
-	private String content;
-	private Thread thread;
+	private static Queue<String> pathAndName = new LinkedList<String>();
+	private static Queue<String> content = new LinkedList<String>();
+	private static Thread thread = new Thread() {
+		public void run() {
+			try {
+				while (true) {
+					write();
+					synchronized (this) {
+						wait();
+					}
+				}
+			} catch (IOException e) {
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	};
+	
+	synchronized static private void write()
+	throws IOException {
+		while(pathAndName.size() != 0 && pathAndName.size() == content.size()) {
+			String str1 = pathAndName.poll();
+			String str2 = content.poll();
+			WriteFile wf = new WriteFile(str1, false);
+			wf.write(str2);
+			wf.close();
+		}
+	}
 	
 	public Save() {
-		thread = new Thread() {
-			public void run() {
-				try {
-					WriteFile wf = new WriteFile(pathAndName, false);
-					wf.write(content);
-					wf.close();
-				} catch (IOException e) {}
-			}
-		};
+		if(thread.getState() == Thread.State.NEW)
+			thread.start();
 	}
 	
 	public void init(Card card) {
@@ -57,8 +78,8 @@ implements Constants{
 			temp += relation;
 			temp += NEWLINE;
 		}
-		this.pathAndName = CARDPATH + card.getId();
-		this.content = temp;
+		this.pathAndName.add(CARDPATH + card.getId());
+		this.content.add(temp);
 	}
 	
 	public void init(ConstGroup group) {
@@ -70,8 +91,8 @@ implements Constants{
 				temp += NEWLINE;
 			}
 		}
-		this.pathAndName = GROUPPATH + group.getId();
-		this.content = temp;
+		this.pathAndName.add(GROUPPATH + group.getId());
+		this.content.add(temp);
 	}
 	
 	public void init(AllName names) {
@@ -84,12 +105,14 @@ implements Constants{
 			temp += names.getLastName(id);
 			temp += NEWLINE;
 		}
-		this.pathAndName = CARDPATH + ALLNAMES;
-		this.content = temp;
+		this.pathAndName.add(CARDPATH + ALLNAMES);
+		this.content.add(temp);
 	}
 	
 	public boolean save() {
-		thread.start();
+		synchronized (thread) {
+			thread.notify();
+		}
 		return true;
 	}
 	
