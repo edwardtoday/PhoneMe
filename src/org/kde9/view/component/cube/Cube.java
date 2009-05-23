@@ -286,7 +286,7 @@ public class Cube extends Display {
     private static void addTableRow(Table node, Table edge, int realid,
     		HashMap<Integer, Integer> ids) {
     	ConstCard card = kernel.getCard(realid);
-    	System.out.println("-----------"+card.getAllShowRelationship());
+    	//System.out.println("-----------"+card.getAllShowRelationship());
     	if(card != null) {
     		if(ids.containsKey(realid))
     			return;
