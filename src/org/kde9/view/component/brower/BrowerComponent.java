@@ -35,7 +35,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	private Configuration config;
 	private JPanel cube;
 	private double loc;
-	
+	private boolean iscube = false;
 
 	public BrowerComponent(Kernel kernel) {
 		dispatchEvent(new FocusEvent(this, FocusEvent.FOCUS_GAINED,
@@ -84,6 +84,7 @@ implements ListSelectionListener, KeyListener, Constants {
 		nameSplitPane.setLeftComponent(panel);
 		nameSplitPane.setDividerLocation(loc);
 		panel.repaint();
+		iscube = true;
 		repaint();
 	}
 	
@@ -100,6 +101,7 @@ implements ListSelectionListener, KeyListener, Constants {
 		nameSplitPane.setLeftComponent(groupSplitPane);
 		System.out.println(loc + "|");
 		nameSplitPane.setDividerLocation(loc);
+		iscube = false;
 		repaint();
 	}
 	
@@ -118,6 +120,11 @@ implements ListSelectionListener, KeyListener, Constants {
 	private void init() {
 		showAllGroups(0, 0);
 		// showGroupMembers(0, 0, 0);
+	}
+	
+	
+	public boolean isCube() {
+		return iscube;
 	}
 
 	public void showAllGroups(int begin, int end) {
