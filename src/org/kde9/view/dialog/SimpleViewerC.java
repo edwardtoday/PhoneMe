@@ -84,15 +84,17 @@ implements Constants {
 		
 		photo = new JLabel();
 		photo.setIcon(new ImageIcon("./img/nullImag.gif"));
-		//name.setHorizontalAlignment(JLabel.RIGHT);
-		nameText = new JLabel("孔 祥欣");
-		//item.setHorizontalAlignment(JLabel.RIGHT);
-		firstItem = new JLabel("手机");
-		firstItem.setHorizontalAlignment(JLabel.CENTER);
-		firstValue = new JLabel("kkkkkkk");
-		secondItem = new JLabel("学校");
-		secondItem.setHorizontalAlignment(JLabel.CENTER);
-		secondValue = new JLabel("qqqqqq");
+		name.setHorizontalAlignment(JLabel.LEFT);
+		nameText = new JLabel("");
+		nameText.setHorizontalAlignment(JLabel.LEFT);
+		firstItem = new JLabel("");
+		firstItem.setHorizontalAlignment(JLabel.LEFT);
+		firstValue = new JLabel("");
+		firstValue.setHorizontalAlignment(JLabel.LEFT);
+		secondItem = new JLabel("");
+		secondItem.setHorizontalAlignment(JLabel.LEFT);
+		secondValue = new JLabel("");
+		secondValue.setHorizontalAlignment(JLabel.LEFT);
 		
 		GridBagLayout grid = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
@@ -108,36 +110,43 @@ implements Constants {
 		
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.weightx = 1;
+		c.weightx = 0;
 		c.weighty = 0;
 		grid.setConstraints(name, c);
 		add(name);
 		
+		c.weightx = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		grid.setConstraints(nameText, c);
 		add(nameText);
 		
+		c.weightx = 0;
 		c.gridwidth = 1;
 		grid.setConstraints(item, c);
 		add(item);
 		
+		c.weightx = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		JLabel empty1 = new JLabel();
 		grid.setConstraints(empty1, c);
 		add(empty1);
 		
+		c.weightx = 0;
 		c.gridwidth = 1;
 		grid.setConstraints(firstItem, c);
 		add(firstItem);
 		
+		c.weightx = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		grid.setConstraints(firstValue, c);
 		add(firstValue);
 		
+		c.weightx = 0;
 		c.gridwidth = 1;
 		grid.setConstraints(secondItem, c);
 		add(secondItem);
 		
+		c.weightx = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		grid.setConstraints(secondValue, c);
 		add(secondValue);
@@ -147,6 +156,27 @@ implements Constants {
 		this.nameText.setText(name);
 	}
 
+	public void setItem(LinkedHashMap<String, Vector<String>> items) {
+		firstItem.setText("");
+		firstValue.setText("");
+		secondItem.setText("");
+		secondValue.setText("");
+		int i = 0;
+		for(String key : items.keySet()) {
+			if(i == 0) {
+				firstItem.setText(key);
+				if(items.get(key) != null && items.get(key).size() > 0)
+					firstValue.setText(items.get(key).get(0));
+			} else if(i == 1) {
+				secondItem.setText(key);
+				if(items.get(key) != null && items.get(key).size() > 0)
+					secondValue.setText(items.get(key).get(0));
+			} else
+				break;
+			i++;
+		}
+	}
+	
 	synchronized public void setImage(final ConstCard card) {
 		photo.setIcon(new ImageIcon(IMGPATH + NULLIMAGE));
 		if (card != null) {

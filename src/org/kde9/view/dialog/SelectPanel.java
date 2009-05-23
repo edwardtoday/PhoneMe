@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.kde9.control.Kernel;
+import org.kde9.model.card.ConstCard;
 import org.kde9.model.group.ConstGroup;
 import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
@@ -60,6 +61,12 @@ implements KeyListener, ListSelectionListener,ActionListener,
 	private JButton confirm;
 	private JButton cancel;
 	
+	private int flag = 0;
+	
+	private String text = "";
+	
+	private searchThread thread = new searchThread();
+	
 	private Configuration config = ConfigFactory.creatConfig();
 	
 	private int w;
@@ -78,6 +85,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 		this.kernel = ComponentPool.getComponent().getKernel();
 		this.index = index;
 		this.ids = ids;
+		thread.start();
 		launch();
 	}
 
@@ -144,6 +152,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 		group.getTable().addKeyListener(this);
 		group.getTable().getSelectionModel().addListSelectionListener(this);
 		name.getTable().addKeyListener(this);
+		name.getTable().getSelectionModel().addListSelectionListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -170,14 +179,30 @@ implements KeyListener, ListSelectionListener,ActionListener,
 			members.put(current, name);
 		}
 		name.setMembers(members);
-		if(members.size() > 0)
-			name.setSelected(0, 0);
+		name.setSelected(0, 0);
+		showCard();
 	}
 	
 	public void valueChanged(ListSelectionEvent e) {
-		if (group.getSelected() != -1) {
-			showGroupMembers();
-			name.setSelected(0, 0);
+		if (e.getSource().equals(group.getSelectionModel())) {
+			if (group.getSelected() != -1) {
+				showGroupMembers();
+				name.setSelected(0, 0);
+				showCard();
+			}
+		} else if (e.getSource().equals(name.getSelectionModel())) {
+			if (name.getSelected() != -1) {
+				showCard();
+			}
+		}
+	}
+	
+	public void showCard() {
+		ConstCard card = kernel.getCard(name.getSelectedMemberId());
+		if(card != null) {
+			viewer.setName(kernel.getName(card.getId()));
+			viewer.setImage(card);
+			viewer.setItem(card.getAllItems());
 		}
 	}
 	
@@ -270,9 +295,38 @@ implements KeyListener, ListSelectionListener,ActionListener,
 		}
 	}
 	
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getSource() == search) {
+			ComponentPool.getViewerComponent().setHighlight(true);
+			System.out.println(search.getText().length() + " search content");
+			// TODO Auto-generated method stub
+			flag = (flag + 1)%100;
+			final int current = flag;
+			if(e.getKeyCode() != KeyEvent.VK_ENTER && text.equals(search.getText()))
+				return;
+			if(search.getText().length() == 0) {
+				ComponentPool.getGroupComponent().setSelected(0, 0);
+				text = search.getText();
+				return;
+			}
+			else {
+				if ((search.getText().charAt(search.getText().length() - 1) == ' ' &&
+						e.getKeyCode() == KeyEvent.VK_SPACE) ||
+						(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && 
+								text.charAt(text.length() - 1) == ' ')) {
+					text = search.getText();
+					return;
+				}
+				ComponentPool.getNameComponent().getButtonAdd().setEnabled(false);
+				text = search.getText();
+			}
+			//ComponentPool.getNameComponent().
+			synchronized (thread) {
+				System.err.println(flag + " notify");
+				thread.notify();
+			}
+		}
 	}
 
 	public void keyTyped(KeyEvent arg0) {
@@ -291,4 +345,54 @@ implements KeyListener, ListSelectionListener,ActionListener,
 		}
 	}
 
+	synchronized private void setSearchResult(int current) {
+		if(current == flag && text.length() != 0) {
+			System.out.println(text);//////////////////////////////
+			LinkedHashMap<Integer, String> result = 
+				kernel.find(text);
+			System.out.println(result);//////////////////////////////////////////
+			name.setMembers(result);
+			System.err.println(current + " setMember end!");
+			group.getTable().clearSelection();
+			System.err.println(current + " clearSelection end!");
+			//viewer.clear();
+			System.err.println(current + " clearVierer end!");
+			name.setSelected(0, 0);
+			System.err.println(current + " setSelection end!");
+		}
+	}
+	
+	private class searchThread 
+	extends Thread {
+		private int current = 0;
+
+		public void run() {
+			while (true) {
+				current = flag;
+				System.err.println(current + " begin!");
+				synchronized (this) {
+					try {
+						wait(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (current == flag) {
+					setSearchResult(current);
+					if(current != flag)
+						continue;
+					synchronized (this) {
+						try {
+							wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				System.err.println(current + " end!");
+			}
+		}
+	}
 }
