@@ -243,8 +243,8 @@ implements KeyListener, ListSelectionListener,ActionListener,
 				}
 				if(close) {
 					window.dispose();
-					ComponentPool.getComponent().setAlwaysOnTop(true);
-					ComponentPool.getComponent().setAlwaysOnTop(false);
+//					ComponentPool.getComponent().setAlwaysOnTop(true);
+//					ComponentPool.getComponent().setAlwaysOnTop(false);
 				}
 			}
 		};
