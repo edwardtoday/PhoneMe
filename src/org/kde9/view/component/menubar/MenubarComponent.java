@@ -10,12 +10,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.MenuListener;
 
+import org.kde9.control.Kernel;
 import org.kde9.control.ImportAndExport.MyImportAndExport;
+import org.kde9.model.card.ConstCard;
 import org.kde9.util.Constants;
 import org.kde9.view.Component;
 import org.kde9.view.ComponentPool;
@@ -31,6 +34,9 @@ import ch.randelshofer.quaqua.colorchooser.ColorChooserMainPanel;
 public class MenubarComponent 
 extends JMenuBar 
 implements ActionListener, Constants {
+	private Kernel kernel = 
+		ComponentPool.getComponent().getKernel();
+	
 	private JMenu file;
 	private JMenu edit;
 	private JMenu card;
@@ -91,47 +97,33 @@ implements ActionListener, Constants {
 	}
 	
 	public void setMenubarState() {
-		if(ComponentPool.getViewerComponent().isEditable()) {
+		boolean isEditable = ComponentPool.getViewerComponent().isEditable();
+		boolean groupHasFocus = ComponentPool.getGroupComponent().hasFocus();
+		boolean nameHasFocus = ComponentPool.getNameComponent().hasFocus();
+		int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+		int nameSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+		
+		if(isEditable || groupSelected == -1) {
 			newCard.setEnabled(false);
-			newGroup.setEnabled(false);
-			newGroupfromSelection.setEnabled(false);
-			newGroupfromSearchResult.setEnabled(false);
-			Import.setEnabled(false);
-			Export.setEnabled(false);
-			
-			deletegroup.setEnabled(false);
-			deletecard.setEnabled(false);
-			removefromgroup.setEnabled(false);
-			selectall.setEnabled(false);
-			renamegroup.setEnabled(false);
-			editsmartgroup.setEnabled(false);
-			editcard.setEnabled(false);
-			
-			gotonextcard.setEnabled(false);
-			gotoprewcard.setEnabled(false);
-			choosecustomimage.setEnabled(false);
-			clearcustomimage.setEnabled(false);
 		}else {
 			newCard.setEnabled(true);
-			newGroup.setEnabled(true);
-			newGroupfromSelection.setEnabled(true);
-			newGroupfromSearchResult.setEnabled(true);
-			Import.setEnabled(true);
-			Export.setEnabled(true);
-			
-			deletegroup.setEnabled(true);
-			deletecard.setEnabled(true);
-			removefromgroup.setEnabled(true);
-			selectall.setEnabled(true);
-			renamegroup.setEnabled(true);
-			editsmartgroup.setEnabled(true);
-			editcard.setEnabled(true);
-			
-			gotonextcard.setEnabled(true);
-			gotoprewcard.setEnabled(true);
-			choosecustomimage.setEnabled(true);
-			clearcustomimage.setEnabled(true);
 		}
+		
+//			newGroup.setEnabled(false);
+//			newGroupfromSearchResult.setEnabled(false);
+//			Import.setEnabled(false);
+//			importtoGroup.setEnabled(false);
+//			importNewGroup.setEnabled(false);
+//			Export.setEnabled(false);
+//			exportCard.setEnabled(false);
+//			exportGroup.setEnabled(false);
+//			
+//			deletegroup.setEnabled(false);
+//			deletecard.setEnabled(false);
+//			removefromgroup.setEnabled(false);
+//			selectall.setEnabled(false);
+//			renamegroup.setEnabled(false);
+//			editcard.setEnabled(false);
 	}
 
 	protected JMenu buildFileMenu() {
@@ -163,6 +155,25 @@ implements ActionListener, Constants {
 		file.add(exportGroup);
 		file.addSeparator();
 		file.add(quit);
+		
+		file.addMenuListener(new MenuListener() {
+
+			public void menuCanceled(MenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void menuDeselected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				setMenubarState();
+			}
+			
+		});
 		
 		newCard.addActionListener(this);
 		newGroup.addActionListener(this);
@@ -212,6 +223,26 @@ implements ActionListener, Constants {
 		edit.addSeparator();
 		edit.add(choosecustomimage);
 		edit.add(clearcustomimage);
+		
+		edit.addMenuListener(new MenuListener() {
+
+			public void menuCanceled(MenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void menuDeselected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				setMenubarState();
+			}
+			
+		});
+		
 		deletegroup.addActionListener(this);
 		deletecard.addActionListener(this);
 		removefromgroup.addActionListener(this);
@@ -360,13 +391,10 @@ implements ActionListener, Constants {
 		}else if(e.getSource() == editsmartgroup) {
 			System.out.println("editsmartgroup");
 		}else if(e.getSource() == editcard) {
-			ComponentPool.getViewerComponent().getButtonEdit().setSelected(true);
-			ComponentPool.getViewerComponent().startEditModel();
-			ComponentPool.getBrowerComponent().setEnabled(false);
-			ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
-			ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
-			ComponentPool.getGroupComponent().getTable().setFocusable(false);
-			ComponentPool.getNameComponent().getTable().setFocusable(false);
+			JToggleButton tb = ComponentPool.getViewerComponent().getButtonEdit();
+			tb.setSelected(true);
+			tb.getActionListeners()[0].actionPerformed(
+					new ActionEvent(tb, ActionEvent.ACTION_PERFORMED, "Edit"));
 			System.out.println("editcard");
 		}else if(e.getSource() == cardsum) {
 			new CardSumInfoBox(ComponentPool.getComponent(), 
@@ -387,6 +415,10 @@ implements ActionListener, Constants {
 //			}
 			System.out.println("choosecustomimage");
 		}else if(e.getSource() == clearcustomimage) {
+			int cardSelected = ComponentPool.getNameComponent().getSelectedMemberId();
+			if(cardSelected != -1)
+				kernel.deleteImage(cardSelected);
+			ComponentPool.getViewerComponent().setImage(null);
 			System.out.println("clearcustomimage");
 		}else if(e.getSource() == about) {
 			new CoolInfoBox(ComponentPool.getComponent(),"hahaha!!",Color.blue,200,100);

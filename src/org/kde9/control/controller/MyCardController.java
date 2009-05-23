@@ -287,6 +287,17 @@ implements CardController, Constants {
 		return true;
 	}
 	
+	public boolean deleteImage(int id) {
+		DeleteFile df = new DeleteFile(CARDPATH + id + ".p");
+		df.delete();
+		Card card = get(id, false);
+		if(card != null) {
+			card.setImage(null);
+			card.setScaleImage(null);
+		}
+		return true;
+	}
+	
 	public boolean deleteCard(Set<Integer> ids) {
 		for (int id : ids) {
 			Card card = get(id, false);

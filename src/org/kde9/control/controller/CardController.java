@@ -53,5 +53,7 @@ public interface CardController {
 	
 	public boolean isImageReady(int id);
 	
+	public boolean deleteImage(int id);
+	
 	public boolean save(int cardId);
 }

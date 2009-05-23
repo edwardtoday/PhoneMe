@@ -46,6 +46,8 @@ public interface Kernel {
 	
 	public boolean deleteGroup(int groupId);
 	
+	public boolean deleteImage(int id);
+	
 	public boolean deleteGroupMember(int groupId, int personId);
 	
 	public boolean deleteGroupMember(int groupId, Set<Integer> ids);

@@ -20,7 +20,8 @@ import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 
-public class MyKernel implements Kernel, Constants {
+public class MyKernel 
+implements Kernel, Constants {
 	private AllNameController names;
 	private CardController cards;
 	private GroupController groups;
@@ -215,6 +216,10 @@ public class MyKernel implements Kernel, Constants {
 		if (groupId != GROUPALLID)
 			return groups.deleteGroup(groupId);
 		return false;
+	}
+	
+	public boolean deleteImage(int id) {
+		return cards.deleteImage(id);
 	}
 
 	public boolean renameGroup(int groupId, String groupName) {
