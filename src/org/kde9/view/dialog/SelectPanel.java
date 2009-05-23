@@ -17,6 +17,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import org.kde9.control.Kernel;
@@ -30,7 +32,7 @@ import ch.randelshofer.quaqua.JSheet;
 import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
-public class SearchPanel {
+public class SelectPanel {
 	private static JDialog frame = 
 		new JDialog(ComponentPool.getComponent(), true);
 	private Container father;
@@ -38,13 +40,16 @@ public class SearchPanel {
 	private JPanel container;
 	private Color color;
 	private Kernel kernel;
+	private SimpleGroupC group;
+	private SimpleNameC name;
+	private JSplitPane pane;
 	
 	
 	private int w;
 	private int h;
 	private boolean closing = false;
 
-	public SearchPanel(Container father,Color color, int w, int h) {
+	public SelectPanel(Container father,Color color, int w, int h) {
 		this.father = father;
 		this.color = color;
 		this.w = w;
@@ -67,9 +72,15 @@ public class SearchPanel {
 	private void createUI() {
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
+		
+		group = new SimpleGroupC();
+		name = new SimpleNameC();
+		pane = new JSplitPane();
+		pane.setLeftComponent(group);
+		pane.setRightComponent(name);
 
 		container = new JPanel(new BorderLayout());
-		container.add(new BrowerComponent(kernel));
+		container.add(pane);
 		sheet.setContentPane(container);
 
 		container.setOpaque(true);
@@ -110,7 +121,7 @@ public class SearchPanel {
 		Thread thread = new Thread() {
 			public void run() {
 				if(close)
-					SearchPanel.this.closing = true;
+					SelectPanel.this.closing = true;
 				for (float i = 1; i > s; i -= 0.02) {
 					try {
 						sleep((long) (a/((1-s)*50)));
@@ -118,7 +129,7 @@ public class SearchPanel {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(!SearchPanel.this.closing)
+					if(!SelectPanel.this.closing)
 						WindowUtils.setWindowAlpha(window, i);
 				}
 				if(close) {
