@@ -43,7 +43,8 @@ import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
 public class SelectPanel 
-implements KeyListener, Constants {
+implements KeyListener, ListSelectionListener,ActionListener, 
+		Constants {
 	private static JDialog frame = 
 		new JDialog(ComponentPool.getComponent(), true);
 	private Container father;
@@ -53,14 +54,20 @@ implements KeyListener, Constants {
 	private Kernel kernel;
 	private SimpleGroupC group;
 	private SimpleNameC name;
+	private SimpleViewerC viewer;
 	private JSplitPane pane;
 	private JTextField search;
+	private JButton confirm;
+	private JButton cancel;
 	
 	private Configuration config = ConfigFactory.creatConfig();
 	
 	private int w;
 	private int h;
 	private boolean closing = false;
+	private int index;
+	private Vector<Integer> ids;
+	
 
 	public SelectPanel(Container father,Color color, int w, int h,
 			int index, Vector<Integer> ids) {
@@ -69,6 +76,8 @@ implements KeyListener, Constants {
 		this.w = w;
 		this.h = h;
 		this.kernel = ComponentPool.getComponent().getKernel();
+		this.index = index;
+		this.ids = ids;
 		launch();
 	}
 
@@ -86,6 +95,7 @@ implements KeyListener, Constants {
 	private void createUI() {
 		sheet = new JSheet(frame);
 		sheet.setSize(w, h);
+		sheet.setLayout(new BorderLayout());
 		
 		group = new SimpleGroupC();
 		LinkedHashMap<Integer, String> map = kernel.getAllGroups();
@@ -94,12 +104,15 @@ implements KeyListener, Constants {
 		
 		name = new SimpleNameC();
 		
+		viewer = new SimpleViewerC();
+		
 		showGroupMembers();
 		
 		pane = new JSplitPane();
 		pane.setLeftComponent(group);
 		pane.setRightComponent(name);
-		pane.setDividerLocation(0.5);
+		pane.setDividerLocation(180);
+		pane.setDividerSize(2);
 
 		search = new JTextField();
 		
@@ -109,14 +122,27 @@ implements KeyListener, Constants {
 		container = new JPanel(new BorderLayout());
 		container.add("Center", pane);
 		container.add("North", search);
+		container.add("South", viewer);
 		container.setBorder(border);
-		sheet.setContentPane(container);
+		sheet.add("Center", container);
 
+		confirm = new JButton("[    OK   ]");
+		cancel = new JButton("[Cancel]");
+		confirm.addActionListener(this);
+		cancel.addActionListener(this);
+		confirm.putClientProperty("Quaqua.Button.style", "toolBarRollover");
+		cancel.putClientProperty("Quaqua.Button.style", "toolBarRollover");
+		JPanel button = new JPanel();
+		button.add(confirm);
+		button.add(cancel);
+		sheet.add("South", button);
+		
 		container.setOpaque(true);
 		//container.setBackground(color);
 		
 		search.addKeyListener(this);
 		group.getTable().addKeyListener(this);
+		group.getTable().getSelectionModel().addListSelectionListener(this);
 		name.getTable().addKeyListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
@@ -144,6 +170,15 @@ implements KeyListener, Constants {
 			members.put(current, name);
 		}
 		name.setMembers(members);
+		if(members.size() > 0)
+			name.setSelected(0, 0);
+	}
+	
+	public void valueChanged(ListSelectionEvent e) {
+		if (group.getSelected() != -1) {
+			showGroupMembers();
+			name.setSelected(0, 0);
+		}
 	}
 	
 	private void changeAlphaUp(final int a, final float s, final Window window) {
@@ -202,10 +237,26 @@ implements KeyListener, Constants {
 		frame.setLocation(x, y);
 	}
 
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
-		changeAlphaDown(300, 0, sheet, true);
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if (group.getTable().hasFocus()) {
+				name.getTable().requestFocusInWindow();
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if (name.getTable().hasFocus()) {
+				group.getTable().requestFocusInWindow();
+			}
+		} else if (e.getSource() != search &&
+				e.getKeyCode() == KeyEvent.VK_ENTER) {
+			group.getTable().setEnabled(false);
+			name.getTable().setEnabled(false);
+			ids.set(index, name.getSelectedMemberId());
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+		}
 	}
 
 	public void keyReleased(KeyEvent arg0) {
@@ -216,6 +267,17 @@ implements KeyListener, Constants {
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == confirm) {
+			
+		} else {
+			confirm.setEnabled(false);
+			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+			changeAlphaDown(300, 0, sheet, true);
+		}
 	}
 
 }
