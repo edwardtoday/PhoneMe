@@ -111,4 +111,18 @@ public interface Constants {
 	 * 导出组
 	 */
 	static int EXPORTGROUP = 2;
+	//************************************************************************
+	//导入类型
+	/*
+	 * 导入到ALL
+	 */
+	static int IMPORT = 0;
+	/*
+	 * 导入到某组
+	 */
+	static int IMPORTTOGROUP = 1;
+	/*
+	 * 导入新组
+	 */
+	static int IMPORTNEWGROUP = 2;
 }

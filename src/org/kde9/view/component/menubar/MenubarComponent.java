@@ -30,7 +30,7 @@ import ch.randelshofer.quaqua.colorchooser.ColorChooserMainPanel;
 
 public class MenubarComponent 
 extends JMenuBar 
-implements ActionListener {
+implements ActionListener, Constants {
 	private JMenu file;
 	private JMenu edit;
 	private JMenu card;
@@ -44,6 +44,8 @@ implements ActionListener {
 	private JMenuItem newGroupfromSelection;
 	private JMenuItem newGroupfromSearchResult;
 	private JMenuItem Import;
+	private JMenuItem importtoGroup;
+	private JMenuItem importNewGroup;
 	private JMenuItem Export;
 	private JMenuItem exportCard;
 	private JMenuItem exportGroup;
@@ -141,6 +143,8 @@ implements ActionListener {
 		newGroupfromSearchResult = new JMenuItem(
 				"New Group from Search Results");
 		Import = new JMenuItem("Import");
+		importtoGroup = new JMenuItem("Import to Group");
+		importNewGroup = new JMenuItem("Import New Group");
 		Export = new JMenuItem("Export");
 		exportCard = new JMenuItem("Export Card");
 		exportGroup = new JMenuItem("Export Group");
@@ -152,6 +156,8 @@ implements ActionListener {
 		file.add(newGroupfromSearchResult);
 		file.addSeparator();
 		file.add(Import);
+		file.add(importtoGroup);
+		file.add(importNewGroup);
 		file.add(Export);
 		file.add(exportCard);
 		file.add(exportGroup);
@@ -163,6 +169,8 @@ implements ActionListener {
 		newGroupfromSelection.addActionListener(this);
 		newGroupfromSearchResult.addActionListener(this);
 		Import.addActionListener(this);
+		importtoGroup.addActionListener(this);
+		importNewGroup.addActionListener(this);
 		Export.addActionListener(this);
 		exportCard.addActionListener(this);
 		exportGroup.addActionListener(this);
@@ -288,10 +296,28 @@ implements ActionListener {
 					new Color(102,255,153),200, 100);
 			System.out.println("newGroupfromSearchResult");
 		}else if(e.getSource() == Import) {
-			MyImportAndExport mie = new MyImportAndExport();
+			MyImportAndExport mie = new MyImportAndExport(IMPORT);
+			mie.ImportFile(Constants.GROUPALLID);
+			ComponentPool.getGroupComponent().setSelected(GROUPALLID, GROUPALLID);
+			ComponentPool.getBrowerComponent().showGroupMembers();
+			System.out.println("Import");
+		}else if(e.getSource() == importtoGroup) {
+			MyImportAndExport mie = new MyImportAndExport(IMPORTTOGROUP);
 			int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
 			mie.ImportFile(groupSelected);
-			System.out.println("Import");
+			ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
+			ComponentPool.getBrowerComponent().showGroupMembers();
+		}else if(e.getSource() == importNewGroup) {
+			ComponentPool.getComponent().setEnabled(false);
+			AddGroupInfoBox agib = new AddGroupInfoBox(ComponentPool.getGroupComponent(), 
+					new Color(102,255,153),200, 100);
+			if(agib.isFlag()) {
+				MyImportAndExport mie = new MyImportAndExport(IMPORTNEWGROUP);
+				int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
+				mie.ImportFile(groupSelected);
+				ComponentPool.getGroupComponent().setSelected(groupSelected, groupSelected);
+				ComponentPool.getBrowerComponent().showGroupMembers();
+			}
 		}else if(e.getSource() == Export) {
 			MyImportAndExport mie = new MyImportAndExport(Constants.EXPORT);
 			mie.ExportFile();

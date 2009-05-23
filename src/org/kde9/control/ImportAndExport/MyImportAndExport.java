@@ -3,9 +3,11 @@ package org.kde9.control.ImportAndExport;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -15,14 +17,18 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import jxl.Cell;
+import jxl.Sheet;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+import jxl.read.*;
 
 import org.kde9.control.Kernel;
+import org.kde9.control.FileOperation.ReadFile;
 import org.kde9.control.FileOperation.WriteFile;
 import org.kde9.model.card.ConstCard;
 import org.kde9.util.Constants;
@@ -31,7 +37,7 @@ import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.WarningInfoBox;
 
 public class MyImportAndExport 
-implements ImportAndExport {
+implements ImportAndExport , Constants {
 	JFileChooser jfc;
 	Kernel kernel;
 	int type;
@@ -50,11 +56,13 @@ implements ImportAndExport {
 		jfc.setPreferredSize(new Dimension(700, 400));
 		jfc.setAcceptAllFileFilterUsed(false);
 		jfc.addChoosableFileFilter(new MyFileFilter("csv"));
-		jfc.addChoosableFileFilter(new MyFileFilter("vcf"));
+//		jfc.addChoosableFileFilter(new MyFileFilter("vcf"));
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
 		int result = jfc.showSaveDialog(null);
+		String path = jfc.getSelectedFile().getAbsolutePath();
+		if(path == null)
+			return null;
 		if(result == JFileChooser.APPROVE_OPTION) {
-			String path = jfc.getSelectedFile().getAbsolutePath();
 			String ends = jfc.getFileFilter().getDescription();
 			if(ends.equals("*.csv")) {
 				if(path.endsWith(".csv"))
@@ -63,14 +71,16 @@ implements ImportAndExport {
 					path += ".csv";
 					return path;
 				}
-			}else if(ends.equals("*.vcf")) {
-				if(path.endsWith(".vcf"))
-					return path;
-				else {
-					path += ".vcf";
-					return path;
-				}
-			}else if(ends.equals("*.xls")) {
+			}
+//			else if(ends.equals("*.vcf")) {
+//				if(path.endsWith(".vcf"))
+//					return path;
+//				else {
+//					path += ".vcf";
+//					return path;
+//				}
+//			}
+			else if(ends.equals("*.xls")) {
 				if(path.endsWith(".xls"))
 					return path;
 				else {
@@ -87,7 +97,7 @@ implements ImportAndExport {
 		jfc.setPreferredSize(new Dimension(700, 400));
 		jfc.setAcceptAllFileFilterUsed(false);
 		jfc.addChoosableFileFilter(new MyFileFilter("csv"));
-		jfc.addChoosableFileFilter(new MyFileFilter("vcf"));
+//		jfc.addChoosableFileFilter(new MyFileFilter("vcf"));
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
 		int result = jfc.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
@@ -127,9 +137,11 @@ implements ImportAndExport {
 			// TODO Auto-generated method stub
 			if(str.equals("csv")) {
 				return "*.csv";
-			}else if(str.equals("vcf")) {
-				return "*.vcf";
-			}else if(str.equals("xls")) {
+			}
+//			else if(str.equals("vcf")) {
+//				return "*.vcf";
+//			}
+			else if(str.equals("xls")) {
 				return "*.xls";
 			}
 			return "";
@@ -168,11 +180,13 @@ implements ImportAndExport {
 				if(!temp.endsWith(".csv")) {
 					temp += ".csv";
 				}
-			}else if(ends.equals("*.vcf")) {
-				if(temp.endsWith(".vcf")) {
-					temp += ".vcf";
-				}
-			}else if(ends.equals("*.xls")) {
+			}
+//			else if(ends.equals("*.vcf")) {
+//				if(temp.endsWith(".vcf")) {
+//					temp += ".vcf";
+//				}
+//			}
+			else if(ends.equals("*.xls")) {
 				if(temp.endsWith(".xls")) {
 					temp += ".xls";
 				}
@@ -193,6 +207,8 @@ implements ImportAndExport {
 	public void ExportFile() {
 		// TODO Auto-generated method stub
 		String filePath = this.saveFile();
+		if(filePath == null)
+			return;
 		int cardCount = kernel.getGroup(0).getGroupMembers().size();
 		//System.out.println(cardCount);
 		ConstCard card;
@@ -520,8 +536,160 @@ implements ImportAndExport {
 	public void ImportFile(int id) {
 		// TODO Auto-generated method stub
 		String filePath = this.openFile();
-		
+		if(filePath == null)
+			return;
+		if(filePath.endsWith(".csv")) {
+			importCSV(filePath, id);
+		}else if(filePath.endsWith(".xls")) {
+			importXLS(filePath, id);
+		}
 		System.out.println(filePath);
 	}
 	
+	private void importCSV(String filePath, int groupId) {
+		LinkedHashMap<String, Integer> itemsIndex = 
+			new LinkedHashMap<String, Integer>();
+		try {
+			ReadFile rf = new ReadFile(filePath, "GB2312");
+			String temp = rf.readLine();
+			String[] index = temp.split(",");
+			for(int i = 2; i < index.length ; i++) {
+				itemsIndex.put(index[i], 0);
+			}
+			for(int i = 2; i < index.length ; i++) {
+				int sum = itemsIndex.get(index[i]) + 1;
+				itemsIndex.put(index[i], sum);
+			}
+			for(String item : itemsIndex.keySet()) {
+				System.out.println(item + "--------------" + itemsIndex.get(item));
+			}
+			String content = "";
+			String [] tempContent;
+			while((content = rf.readLine()) != null) {
+				Vector<String> keys = new Vector<String>();
+				int p = 0 ,j = 0;
+				for (p = 0, j = 0; p < content.length(); p++) {
+					if (content.charAt(p) == ',') {
+						if (j != p)
+							keys.add(content.substring(j, p));
+						else
+							keys.add("");
+						j = p + 1;
+					}
+				}
+				keys.add(content.substring(j));
+//				System.out.println(keys.size() + "&&&&&&&&&&&&&");
+//				for(int i = 0; i < keys.size(); i++)
+//					System.out.print(keys.get(i) + " ");
+//				System.out.println();
+//				tempContent = content.split(",");
+//				System.out.println(tempContent.length + "^^^^^^^^^^^^^^^^^^^^^");
+				LinkedHashMap<String, Vector<String>> items = 
+					new LinkedHashMap<String, Vector<String>>();
+				ConstCard cardAdded; 
+				String firstName = keys.get(0);
+				String lastName = keys.get(1);
+				int col = 2;
+				while(col < keys.size()) {
+					String oneIndex = index[col];
+					Vector<String> realItem = new Vector<String>();
+					if(itemsIndex.get(oneIndex) == 1) {
+						realItem.add(keys.get(col));
+						col++;
+						items.put(oneIndex, realItem);
+					}else {
+						for(int tempIndex = 0; tempIndex < itemsIndex.get(oneIndex); tempIndex++) {
+							if(keys.get(col).length() != 0)
+								realItem.add(keys.get(col));
+							col++;
+						}
+						items.put(oneIndex, realItem);
+					}
+				}
+				System.out.println(firstName);
+				System.out.println(lastName);
+				cardAdded = kernel.addCard(groupId, firstName, lastName, items, null);
+				System.out.println(cardAdded.getId() + "((((((((((((((((((((");
+				kernel.addGroupMember(groupId, cardAdded.getId());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("csv imported!!!");
+	}
+	
+	private void importXLS(String filePath, int groupId) {
+		LinkedHashMap<String, Integer> itemsIndex = 
+			new LinkedHashMap<String, Integer>();
+		InputStream is;
+		Workbook wb;
+		try {
+			is = new FileInputStream(filePath);   
+			wb = Workbook.getWorkbook(is); 
+			Sheet st = wb.getSheet(0);
+			int rowCount = st.getRows();
+			int colCount = st.getColumns();
+			System.out.println(rowCount + "  :  rowCount");
+			System.out.println(colCount + "  :  colCount");
+			Cell cell;
+			String content = "";
+			for(int i = 2; i < colCount ; i++) {
+				cell = st.getCell(i, 0);  
+				content = cell.getContents().toString();
+				itemsIndex.put(content, 0);
+			}
+			for(int i = 2; i < colCount ; i++) {
+				cell = st.getCell(i, 0);  
+				content = cell.getContents().toString();
+				int sum = itemsIndex.get(content) + 1;
+				itemsIndex.put(content, sum);
+			}
+			for(String item : itemsIndex.keySet()) {
+				System.out.println(item + "--------------" + itemsIndex.get(item));
+			}
+			for(int row = 1; row < rowCount; row++) {
+				LinkedHashMap<String, Vector<String>> items = 
+					new LinkedHashMap<String, Vector<String>>();
+				ConstCard cardAdded;
+				cell = st.getCell(0, row);  
+				String firstName = cell.getContents().toString();
+				cell = st.getCell(1, row);  
+				String lastName = cell.getContents().toString();
+				int col = 2;
+				while(col < colCount) {
+					Cell indexCell = st.getCell(col, 0);
+					String index = indexCell.getContents().toString();
+					Vector<String> temp = new Vector<String>();
+					if(itemsIndex.get(index) == 1) {
+						cell = st.getCell(col, row);
+						content = cell.getContents();
+						temp.add(content);
+						col++;
+						items.put(index, temp);
+					}else {
+						for(int tempIndex = 0; tempIndex < itemsIndex.get(index); tempIndex++) {
+							cell = st.getCell(col, row);
+							content = cell.getContents();
+							if(content.length() != 0)
+								temp.add(content);
+							col++;
+						}
+						items.put(index, temp);
+					}
+				}
+				System.out.println(row + "*************************");
+				System.out.println(firstName);
+				System.out.println(lastName);
+				cardAdded = kernel.addCard(groupId, firstName, lastName, items, null);
+				System.out.println(cardAdded.getId() + "((((((((((((((((((((");
+				kernel.addGroupMember(groupId, cardAdded.getId());
+			}
+			wb.close();
+			is.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

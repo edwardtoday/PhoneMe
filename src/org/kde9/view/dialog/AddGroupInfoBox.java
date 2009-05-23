@@ -42,6 +42,7 @@ implements ActionListener, KeyListener {
 	private JButton cancel;
 	private Kernel kernel;
 	private int groupIdSelected;
+	private boolean flag;
 	int w;
 	int h;
 	
@@ -180,6 +181,21 @@ implements ActionListener, KeyListener {
 		return textField;
 	}
 	
+	/**
+	 * @return the flag
+	 */
+	public boolean isFlag() {
+		return flag;
+	}
+
+	/**
+	 * @param flag the flag to set
+	 */
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
+	
 //	public Container getMainContainer() {
 //		return mainContainer;
 //	}
@@ -188,7 +204,8 @@ implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 //		getMainContainer().setEnabled(true);
 		//ComponentPool.getComponent().setAlwaysOnTop(false);
-		if(e.getSource() == this.getCancel()) {		
+		if(e.getSource() == this.getCancel()) {	
+			setFlag(false);
 			System.out.println("Group added cancelled!!");
 			ComponentPool.getComponent().setEnabled(true);
 			changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
@@ -215,6 +232,7 @@ implements ActionListener, KeyListener {
 				changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
 				changeAlphaDown(300, 0, sheet, true);
 			}
+			setFlag(true);
 			System.out.println("Group added confirmed!!");
 		}
 	}

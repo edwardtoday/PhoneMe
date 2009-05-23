@@ -45,6 +45,19 @@ public class ReadFile {
 		}
 		br = new BufferedReader(isr);
 	}
+	
+	public ReadFile(String fileName, String charset) 
+	throws FileNotFoundException {
+		this.fileName = fileName;
+		fis = new FileInputStream(fileName);
+		try {
+			isr = new InputStreamReader(fis, charset);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		br = new BufferedReader(isr);
+	}
 
 	public ReadFile(File file) 
 	throws FileNotFoundException {
