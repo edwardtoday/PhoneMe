@@ -226,10 +226,12 @@ implements CardController, Constants {
 		File file = new File(CARDPATH + staticId);
 		while(file.exists())
 			file = new File(CARDPATH + ++staticId);
+		System.out.println("newCardId" + staticId);
 		Card card = ModelFactory.createCard(staticId);
 		card.setFirstName(firstName);
 		card.setLastName(lastName);
 		cards.put(staticId, card);
+		staticId++;
 		return card;
 	}
 
