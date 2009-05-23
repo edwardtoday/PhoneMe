@@ -21,10 +21,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.kde9.control.Kernel;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.listener.AddNameListener;
 
-public class NameComponent extends JPanel {
+public class NameComponent 
+extends JPanel
+implements Constants {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;

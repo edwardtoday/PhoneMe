@@ -4,18 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.kde9.control.Kernel;
@@ -38,7 +35,6 @@ import prefuse.action.assignment.FontAction;
 import prefuse.action.layout.CollapsedSubtreeLayout;
 import prefuse.action.layout.graph.RadialTreeLayout;
 import prefuse.activity.SlowInSlowOutPacer;
-import prefuse.controls.ControlAdapter;
 import prefuse.controls.DragControl;
 import prefuse.controls.FocusControl;
 import prefuse.controls.HoverActionControl;
@@ -62,7 +58,6 @@ import prefuse.render.EdgeRenderer;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
 import prefuse.util.FontLib;
-import prefuse.util.ui.JFastLabel;
 import prefuse.util.ui.JSearchPanel;
 import prefuse.util.ui.UILib;
 import prefuse.visual.VisualItem;
@@ -77,22 +72,22 @@ import prefuse.visual.sort.TreeDepthItemSorter;
  * @author <a href="http://jheer.org">jeffrey heer</a>
  */
 public class Cube extends Display {
+
+    public static final String DATA_FILE = "/socialnet.xml";
+    
     private static final String tree = "tree";
     private static final String treeNodes = "tree.nodes";
     private static final String treeEdges = "tree.edges";
     private static final String linear = "linear";
-//    private static final String nearby = "nearby";
     
-    private static int a, b;
+    private static final int a = 200, b = 200;
+    private static Kernel kernel = ComponentPool.getComponent().getKernel();
+    private static int id;
     
-    private static JSearchPanel search;
-
-	private LabelRenderer m_nodeRenderer;
+    private LabelRenderer m_nodeRenderer;
     private EdgeRenderer m_edgeRenderer;
     
     private String m_label = "label";
-    
-    private static Kernel kernel = ComponentPool.getComponent().getKernel();
     
     public Cube(Graph g, String label) {
         super(new Visualization());
@@ -118,21 +113,19 @@ public class Cube extends Display {
         // colors
         ItemAction nodeColor = new NodeColorAction(treeNodes);
         ItemAction textColor = new TextColorAction(treeNodes);
-//        ItemAction nearColor = new NodeColorAction(nearby);/////////////////
         m_vis.putAction("textColor", textColor);
         
         ItemAction edgeColor = new ColorAction(treeEdges,
-                VisualItem.STROKECOLOR, ColorLib.rgb(0,200,200));
+                VisualItem.STROKECOLOR, ColorLib.rgb(90,200,200));
         
         FontAction fonts = new FontAction(treeNodes, 
                 FontLib.getFont("", 12));
-        fonts.add("ingroup('_focus_')", FontLib.getFont("", 15));
+        fonts.add("ingroup('_focus_')", FontLib.getFont("", 13));
         
         // recolor
         ActionList recolor = new ActionList();
         recolor.add(nodeColor);
         recolor.add(textColor);
-//        recolor.add(nearColor);/////////////////////////////////////////////
         m_vis.putAction("recolor", recolor);
         
         // repaint
@@ -144,7 +137,6 @@ public class Cube extends Display {
         // animate paint change
         ActionList animatePaint = new ActionList(400);
         animatePaint.add(new ColorAnimator(treeNodes));
-//        animatePaint.add(new ColorAnimator(nearby));/////////////////////////
         animatePaint.add(new RepaintAction());
         m_vis.putAction("animatePaint", animatePaint);
         
@@ -204,14 +196,13 @@ public class Cube extends Display {
                 public void tupleSetChanged(TupleSet t, Tuple[] add, Tuple[] rem) {
                     TupleSet linearInterp = m_vis.getGroup(linear);
                     if ( add.length < 1 ) return; linearInterp.clear();
-                    for ( Node n = (Node)add[0]; n!=null; n=n.getParent() ) {
+                    for ( Node n = (Node)add[0]; n!=null; n=n.getParent() )
                         linearInterp.addTuple(n);
-                    }
                     if(add[0] != null) {
                     	System.out.println(((Node)add[0]).get("node"));
                         ComponentPool.getGroupComponent().setSelected(0, 0);
                         ComponentPool.getNameComponent().setSelectedById(
-                        		Integer.valueOf(((Node)add[0]).getString("node")));
+                        		Integer.valueOf(((Node)add[0]).getString("realid")));
                     }
                 }
             }
@@ -228,36 +219,37 @@ public class Cube extends Display {
         });
     }
     
-    public static JSearchPanel getSearch() {
-		return search;
-	}
-    
     // ------------------------------------------------------------------------
     
 //    public static void main(String argv[]) {
+//        String infile = DATA_FILE;
 //        String label = "name";
 //        
-//        //UILib.setPlatformLookAndFeel();
+//        if ( argv.length > 1 ) {
+//            infile = argv[0];
+//            label = argv[1];
+//        }
+//        
+//        UILib.setPlatformLookAndFeel();
 //        
 //        JFrame frame = new JFrame("p r e f u s e  |  r a d i a l g r a p h v i e w");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setContentPane(getCube());
+//        frame.setContentPane(demo(infile, label));
 //        frame.pack();
 //        frame.setVisible(true);
 //    }
     
     public static JPanel getCube(int a, int b) {
-    	Cube.a = a;
-        Cube.b = b;
-        return demo("name");
+        return demo(DATA_FILE, "name");
     }
     
-    public static JPanel demo(final String label) {
+    public static JPanel demo(String datafile, final String label) {
         Graph g = null;
         try {
         	Schema card = new Schema();
         	card.addColumn("node", int.class);
         	card.addColumn("name", String.class);
+        	card.addColumn("realid", int.class);
         	Table node = card.instantiate();
         	Schema relation = new Schema();
         	relation.addColumn("source", int.class);
@@ -274,30 +266,41 @@ public class Cube extends Display {
     }
     
     private static void initTable(Table node, Table edge) {
-    	int id = ComponentPool.getNameComponent().getSelectedMemberId();
-    	HashSet<Integer> ids = new HashSet<Integer>();
-    	addTableRow(node, edge, id, ids);
+    	int realid = ComponentPool.getNameComponent().getSelectedMemberId();
+    	id = 0;
+    	System.err.println("+++++++++++" + id + "+++++++++++");
+    	HashMap<Integer, Integer> ids = new HashMap<Integer, Integer>();
+    	addTableRow(node, edge, realid, ids);
     	System.err.println(ids);
     }
     
-    private static void addTableRow(Table node, Table edge, int id,
-    		HashSet<Integer> ids) {
-    	ConstCard card = kernel.getCard(id);
+    private static void addTableRow(Table node, Table edge, int realid,
+    		HashMap<Integer, Integer> ids) {
+    	ConstCard card = kernel.getCard(realid);
+    	System.out.println("-----------"+card.getAllShowRelationship());
     	if(card != null) {
-    		if(ids.contains(id))
+    		if(ids.containsKey(realid))
     			return;
     		int row = node.addRow();
     		node.set(row, "node", id);
-    		node.set(row, "name", kernel.getName(id));
-    		ids.add(id);
-    		System.out.println(ids);
+    		node.set(row, "name", kernel.getName(realid));
+    		node.set(row, "realid", realid);
+    		ids.put(realid, id);
+    		int temp = id;
+    		id++;
     		if(card.getAllShowRelationship().size() == 0)
     			return;
     		for(int rid : card.getAllShowRelationship().keySet()) {
-    			row = edge.addRow();
-    			edge.set(row, "source", rid);
-    			edge.set(row, "target", id);
-    			addTableRow(node, edge, rid, ids);
+    			//if(!ids.contains(rid)) {
+    				row = edge.addRow();
+    				edge.set(row, "source", temp);
+    				if(ids.get(rid) != null)
+    					edge.set(row, "target", ids.get(rid));
+    				else
+    					edge.set(row, "target", id);
+    				System.err.println(temp + "----" + id);
+    				addTableRow(node, edge, rid, ids);
+    			//}
     		}
     	}
     }
@@ -305,61 +308,53 @@ public class Cube extends Display {
     public static JPanel demo(Graph g, final String label) {        
         // create a new radial tree view
         final Cube gview = new Cube(g, label);
-//        gview.setSize(a, b);
-//        gview.setMaximumSize(new Dimension(a, b));
         gview.setBounds(0, 0, a, b);
-        gview.setBorder(BorderFactory.createEmptyBorder());
-        
-        TitledBorder border = new TitledBorder("cube");
-		border.setTitleJustification(TitledBorder.CENTER);
-		//p.setBorder(border);
-        
         Visualization vis = gview.getVisualization();
         
         // create a search panel for the tree map
-//        SearchQueryBinding sq = new SearchQueryBinding(
-//             (Table)vis.getGroup(treeNodes), label,
-//             (SearchTupleSet)vis.getGroup(Visualization.SEARCH_ITEMS));
-//        JSearchPanel search = sq.createSearchPanel();
-//        search.setShowResultCount(true);
-//        search.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
-//        search.setFont(FontLib.getFont("", Font.PLAIN, 11));
-//        Cube.search = search;
-//        
+        SearchQueryBinding sq = new SearchQueryBinding(
+             (Table)vis.getGroup(treeNodes), label,
+             (SearchTupleSet)vis.getGroup(Visualization.SEARCH_ITEMS));
+        JSearchPanel search = sq.createSearchPanel();
+        search.setShowResultCount(true);
+        search.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
+        search.setFont(FontLib.getFont("", Font.PLAIN, 12));
+        
 //        final JFastLabel title = new JFastLabel("                 ");
-//        title.setPreferredSize(new Dimension(50, 20));
+//        title.setPreferredSize(new Dimension(350, 20));
 //        title.setVerticalAlignment(SwingConstants.BOTTOM);
 //        title.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
 //        title.setFont(FontLib.getFont("", Font.PLAIN, 16));
-        
-        gview.addControlListener(new ControlAdapter() {
-            public void itemEntered(VisualItem item, MouseEvent e) {
-                if ( item.canGetString(label) ) {
+//        
+//        gview.addControlListener(new ControlAdapter() {
+//            public void itemEntered(VisualItem item, MouseEvent e) {
+//                if ( item.canGetString(label) )
 //                    title.setText(item.getString(label));
-//                    System.out.println(":::" + item.getString("node"));
-                }
-            }
-            public void itemExited(VisualItem item, MouseEvent e) {
+//            }
+//            public void itemExited(VisualItem item, MouseEvent e) {
 //                title.setText(null);
-            }
-        });
+//            }
+//        });
         
-//        Box box = new Box(BoxLayout.X_AXIS);
-//        box.add(Box.createHorizontalStrut(10));
+        Box box = new Box(BoxLayout.X_AXIS);
+        box.add(Box.createHorizontalStrut(10));
 //        box.add(title);
-//        box.add(Box.createHorizontalGlue());
-//        box.add(search);
-//        box.add(Box.createHorizontalStrut(3));
+        box.add(Box.createHorizontalGlue());
+        box.add(search);
+        box.add(Box.createHorizontalStrut(3));
         
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(a, b));
         panel.add(gview, BorderLayout.CENTER);
-        panel.setBorder(border);
-        //panel.add(box, BorderLayout.SOUTH);
+        panel.add(box, BorderLayout.SOUTH);
         
         Color BACKGROUND = Color.WHITE;
         Color FOREGROUND = Color.DARK_GRAY;
         UILib.setColor(panel, BACKGROUND, FOREGROUND);
+        
+        TitledBorder border = new TitledBorder("cube");
+		border.setTitleJustification(TitledBorder.CENTER);
+		panel.setPreferredSize(new Dimension(a, b));
+		panel.setBorder(border);
         
         return panel;
     }
@@ -412,5 +407,6 @@ public class Cube extends Display {
             add("_hover", ColorLib.rgb(255,0,0));
         }
     } // end of inner class TextColorAction
+    
     
 } // end of class RadialGraphView

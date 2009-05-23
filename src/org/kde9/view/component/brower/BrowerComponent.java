@@ -34,6 +34,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	private Kernel kernel;
 	private Configuration config;
 	private JPanel cube;
+	private double loc;
 	
 
 	public BrowerComponent(Kernel kernel) {
@@ -76,24 +77,29 @@ implements ListSelectionListener, KeyListener, Constants {
 
 	public void setCenterComponent(JPanel panel) {
 		this.cube = panel;
-		panel.setSize(groupSplitPane.getSize());
+		loc = (double)(group.getWidth() + name.getWidth())/getWidth();
+		System.out.println("|"+loc);
+		//panel.setSize(groupSplitPane.getSize());
 		nameSplitPane.remove(groupSplitPane);
 		nameSplitPane.setLeftComponent(panel);
+		nameSplitPane.setDividerLocation(loc);
 		panel.repaint();
 		repaint();
 	}
 	
 	public int getLeftW() {
-		return groupSplitPane.getWidth();
+		return group.getWidth() + name.getWidth();
 	}
 	
 	public int getLeftH() {
-		return groupSplitPane.getHeight();
+		return group.getHeight();
 	}
 	
 	public void resetCenterComponent() {
 		nameSplitPane.remove(cube);
 		nameSplitPane.setLeftComponent(groupSplitPane);
+		System.out.println(loc + "|");
+		nameSplitPane.setDividerLocation(loc);
 		repaint();
 	}
 	
