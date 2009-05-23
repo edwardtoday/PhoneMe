@@ -114,12 +114,6 @@ extends ConstCard {
 	boolean deleteItem(String key, String value);
 	
 	/**
-	 * 获得联系人的隐含关系
-	 * @return
-	 */
-	HashSet<Integer> getAllHideRelationship();
-	
-	/**
 	 * 添加显关系
 	 * @param id
 	 * @param content

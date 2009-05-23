@@ -60,7 +60,7 @@ import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
-import org.kde9.view.dialog.SearchPanel;
+import org.kde9.view.dialog.SelectPanel;
 //import org.kde9.view.dialog.SearchPanel;
 import org.kde9.view.listener.EditListener;
 import org.w3c.dom.events.MouseEvent;
@@ -323,6 +323,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 			public boolean isCellEditable(int i, int j) {
 				if(i == 0 || j == 0 || j == 3) 
 					return false;
+				if(j == 6)
+					return true;
 				return editable;
 			}
 		};
@@ -662,6 +664,8 @@ outer:
 			}
 		}
 		relationModel.addRow(new Object[]{});
+		relationTable.setEditingRow(0);
+		relationTable.setEditingColumn(1);
 	}
 	
 	public void setItems(LinkedHashMap<String, Vector<String>> items) {
@@ -1079,10 +1083,16 @@ outer:
 		
 	}
 
-	public void mouseReleased(java.awt.event.MouseEvent arg0) {
+	public void mouseReleased(java.awt.event.MouseEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("relation selected" + relationTable.getSelectedRow());
-		new SearchPanel(ComponentPool.getComponent(), Color.WHITE, 400, 400);
+		if(editable)
+			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400);
+		else {
+			int id = relationId.get(relationTable.getSelectedRow()-1);
+			ComponentPool.getGroupComponent().setSelected(0, 0);
+			ComponentPool.getNameComponent().setSelectedById(id);
+		}
 	}
 
 //	public void addItem(String name, String content) {

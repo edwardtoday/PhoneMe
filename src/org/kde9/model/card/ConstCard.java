@@ -1,6 +1,7 @@
 ﻿package org.kde9.model.card;
 
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -72,6 +73,12 @@ public interface ConstCard {
 	 * 		每个关系中的关联人的id和关系的类型对
 	 */
 	LinkedHashMap<Integer, String> getAllShowRelationship();
+	
+	/**
+	 * 获得联系人的隐含关系
+	 * @return
+	 */
+	HashSet<Integer> getAllHideRelationship();
 	
 	/**
 	 * 获得该联系人与指定联系人的关系

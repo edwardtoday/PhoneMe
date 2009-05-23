@@ -207,6 +207,7 @@ implements CardController, Constants {
 					loadImage(card);
 					if(buffer)
 						cards.put(cardId, card);
+					System.out.println(card.getFirstName() + card.getAllHideRelationship());
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
 				} catch (IOException e) {

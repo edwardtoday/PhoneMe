@@ -297,9 +297,19 @@ public class Cube extends Display {
     		ids.put(realid, id);
     		int temp = id;
     		id++;
-    		if(card.getAllShowRelationship().size() == 0)
-    			return;
     		for(int rid : card.getAllShowRelationship().keySet()) {
+    			//if(!ids.contains(rid)) {
+    				row = edge.addRow();
+    				edge.set(row, "source", temp);
+    				if(ids.get(rid) != null)
+    					edge.set(row, "target", ids.get(rid));
+    				else
+    					edge.set(row, "target", id);
+    				System.err.println(temp + "----" + id);
+    				addTableRow(node, edge, rid, ids);
+    			//}
+    		}
+    		for(int rid : card.getAllHideRelationship()) {
     			//if(!ids.contains(rid)) {
     				row = edge.addRow();
     				edge.set(row, "source", temp);
