@@ -24,6 +24,8 @@ implements ActionListener, Constants {
 		if(((JToggleButton)e.getSource()).isSelected()) {
 			ComponentPool.getViewerComponent().setHighlight(false);
 			component.startEditModel();
+			ComponentPool.getNameComponent().getButtonAdd().setEnabled(false);
+			ComponentPool.getGroupComponent().getButtonAdd().setEnabled(false);
 			//ComponentPool.getViewerComponent().setEnabled(true);
 			//ComponentPool.getBrowerComponent().setEnabled(false);
 			i = ComponentPool.getGroupComponent().getSelected();
@@ -36,6 +38,8 @@ implements ActionListener, Constants {
 		else {
 			component.stopEditModel();
 			ViewerComponent viewer = ComponentPool.getViewerComponent();
+			ComponentPool.getNameComponent().getButtonAdd().setEnabled(true);
+			ComponentPool.getGroupComponent().getButtonAdd().setEnabled(true);
 			//ComponentPool.getGroupComponent().getTable().setRowSelectionAllowed(true);
 			//ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(true);
 			//ComponentPool.getGroupComponent().getTable().setFocusable(true);

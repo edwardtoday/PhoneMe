@@ -100,30 +100,62 @@ implements ActionListener, Constants {
 		boolean isEditable = ComponentPool.getViewerComponent().isEditable();
 		boolean groupHasFocus = ComponentPool.getGroupComponent().hasFocus();
 		boolean nameHasFocus = ComponentPool.getNameComponent().hasFocus();
+		boolean cube = ComponentPool.getBrowerComponent().isCube();
 		int groupSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
 		int nameSelected = ComponentPool.getNameComponent().getSelectedMemberId();
 		
-		if(isEditable || groupSelected == -1) {
+		if(isEditable || groupSelected == -1 || cube) {
 			newCard.setEnabled(false);
+			newGroup.setEnabled(false);
+			deletegroup.setEnabled(false);
+			removefromgroup.setEnabled(false);
+			renamegroup.setEnabled(false);
 		}else {
 			newCard.setEnabled(true);
+			newGroup.setEnabled(true);
+			deletegroup.setEnabled(true);
+			removefromgroup.setEnabled(true);
+			renamegroup.setEnabled(true);
 		}
-		
-//			newGroup.setEnabled(false);
-//			newGroupfromSearchResult.setEnabled(false);
-//			Import.setEnabled(false);
-//			importtoGroup.setEnabled(false);
-//			importNewGroup.setEnabled(false);
-//			Export.setEnabled(false);
-//			exportCard.setEnabled(false);
-//			exportGroup.setEnabled(false);
-//			
-//			deletegroup.setEnabled(false);
-//			deletecard.setEnabled(false);
-//			removefromgroup.setEnabled(false);
-//			selectall.setEnabled(false);
-//			renamegroup.setEnabled(false);
-//			editcard.setEnabled(false);
+		if(groupSelected == -1 && !isEditable && !cube) {
+			newGroupfromSearchResult.setEnabled(true);
+		}else {
+			newGroupfromSearchResult.setEnabled(false);
+		}
+		if(cube) {
+			Import.setEnabled(false);
+			Export.setEnabled(false);
+		}else {
+			Import.setEnabled(true);
+			Export.setEnabled(true);
+		}
+		if(groupSelected == -1 || cube) {
+			importtoGroup.setEnabled(false);
+			importNewGroup.setEnabled(false);
+			exportGroup.setEnabled(false);
+		}else {
+			importtoGroup.setEnabled(true);
+			importNewGroup.setEnabled(true);
+			exportGroup.setEnabled(true);
+		}
+		if(nameSelected == -1 || cube) {
+			exportCard.setEnabled(false);
+			choosecustomimage.setEnabled(false);
+			clearcustomimage.setEnabled(false);
+		}else {
+			exportCard.setEnabled(true);
+			choosecustomimage.setEnabled(true);
+			clearcustomimage.setEnabled(true);
+		}
+		if(isEditable || cube) {
+			deletecard.setEnabled(false);
+			selectall.setEnabled(false);
+			editcard.setEnabled(false);
+		}else {
+			deletecard.setEnabled(true);
+			selectall.setEnabled(true);
+			editcard.setEnabled(true);
+		}
 	}
 
 	protected JMenu buildFileMenu() {
