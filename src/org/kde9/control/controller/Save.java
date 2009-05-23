@@ -18,8 +18,11 @@ implements Constants{
 		public void run() {
 			try {
 				while (true) {
+					int i = 0;
 					while (pathAndName.size() != 0
 							&& pathAndName.size() == content.size()) {
+						if(i%50 == 0)
+							sleep(10);
 						String str1 = pathAndName.poll();
 						String str2 = content.poll();
 						WriteFile wf = new WriteFile(str1, false);
@@ -29,6 +32,7 @@ implements Constants{
 						System.out.println(str2);
 						System.out.println("---------------------------------------");
 						wf.close();
+						i++;
 					}
 					synchronized (this) {
 						wait();
