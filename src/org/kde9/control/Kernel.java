@@ -22,6 +22,8 @@ public interface Kernel {
 	
 	public String getName(int cardId);
 	
+	public String getName(int cardId, boolean space);
+	
 	public ConstCard addCard(int groupId, String firstName, String lastName,
 			LinkedHashMap<String, Vector<String>> items, 
 			LinkedHashMap<Integer, String> relation);

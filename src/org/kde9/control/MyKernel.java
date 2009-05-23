@@ -102,6 +102,21 @@ public class MyKernel implements Kernel, Constants {
 		}
 		return name;
 	}
+	
+	public String getName(int cardId, boolean space) {
+		if(space)
+			return getName(cardId);
+		String name = "";
+		ConstCard card = getCard(cardId);
+		if (card != null) {
+			if ((Integer) configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
+				name = card.getFirstName() + card.getLastName();
+			} else {
+				name = card.getLastName() + card.getFirstName();
+			}
+		}
+		return name;
+	}
 
 	public ConstCard addCard(int groupId, String firstName, String lastName,
 			LinkedHashMap<String, Vector<String>> items,

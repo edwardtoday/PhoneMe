@@ -4,6 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.MouseInfo;
+import java.awt.event.MouseEvent;
+import java.awt.Point;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,7 +17,9 @@ import java.util.LinkedHashMap;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.kde9.control.Kernel;
@@ -35,6 +42,7 @@ import prefuse.action.assignment.FontAction;
 import prefuse.action.layout.CollapsedSubtreeLayout;
 import prefuse.action.layout.graph.RadialTreeLayout;
 import prefuse.activity.SlowInSlowOutPacer;
+import prefuse.controls.ControlAdapter;
 import prefuse.controls.DragControl;
 import prefuse.controls.FocusControl;
 import prefuse.controls.HoverActionControl;
@@ -58,6 +66,7 @@ import prefuse.render.EdgeRenderer;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
 import prefuse.util.FontLib;
+import prefuse.util.ui.JFastLabel;
 import prefuse.util.ui.JSearchPanel;
 import prefuse.util.ui.UILib;
 import prefuse.visual.VisualItem;
@@ -283,7 +292,7 @@ public class Cube extends Display {
     			return;
     		int row = node.addRow();
     		node.set(row, "node", id);
-    		node.set(row, "name", kernel.getName(realid));
+    		node.set(row, "name", kernel.getName(realid, false));
     		node.set(row, "realid", realid);
     		ids.put(realid, id);
     		int temp = id;
@@ -320,25 +329,42 @@ public class Cube extends Display {
         search.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
         search.setFont(FontLib.getFont("", Font.PLAIN, 12));
         
-//        final JFastLabel title = new JFastLabel("                 ");
-//        title.setPreferredSize(new Dimension(350, 20));
-//        title.setVerticalAlignment(SwingConstants.BOTTOM);
-//        title.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
-//        title.setFont(FontLib.getFont("", Font.PLAIN, 16));
-//        
-//        gview.addControlListener(new ControlAdapter() {
-//            public void itemEntered(VisualItem item, MouseEvent e) {
-//                if ( item.canGetString(label) )
-//                    title.setText(item.getString(label));
-//            }
-//            public void itemExited(VisualItem item, MouseEvent e) {
-//                title.setText(null);
-//            }
-//        });
+        gview.addMouseWheelListener(new MouseWheelListener() {
+
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				// TODO Auto-generated method stub
+				Point p = e.getPoint();
+				if(e.getWheelRotation() > 0)
+					gview.zoom(p, 0.9);
+				else
+					gview.zoom(p, 1.1);
+				gview.repaint();
+			}
+        	
+        });
+        
+        final JLabel title = new JLabel();
+        title.setPreferredSize(new Dimension(60, 20));
+        title.setVerticalAlignment(SwingConstants.BOTTOM);
+        title.setBorder(BorderFactory.createEmptyBorder(3,0,5,0));
+        title.setFont(FontLib.getFont("", Font.PLAIN, 16));
+        
+        gview.addControlListener(new ControlAdapter() {
+			public void itemEntered(VisualItem item, MouseEvent e) {
+                //this.e = e;
+				if ( item.canGetString(label) ) {
+                    title.setText(item.getString(label));
+                    System.out.println(":::" + item.getString("node"));
+                }
+            }
+            public void itemExited(VisualItem item, MouseEvent e) {
+                title.setText(null);
+            }
+        });
         
         Box box = new Box(BoxLayout.X_AXIS);
         box.add(Box.createHorizontalStrut(10));
-//        box.add(title);
+        box.add(title);
         box.add(Box.createHorizontalGlue());
         box.add(search);
         box.add(Box.createHorizontalStrut(3));
