@@ -42,7 +42,7 @@ implements Constants {
 	private AddNameListener addNameListener;
 
 	public Component(Kernel kernel) {
-		super("what's this?");
+		super("PhoneMe");
 		
 		this.kernel = kernel;
 		

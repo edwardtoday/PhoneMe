@@ -81,7 +81,7 @@ implements ActionListener, Constants {
 
 		add(file);
 		add(edit);
-		add(card);
+		//add(card);
 		add(statistics);
 		//add(window);
 		//add(sync);
@@ -152,7 +152,7 @@ implements ActionListener, Constants {
 		
 		file.add(newCard);
 		file.add(newGroup);
-		file.add(newGroupfromSelection);
+//		file.add(newGroupfromSelection);
 		file.add(newGroupfromSearchResult);
 		file.addSeparator();
 		file.add(Import);
@@ -192,6 +192,8 @@ implements ActionListener, Constants {
 		renamegroup = new JMenuItem("Rename Group");
 		editsmartgroup = new JMenuItem("Edit Smart Group");
 		editcard = new JMenuItem("Edit Card");
+		choosecustomimage = new JMenuItem("Choose Custom Image");
+		clearcustomimage = new JMenuItem("Clear Custom Image");
 
 		//edit.add(undo);
 		//edit.add(redo);
@@ -205,8 +207,11 @@ implements ActionListener, Constants {
 		edit.add(selectall);
 		edit.addSeparator();
 		edit.add(renamegroup);
-		edit.add(editsmartgroup);
+		//edit.add(editsmartgroup);
 		edit.add(editcard);
+		edit.addSeparator();
+		edit.add(choosecustomimage);
+		edit.add(clearcustomimage);
 		deletegroup.addActionListener(this);
 		deletecard.addActionListener(this);
 		removefromgroup.addActionListener(this);
@@ -214,25 +219,24 @@ implements ActionListener, Constants {
 		renamegroup.addActionListener(this);
 		editsmartgroup.addActionListener(this);
 		editcard.addActionListener(this);
+		choosecustomimage.addActionListener(this);
+		clearcustomimage.addActionListener(this);
 		return edit;
 	}
 
 	protected JMenu buildCardMenu() {
 		card = new JMenu("Card");
-		gotonextcard = new JMenuItem("Goto Next Card");
-		gotoprewcard = new JMenuItem("Goto Prew Card");
-		choosecustomimage = new JMenuItem("Choose Custom Image");
-		clearcustomimage = new JMenuItem("Clear Custom Image");
-
-		card.add(gotonextcard);
-		card.add(gotoprewcard);
-		card.addSeparator();
-		card.add(choosecustomimage);
-		card.add(clearcustomimage);
-		gotonextcard.addActionListener(this);
-		gotoprewcard.addActionListener(this);
-		choosecustomimage.addActionListener(this);
-		clearcustomimage.addActionListener(this);
+//		gotonextcard = new JMenuItem("Goto Next Card");
+//		gotoprewcard = new JMenuItem("Goto Prew Card");
+//		
+//
+//		//card.add(gotonextcard);
+//		//card.add(gotoprewcard);
+//		//card.addSeparator();
+//		
+//		gotonextcard.addActionListener(this);
+//		gotoprewcard.addActionListener(this);
+		
 		return card;
 	}
 	
@@ -242,7 +246,7 @@ implements ActionListener, Constants {
 		birthdaystatistic = new JMenuItem("Birthday Statistics");
 		
 		statistics.add(cardsum);
-		statistics.add(birthdaystatistic);
+		//statistics.add(birthdaystatistic);
 		cardsum.addActionListener(this);
 		birthdaystatistic.addActionListener(this);
 		return statistics;

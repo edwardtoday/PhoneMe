@@ -608,8 +608,9 @@ implements ImportAndExport , Constants {
 				}
 				System.out.println(firstName);
 				System.out.println(lastName);
+				System.out.println(items + "   ITEMS");
 				cardAdded = kernel.addCard(groupId, firstName, lastName, items, null);
-				System.out.println(cardAdded.getId() + "((((((((((((((((((((");
+				System.out.println(cardAdded.getId() + " 添加的card的id");
 				kernel.addGroupMember(groupId, cardAdded.getId());
 			}
 		} catch (Exception e) {
@@ -681,8 +682,9 @@ implements ImportAndExport , Constants {
 				System.out.println(row + "*************************");
 				System.out.println(firstName);
 				System.out.println(lastName);
+				System.out.println(items + "   ITEMS");
 				cardAdded = kernel.addCard(groupId, firstName, lastName, items, null);
-				System.out.println(cardAdded.getId() + "((((((((((((((((((((");
+				//System.out.println(cardAdded.getId() + "((((((((((((((((((((");
 				kernel.addGroupMember(groupId, cardAdded.getId());
 			}
 			wb.close();

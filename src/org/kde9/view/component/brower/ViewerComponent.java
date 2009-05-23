@@ -1085,7 +1085,7 @@ outer:
 
 	public void mouseReleased(java.awt.event.MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("relation selected" + relationTable.getSelectedRow());
+		System.out.println("relation selected " + relationTable.getSelectedRow());
 		if(editable)
 			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400);
 		else {

@@ -148,7 +148,7 @@ implements CardController, Constants {
 		}.start();
 	}
 	
-	private Card get(int cardId, boolean buffer) {
+	synchronized private Card get(int cardId, boolean buffer) {
 		if(cards.size() > 100)
 			cards.remove(cards.keySet().toArray()[0]);
 		Card card = cards.get(cardId);
