@@ -178,7 +178,7 @@ implements Constants {
 		//table.getSelectionModel().clearSelection();
 //		if (indexs != -1)
 //			table.getSelectionModel().setSelectionInterval(indexs, indexe);
-		ComponentPool.getGroupComponent().highLightGroup(getSelectedMemberId());
+		ComponentPool.getGroupComponent().highLightGroup(getSelectedMemberIds());
 	}
 	
 	public void setSelectedById(int id) {

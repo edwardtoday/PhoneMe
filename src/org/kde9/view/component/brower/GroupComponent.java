@@ -144,14 +144,26 @@ implements DropTargetListener, Constants {
 		buttonAdd.addActionListener(addGroupListener);
 	}
 
-	public void highLightGroup(int cardId) {
+	public void highLightGroup(HashSet<Integer> ids) {
 		highLight = new LinkedHashSet<Integer>();
+		System.out.println("selectId : " + ids);
+		if(ids == null || ids.size() == 0) {
+			repaint();
+			return;
+		}
 		for(int i = 0; i < groups.size(); i++) {
+			boolean flag = true;
 			int groupId = (Integer) groups.keySet().toArray()[i];
+			for(int cardId : ids) {	
+				if(!kernel.getGroup(groupId).getGroupMembers().contains(cardId)) {
+					flag = false;
+					break;
+				}
+			}
 			if(groupId != GROUPALLID &&
 					groupId != getSelectedGroupId() &&
 					kernel.getGroup(groupId) != null &&
-					kernel.getGroup(groupId).getGroupMembers().contains(cardId))
+					flag)
 				highLight.add(i);
 		}
 		System.out.println("grouphighlight "+highLight);

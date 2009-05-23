@@ -190,7 +190,7 @@ implements ListSelectionListener, KeyListener, Constants {
 				}
 			} else if (e.getSource().equals(name.getSelectionModel())) {
 				if (name.getSelected() != -1) {
-					group.highLightGroup(name.getSelectedMemberId());
+					group.highLightGroup(name.getSelectedMemberIds());
 					showItem();
 				}
 			}
