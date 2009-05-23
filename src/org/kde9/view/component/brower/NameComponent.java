@@ -168,6 +168,10 @@ implements Constants {
 			return false;
 	}
 
+	public void setSumLabel(String str) {
+		sumLabel.setText(str);
+	}
+	
 	public void setSelected(final int indexs, final int indexe) {
 		if (indexs != -1 && (members.size() > 0 || !kernel.isSearchFinish()))
 //			new Thread() {

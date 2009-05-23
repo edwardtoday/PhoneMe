@@ -127,6 +127,7 @@ public class MyKernel implements Kernel, Constants {
 			cards.setCardItems(id, items);
 		if (relation != null)
 			cards.setRelationships(id, relation);
+		System.out.println(card);
 		cards.save(id);
 		names.addPerson(id, firstName, lastName);
 		names.save();
@@ -184,9 +185,8 @@ public class MyKernel implements Kernel, Constants {
 				if (groupId != GROUPALLID)
 					groups.save(groupId);
 			}
-			for (int personId : personIds)
-				cards.deleteCard(personId);
 			names.save();
+			cards.deleteCard(personIds);
 			return true;
 		}
 		return false;

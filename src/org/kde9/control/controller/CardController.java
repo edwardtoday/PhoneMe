@@ -3,6 +3,7 @@ package org.kde9.control.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Vector;
 
 import org.kde9.model.card.Card;
@@ -13,6 +14,8 @@ public interface CardController {
 	public Card addCard(String firstName, String lastName);
 
 	public boolean deleteCard(int id);
+	
+	public boolean deleteCard(Set<Integer> ids);
 	
 	public Card getCard(int cardId);
 

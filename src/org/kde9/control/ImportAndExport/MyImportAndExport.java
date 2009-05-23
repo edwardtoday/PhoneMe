@@ -101,8 +101,10 @@ implements ImportAndExport , Constants {
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
 		int result = jfc.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
+			ComponentPool.getNameComponent().setSumLabel(
+				"正在导入名片…");
 			return jfc.getSelectedFile().getAbsolutePath();
-		}
+		}		
 		return null;
 	}
 	

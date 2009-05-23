@@ -31,6 +31,7 @@ implements ActionListener {
 	private String str;
 	private JButton confirm;
 	private JButton cancel;
+	private JLabel label;
 	private Kernel kernel;
 	private int type;
 	int w;
@@ -69,7 +70,8 @@ implements ActionListener {
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
-		JLabel label = new JLabel(str);
+		label = new JLabel(str);
+		label.setHorizontalAlignment(JLabel.CENTER);
 		container.add("Center",label);
 		confirm.addActionListener(this);
 		cancel.addActionListener(this);
@@ -177,6 +179,8 @@ implements ActionListener {
 					new CoolInfoBox(ComponentPool.getComponent(), 
 							"  All分组不能被删除！", Color.YELLOW , 200, 35,-60);
 				}else {
+					label.setText("正在删除……");
+					sheet.repaint();
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
 					kernel.deleteGroup(groupIdSelected);
@@ -189,6 +193,8 @@ implements ActionListener {
 				}
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETECARD) {
+				label.setText("正在删除……");
+				sheet.repaint();
 				this.confirm.setEnabled(false);
 				this.cancel.setEnabled(false);
 				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
@@ -206,7 +212,8 @@ implements ActionListener {
 				}else {
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
-					
+					label.setText("正在删除……");
+					sheet.repaint();
 					kernel.deleteGroupMember(groupIdSelected, 
 							ComponentPool.getNameComponent().getSelectedMemberIds());
 					//ComponentPool.getBrowerComponent().showGroupMembers();

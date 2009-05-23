@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,6 @@ import org.kde9.control.FileOperation.MoveFile;
 import org.kde9.control.FileOperation.ReadFile;
 import org.kde9.model.ModelFactory;
 import org.kde9.model.card.Card;
-import org.kde9.model.card.ConstCard;
 import org.kde9.util.Constants;
 
 public class MyCardController 
@@ -149,8 +149,8 @@ implements CardController, Constants {
 	}
 	
 	synchronized private Card get(int cardId, boolean buffer) {
-		if(cards.size() > 100)
-			cards.remove(cards.keySet().toArray()[0]);
+//		if(cards.size() > 100)
+//			cards.remove(cards.keySet().toArray()[0]);
 		Card card = cards.get(cardId);
 		if(card == null) {
 			File file = new File(CARDPATH + cardId);
@@ -284,6 +284,40 @@ implements CardController, Constants {
 		df = new DeleteFile(CARDPATH + id + ".p");
 		df.delete();
 		cards.remove(id);
+		return true;
+	}
+	
+	public boolean deleteCard(Set<Integer> ids) {
+		for (int id : ids) {
+			Card card = get(id, false);
+			if (card != null) {
+				for (int cardId : card.getAllHideRelationship()) {
+					if(ids.contains(cardId))
+						continue;
+					Card temp = get(cardId, false);
+					if (temp != null) {
+						if (temp.deleteShowRelationship(id)
+								|| temp.deleteHideRelationship(id))
+							save(cardId);
+					}
+				}
+				for (int cardId : card.getAllShowRelationship().keySet()) {
+					if(ids.contains(cardId))
+						continue;
+					Card temp = get(cardId, false);
+					if (temp != null) {
+						if (temp.deleteShowRelationship(id)
+								|| temp.deleteHideRelationship(id))
+							save(cardId);
+					}
+				}
+			}
+			DeleteFile df = new DeleteFile(CARDPATH + id);
+			df.delete();
+			df = new DeleteFile(CARDPATH + id + ".p");
+			df.delete();
+			cards.remove(id);
+		}
 		return true;
 	}
 

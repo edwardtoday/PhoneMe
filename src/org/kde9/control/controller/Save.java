@@ -18,21 +18,22 @@ implements Constants{
 		public void run() {
 			try {
 				while (true) {
-					int i = 0;
+					//int i = 0;
 					while (pathAndName.size() != 0
 							&& pathAndName.size() == content.size()) {
-						if(i%50 == 0)
-							sleep(10);
+//						if(i%50 == 0)
+//							sleep(10);
 						String str1 = pathAndName.poll();
 						String str2 = content.poll();
 						WriteFile wf = new WriteFile(str1, false);
 						wf.write(str2);
-						System.out.println("----------------saving-----------------");
-						System.out.println(str1);
-						System.out.println(str2);
-						System.out.println("---------------------------------------");
+						System.out.println("+"+pathAndName.size()+"+");
+//						System.out.println("----------------saving-----------------");
+//						System.out.println(str1);
+//						System.out.println(str2);
+//						System.out.println("---------------------------------------");
 						wf.close();
-						i++;
+//						i++;
 					}
 					synchronized (this) {
 						wait();
