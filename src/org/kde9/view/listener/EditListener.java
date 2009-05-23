@@ -26,8 +26,8 @@ implements ActionListener, Constants {
 			component.startEditModel();
 			//ComponentPool.getViewerComponent().setEnabled(true);
 			//ComponentPool.getBrowerComponent().setEnabled(false);
-			//i = ComponentPool.getGroupComponent().getSelected();
-			//j = ComponentPool.getNameComponent().getSelected();
+			i = ComponentPool.getGroupComponent().getSelected();
+			j = ComponentPool.getNameComponent().getSelected();
 			//ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
 			//ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
 			//ComponentPool.getGroupComponent().getTable().setFocusable(false);

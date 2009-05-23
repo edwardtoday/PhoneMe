@@ -122,9 +122,9 @@ public class MyKernel implements Kernel, Constants {
 			LinkedHashMap<String, Vector<String>> items,
 			LinkedHashMap<Integer, String> relation) {
 		Card card = cards.addCard(firstName, lastName);
-		if (items != null)
-			card.setItems(items);
 		int id = card.getId();
+		if (items != null)
+			cards.setCardItems(id, items);
 		if (relation != null)
 			cards.setRelationships(id, relation);
 		cards.save(id);

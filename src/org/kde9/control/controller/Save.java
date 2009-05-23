@@ -18,7 +18,18 @@ implements Constants{
 		public void run() {
 			try {
 				while (true) {
-					write();
+					while (pathAndName.size() != 0
+							&& pathAndName.size() == content.size()) {
+						String str1 = pathAndName.poll();
+						String str2 = content.poll();
+						WriteFile wf = new WriteFile(str1, false);
+						wf.write(str2);
+						System.out.println("----------------saving-----------------");
+						System.out.println(str1);
+						System.out.println(str2);
+						System.out.println("---------------------------------------");
+						wf.close();
+					}
 					synchronized (this) {
 						wait();
 					}
@@ -30,17 +41,6 @@ implements Constants{
 			}
 		}
 	};
-	
-	synchronized static private void write()
-	throws IOException {
-		while(pathAndName.size() != 0 && pathAndName.size() == content.size()) {
-			String str1 = pathAndName.poll();
-			String str2 = content.poll();
-			WriteFile wf = new WriteFile(str1, false);
-			wf.write(str2);
-			wf.close();
-		}
-	}
 	
 	public Save() {
 		if(thread.getState() == Thread.State.NEW)
