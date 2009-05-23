@@ -174,6 +174,8 @@ implements KeyListener, ActionListener {
 				}
 				if (current == flag) {
 					setSearchResult(current);
+					if(current != flag)
+						continue;
 					synchronized (this) {
 						try {
 							wait();
