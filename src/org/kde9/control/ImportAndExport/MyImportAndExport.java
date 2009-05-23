@@ -93,6 +93,8 @@ implements ImportAndExport , Constants {
 	}
 	
 	public String openFile() {
+		ComponentPool.getNameComponent().setSumLabel(
+				"正在导入名片…");
 		jfc = new MyOpenChooser(".");
 		jfc.setPreferredSize(new Dimension(700, 400));
 		jfc.setAcceptAllFileFilterUsed(false);
@@ -101,8 +103,7 @@ implements ImportAndExport , Constants {
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
 		int result = jfc.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
-			ComponentPool.getNameComponent().setSumLabel(
-				"正在导入名片…");
+			
 			return jfc.getSelectedFile().getAbsolutePath();
 		}		
 		return null;

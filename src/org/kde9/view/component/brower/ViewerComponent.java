@@ -7,10 +7,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -19,13 +19,10 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.EventObject;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
@@ -61,9 +58,7 @@ import org.kde9.view.ComponentPool;
 import org.kde9.view.dialog.CoolInfoBox;
 import org.kde9.view.dialog.PhotoBox;
 import org.kde9.view.dialog.SelectPanel;
-//import org.kde9.view.dialog.SearchPanel;
 import org.kde9.view.listener.EditListener;
-import org.w3c.dom.events.MouseEvent;
 
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
@@ -1089,9 +1084,15 @@ outer:
 		if(editable)
 			new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400);
 		else {
-			int id = relationId.get(relationTable.getSelectedRow()-1);
-			ComponentPool.getGroupComponent().setSelected(0, 0);
-			ComponentPool.getNameComponent().setSelectedById(id);
+			Point p = MouseInfo.getPointerInfo().getLocation();
+			Point pp = relationTable.getLocationOnScreen();
+			int row = (p.y-pp.y)/relationTable.getRowHeight();
+			System.out.println(p + " " + row);
+			if(row > 0 && row < relationTable.getRowCount()-1) {
+				int id = relationId.get(row-1);
+				ComponentPool.getGroupComponent().setSelected(0, 0);
+				ComponentPool.getNameComponent().setSelectedById(id);
+			}
 		}
 	}
 

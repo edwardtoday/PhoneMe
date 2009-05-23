@@ -159,6 +159,8 @@ implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == confirm)
+			label.setText("正在刪除……");
 		// TODO Auto-generated method stub
 		int groupIdSelected = ComponentPool.getGroupComponent().getSelectedGroupId();
 		int nameSelected = ComponentPool.getNameComponent().getSelected();
@@ -179,8 +181,6 @@ implements ActionListener {
 					new CoolInfoBox(ComponentPool.getComponent(), 
 							"  All分组不能被删除！", Color.YELLOW , 200, 35,-60);
 				}else {
-					label.setText("正在删除……");
-					sheet.repaint();
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
 					kernel.deleteGroup(groupIdSelected);
@@ -193,8 +193,6 @@ implements ActionListener {
 				}
 				System.err.println("delete group!!!");
 			}else if(type == Constants.DELETECARD) {
-				label.setText("正在删除……");
-				sheet.repaint();
 				this.confirm.setEnabled(false);
 				this.cancel.setEnabled(false);
 				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
@@ -212,8 +210,6 @@ implements ActionListener {
 				}else {
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
-					label.setText("正在删除……");
-					sheet.repaint();
 					kernel.deleteGroupMember(groupIdSelected, 
 							ComponentPool.getNameComponent().getSelectedMemberIds());
 					//ComponentPool.getBrowerComponent().showGroupMembers();

@@ -10,7 +10,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.LinkedHashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -20,9 +22,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.kde9.control.Kernel;
 import org.kde9.model.group.ConstGroup;
+import org.kde9.util.ConfigFactory;
+import org.kde9.util.Configuration;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.component.brower.BrowerComponent;
 import org.kde9.view.component.brower.GroupComponent;
@@ -32,7 +41,8 @@ import ch.randelshofer.quaqua.JSheet;
 import com.sun.java.swing.plaf.windows.resources.windows;
 import com.sun.jna.examples.WindowUtils;
 
-public class SelectPanel {
+public class SelectPanel 
+implements KeyListener, Constants {
 	private static JDialog frame = 
 		new JDialog(ComponentPool.getComponent(), true);
 	private Container father;
@@ -43,7 +53,9 @@ public class SelectPanel {
 	private SimpleGroupC group;
 	private SimpleNameC name;
 	private JSplitPane pane;
+	private JTextField search;
 	
+	private Configuration config = ConfigFactory.creatConfig();
 	
 	private int w;
 	private int h;
@@ -74,18 +86,36 @@ public class SelectPanel {
 		sheet.setSize(w, h);
 		
 		group = new SimpleGroupC();
+		LinkedHashMap<Integer, String> map = kernel.getAllGroups();
+		group.setGroups(map);
+		group.setSelected(0, 0);
+		
 		name = new SimpleNameC();
+		
+		showGroupMembers();
+		
 		pane = new JSplitPane();
 		pane.setLeftComponent(group);
 		pane.setRightComponent(name);
+		pane.setDividerLocation(0.5);
 
+		search = new JTextField();
+		
+		TitledBorder border = new TitledBorder("");
+		border.setTitleJustification(TitledBorder.CENTER);
+		
 		container = new JPanel(new BorderLayout());
-		container.add(pane);
+		container.add("Center", pane);
+		container.add("North", search);
+		container.setBorder(border);
 		sheet.setContentPane(container);
 
 		container.setOpaque(true);
-		container.setBackground(color);
-		//JPanel 
+		//container.setBackground(color);
+		
+		search.addKeyListener(this);
+		group.getTable().addKeyListener(this);
+		name.getTable().addKeyListener(this);
 
 		RoundRectangle2D.Float mask = new RoundRectangle2D.Float(1, 1, 
 				sheet.getWidth()-2, sheet.getHeight()-2, 20, 20);
@@ -97,6 +127,23 @@ public class SelectPanel {
 		changeAlphaDown(800, 0.8f, ComponentPool.getComponent(), false);
 	}
 
+	public void showGroupMembers() {
+		int id = group.getSelectedGroupId();
+		LinkedHashMap<Integer, String> members = 
+			new LinkedHashMap<Integer, String>();
+		for(int current : kernel.getGroup(id).getGroupMembers()) {
+			String name;
+			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0)
+				name = 
+					kernel.getFirstName(current) + ' ' + kernel.getLastName(current);
+			else
+				name = 
+					kernel.getLastName(current) + ' ' + kernel.getFirstName(current);
+			members.put(current, name);
+		}
+		name.setMembers(members);
+	}
+	
 	private void changeAlphaUp(final int a, final float s, final Window window) {
 		Thread thread = new Thread() {
 			public void run() {
@@ -151,6 +198,22 @@ public class SelectPanel {
 		int x = xx + w/2;
 		int y = yy + (h-sheet.getHeight())/2;
 		frame.setLocation(x, y);
+	}
+
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		changeAlphaUp(300, 0.8f, ComponentPool.getComponent());
+		changeAlphaDown(300, 0, sheet, true);
+	}
+
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
