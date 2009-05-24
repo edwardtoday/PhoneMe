@@ -18,7 +18,7 @@ implements ActionListener, Constants {
 	ViewerComponent component;
 	Kernel kernel = ComponentPool.getComponent().getKernel();
 	Configuration config = ConfigFactory.creatConfig();
-	int i, j;
+//	int i, j;
 	
 	public void actionPerformed(ActionEvent e) {
 		if(((JToggleButton)e.getSource()).isSelected()) {
@@ -28,8 +28,8 @@ implements ActionListener, Constants {
 			ComponentPool.getGroupComponent().getButtonAdd().setEnabled(false);
 			//ComponentPool.getViewerComponent().setEnabled(true);
 			//ComponentPool.getBrowerComponent().setEnabled(false);
-			i = ComponentPool.getGroupComponent().getSelected();
-			j = ComponentPool.getNameComponent().getSelected();
+//			i = ComponentPool.getGroupComponent().getSelected();
+//			j = ComponentPool.getNameComponent().getSelected();
 			//ComponentPool.getGroupComponent().getTable().setCellSelectionEnabled(false);
 			//ComponentPool.getNameComponent().getTable().setCellSelectionEnabled(false);
 			//ComponentPool.getGroupComponent().getTable().setFocusable(false);
@@ -56,7 +56,7 @@ implements ActionListener, Constants {
 //				System.out.println(viewer.getNewRelation());
 				ComponentPool.getNameComponent().getModel().setValueAt(
 						viewer.getNewNameOne() + " " + viewer.getNewNameTwo(),
-						j, 0);
+						ComponentPool.getNameComponent().getSelected(), 0);
 			}
 			else {
 				kernel.updateCard(viewer.getCardId(),
@@ -66,7 +66,7 @@ implements ActionListener, Constants {
 						viewer.getNewRelation());
 				ComponentPool.getNameComponent().getModel().setValueAt(
 						viewer.getNewNameTwo() + " " + viewer.getNewNameOne(),
-						j, 0);
+						ComponentPool.getNameComponent().getSelected(), 0);
 			}
 			System.out.println("Saving!!!!!!!!!!!!!!!!!!!!");
 		}
