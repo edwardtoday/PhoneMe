@@ -2,6 +2,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,6 +11,7 @@ import java.util.LinkedHashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JToggleButton;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -220,6 +222,12 @@ implements ListSelectionListener, KeyListener, Constants {
 //						kernel.deleteCard(id);
 //						name.deleteMember();
 //					} else
+					if(viewer.isEditable()) {
+						JToggleButton b = viewer.getButtonEdit();
+						b.setSelected(false);
+						b.getActionListeners()[0].actionPerformed(
+								new ActionEvent(b, ActionEvent.ACTION_PERFORMED, "Edit"));
+					}
 					showItem();
 				}
 			}
