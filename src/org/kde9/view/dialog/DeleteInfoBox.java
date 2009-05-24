@@ -7,6 +7,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.LinkedHashSet;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -195,10 +196,12 @@ implements ActionListener {
 			}else if(type == Constants.DELETECARD) {
 				this.confirm.setEnabled(false);
 				this.cancel.setEnabled(false);
-				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
+				LinkedHashSet<Integer> del = 
+					ComponentPool.getNameComponent().getSelectedMemberIds();
 				ComponentPool.getNameComponent().deleteMember();
 				ComponentPool.getViewerComponent().clear();
 				ComponentPool.getNameComponent().getTable().clearSelection();
+				kernel.deleteCard(del);
 				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 					ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 				else
@@ -211,12 +214,13 @@ implements ActionListener {
 				}else {
 					this.confirm.setEnabled(false);
 					this.cancel.setEnabled(false);
-					kernel.deleteGroupMember(groupIdSelected, 
-							ComponentPool.getNameComponent().getSelectedMemberIds());
-					//ComponentPool.getBrowerComponent().showGroupMembers();
+					LinkedHashSet<Integer> del = 
+						ComponentPool.getNameComponent().getSelectedMemberIds();
 					ComponentPool.getNameComponent().deleteMember();
 					ComponentPool.getViewerComponent().clear();
 					ComponentPool.getNameComponent().getTable().clearSelection();
+					kernel.deleteGroupMember(groupIdSelected, del);
+					//ComponentPool.getBrowerComponent().showGroupMembers();
 					if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 						ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 					else

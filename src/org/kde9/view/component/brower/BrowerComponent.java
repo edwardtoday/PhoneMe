@@ -166,12 +166,14 @@ implements ListSelectionListener, KeyListener, Constants {
 		if(id != -1) {
 			ConstCard card = kernel.getCard(id);
 			if(card == null) {
-//				new WarningInfoBox(0, ComponentPool.getNameComponent(),
-//						"       糟糕！这个名片丢失了！\n" + 
-//						"      可能是文件系统被破坏了……\n" +
-//						"         看来只能将它去掉了……", Color.YELLOW, 200, 100);
-//				kernel.deleteCard(id);
-//				name.deleteMember();
+				new WarningInfoBox(0, ComponentPool.getNameComponent(),
+						"     糟糕！名片" +
+						kernel.getName(id) +
+						"丢失了！\n" + 
+						"      可能是文件系统被破坏了……\n" +
+						"         看来只能将它去掉了……", Color.YELLOW, 200, 100);
+				kernel.deleteCard(id);
+				name.deleteMember();
 				return;
 			}
 			String name, pinyin;
@@ -208,6 +210,16 @@ implements ListSelectionListener, KeyListener, Constants {
 			} else if (e.getSource().equals(name.getSelectionModel())) {
 				if (name.getSelected() != -1) {
 					group.highLightGroup(name.getSelectedMemberIds());
+					int id = name.getSelectedMemberId();
+//					if(kernel.getCard(id) == null) {
+//						new WarningInfoBox(0, ComponentPool.getNameComponent(),
+//								"       糟糕！这个名片丢失了！\n"
+//										+ "      可能是文件系统被破坏了……\n"
+//										+ "         看来只能将它去掉了……", Color.YELLOW,
+//								200, 100);
+//						kernel.deleteCard(id);
+//						name.deleteMember();
+//					} else
 					showItem();
 				}
 			}

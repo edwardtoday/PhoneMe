@@ -94,14 +94,13 @@ implements Kernel, Constants {
 	
 	public String getName(int cardId) {
 		String name = "";
-		ConstCard card = getCard(cardId);
-		if (card != null) {
+		try {
 			if ((Integer) configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-				name = card.getFirstName() + " " + card.getLastName();
+				name = names.getFirstName(cardId) + " " + names.getLastName(cardId);
 			} else {
-				name = card.getLastName() + " " + card.getFirstName();
+				name = names.getLastName(cardId) + " " + names.getFirstName(cardId);
 			}
-		}
+		} catch(NullPointerException e) {}
 		return name;
 	}
 	
@@ -109,14 +108,13 @@ implements Kernel, Constants {
 		if(space)
 			return getName(cardId);
 		String name = "";
-		ConstCard card = getCard(cardId);
-		if (card != null) {
+		try {
 			if ((Integer) configuration.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
-				name = card.getFirstName() + card.getLastName();
+				name = names.getFirstName(cardId) + names.getLastName(cardId);
 			} else {
-				name = card.getLastName() + card.getFirstName();
+				name = names.getLastName(cardId) + names.getFirstName(cardId);
 			}
-		}
+		} catch(NullPointerException e) {}
 		return name;
 	}
 
