@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -292,6 +293,23 @@ implements Kernel, Constants {
 					}
 					if (flag)
 						addSearchResult(temp, id, thread, threadId);
+
+					if(keys.size() == 2) {
+						ConstCard card = getCard(id);
+						HashMap<Integer, String> rel = card
+								.getAllShowRelationship();
+						for (int person : rel.keySet()) {
+							if (thread != threadId) {
+								subThreadNum();
+								return;
+							}
+							if (names.findByName(person, keys.lastElement())
+									&& rel.get(person).contains(keys.firstElement())) {
+								addSearchResult(temp, id, thread, threadId);
+								break;
+							}
+						}	
+					}
 //					try {
 //						sleep(1000);
 //					} catch (InterruptedException e) {
@@ -306,6 +324,10 @@ implements Kernel, Constants {
 		}.start();
 
 		return temp;
+	}
+	
+	public boolean findByName(int cardId, String name) {
+		return names.findByName(cardId, name);
 	}
 	
 	public Vector<String> getKeys() {

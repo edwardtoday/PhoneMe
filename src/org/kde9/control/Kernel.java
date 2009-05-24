@@ -58,6 +58,8 @@ public interface Kernel {
 	
 	public LinkedHashMap<Integer, String> find(String keyWords);
 	
+	public boolean findByName(int cardId, String name);
+	
 	public boolean isSearchFinish();
 	
 	public Vector<String> getKeys();
