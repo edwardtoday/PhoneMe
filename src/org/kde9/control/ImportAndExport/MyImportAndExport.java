@@ -396,13 +396,13 @@ implements ImportAndExport , Constants {
 								}
 								for (int t = 0; t < itemsIndex.get(itemName)
 										- items.get(itemName).size(); t++) {
-									label = new Label(temp, i + 1, "NULL");
+									label = new Label(temp, i + 1, "");
 									temp++;
 									sheet.addCell(label);
 								}
 							} else {
 								for (int t = 0; t < itemsIndex.get(itemName); t++) {
-									label = new Label(temp, i + 1, "NULL");
+									label = new Label(temp, i + 1, "");
 									temp++;
 									sheet.addCell(label);
 								}
@@ -510,13 +510,13 @@ implements ImportAndExport , Constants {
 									sheet.addCell(label);
 								}
 								for (int t = 0; t < itemsIndex.get(itemName)- items.get(itemName).size(); t++) {
-									label = new Label(temp, rows + 1, "NULL");
+									label = new Label(temp, rows + 1, "");
 									temp++;
 									sheet.addCell(label);
 								}
 							} else {
 								for (int t = 0; t < itemsIndex.get(itemName); t++) {
-									label = new Label(temp, rows + 1, "NULL");
+									label = new Label(temp, rows + 1, "");
 									temp++;
 									sheet.addCell(label);
 								}
@@ -670,7 +670,7 @@ implements ImportAndExport , Constants {
 			wb = Workbook.getWorkbook(is); 
 			Sheet st = wb.getSheet(0);
 			int rowCount = st.getRows();
-			int colCount = st.getColumns();
+			int colCount = st.getRow(0).length;
 			System.out.println(rowCount + "  :  rowCount");
 			System.out.println(colCount + "  :  colCount");
 			Cell cell;
@@ -678,13 +678,22 @@ implements ImportAndExport , Constants {
 			for(int i = 2; i < colCount ; i++) {
 				cell = st.getCell(i, 0);  
 				content = cell.getContents().toString();
-				itemsIndex.put(content, 0);
+				if(content.length() == 0)
+					itemsIndex.put("NULL" + i, 0);
+				else
+					itemsIndex.put(content, 0);
 			}
 			for(int i = 2; i < colCount ; i++) {
 				cell = st.getCell(i, 0);  
 				content = cell.getContents().toString();
-				int sum = itemsIndex.get(content) + 1;
-				itemsIndex.put(content, sum);
+				int sum = 0;
+				if(content.length() == 0){
+					sum = itemsIndex.get("NULL" + i) + 1;
+					itemsIndex.put("NULL" + i, sum);
+				}else {
+					sum = itemsIndex.get(content) + 1;
+					itemsIndex.put(content, sum);
+				}
 			}
 			for(String item : itemsIndex.keySet()) {
 				System.out.println(item + "--------------" + itemsIndex.get(item));
@@ -701,13 +710,17 @@ implements ImportAndExport , Constants {
 				while(col < colCount) {
 					Cell indexCell = st.getCell(col, 0);
 					String index = indexCell.getContents().toString();
+					if(index.length() == 0)
+						index = "NULL" + col;
 					Vector<String> temp = new Vector<String>();
 					if(itemsIndex.get(index) == 1) {
 						cell = st.getCell(col, row);
 						content = cell.getContents();
-						temp.add(content);
+						if(content.length() != 0)
+							temp.add(content);
 						col++;
-						items.put(index, temp);
+						if(temp.size() != 0 && temp != null)
+							items.put(index, temp);
 					}else {
 						for(int tempIndex = 0; tempIndex < itemsIndex.get(index); tempIndex++) {
 							cell = st.getCell(col, row);
@@ -716,7 +729,8 @@ implements ImportAndExport , Constants {
 								temp.add(content);
 							col++;
 						}
-						items.put(index, temp);
+						if(temp.size() != 0 && temp != null)
+							items.put(index, temp);
 					}
 				}
 				System.out.println(row + "*************************");
