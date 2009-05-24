@@ -196,7 +196,7 @@ implements ImportAndExport , Constants {
 			}
 			File file = new File(temp);
 			if (file.exists()) {
-				WarningInfoBox wib = new WarningInfoBox(ComponentPool.getComponent(),"是否要覆盖当前文件？",
+				WarningInfoBox wib = new WarningInfoBox(1, ComponentPool.getComponent(),"是否要覆盖当前文件？",
 						Color.YELLOW, 200, 100);
 				if(wib.isFlag()) {
 					super.approveSelection(); 
@@ -556,6 +556,11 @@ implements ImportAndExport , Constants {
 			ReadFile rf = new ReadFile(filePath, "GB2312");
 			String temp = rf.readLine();
 			String[] index = temp.split(",");
+			for(int i = 0; i < index.length; i++) {
+				if(index[i].length() == 0)
+					index[i] = "NULL" + String.valueOf(i);
+				System.out.println(index[i]);
+			}
 			for(int i = 2; i < index.length ; i++) {
 				itemsIndex.put(index[i], 0);
 			}
@@ -566,24 +571,44 @@ implements ImportAndExport , Constants {
 			for(String item : itemsIndex.keySet()) {
 				System.out.println(item + "--------------" + itemsIndex.get(item));
 			}
+			System.out.println(index.length + "%%%%%%%%%%%%%%%%%%%%%%");
 			String content = "";
 			String [] tempContent;
 			while((content = rf.readLine()) != null) {
+				if(content.length() != 0) {
 				Vector<String> keys = new Vector<String>();
 				int p = 0 ,j = 0;
 				for (p = 0, j = 0; p < content.length(); p++) {
 					if (content.charAt(p) == ',') {
-						if (j != p)
-							keys.add(content.substring(j, p));
-						else
-							keys.add("");
+						if (j != p) {
+							if(keys.size() < index.length)
+								keys.add(content.substring(j, p));
+							else
+								break;
+						}
+						else {
+							if(keys.size() < index.length)
+								keys.add("");
+							else
+								break;
+						}
 						j = p + 1;
 					}
 				}
-				keys.add(content.substring(j));
-//				System.out.println(keys.size() + "&&&&&&&&&&&&&");
-//				for(int i = 0; i < keys.size(); i++)
-//					System.out.print(keys.get(i) + " ");
+				System.out.println(keys.size() + "&&&&&&&&&&&&&1");
+				System.out.println(index.length + "&&&&&&&&&&&&&2");
+				if(keys.size() < index.length) {
+					keys.add(content.substring(j));
+				}
+				System.out.println(keys.size() + "&&&&&&&&&&&&&3");
+				System.out.println(index.length + "&&&&&&&&&&&&&4");
+				while(keys.size() < index.length) {
+					System.out.println(keys.size() + "&&&&&&&&&&&&&5");
+					keys.add("");
+				}
+				System.out.println(keys.size() + "&&&&&&&&&&&&&");
+				for(int i = 0; i < keys.size(); i++)
+					System.out.print(keys.get(i) + " ");
 //				System.out.println();
 //				tempContent = content.split(",");
 //				System.out.println(tempContent.length + "^^^^^^^^^^^^^^^^^^^^^");
@@ -596,25 +621,37 @@ implements ImportAndExport , Constants {
 				while(col < keys.size()) {
 					String oneIndex = index[col];
 					Vector<String> realItem = new Vector<String>();
+					System.out.println(itemsIndex + " ^^^^^^^^^^^^^^");
+					System.out.println(oneIndex);
 					if(itemsIndex.get(oneIndex) == 1) {
-						realItem.add(keys.get(col));
+						if(keys.get(col).length() != 0)
+							realItem.add(keys.get(col));
 						col++;
-						items.put(oneIndex, realItem);
+						System.out.println(oneIndex + "|||" + realItem + "|");
+						if(realItem != null && realItem.size() != 0)
+							items.put(oneIndex, realItem);
 					}else {
 						for(int tempIndex = 0; tempIndex < itemsIndex.get(oneIndex); tempIndex++) {
 							if(keys.get(col).length() != 0)
 								realItem.add(keys.get(col));
 							col++;
 						}
-						items.put(oneIndex, realItem);
+						System.out.println(oneIndex + "||");
+						if(realItem != null && realItem.size() != 0)
+							items.put(oneIndex, realItem);
 					}
 				}
 				System.out.println(firstName);
 				System.out.println(lastName);
-				System.out.println(items + "   ITEMS");
+//				for(String itemKey : items.keySet()) {
+//					if(items.get(itemKey) == null || items.get(itemKey).size() == 0)
+//						items.remove(itemKey);
+//				}
+				System.out.println("**" + items + "**");
 				cardAdded = kernel.addCard(groupId, firstName, lastName, items, null);
 				System.out.println(cardAdded.getId() + " 添加的card的id");
 				kernel.addGroupMember(groupId, cardAdded.getId());
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

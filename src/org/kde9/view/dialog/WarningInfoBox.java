@@ -39,7 +39,7 @@ implements ActionListener {
 	
 	private boolean closing;
 
-	public WarningInfoBox(Container father, String str , Color color, int w, int h) {
+	public WarningInfoBox(int type , Container father, String str , Color color, int w, int h) {
 		this.frame = new JDialog(ComponentPool.getComponent(), true);
 		this.type = type;
 		this.confirm = new JButton("[    OK   ]");
@@ -78,7 +78,8 @@ implements ActionListener {
 		cancel.putClientProperty("Quaqua.Button.style", "toolBarRollover");
 		JPanel button = new JPanel();
 		button.add(confirm);
-		button.add(cancel);
+		if(type == 1)
+			button.add(cancel);
 		container.add("South",button);
 		container.setOpaque(true);
 		container.setBackground(color);
