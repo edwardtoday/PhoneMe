@@ -63,24 +63,49 @@ implements ImportAndExport , Constants {
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
 		int result = jfc.showSaveDialog(ComponentPool.getComponent());
 		String path = jfc.getSelectedFile().getAbsolutePath();
-//		File file = new File(path);
-//		while (file.exists()) {
-//			int okornot = JOptionPane.showConfirmDialog(
-//					ComponentPool.getBrowerComponent(), "文件已存在，要覆盖么？");
-//			if(okornot == JOptionPane.CANCEL_OPTION)
-//				return null;
-//			else if(okornot == JOptionPane.NO_OPTION) {
-//				path = jfc.getSelectedFile().getAbsolutePath();
-//				file = new File(path);
-//			}
-//			else {
-//				break;
-//			}
-//		}
 		if(path == null)
 			return null;
+		String ends = jfc.getFileFilter().getDescription();
+		if(ends.equals("*.csv")) {
+			if(!path.endsWith(".csv")) {
+				path += ".csv";
+			}
+		}
+		else if(ends.equals("*.xls")) {
+			if(!path.endsWith(".xls")) {
+				path += ".xls";
+			}
+		}
+		File file = new File(path);
+		while (result != JFileChooser.CANCEL_OPTION && file.exists()) {
+			int okornot = JOptionPane.showConfirmDialog(
+					ComponentPool.getBrowerComponent(), "文件已存在，要覆盖么？");
+			if(okornot == JOptionPane.CANCEL_OPTION)
+				return null;
+			else if(okornot == JOptionPane.NO_OPTION) {
+				result = jfc.showSaveDialog(ComponentPool.getComponent());
+				path = jfc.getSelectedFile().getAbsolutePath();
+				ends = jfc.getFileFilter().getDescription();
+				if(ends.equals("*.csv")) {
+					if(!path.endsWith(".csv")) {
+						path += ".csv";
+					}
+				}
+				else if(ends.equals("*.xls")) {
+					if(!path.endsWith(".xls")) {
+						path += ".xls";
+					}
+				}
+				file = new File(path);
+			}
+			else {
+				break;
+			}
+		}
+		if(result == JFileChooser.CANCEL_OPTION)
+			return null;
 		if(result == JFileChooser.APPROVE_OPTION) {
-			String ends = jfc.getFileFilter().getDescription();
+			ends = jfc.getFileFilter().getDescription();
 			if(ends.equals("*.csv")) {
 				if(path.endsWith(".csv"))
 					return path;
