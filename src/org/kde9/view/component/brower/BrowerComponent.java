@@ -134,6 +134,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	}
 
 	public void showGroupMembers() {
+		name.getTable().clearSelection();
 		name.getButtonAdd().setEnabled(true);
 		int id = group.getSelectedGroupId();
 		LinkedHashMap<Integer, String> members = 
