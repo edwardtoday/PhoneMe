@@ -42,7 +42,7 @@ public interface CardController {
 	public boolean findByItem(int cardId, 
 			String item, String content, boolean wholeWord);
 	
-	public boolean findByRelation(int cardId, String name,
+	public boolean findByRelation(int cardId,
 			String content, boolean wholeWord);
 	
 	public boolean setImage(int cardId, File file);

@@ -380,7 +380,7 @@ implements CardController, Constants {
 		return false;
 	}
 	
-	public boolean findByRelation(int cardId, String name,
+	public boolean findByRelation(int cardId,
 			String content, boolean wholeWord) {		
 		Card card = get(cardId, false);
 		if(card != null) {

@@ -161,6 +161,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 			centerWindow(father, sheet);
 		else
 			centerWindow(sheet, sheet);
+		sheet.setBackground(Color.WHITE);
 		WindowUtils.setWindowAlpha(sheet, 1);
 		changeAlphaDown(800, 0.8f, ComponentPool.getComponent(), false);
 	}

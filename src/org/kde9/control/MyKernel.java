@@ -294,6 +294,15 @@ implements Kernel, Constants {
 					if (flag)
 						addSearchResult(temp, id, thread, threadId);
 
+					if(keys.size() == 1) {
+						if (thread != threadId) {
+							subThreadNum();
+							return;
+						}
+						if(cards.findByRelation(id, keys.firstElement(), false))
+							addSearchResult(temp, id, thread, threadId);
+					}
+					
 					if(keys.size() == 2) {
 						ConstCard card = getCard(id);
 						HashMap<Integer, String> rel = card
