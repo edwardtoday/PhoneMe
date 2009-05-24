@@ -89,7 +89,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private boolean editable;
 	private boolean highlight = false;
 	
-	private Vector<Integer> high;
+	private Vector<Integer> highItem;
+	private Vector<Integer> highRel;
 
 	private Vector<String> itemKeys;
 	private Vector<Vector<String>> itemValues;
@@ -279,8 +280,8 @@ implements ActionListener, DropTargetListener, SheetListener,
 						this.getColumnModel().getColumn(4).getWidth() +
 						this.getColumnModel().getColumn(5).getWidth() +
 						this.getColumnModel().getColumn(6).getWidth();
-				if(highlight && high != null)
-					for(int i : high)
+				if(highlight && highItem != null)
+					for(int i : highItem)
 						g.fillRect(width, this.getRowHeight()*(i-1),
 								this.getColumnModel().getColumn(7).getWidth(),
 								this.getRowHeight());
@@ -321,6 +322,22 @@ implements ActionListener, DropTargetListener, SheetListener,
 				if(j == 6)
 					return true;
 				return editable;
+			}
+			
+			public void paint(Graphics g) {
+				super.paint(g);
+				g.setColor(new Color(118,255,5,90));
+				int width = this.getColumnModel().getColumn(0).getWidth() +
+						this.getColumnModel().getColumn(1).getWidth() +
+						this.getColumnModel().getColumn(2).getWidth() +
+						this.getColumnModel().getColumn(3).getWidth() +
+						this.getColumnModel().getColumn(4).getWidth() +
+						this.getColumnModel().getColumn(5).getWidth();
+				if(highlight && highRel != null)
+					for(int i : highRel)
+						g.fillRect(width, this.getRowHeight()*(i-1),
+								this.getColumnModel().getColumn(6).getWidth(),
+								this.getRowHeight());
 			}
 		};
 		setTabel(relationTable, relationButtons, 1, TRUE);
@@ -622,6 +639,7 @@ outer:
 	}
 	
 	public void setRelations(LinkedHashMap<Integer, String> rel) {
+		highRel = new Vector<Integer>();
 		relationId = new Vector<Integer>();
 		relationContent = new Vector<String>();
 		while(relationModel.getRowCount() != 0)
@@ -659,6 +677,13 @@ outer:
 					}
 					relationButtons.add(new ButtonUnit(3, relationButtons
 							.size(), 0, this));
+					Vector<String> keys = kernel.getKeys();
+					if(highlight && keys != null && keys.size() == 2) {
+						if(kernel.findByName(id, keys.lastElement()) &&
+								rel.get(id).contains(keys.firstElement())) {
+							highRel.add(relationButtons.size());
+						}
+					}
 				}
 			}
 		}
@@ -669,7 +694,7 @@ outer:
 	
 	public void setItems(LinkedHashMap<String, Vector<String>> items) {
 		//this.items = items;
-		high = new Vector<Integer>();
+		highItem = new Vector<Integer>();
 		while (itemModel.getRowCount() != 0)
 			itemModel.removeRow(0);
 		
@@ -707,10 +732,9 @@ outer:
 								buttonsLow.size(), this));
 					}
 					if(highlight && kernel.getKeys() != null) {
-						boolean ok = true;
 						for(String search : kernel.getKeys()) {
 							if(value.contains(search)) {
-								high.add(buttons.size());
+								highItem.add(buttons.size());
 								break;
 							}
 						}
@@ -719,7 +743,7 @@ outer:
 			}
 		}
 		itemModel.addRow(new Object[]{});
-		System.out.println("highlight : " + high);
+		System.out.println("highlight : " + highItem);
 	}
 
 	public void ready() {
@@ -740,7 +764,7 @@ outer:
 		setPinYin("","");
 		setImage(null);
 		setSetting(false);
-		high = null;
+		highItem = null;
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {
