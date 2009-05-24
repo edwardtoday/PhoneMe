@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import org.kde9.control.Kernel;
 import org.kde9.util.Constants;
@@ -70,8 +71,10 @@ implements ActionListener {
 
 		container = new JPanel(new BorderLayout());
 		sheet.setContentPane(container);
-		JLabel label = new JLabel(str);
+		JTextArea label = new JTextArea(str);
+		label.setEditable(false);
 		container.add("Center",label);
+		label.setBackground(color);
 		confirm.addActionListener(this);
 		cancel.addActionListener(this);
 		confirm.putClientProperty("Quaqua.Button.style", "toolBarRollover");

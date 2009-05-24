@@ -9,12 +9,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Vector;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import jxl.Cell;
@@ -58,8 +61,22 @@ implements ImportAndExport , Constants {
 		jfc.addChoosableFileFilter(new MyFileFilter("csv"));
 //		jfc.addChoosableFileFilter(new MyFileFilter("vcf"));
 		jfc.addChoosableFileFilter(new MyFileFilter("xls"));
-		int result = jfc.showSaveDialog(null);
+		int result = jfc.showSaveDialog(ComponentPool.getComponent());
 		String path = jfc.getSelectedFile().getAbsolutePath();
+//		File file = new File(path);
+//		while (file.exists()) {
+//			int okornot = JOptionPane.showConfirmDialog(
+//					ComponentPool.getBrowerComponent(), "文件已存在，要覆盖么？");
+//			if(okornot == JOptionPane.CANCEL_OPTION)
+//				return null;
+//			else if(okornot == JOptionPane.NO_OPTION) {
+//				path = jfc.getSelectedFile().getAbsolutePath();
+//				file = new File(path);
+//			}
+//			else {
+//				break;
+//			}
+//		}
 		if(path == null)
 			return null;
 		if(result == JFileChooser.APPROVE_OPTION) {
@@ -194,16 +211,17 @@ implements ImportAndExport , Constants {
 					temp += ".xls";
 				}
 			}
-			File file = new File(temp);
-			if (file.exists()) {
-				WarningInfoBox wib = new WarningInfoBox(1, ComponentPool.getComponent(),"是否要覆盖当前文件？",
-						Color.YELLOW, 200, 100);
-				if(wib.isFlag()) {
-					super.approveSelection(); 
-				}
-			}else {
+//			File file = new File(temp);
+//			if (file.exists()) {
+//				WarningInfoBox wib = new WarningInfoBox(1, this, this,
+//						"是否要覆盖当前文件？",
+//						Color.YELLOW, 200, 100);
+//				if(wib.isFlag()) {
+//					super.approveSelection(); 
+//				}
+//			}else {
 				super.approveSelection(); 
-			}
+//			}
 		}
 	}
 	
@@ -212,15 +230,17 @@ implements ImportAndExport , Constants {
 		String filePath = this.saveFile();
 		if(filePath == null)
 			return;
-		int cardCount = kernel.getGroup(0).getGroupMembers().size();
 		//System.out.println(cardCount);
 		ConstCard card;
 		LinkedHashMap<String, Integer> itemsIndex = new LinkedHashMap<String, Integer>();
 		/*
 		 * 获得index
 		 */
-		for(int i : kernel.getGroup(GROUPALLID).getGroupMembers()) {
-			card = kernel.getCard(i);
+		HashSet<Integer> ids = kernel.getGroup(GROUPALLID).getGroupMembers();
+		int cardCount = ids.size();
+		Object[] arrayIds = ids.toArray();
+		for(int i = 0 ; i < cardCount; i++) {
+			card = kernel.getCard((Integer)arrayIds[i]);
 			LinkedHashMap<String, Vector<String>> items = card.getAllItems();
 			for(String itemName : items.keySet()) {
 				//itemsIndex.put(itemName);
@@ -228,7 +248,7 @@ implements ImportAndExport , Constants {
 			}
 		}
 		for(int i = 0 ; i < cardCount; i++) {
-			card = kernel.getCard(i);
+			card = kernel.getCard((Integer)arrayIds[i]);
 			LinkedHashMap<String, Vector<String>> items = card.getAllItems();
 			for(String itemName : items.keySet()) {
 				if(items.get(itemName).size() > itemsIndex.get(itemName))
@@ -249,7 +269,7 @@ implements ImportAndExport , Constants {
 					wf.writeLine(index);
 					String temp = "";
 					for (int i = 0; i < cardCount; i++) {
-						card = kernel.getCard(i);
+						card = kernel.getCard((Integer)arrayIds[i]);
 						temp = card.getFirstName() + "," + card.getLastName();
 						LinkedHashMap<String, Vector<String>> items = card
 								.getAllItems();
@@ -378,7 +398,7 @@ implements ImportAndExport , Constants {
 						}
 					}
 					for (int i = 0; i < cardCount; i++) {
-						card = kernel.getCard(i);
+						card = kernel.getCard((Integer)arrayIds[i]);
 						label = new Label(0, i + 1, card.getFirstName());
 						sheet.addCell(label);
 						label = new Label(1, i + 1, card.getLastName());

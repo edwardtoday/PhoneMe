@@ -198,6 +198,7 @@ implements ActionListener {
 				kernel.deleteCard(ComponentPool.getNameComponent().getSelectedMemberIds());
 				ComponentPool.getNameComponent().deleteMember();
 				ComponentPool.getViewerComponent().clear();
+				ComponentPool.getNameComponent().getTable().clearSelection();
 				if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 					ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 				else
@@ -215,6 +216,7 @@ implements ActionListener {
 					//ComponentPool.getBrowerComponent().showGroupMembers();
 					ComponentPool.getNameComponent().deleteMember();
 					ComponentPool.getViewerComponent().clear();
+					ComponentPool.getNameComponent().getTable().clearSelection();
 					if(nameSelected < ComponentPool.getNameComponent().getTable().getRowCount())
 						ComponentPool.getNameComponent().setSelected(nameSelected, nameSelected);
 					else

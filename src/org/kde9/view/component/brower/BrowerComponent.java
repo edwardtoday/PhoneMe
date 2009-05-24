@@ -1,6 +1,7 @@
 ﻿package org.kde9.view.component.brower;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,6 +19,7 @@ import org.kde9.util.ConfigFactory;
 import org.kde9.util.Configuration;
 import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
+import org.kde9.view.dialog.WarningInfoBox;
 import org.kde9.view.listener.AddGroupListener;
 import org.kde9.view.listener.AddNameListener;
 import org.kde9.view.listener.EditListener;
@@ -163,8 +165,15 @@ implements ListSelectionListener, KeyListener, Constants {
 		int id = name.getSelectedMemberId();
 		if(id != -1) {
 			ConstCard card = kernel.getCard(id);
-			if(card == null)
+			if(card == null) {
+//				new WarningInfoBox(0, ComponentPool.getNameComponent(),
+//						"       糟糕！这个名片丢失了！\n" + 
+//						"      可能是文件系统被破坏了……\n" +
+//						"         看来只能将它去掉了……", Color.YELLOW, 200, 100);
+//				kernel.deleteCard(id);
+//				name.deleteMember();
 				return;
+			}
 			String name, pinyin;
 			if((Integer)config.getConfig(NAME_FOMAT, CONFIGINT) == 0) {
 				viewer.setName(card.getFirstName(), card.getLastName());
