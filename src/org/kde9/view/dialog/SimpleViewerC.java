@@ -77,13 +77,22 @@ implements Constants {
 	private JLabel secondValue;
 	private ConstCard card;
 	
+	public ConstCard getCard() {
+		return card;
+	}
+
+	public void setCard(ConstCard card) {
+		this.card = card;
+	}
+
 	private Configuration configuration;
 	
 	SimpleViewerC() {	
 		configuration = ConfigFactory.creatConfig();
 		
 		photo = new JLabel();
-		photo.setIcon(new ImageIcon("./img/nullImag.gif"));
+		//photo.setIcon(new ImageIcon("./img/nullImag.gif"));
+		photo.setPreferredSize(new Dimension(120,120));
 		name.setHorizontalAlignment(JLabel.LEFT);
 		nameText = new JLabel("");
 		nameText.setHorizontalAlignment(JLabel.LEFT);
@@ -199,9 +208,11 @@ implements Constants {
 	}
 	
 	synchronized private void showImage(int id) {
+//		System.out.println(")))))))))))))))))))))))))");
 		if(card == null || card.getScaleImage() == null || card.getId() != id) {
 			return;
 		} else {
+//			System.out.println("{{{{{{{{{{{{{{{{{{{");
 			photo.setIcon(new ImageIcon(card.getScaleImage()));
 		}
 	}

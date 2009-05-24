@@ -161,6 +161,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 			centerWindow(father, sheet);
 		else
 			centerWindow(sheet, sheet);
+		WindowUtils.setWindowAlpha(sheet, 1);
 		changeAlphaDown(800, 0.8f, ComponentPool.getComponent(), false);
 	}
 
@@ -200,6 +201,7 @@ implements KeyListener, ListSelectionListener,ActionListener,
 	public void showCard() {
 		ConstCard card = kernel.getCard(name.getSelectedMemberId());
 		if(card != null) {
+			viewer.setCard(card);
 			viewer.setName(kernel.getName(card.getId()));
 			viewer.setImage(card);
 			viewer.setItem(card.getAllItems());
