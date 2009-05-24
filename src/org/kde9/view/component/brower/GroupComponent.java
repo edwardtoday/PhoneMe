@@ -298,7 +298,7 @@ implements DropTargetListener, Constants {
 			setSelected(loc, loc);
 		}
 	}
-
+	
 	public void drop(DropTargetDropEvent arg0) {
 		// TODO Auto-generated method stub
 //		System.out.println("drop!");

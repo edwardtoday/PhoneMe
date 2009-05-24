@@ -223,10 +223,13 @@ implements ListSelectionListener, KeyListener, Constants {
 //						name.deleteMember();
 //					} else
 					if(viewer.isEditable()) {
+						int select = name.getSelected();
 						JToggleButton b = viewer.getButtonEdit();
 						b.setSelected(false);
 						b.getActionListeners()[0].actionPerformed(
 								new ActionEvent(b, ActionEvent.ACTION_PERFORMED, "Edit"));
+						showGroupMembers();
+						name.setSelected(select, select);
 					}
 					showItem();
 				}
