@@ -219,7 +219,7 @@ implements ImportAndExport , Constants {
 		/*
 		 * 获得index
 		 */
-		for(int i = 0 ; i < cardCount; i++) {
+		for(int i : kernel.getGroup(GROUPALLID).getGroupMembers()) {
 			card = kernel.getCard(i);
 			LinkedHashMap<String, Vector<String>> items = card.getAllItems();
 			for(String itemName : items.keySet()) {

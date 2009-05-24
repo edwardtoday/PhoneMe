@@ -610,7 +610,7 @@ outer:
 	}
 
 	synchronized public void setImage(final ConstCard card) {
-		photo.setIcon(new ImageIcon(IMGPATH + NULLIMAGE));
+		photo.setIcon(new ImageIcon(getClass().getResource(IMGPATH + NULLIMAGE)));
 		if (card != null) {
 			final int id = card.getId();
 			new Thread() {
@@ -1142,7 +1142,7 @@ outer:
 }
 
 class ButtonUnit
-implements ActionListener {
+implements ActionListener, Constants {
 	private JButton buttonAdd;
 	private JButton buttonSub;
 	private int type;
@@ -1173,9 +1173,9 @@ implements ActionListener {
 		buttonAdd.setOpaque(true);
 		buttonAdd.setBackground(Color.WHITE);
 		if(type != 2 && type < 4)
-			buttonAdd.setIcon(new ImageIcon("./img/add2.png"));
+			buttonAdd.setIcon(new ImageIcon(getClass().getResource(IMGPATH + "add2.png")));
 		else if(type < 4)
-			buttonAdd.setIcon(new ImageIcon("./img/add.png"));
+			buttonAdd.setIcon(new ImageIcon(getClass().getResource(IMGPATH + "add.png")));
 		if(type == 1 || type == 2 || type == 3) {
 			//buttonAdd.setText("＋");
 			
@@ -1194,9 +1194,9 @@ implements ActionListener {
 		buttonSub.setOpaque(true);
 		buttonSub.setBackground(Color.WHITE);
 		if(type != 2 && type < 4)
-			buttonSub.setIcon(new ImageIcon("./img/sub2.png"));
+			buttonSub.setIcon(new ImageIcon(getClass().getResource(IMGPATH + "sub2.png")));
 		else if(type < 4)
-			buttonSub.setIcon(new ImageIcon("./img/sub.png"));
+			buttonSub.setIcon(new ImageIcon(getClass().getResource(IMGPATH + "sub.png")));
 		buttonSub.setFont(new Font("", 1, 8));
 		
 		

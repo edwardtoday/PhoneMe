@@ -17,13 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.kde9.control.Kernel;
+import org.kde9.util.Constants;
 import org.kde9.view.ComponentPool;
 import org.kde9.view.component.brower.BrowerComponent;
 import org.kde9.view.component.cube.Cube;
 
 public class ToolbarComponent 
 extends JMenuBar 
-implements KeyListener, ActionListener {
+implements KeyListener, ActionListener, Constants {
 	private JButton button1;
 	private JButton button2;
 	private JTextField textField;
@@ -44,10 +45,10 @@ implements KeyListener, ActionListener {
 	public ToolbarComponent() {
 		ComponentPool.setToolbarComponent(this);
 		
-		button1 = new JButton(new ImageIcon("./img/brower.png"));
+		button1 = new JButton(new ImageIcon(getClass().getResource(IMGPATH + "brower.png")));
 		button1.putClientProperty("Quaqua.Button.style", "toggleWest");
 		button1.addActionListener(this);
-		button2 = new JButton(new ImageIcon("./img/cube.png"));
+		button2 = new JButton(new ImageIcon(getClass().getResource(IMGPATH + "cube.png")));
 		button2.putClientProperty("Quaqua.Button.style", "toggleEast");
 		button2.addActionListener(this);
 		textField = new JTextField();

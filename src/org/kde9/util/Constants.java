@@ -9,7 +9,7 @@ public interface Constants {
 	
 	static String CONFIGURATION = "configuration";
 	
-	static String IMGPATH = "./img/";
+	static String IMGPATH = "/img/";
 	
 	static String NULLIMAGE = "nullImag.gif";
 	
