@@ -53,7 +53,7 @@ implements ActionListener, Constants {
 						viewer.getNewNameTwo(), 
 						viewer.getNewItems(),
 						viewer.getNewRelation());
-				System.out.println(viewer.getNewRelation());
+//				System.out.println(viewer.getNewRelation());
 				ComponentPool.getNameComponent().getModel().setValueAt(
 						viewer.getNewNameOne() + " " + viewer.getNewNameTwo(),
 						j, 0);

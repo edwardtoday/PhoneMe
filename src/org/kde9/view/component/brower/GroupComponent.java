@@ -146,7 +146,7 @@ implements DropTargetListener, Constants {
 
 	public void highLightGroup(HashSet<Integer> ids) {
 		highLight = new LinkedHashSet<Integer>();
-		System.out.println("selectId : " + ids);
+//		System.out.println("selectId : " + ids);
 		if(ids == null || ids.size() == 0) {
 			repaint();
 			return;
@@ -166,7 +166,7 @@ implements DropTargetListener, Constants {
 					flag)
 				highLight.add(i);
 		}
-		System.out.println("grouphighlight "+highLight);
+//		System.out.println("grouphighlight "+highLight);
 		repaint();
 	}
 	
@@ -259,7 +259,7 @@ implements DropTargetListener, Constants {
 		try {
 			if (transferable.getTransferData(d) != flag) {
 				flag = transferable.getTransferData(d);
-				System.out.println("记录选定");
+//				System.out.println("记录选定");
 				preGroupId = getSelectedGroupId();
 				selectedId = 
 					ComponentPool.getNameComponent().getSelectedMemberIds();
@@ -293,15 +293,15 @@ implements DropTargetListener, Constants {
 		int loctemp = (p.y-pp.y)/table.getRowHeight();
 		if(loc != loctemp) {
 			loc = loctemp;
-			System.out.println("设置选定");
-			System.out.println(loctemp);
+//			System.out.println("设置选定");
+//			System.out.println(loctemp);
 			setSelected(loc, loc);
 		}
 	}
 
 	public void drop(DropTargetDropEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("drop!");
+//		System.out.println("drop!");
 		if(preGroupId != -1)
 			kernel.deleteGroupMember(preGroupId, selectedId);
 		kernel.addGroupMember(getSelectedGroupId(), selectedId);

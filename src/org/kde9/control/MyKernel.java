@@ -57,7 +57,7 @@ implements Kernel, Constants {
 		try {
 			randb.checkout();
 		} catch (IOException e) {
-			System.err.println("Kernel: checkout error!");
+//			System.err.println("Kernel: checkout error!");
 		}
 		names = ControllerFactory.createAllNameController();
 		cards = ControllerFactory.createCardController();
@@ -129,7 +129,7 @@ implements Kernel, Constants {
 			cards.setCardItems(id, items);
 		if (relation != null)
 			cards.setRelationships(id, relation);
-		System.out.println(card);
+//		System.out.println(card);
 		cards.save(id);
 		names.addPerson(id, firstName, lastName);
 		names.save();
@@ -317,9 +317,9 @@ implements Kernel, Constants {
 //						e.printStackTrace();
 //					}
 				}
-				System.out.println("kernel : " + temp);
+//				System.out.println("kernel : " + temp);
 				subThreadNum();
-				System.out.println("kernel Thread Num : " + SearchThread);
+//				System.out.println("kernel Thread Num : " + SearchThread);
 			}
 		}.start();
 
@@ -342,6 +342,6 @@ implements Kernel, Constants {
 
 	public static void main(String args[]) {
 		Kernel kernel = new MyKernel();
-		System.out.println(kernel.find("u"));
+//		System.out.println(kernel.find("u"));
 	}
 }

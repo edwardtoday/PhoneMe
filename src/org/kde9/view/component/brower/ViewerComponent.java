@@ -548,8 +548,8 @@ outer:
 		itemModel.addRow(new Object[]{});
 		relationModel.removeRow(relationModel.getRowCount()-1);
 		relationModel.addRow(new Object[]{});
-		System.out.println(relationButtons.size() + " " + relationId.size()
-				+ " " + relationModel.getRowCount());
+//		System.out.println(relationButtons.size() + " " + relationId.size()
+//				+ " " + relationModel.getRowCount());
 		nameOne.setEnabled(false);
 		nameOne.setBorder(BorderFactory.createEmptyBorder());
 		nameTwo.setEnabled(false);
@@ -743,7 +743,7 @@ outer:
 			}
 		}
 		itemModel.addRow(new Object[]{});
-		System.out.println("highlight : " + highItem);
+//		System.out.println("highlight : " + highItem);
 	}
 
 	public void ready() {
@@ -770,7 +770,7 @@ outer:
 	public void changeItems(ButtonUnit b, ActionEvent e) {
 		// TODO Auto-generated method stub
 		setSetting(true);
-		System.out.println(e.getActionCommand());
+//		System.out.println(e.getActionCommand());
 		if(e.getSource() == b.getButtonAdd()) {
 			if (b.getType() == 1) {
 				itemKeys.add(b.getLocation(), NULLITEMCONTENT);
@@ -866,7 +866,7 @@ outer:
 						//if(index == buttons.size()-sum) {
 						buttons.get(index).getButtonSub().setVisible(false);
 						buttonsLow.get(index).getButtonSub().setVisible(false);
-						System.out.println(i+"_"+index+"_"+buttons.size());////////////////////
+//						System.out.println(i+"_"+index+"_"+buttons.size());////////////////////
 						//}
 						itemTable.setEditingRow(0);
 						itemTable.setEditingColumn(1);
@@ -886,7 +886,7 @@ outer:
 			} else if (b.getType() == 2) {
 				int index = b.getIndex();
 				int loc = b.getLocation();
-				System.out.println(loc + "((((((((((((");
+//				System.out.println(loc + "((((((((((((");
 				int sum = itemValues.get(loc-1).size();
 				if(sum == 1)
 					new CoolInfoBox(this, "\n       要删除整个 " + itemKeys.get(loc-1) +  
@@ -947,12 +947,12 @@ outer:
 					relationButtons.get(i).setLocation(i);
 				}
 			}
-			System.out.println(buttons.size());
+//			System.out.println(buttons.size());
 		}
-		System.out.println(itemKeys);//////////////////////////////////////////////////////////////
-		System.out.println(itemValues);////////////////////////////////////////////////////////////
-		System.out.println(relationId);///////////////////////////////////////////
-		System.out.println(relationContent);////////////////////////////////////////
+//		System.out.println(itemKeys);//////////////////////////////////////////////////////////////
+//		System.out.println(itemValues);////////////////////////////////////////////////////////////
+//		System.out.println(relationId);///////////////////////////////////////////
+//		System.out.println(relationContent);////////////////////////////////////////
 		for (int i = 0; i < buttons.size(); i++) {
 			buttons.get(i).update();
 			buttonsLow.get(i).update();
@@ -960,7 +960,7 @@ outer:
 		for (int i = 0; i < relationButtons.size(); i++)
 			relationButtons.get(i).update();
 		repaint();
-		System.out.println(itemTable.getRowCount());
+//		System.out.println(itemTable.getRowCount());
 		setSetting(false);
 	}
 
@@ -1018,7 +1018,7 @@ outer:
 	}
 
 	public void drop(DropTargetDropEvent d) {
-		System.out.println(d.getSource());
+//		System.out.println(d.getSource());
 		d.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
 	}
 
@@ -1040,21 +1040,21 @@ outer:
 		// TODO Auto-generated method stub
 		if(!isSetting()) {
 			if(e.getSource() == itemModel) {
-				System.out.println("item changed!" + e.getFirstRow());
+//				System.out.println("item changed!" + e.getFirstRow());
 				int changed = e.getFirstRow();
 				if(changed < buttons.size() && changed > 0) {
-					System.out.println("item change catched!"+changed);
+//					System.out.println("item change catched!"+changed);
 					int itemLoc = buttons.get(changed).getLocation();
 					int itemIndex = buttons.get(changed).getIndex();
 					int lastIndex = 0;
-					System.out.println(itemLoc + " " + itemIndex);
+//					System.out.println(itemLoc + " " + itemIndex);
 					for(; changed > 0; changed--) {
 						if(buttons.get(changed).getLocation() != itemLoc) {
 							lastIndex = buttons.get(changed).getIndex();
 							break;
 						}
 					}
-					System.out.println(changed);
+//					System.out.println(changed);
 					if(changed == 0) {
 						if(itemLoc == itemIndex)
 							itemKeys.set(itemLoc-1, 
@@ -1072,11 +1072,11 @@ outer:
 					}
 				}
 			} else {
-				System.out.println("relation changed!" + e.getFirstRow());
+//				System.out.println("relation changed!" + e.getFirstRow());
 				int changed = e.getFirstRow();
 				if(changed < relationButtons.size() && changed > 0) {
 					try {
-						System.out.println("relation change catched!"+changed);
+//						System.out.println("relation change catched!"+changed);
 						int itemLoc = relationButtons.get(changed).getLocation();
 						relationContent.set(itemLoc-1, 
 									(String)relationTable.getValueAt(itemLoc, 5));
@@ -1111,7 +1111,7 @@ outer:
 		Point p = MouseInfo.getPointerInfo().getLocation();
 		Point pp = relationTable.getLocationOnScreen();
 		int row = (p.y-pp.y)/relationTable.getRowHeight();
-		System.out.println("relation selected " + relationTable.getSelectedRow());
+//		System.out.println("relation selected " + relationTable.getSelectedRow());
 		if(editable) {
 			int width = relationTable.getColumnModel().getColumn(0).getWidth() +
 					relationTable.getColumnModel().getColumn(1).getWidth() +
@@ -1119,14 +1119,14 @@ outer:
 					relationTable.getColumnModel().getColumn(3).getWidth() +
 					relationTable.getColumnModel().getColumn(4).getWidth() +
 					relationTable.getColumnModel().getColumn(5).getWidth();
-			System.out.println((p.x-pp.x) + " " + width);
+//			System.out.println((p.x-pp.x) + " " + width);
 			if((p.x-pp.x) > width &&
 					row > 0 && row < relationTable.getRowCount()-1)
 				new SelectPanel(ComponentPool.getComponent(), Color.DARK_GRAY, 400, 400,
 						row, relationId);
 		}
 		else {
-			System.out.println(p + " " + row);
+//			System.out.println(p + " " + row);
 			if(row > 0 && row < relationTable.getRowCount()-1) {
 				int id = relationId.get(row-1);
 				ComponentPool.getGroupComponent().setSelected(0, 0);

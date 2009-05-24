@@ -144,8 +144,8 @@ implements Constants {
 							}
 					}
 					//NameComponent.this.members = members;
-					System.out.println(NameComponent.this.members = members);
-					System.out.println("!!!!!!!!!!!" + members);
+//					System.out.println(NameComponent.this.members = members);
+//					System.out.println("!!!!!!!!!!!" + members);
 				}
 			}.start();
 		//}

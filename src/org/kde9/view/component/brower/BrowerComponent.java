@@ -78,7 +78,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	public void setCenterComponent(JPanel panel) {
 		this.cube = panel;
 		loc = (double)(group.getWidth() + name.getWidth())/getWidth();
-		System.out.println("|"+loc);
+//		System.out.println("|"+loc);
 		//panel.setSize(groupSplitPane.getSize());
 		nameSplitPane.remove(groupSplitPane);
 		nameSplitPane.setLeftComponent(panel);
@@ -99,7 +99,7 @@ implements ListSelectionListener, KeyListener, Constants {
 	public void resetCenterComponent() {
 		nameSplitPane.remove(cube);
 		nameSplitPane.setLeftComponent(groupSplitPane);
-		System.out.println(loc + "|");
+//		System.out.println(loc + "|");
 		nameSplitPane.setDividerLocation(loc);
 		iscube = false;
 		repaint();

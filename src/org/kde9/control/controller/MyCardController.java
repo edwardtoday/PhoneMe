@@ -207,7 +207,7 @@ implements CardController, Constants {
 					loadImage(card);
 					if(buffer)
 						cards.put(cardId, card);
-					System.out.println(card.getFirstName() + card.getAllHideRelationship());
+//					System.out.println(card.getFirstName() + card.getAllHideRelationship());
 				} catch (FileNotFoundException e) {
 					System.err.println("MyCard: card " + cardId + " not exists!");
 				} catch (IOException e) {
@@ -226,7 +226,7 @@ implements CardController, Constants {
 		File file = new File(CARDPATH + staticId);
 		while(file.exists())
 			file = new File(CARDPATH + ++staticId);
-		System.out.println("newCardId" + staticId);
+//		System.out.println("newCardId" + staticId);
 		Card card = ModelFactory.createCard(staticId);
 		card.setFirstName(firstName);
 		card.setLastName(lastName);
@@ -445,7 +445,7 @@ implements CardController, Constants {
 
 	public boolean setRelationships(int cardId, 
 			LinkedHashMap<Integer, String> relation) {
-		System.out.println(relation);
+//		System.out.println(relation);
 		Card card = get(cardId, true);
 		card.clearShowRelation();
 		if(card != null) {

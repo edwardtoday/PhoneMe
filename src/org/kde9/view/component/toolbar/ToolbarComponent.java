@@ -105,24 +105,24 @@ implements KeyListener, ActionListener {
 	
 	synchronized private void setSearchResult(int current) {
 		if(current == flag && text.length() != 0) {
-			System.out.println(text);//////////////////////////////
+//			System.out.println(text);//////////////////////////////
 			LinkedHashMap<Integer, String> result = 
 				kernel.find(text);
-			System.out.println(result);//////////////////////////////////////////
+//			System.out.println(result);//////////////////////////////////////////
 			ComponentPool.getNameComponent().setMembers(result);
-			System.err.println(current + " setMember end!");
+//			System.err.println(current + " setMember end!");
 			ComponentPool.getGroupComponent().getTable().clearSelection();
-			System.err.println(current + " clearSelection end!");
+//			System.err.println(current + " clearSelection end!");
 			ComponentPool.getViewerComponent().clear();
-			System.err.println(current + " clearVierer end!");
+//			System.err.println(current + " clearVierer end!");
 			ComponentPool.getNameComponent().setSelected(0, 0);
-			System.err.println(current + " setSelection end!");
+//			System.err.println(current + " setSelection end!");
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
 		ComponentPool.getViewerComponent().setHighlight(true);
-		System.out.println(textField.getText().length() + " textfield content");
+//		System.out.println(textField.getText().length() + " textfield content");
 		// TODO Auto-generated method stub
 		flag = (flag + 1)%100;
 		final int current = flag;
@@ -146,7 +146,7 @@ implements KeyListener, ActionListener {
 		}
 		//ComponentPool.getNameComponent().
 		synchronized (thread) {
-			System.err.println(flag + " notify");
+//			System.err.println(flag + " notify");
 			thread.notify();
 		}
 	}
@@ -163,7 +163,7 @@ implements KeyListener, ActionListener {
 		public void run() {
 			while (true) {
 				current = flag;
-				System.err.println(current + " begin!");
+//				System.err.println(current + " begin!");
 				synchronized (this) {
 					try {
 						wait(200);
@@ -185,7 +185,7 @@ implements KeyListener, ActionListener {
 						}
 					}
 				}
-				System.err.println(current + " end!");
+//				System.err.println(current + " end!");
 			}
 		}
 	}
