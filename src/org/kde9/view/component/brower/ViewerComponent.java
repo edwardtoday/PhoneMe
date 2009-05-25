@@ -74,6 +74,7 @@ implements ActionListener, DropTargetListener, SheetListener,
 	private JPanel upPanel;
 	private JScrollPane pane;
 	private JToggleButton buttonEdit;
+	private JLabel sumLabel;
 	private DefaultTableModel itemModel;
 	private DefaultTableModel relationModel;
 	private TitledBorder border;
@@ -460,11 +461,14 @@ implements ActionListener, DropTargetListener, SheetListener,
 		add("Center", upPanel);
 
 		JPanel panel = new JPanel();
-		FlowLayout flowLayout = new FlowLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel.setLayout(flowLayout);
-		panel.add(buttonEdit);
-		// panel.add(buttonSub);
+		BorderLayout layout = new BorderLayout();
+		panel.setLayout(layout);
+		panel.add("West", buttonEdit);
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		sumLabel = new JLabel();
+		sumLabel.setFont(new Font("", 0, 12));
+		sumLabel.setForeground(Color.GRAY);
+		panel.add("East", sumLabel);
 		add("South", panel);
 
 		Color color = getBackground();
@@ -554,6 +558,8 @@ outer:
 		nameOne.setBorder(BorderFactory.createEmptyBorder());
 		nameTwo.setEnabled(false);
 		nameTwo.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+		if(card != null)
+			sumLabel.setText("Last modify : " + kernel.getCurrentTime());
 		repaint();
 	}
 	
@@ -597,6 +603,8 @@ outer:
 	
 	public void setCard(ConstCard card) {
 		this.card = card;
+		if(card != null)
+			sumLabel.setText("Last modify : " + kernel.getModifyTime(card.getId()));
 	}
 	
 	public void setName(String nameOne, String nameTwo) {
@@ -766,6 +774,7 @@ outer:
 		setSetting(false);
 		highItem = null;
 		highRel  = null;
+		sumLabel.setText("");
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {

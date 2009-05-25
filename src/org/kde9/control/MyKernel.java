@@ -2,6 +2,9 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -68,6 +71,31 @@ implements Kernel, Constants {
 		return groups.getAllGroups();
 	}
 
+	public String getModifyTime(int cardId) {
+		File file = new File(CARDPATH + cardId);
+		File fileP = new File(CARDPATH + cardId + ".p");
+		long a = 0, b = 0;
+		if(file.exists())
+			a = file.lastModified();
+		if(fileP.exists())
+			b = file.lastModified();
+		Date date;
+		if (a > b)
+			date = new Date(a);
+		else
+			date = new Date(b);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String dateString = formatter.format(date);
+		return dateString;
+	}
+	
+	public String getCurrentTime() {
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String dateString = formatter.format(date);
+		return dateString;
+	}
+	
 	public ConstCard getCard(int cardId) {
 		Card card = cards.getCard(cardId);
 		if (card != null) {
@@ -349,6 +377,8 @@ implements Kernel, Constants {
 
 	public static void main(String args[]) {
 		Kernel kernel = new MyKernel();
+		System.out.println(kernel.getModifyTime(0));
+		System.out.println(kernel.getCurrentTime());
 //		System.out.println(kernel.find("u"));
 	}
 }

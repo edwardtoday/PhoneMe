@@ -60,6 +60,10 @@ public interface Kernel {
 	
 	public boolean findByName(int cardId, String name);
 	
+	public String getModifyTime(int cardId);
+	
+	public String getCurrentTime();
+	
 	public boolean isSearchFinish();
 	
 	public Vector<String> getKeys();
