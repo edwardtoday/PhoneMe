@@ -3,8 +3,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -12,7 +16,9 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -27,7 +33,7 @@ import org.kde9.view.listener.AddNameListener;
 
 public class NameComponent 
 extends JPanel
-implements Constants {
+implements MouseListener, Constants {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;
@@ -35,6 +41,7 @@ implements Constants {
 	private DefaultTableModel model;
 	private TitledBorder border;
 	private JLabel sumLabel;
+	private JPopupMenu menu;
 	
 	private static int threadId = 0;
 	
@@ -59,6 +66,11 @@ implements Constants {
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setTableHeader(null);
 		table.setDragEnabled(true);
+		table.addMouseListener(this);
+		
+		menu = new JPopupMenu();
+		menu.add(new JMenuItem("aaa"));
+		menu.setInvoker(table);
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
 		buttonAdd = new JButton("＋");
@@ -269,5 +281,41 @@ implements Constants {
 
 	public JTable getTable() {
 		return table;
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		Point pp = table.getLocationOnScreen();
+		int row = (p.y - pp.y)/table.getRowHeight();
+		if (!table.isRowSelected(row) &&
+				(e.getModifiers() & MouseEvent.BUTTON3_MASK) != 0) {
+			MouseEvent ne = new MouseEvent(e.getComponent(), e.getID(), 
+					e.getWhen(), MouseEvent.BUTTON1_MASK, e.getX(), e.getY(), 
+					e.getClickCount(), false);
+			System.out.println("pressed");
+			table.dispatchEvent(ne);
+		}
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if ((e.getModifiers() & MouseEvent.BUTTON3_MASK) != 0) {
+			menu.show(table, e.getX(), e.getY());
+		}
 	}
 }
