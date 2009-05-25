@@ -559,7 +559,7 @@ outer:
 		nameTwo.setEnabled(false);
 		nameTwo.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		if(card != null)
-			sumLabel.setText("Last modify : " + kernel.getCurrentTime());
+			sumLabel.setText("Last modified : " + kernel.getCurrentTime());
 		repaint();
 	}
 	
@@ -604,7 +604,7 @@ outer:
 	public void setCard(ConstCard card) {
 		this.card = card;
 		if(card != null)
-			sumLabel.setText("Last modify : " + kernel.getModifyTime(card.getId()));
+			sumLabel.setText("Last modified : " + kernel.getModifyTime(card.getId()));
 	}
 	
 	public void setName(String nameOne, String nameTwo) {

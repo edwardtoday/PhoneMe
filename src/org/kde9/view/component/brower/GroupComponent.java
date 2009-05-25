@@ -21,6 +21,8 @@ import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -30,7 +32,9 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -46,7 +50,7 @@ import org.kde9.view.listener.EditListener;
 
 public class GroupComponent 
 extends JPanel 
-implements DropTargetListener, Constants {
+implements DropTargetListener, MouseListener, Constants {
 	private JTable table;
 	private JScrollPane pane;
 	private JButton buttonAdd;
@@ -54,6 +58,7 @@ implements DropTargetListener, Constants {
 	private DefaultTableModel model;
 	private TitledBorder border;
 	private JLabel sumLabel;
+	private JPopupMenu menu;
 	
 	private Kernel kernel;
 
@@ -97,6 +102,12 @@ implements DropTargetListener, Constants {
 		table.setTableHeader(null);
 		//table.setCellSelectionEnabled(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.addMouseListener(this);
+		
+		menu = new JPopupMenu();
+		menu.add(new JMenuItem("Export Group"));
+		menu.add(new JMenuItem("Rename Group"));
+		menu.add(new JMenuItem("Delete Group"));
 		
 		dropTarget = new DropTarget(table, DnDConstants.ACTION_COPY_OR_MOVE, this);
 		
@@ -311,5 +322,40 @@ implements DropTargetListener, Constants {
 	public void dropActionChanged(DropTargetDragEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		Point pp = table.getLocationOnScreen();
+		int row = (p.y - pp.y)/table.getRowHeight();
+		if ((e.getModifiers() & MouseEvent.BUTTON3_MASK) != 0) {
+			MouseEvent ne = new MouseEvent(e.getComponent(), e.getID(), 
+					e.getWhen(), MouseEvent.BUTTON1_MASK, e.getX(), e.getY(), 
+					e.getClickCount(), false);
+			System.out.println("pressed");
+			table.dispatchEvent(ne);
+		}
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if ((e.getModifiers() & MouseEvent.BUTTON3_MASK) != 0) {
+			menu.show(table, e.getX(), e.getY());
+		}
 	}
 }

@@ -43,7 +43,8 @@ implements MouseListener, Constants {
 	private TitledBorder border;
 	private JLabel sumLabel;
 	private JPopupMenu menu;
-	private JMenu item;
+	private JMenu item1;
+	private JMenu item2;
 	
 	private static int threadId = 0;
 	
@@ -75,8 +76,10 @@ implements MouseListener, Constants {
 		menu.add(new JMenuItem("Remove From Group"));
 		menu.add(new JMenuItem("Delete Card(s)"));
 		menu.add(new JPopupMenu.Separator());
-		item = new JMenu("Move To Group ..");
-		menu.add(item);
+		item1 = new JMenu("Move To Group ..");
+		item2 = new JMenu("Copy To Group ..");
+		menu.add(item1);
+		menu.add(item2);
 		menu.setInvoker(table);
 		// table.putClientProperty("Quaqua.Table.style", "striped");
 		model = (DefaultTableModel) table.getModel();
@@ -322,9 +325,12 @@ implements MouseListener, Constants {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if ((e.getModifiers() & MouseEvent.BUTTON3_MASK) != 0) {
-			item.removeAll();
-			for(String group : kernel.getAllGroups().values())
-				item.add(new JMenuItem(group));
+			item1.removeAll();
+			item2.removeAll();
+			for(String group : kernel.getAllGroups().values()) {
+				item1.add(new JMenuItem(group));
+				item2.add(new JMenuItem(group));
+			}
 			menu.show(table, e.getX(), e.getY());
 		}
 	}
