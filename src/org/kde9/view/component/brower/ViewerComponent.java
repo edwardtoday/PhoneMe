@@ -647,7 +647,7 @@ outer:
 		relationButtons.removeAllElements();
 		relationModel.addRow(new Object[] {"","","","","关系",""});
 		if(rel != null) {
-			//System.out.println(rel);
+//			System.out.println(rel);
 			relationButtons.add(new ButtonUnit(""));
 			for(int id : rel.keySet()) {
 				if (kernel.getCard(id) != null) {
@@ -765,6 +765,7 @@ outer:
 		setImage(null);
 		setSetting(false);
 		highItem = null;
+		highRel  = null;
 	}
 	
 	public void changeItems(ButtonUnit b, ActionEvent e) {

@@ -453,7 +453,12 @@ implements ActionListener, Constants {
 			ComponentPool.getViewerComponent().setImage(null);
 			System.out.println("clearcustomimage");
 		}else if(e.getSource() == about) {
-			new CoolInfoBox(ComponentPool.getComponent(),"hahaha!!",Color.blue,200,100);
+			new CoolInfoBox(ComponentPool.getComponent(),
+					"****KDE9 工作室****\n" +
+					"[ kfirst @9# ]\n" +
+					"[ deepsolo @9# ]\n" +
+					"[ edwardtoday @9# ] ", 
+					null, 200,100);
 		}
 	}
 }
